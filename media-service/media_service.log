@@ -1,0 +1,129 @@
+2024-04-25T16:00:37.342+0500	INFO	app/app.go:101	gRPC Server Listening	{"url": ":2222"}
+2024-04-25T16:01:38.485+0500	INFO	app/main.go:38	Conten service stops !
+2024-04-25T16:01:40.697+0500	INFO	app/app.go:101	gRPC Server Listening	{"url": ":2222"}
+2024-04-25T16:02:09.752+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:09+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Create", "peer.address": "127.0.0.1:34668", "grpc.code": "OK", "grpc.time_ms": 3.078000068664551}
+2024-04-25T16:02:32.151+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:32+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Get", "peer.address": "127.0.0.1:33704", "grpc.code": "OK", "grpc.time_ms": 0.9459999799728394}
+2024-04-25T16:02:33.451+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:33+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Get", "peer.address": "127.0.0.1:33712", "grpc.code": "OK", "grpc.time_ms": 0.3160000145435333}
+2024-04-25T16:02:39.678+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:39+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:47038", "grpc.code": "OK", "grpc.time_ms": 2.0969998836517334}
+2024-04-25T16:02:40.700+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:40+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:47052", "grpc.code": "OK", "grpc.time_ms": 2.63700008392334}
+2024-04-25T16:02:41.389+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:41+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:47064", "grpc.code": "OK", "grpc.time_ms": 1.1330000162124634}
+2024-04-25T16:02:41.781+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:41+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:47068", "grpc.code": "OK", "grpc.time_ms": 2.305999994277954}
+2024-04-25T16:02:42.190+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:42+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:47076", "grpc.code": "OK", "grpc.time_ms": 2.2300000190734863}
+2024-04-25T16:02:42.577+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:42+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:47090", "grpc.code": "OK", "grpc.time_ms": 2.2320001125335693}
+2024-04-25T16:02:42.974+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:42+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:47100", "grpc.code": "OK", "grpc.time_ms": 1.2829999923706055}
+2024-04-25T16:02:43.373+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:43+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:47116", "grpc.code": "OK", "grpc.time_ms": 1.9989999532699585}
+2024-04-25T16:02:43.716+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:02:43+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:47130", "grpc.code": "OK", "grpc.time_ms": 1.6130000352859497}
+2024-04-25T16:04:50.431+0500	INFO	app/main.go:38	Conten service stops !
+2024-04-25T16:04:52.674+0500	INFO	app/app.go:101	gRPC Server Listening	{"url": ":2222"}
+2024-04-25T16:04:54.626+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:04:54+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:42946", "grpc.code": "OK", "grpc.time_ms": 2.8489999771118164}
+2024-04-25T16:04:55.257+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:04:55+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:42956", "grpc.code": "OK", "grpc.time_ms": 2.4179999828338623}
+2024-04-25T16:04:55.638+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:04:55+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:42958", "grpc.code": "OK", "grpc.time_ms": 1.309999942779541}
+2024-04-25T16:07:52.879+0500	INFO	app/main.go:38	Conten service stops !
+2024-04-25T16:08:01.065+0500	INFO	app/app.go:101	gRPC Server Listening	{"url": ":2222"}
+2024-04-25T16:08:02.849+0500	ERROR	service/media.go:76	error	{"error": "ERROR: trailing junk after parameter at or near \"$3A\" (SQLSTATE 42601)"}
+clothes-store/media-service/internal/delivery/grpc/service.mediaRPC.Delete
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/service/media.go:76
+clothes-store/media-service/genproto/media_service._MediaService_Delete_Handler.func1
+	/home/gopher/projects/go/src/clothes-store-management/media-service/genproto/media_service/media_service.pb.go:171
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:34
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+clothes-store/media-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+clothes-store/media-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+clothes-store/media-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:16
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:23
+clothes-store/media-service/genproto/media_service._MediaService_Delete_Handler
+	/home/gopher/projects/go/src/clothes-store-management/media-service/genproto/media_service/media_service.pb.go:173
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-25T16:08:02.849+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:08:02+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:38974", "grpc.code": "OK", "grpc.time_ms": 2.119999885559082}
+2024-04-25T16:08:03.494+0500	ERROR	service/media.go:76	error	{"error": "ERROR: trailing junk after parameter at or near \"$3A\" (SQLSTATE 42601)"}
+clothes-store/media-service/internal/delivery/grpc/service.mediaRPC.Delete
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/service/media.go:76
+clothes-store/media-service/genproto/media_service._MediaService_Delete_Handler.func1
+	/home/gopher/projects/go/src/clothes-store-management/media-service/genproto/media_service/media_service.pb.go:171
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:34
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+clothes-store/media-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+clothes-store/media-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+clothes-store/media-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:16
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:23
+clothes-store/media-service/genproto/media_service._MediaService_Delete_Handler
+	/home/gopher/projects/go/src/clothes-store-management/media-service/genproto/media_service/media_service.pb.go:173
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-25T16:08:03.494+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:08:03+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:38982", "grpc.code": "OK", "grpc.time_ms": 0.42100000381469727}
+2024-04-25T16:08:03.845+0500	ERROR	service/media.go:76	error	{"error": "ERROR: trailing junk after parameter at or near \"$3A\" (SQLSTATE 42601)"}
+clothes-store/media-service/internal/delivery/grpc/service.mediaRPC.Delete
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/service/media.go:76
+clothes-store/media-service/genproto/media_service._MediaService_Delete_Handler.func1
+	/home/gopher/projects/go/src/clothes-store-management/media-service/genproto/media_service/media_service.pb.go:171
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:34
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+clothes-store/media-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+clothes-store/media-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+clothes-store/media-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/gopher/mod-cache/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:16
+clothes-store/media-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/gopher/projects/go/src/clothes-store-management/media-service/internal/delivery/grpc/server/midleware.go:23
+clothes-store/media-service/genproto/media_service._MediaService_Delete_Handler
+	/home/gopher/projects/go/src/clothes-store-management/media-service/genproto/media_service/media_service.pb.go:173
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-25T16:08:03.846+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-04-25T16:08:03+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "media_service.MediaService", "grpc.method": "Delete", "peer.address": "127.0.0.1:38998", "grpc.code": "OK", "grpc.time_ms": 0.9950000047683716}
+2024-04-25T16:09:31.545+0500	INFO	app/main.go:38	Conten service stops !
+2024-04-25T17:34:15.787+0500	INFO	app/app.go:101	gRPC Server Listening	{"url": ":2222"}
+2024-04-25T17:34:16.883+0500	INFO	app/main.go:38	Conten service stops !
+2024-04-25T17:36:16.806+0500	INFO	app/app.go:101	gRPC Server Listening	{"url": ":2222"}
+2024-04-25T17:36:17.544+0500	INFO	app/main.go:38	Conten service stops !
