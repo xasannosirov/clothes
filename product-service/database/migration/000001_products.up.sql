@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS products (
+    id UUID PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    category VARCHAR(50),
+    description TEXT,
+    count INT NOT NULL,
+    made_in VARCHAR(100),
+    color VARCHAR(20),
+    cost FLOAT NOT NULL,
+    size INT,
+    discount FLOAT NOT NULL,
+    age_min INT,
+    age_max INT,
+    for_gender VARCHAR(6),
+    temperature_min INT,
+    temperature_max INT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMPTZ
+);

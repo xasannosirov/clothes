@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package media_service;
+option go_package = "genproto/media_service";
+
+message Media {
+  string id = 1;
+  string product_id = 2;
+  string image_url = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+message MediaWithID {
+  string id = 1;
+}
+
+message MediaWithProductID {
+  string product_id = 1;
+}
+
+message DeleteMediaResponse {
+  bool status = 1;
+}
+
+message ProductImages {
+  repeated Media images = 1;
+}
