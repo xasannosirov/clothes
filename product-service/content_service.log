@@ -1,0 +1,870 @@
+2024-04-22T17:55:26.475+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-22T17:55:28.723+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T18:18:41.865+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T18:20:41.004+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:20:44.014+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:20:44.967+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:22:52.311+0500	ERROR	services/product.go:85	productUseCase.GetProductByID	{"error": "object not found"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetProductByID
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:85
+product-service/genproto/product_service._ProductService_GetProductByID_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:363
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:23:47.183+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:23:48.711+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:23:58.084+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:25:01.011+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:25:08.948+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:25:09.805+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:25:11.337+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:26:30.134+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:26:31.545+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:26:32.307+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:26:32.960+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:26:43.553+0500	ERROR	services/product.go:188	productUsecase.GetOrderByID	{"error": "ERROR: column \"product_id\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetOrderByID
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:188
+product-service/genproto/product_service._ProductService_GetOrderByID_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:435
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:26:52.276+0500	ERROR	services/product.go:208	productUsecase.GetAllOrders	{"error": "ERROR: column \"product_id\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetAllOrders
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:208
+product-service/genproto/product_service._ProductService_GetAllOrders_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:453
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:26:59.108+0500	ERROR	services/product.go:179	productUsecase.CancelOrder	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).CancelOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:179
+product-service/genproto/product_service._ProductService_CancelOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:417
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:27:26.287+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T18:27:54.697+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T18:28:12.305+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:28:13.374+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:28:14.201+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:28:14.434+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:28:14.685+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:28:14.948+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:28:15.215+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:28:15.516+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T18:32:45.462+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T18:32:48.455+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T18:33:19.583+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:09:47.804+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:09:50.549+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:10:28.843+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:10:32.507+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:10:42.797+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:10:48.962+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:10:53.107+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:18:08.248+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:22:37.525+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:22:41.651+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:22:46.176+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:22:47.817+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:22:48.152+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:24:40.079+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:24:44.642+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:24:48.391+0500	ERROR	services/product.go:169	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:169
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:24:58.481+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:25:01.985+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:25:03.459+0500	ERROR	services/product.go:168	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:168
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:27:34.139+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:27:36.952+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:27:39.228+0500	ERROR	services/product.go:171	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:171
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:28:25.003+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:28:32.274+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:28:34.445+0500	ERROR	services/product.go:171	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:171
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:28:58.725+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:29:01.135+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:29:03.011+0500	ERROR	services/product.go:171	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:171
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:30:20.557+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:30:24.577+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:30:26.165+0500	ERROR	services/product.go:171	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:171
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:30:51.192+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:30:55.035+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:30:56.351+0500	ERROR	services/product.go:171	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:171
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:31:40.971+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:31:43.054+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:31:47.083+0500	ERROR	services/product.go:171	productUsecase.CreateOrder	{"error": "ERROR: column \"product_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateOrder
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:171
+product-service/genproto/product_service._ProductService_CreateOrder_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:399
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:33:03.755+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:34:02.573+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:35:22.453+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:37:50.404+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:38:15.932+0500	ERROR	services/product.go:188	productUsecase.GetOrderByID	{"error": "ERROR: column \"product_id\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetOrderByID
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:188
+product-service/genproto/product_service._ProductService_GetOrderByID_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:435
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:38:18.393+0500	ERROR	services/product.go:188	productUsecase.GetOrderByID	{"error": "ERROR: column \"product_id\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetOrderByID
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:188
+product-service/genproto/product_service._ProductService_GetOrderByID_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:435
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:40:10.247+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:40:13.797+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:40:18.427+0500	ERROR	services/product.go:188	productUsecase.GetOrderByID	{"error": "ERROR: column \"product_id\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetOrderByID
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:188
+product-service/genproto/product_service._ProductService_GetOrderByID_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:435
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:40:58.580+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:41:55.132+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:41:58.844+0500	ERROR	services/product.go:188	productUsecase.GetOrderByID	{"error": "object not found"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetOrderByID
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:188
+product-service/genproto/product_service._ProductService_GetOrderByID_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:435
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:44:25.027+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:44:26.394+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:44:32.714+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:45:57.147+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:46:03.775+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:47:26.269+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:47:30.067+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:48:48.078+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:49:44.496+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:49:50.650+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:51:29.907+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:51:35.179+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T20:51:58.400+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T20:57:13.052+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T20:58:48.306+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:15:58.992+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:16:03.170+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:21:31.072+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:21:43.867+0500	ERROR	services/product.go:113	productUseCase.DeleteProduct	{"error": "ERROR: update or delete on table \"products\" violates foreign key constraint \"orders_product_id_fkey\" on table \"orders\" (SQLSTATE 23503)"}
+product-service/internal/delivery/grpc/services.(*productRPC).DeleteProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:113
+product-service/genproto/product_service._ProductService_DeleteProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:345
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:21:54.527+0500	ERROR	services/product.go:113	productUseCase.DeleteProduct	{"error": "ERROR: update or delete on table \"products\" violates foreign key constraint \"orders_product_id_fkey\" on table \"orders\" (SQLSTATE 23503)"}
+product-service/internal/delivery/grpc/services.(*productRPC).DeleteProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:113
+product-service/genproto/product_service._ProductService_DeleteProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:345
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:24:12.643+0500	ERROR	services/product.go:113	productUseCase.DeleteProduct	{"error": "ERROR: update or delete on table \"products\" violates foreign key constraint \"orders_product_id_fkey\" on table \"orders\" (SQLSTATE 23503)"}
+product-service/internal/delivery/grpc/services.(*productRPC).DeleteProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:113
+product-service/genproto/product_service._ProductService_DeleteProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:345
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:24:31.037+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:29:49.861+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:30:26.387+0500	ERROR	services/product.go:85	productUseCase.GetProductByID	{"error": "object not found"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetProductByID
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:85
+product-service/genproto/product_service._ProductService_GetProductByID_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:363
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:32:46.213+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:32:48.899+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:34:03.013+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:34:04.700+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:34:05.455+0500	ERROR	services/product.go:75	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:75
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:35:14.697+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:35:19.003+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:35:45.846+0500	ERROR	services/product.go:76	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:76
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:35:46.834+0500	ERROR	services/product.go:76	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:76
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:35:47.594+0500	ERROR	services/product.go:76	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:76
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:38:09.922+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:38:16.853+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:40:05.160+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:40:14.142+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:41:12.774+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:41:44.070+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:43:26.698+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:43:31.466+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:44:56.613+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:45:02.010+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:45:45.730+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:45:49.956+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:48:33.782+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:48:38.299+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:49:46.361+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:49:50.962+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:51:12.011+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:51:17.834+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:52:26.601+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:52:32.199+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:53:26.432+0500	ERROR	services/product.go:111	productUseCase.DeleteProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).DeleteProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:111
+product-service/genproto/product_service._ProductService_DeleteProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:345
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:53:52.902+0500	ERROR	services/product.go:73	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:73
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:53:53.899+0500	ERROR	services/product.go:73	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:73
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:54:25.016+0500	ERROR	services/product.go:73	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:73
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:55:27.093+0500	ERROR	services/product.go:73	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:73
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:55:32.881+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:57:41.025+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:57:42.093+0500	ERROR	services/product.go:72	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:72
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:58:38.909+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:58:51.163+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:58:53.178+0500	ERROR	services/product.go:72	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:72
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T21:59:45.080+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T21:59:49.190+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T21:59:54.907+0500	ERROR	services/product.go:72	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:72
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T22:01:13.223+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T22:01:14.975+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-23T22:01:16.556+0500	ERROR	services/product.go:72	productUseCase.UpdateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).UpdateProduct
+	/home/davron/projects/go/src/clothes-store/product-service/internal/delivery/grpc/services/product.go:72
+product-service/genproto/product_service._ProductService_UpdateProduct_Handler
+	/home/davron/projects/go/src/clothes-store/product-service/genproto/product_service/product_service.pb.go:327
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-23T22:02:36.397+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-23T22:02:39.154+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-24T12:03:01.385+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-24T12:03:02.721+0500	INFO	cmd/main.go:40	Product service stops !
+2024-04-24T14:12:11.799+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":9090"}
+2024-04-24T14:12:13.894+0500	INFO	cmd/main.go:40	Product service stops !
