@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS orders (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ,
-    FOREIGN KEY(product_id) REFERENCES products(id)
+    FOREIGN KEY (product_id) REFERENCES products (id)
 );
