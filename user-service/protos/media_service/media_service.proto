@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package media_service;
+option go_package = "genproto/media_service";
+
+import "media_model.proto";
+
+service MediaService {
+  rpc Create(Media) returns (MediaWithID);
+  rpc Get(MediaWithProductID) returns (ProductImages);
+  rpc Delete(MediaWithProductID) returns (DeleteMediaResponse);
+}
