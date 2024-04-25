@@ -2,11 +2,12 @@ package app
 
 import (
 	"fmt"
-	"time"
 	pb "product-service/genproto/product_service"
 	"product-service/internal/delivery/grpc/server"
 	"product-service/internal/delivery/grpc/services"
 	grpc_service_clients "product-service/internal/infrastructure/grpc_service_client"
+	"time"
+
 	//"product-service/internal/infrastructure/kafka"
 	repo "product-service/internal/infrastructure/repository/postgresql"
 	"product-service/internal/pkg/config"
@@ -81,7 +82,7 @@ func (a *App) Run() error {
 	}
 	a.ServiceClients = serviceClients
 
-	productRepo := repo.NewUsersRepo(a.DB)
+	productRepo := repo.NewProductsRepo(a.DB)
 
 	productUseCase := usecase.NewUserService(contextTimeout, productRepo)
 

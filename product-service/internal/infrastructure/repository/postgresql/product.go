@@ -23,7 +23,7 @@ type productRepo struct {
 	db           *postgres.PostgresDB
 }
 
-func NewUsersRepo(db *postgres.PostgresDB) repository.Product {
+func NewProductsRepo(db *postgres.PostgresDB) repository.Product {
 	return &productRepo{
 		productTable: productsTableName,
 		orderTable:   ordersTableName,
@@ -116,7 +116,7 @@ func (u *productRepo) GetProduct(ctx context.Context, params map[string]string) 
 
 	var (
 		updatedAt sql.NullTime
-		category sql.NullString
+		category  sql.NullString
 	)
 	if err = u.db.QueryRow(ctx, query, args...).Scan(
 		&product.Id,
@@ -142,7 +142,7 @@ func (u *productRepo) GetProduct(ctx context.Context, params map[string]string) 
 
 	if updatedAt.Valid {
 		product.UpdatedAt = updatedAt.Time
-	} 
+	}
 	if category.Valid {
 		product.Category = category.String
 	}
@@ -210,7 +210,6 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListRequest) 
 
 func (u *productRepo) UpdateProduct(ctx context.Context, req *entity.Product) error {
 	data := map[string]any{
-		"id":              req.Id,
 		"name":            req.Name,
 		"description":     req.Description,
 		"category":        req.Category,
