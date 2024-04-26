@@ -72,3 +72,33 @@ type GetWithID struct {
 type DeleteResponse struct {
 	Status bool
 }
+
+type LikeProduct struct {
+	Id         string
+	Product_id string
+	User_id    string
+	Created_at time.Time
+	Updated_at time.Time
+	Deleted_at time.Time
+}
+type SaveProduct struct {
+	Id         string
+	Product_id string
+	User_id    string
+	Created_at time.Time
+	Updated_at time.Time
+	Deleted_at time.Time
+}
+
+type CommentToProduct struct{
+	Id string
+	Product_Id string
+	UserId string
+	Comment string
+	Created_at time.Time
+	Updated_at time.Time
+	Deleted_at time.Time
+}
+
+
+   

@@ -243,21 +243,54 @@ func (d *productRPC) GetOrderedProductsByUserID(context.Context, *pb.GetWithUser
 	return nil, nil
 
 }
-func (d *productRPC) LikeProduct(context.Context, *pb.Like) (*pb.MoveResponse, error) {
-	return nil, nil
+func (d *productRPC) LikeProduct(ctx context.Context, req *pb.Like) (*pb.MoveResponse, error) {
+	status, err := d.productUsecase.LikeProduct(ctx, &entity.LikeProduct{
+		Product_id: req.ProductId,
+		User_id: req.UserId,
+	})
 
-}
-func (d *productRPC) SaveProduct(context.Context, *pb.Save) (*pb.MoveResponse, error) {
-	return nil, nil
+	if err != nil {
+		d.logger.Error("productUseCase.CreateProduct", zap.Error(err))
+		return nil, grpc.Error(ctx, err)
+	}
 
+	return &pb.MoveResponse{
+		Status: status,
+	},nil
 }
+
+func (d *productRPC) SaveProduct(ctx context.Context, req *pb.Save) (*pb.MoveResponse, error) {
+	status, err := d.productUsecase.SaveProduct(ctx, &entity.SaveProduct{
+		Product_id: req.ProductId,
+		User_id: req.UserId,
+	})
+
+	if err != nil {
+		d.logger.Error("productUseCase.CreateProduct", zap.Error(err))
+		return nil, grpc.Error(ctx, err)
+	}
+
+	return &pb.MoveResponse{
+		Status: status,
+	},nil
+}
+
 func (d *productRPC) StarProduct(context.Context, *pb.Star) (*pb.MoveResponse, error) {
 	return nil, nil
 
 }
-func (d *productRPC) CommentToProduct(context.Context, *pb.Comment) (*pb.MoveResponse, error) {
-	return nil, nil
-
+func (d *productRPC) CommentToProduct(ctx context.Context, req *pb.Comment) (*pb.MoveResponse, error) {
+	status, err := d.productUsecase.CommentToProduct(ctx, &entity.CommentToProduct{
+		UserId: req.UserId,
+		Product_Id: req.ProductId,
+		Comment: req.Comment,
+	})
+	if err != nil{
+		return nil, err
+	}
+	return &pb.MoveResponse{
+		Status: status,
+	}, nil
 }
 func (d *productRPC) GetDisableProducts(context.Context, *pb.ListRequest) (*pb.ListOrderResponse, error) {
 	return nil, nil
