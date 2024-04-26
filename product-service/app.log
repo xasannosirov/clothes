@@ -1,0 +1,182 @@
+2024-04-26T13:26:31.254+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T13:26:40.995+0500	ERROR	services/product.go:46	productUseCase.CreateProduct	{"error": "ERROR: relation \"products\" does not exist (SQLSTATE 42P01)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:46
+product-service/genproto/product_service._ProductService_CreateProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:457
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T13:30:34.767+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T13:30:36.360+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T13:32:10.671+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T13:33:42.189+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T13:33:46.911+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "ERROR: insert or update on table \"wishlist\" violates foreign key constraint \"wishlist_product_id_fkey\" (SQLSTATE 23503)"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T13:41:01.307+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T13:41:34.721+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T13:41:38.389+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "ERROR: insert or update on table \"wishlist\" violates foreign key constraint \"wishlist_product_id_fkey\" (SQLSTATE 23503)"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:02:53.337+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T14:02:56.863+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T14:03:00.477+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:08:59.755+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T14:09:01.680+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T14:09:22.783+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:09:23.683+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:09:23.932+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:11:12.861+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T14:11:14.257+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T14:15:23.563+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:16:13.506+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T14:16:14.927+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T14:16:23.345+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "ERROR: invalid input syntax for type uuid: \"\" (SQLSTATE 22P02)"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:22:43.118+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T14:22:44.535+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T14:22:48.583+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:22:49.509+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:22:49.694+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:22:49.885+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:22:50.124+0500	ERROR	services/product.go:253	productUseCase.CreateProduct	{"error": "no sql rows"}
+product-service/internal/delivery/grpc/services.(*productRPC).LikeProduct
+	/home/abudlaziz/project/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:253
+product-service/genproto/product_service._ProductService_LikeProduct_Handler
+	/home/abudlaziz/project/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:709
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-04-26T14:29:50.912+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T14:29:52.596+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T15:01:39.258+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T15:01:41.328+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T15:09:37.384+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T15:09:42.641+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T15:42:32.437+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T15:42:33.795+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T15:43:54.822+0500	INFO	app/main.go:40	Product service stops !
+2024-04-26T15:43:56.106+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-04-26T15:45:03.107+0500	INFO	app/main.go:40	Product service stops !

@@ -454,11 +454,150 @@ func (p *productRepo) GetDiscountProducts(ctx context.Context, req *entity.ListR
 	return products, nil
 
 }
-
 func (p *productRepo) SearchProduct(ctx context.Context, req *entity.Filter) ([]*entity.Product, error) {
 	return nil, nil
 }
 
 func (p *productRepo) RecommentProducts(ctx context.Context, req *entity.Recom) ([]*entity.Product, error) {
 	return nil, nil
+}
+
+func (p *productRepo) IsUnique(ctx context.Context,tableName, UserId, ProductId string) (bool, error) {
+
+	queryBuilder := p.db.Sq.Builder.Select("COUNT(1)").
+		From(tableName).
+		Where(squirrel.Eq{"user_id": UserId, "product_id": ProductId})
+
+	query, args, err := queryBuilder.ToSql()
+
+	if err != nil {
+		return false, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.productTable, "isUnique"))
+	}
+
+	var count int
+
+	if err = p.db.QueryRow(ctx, query, args...).Scan(&count); err != nil {
+		return false, p.db.Error(err)
+
+	}
+	if count != 0 {
+		return true, nil
+	}
+	return false, nil
+}
+
+func (p *productRepo) LikeProduct(ctx context.Context, req *entity.LikeProduct) (bool, error) {
+	data := map[string]any{
+		"id":         req.Id,
+		"user_id":    req.User_id,
+		"product_id": req.Product_id,
+		"created_at": req.Created_at,
+		"updated_at": req.Updated_at,
+	}
+	query, args, err := p.db.Sq.Builder.Insert("wishlist").SetMap(data).ToSql()
+
+	if err != nil {
+		return false, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", "wishlist", "LikeProduct"))
+	}
+
+	_, err = p.db.Exec(ctx, query, args...)
+
+	if err != nil {
+		return false, p.db.Error(err)
+	}
+	return true, nil
+}
+
+func (p *productRepo) DeleteLikeProduct(ctx context.Context, userId, productId string) error {
+
+	sqlStr, args, err := p.db.Sq.Builder.
+		Delete("wishlist").
+		Where(p.db.Sq.Equal("user_id", userId)).
+		Where(p.db.Sq.Equal("product_id", productId)).
+		ToSql()
+
+	if err != nil {
+		return p.db.ErrSQLBuild(err, "wishlist"+" deleteLikeProduct")
+	}
+
+	commandTag, err := p.db.Exec(ctx, sqlStr, args...)
+	if err != nil {
+		return p.db.Error(err)
+	}
+
+	if commandTag.RowsAffected() == 0 {
+		return p.db.Error(fmt.Errorf("no sql rows"))
+	}
+
+	return nil
+}
+
+func (p *productRepo)SaveProduct(ctx context.Context, req *entity.SaveProduct)(bool, error){
+	data := map[string]any{
+		"id":         req.Id,
+		"user_id":    req.User_id,
+		"product_id": req.Product_id,
+		"created_at": req.Created_at,
+		"updated_at": req.Updated_at,
+	}
+	query, args, err := p.db.Sq.Builder.Insert("saved").SetMap(data).ToSql()
+
+	if err != nil {
+		return false, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", "saved", "LikeProduct"))
+	}
+
+	_, err = p.db.Exec(ctx, query, args...)
+
+	if err != nil {
+		return false, p.db.Error(err)
+	}
+	return true, nil
+}
+
+func (p *productRepo)DeleteSaveProduct(ctx context.Context, userId, productId string)error{
+	sqlStr, args, err := p.db.Sq.Builder.
+		Delete("saved").
+		Where(p.db.Sq.Equal("user_id", userId)).
+		Where(p.db.Sq.Equal("product_id", productId)).
+		ToSql()
+
+	if err != nil {
+		return p.db.ErrSQLBuild(err, "saved"+" deleteLikeProduct")
+	}
+
+	commandTag, err := p.db.Exec(ctx, sqlStr, args...)
+	if err != nil {
+		return p.db.Error(err)
+	}
+
+	if commandTag.RowsAffected() == 0 {
+		return p.db.Error(fmt.Errorf("no sql rows"))
+	}
+
+	return nil
+}
+
+func (p *productRepo)CommentToProduct(ctx context.Context, req *entity.CommentToProduct)(bool, error){
+	data := map[string]any{
+		"id": req.Id,
+		"user_id": req.UserId,
+		"product_id": req.Product_Id,
+		"comment": req.Comment,
+		"created_at":req.Created_at,
+		"updated_at": req.Updated_at,
+	}
+	query, args, err := p.db.Sq.Builder.Insert("comments").
+									SetMap(data).
+									ToSql()
+
+
+	if err != nil {
+		return false, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.productTable, "createProduct"))
+	}	
+	
+	_, err = p.db.Exec(ctx, query, args...)
+	if err != nil {
+		return false, p.db.Error(err)
+	}
+	return true, nil 
 }

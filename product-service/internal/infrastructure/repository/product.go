@@ -20,4 +20,13 @@ type Product interface {
 	GetDiscountProducts(ctx context.Context, req *entity.ListRequest) ([]*entity.Product, error)
 	SearchProduct(ctx context.Context, req *entity.Filter) ([]*entity.Product, error)
 	RecommentProducts(ctx context.Context, req *entity.Recom) ([]*entity.Product, error)
+
+	IsUnique(ctx context.Context, tableName, userId, ProductId string)(bool, error)
+	LikeProduct(ctx context.Context, req *entity.LikeProduct)(bool, error)
+	DeleteLikeProduct(ctx context.Context, userId, productId string)(error)
+
+	SaveProduct(ctx context.Context, req *entity.SaveProduct)(bool, error)
+	DeleteSaveProduct(ctx context.Context, userId, productId string)error
+
+	CommentToProduct(ctx context.Context, req *entity.CommentToProduct)(bool, error)
 }
