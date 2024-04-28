@@ -1,9 +1,9 @@
 package main
 
 import (
-	"clothes-store/media-service/internal/app"
-	"clothes-store/media-service/internal/pkg/config"
 	"log"
+	"media-service/internal/app"
+	"media-service/internal/pkg/config"
 	"os"
 	"os/signal"
 	"syscall"
@@ -20,8 +20,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	
 
 	// runing
 	go func() {

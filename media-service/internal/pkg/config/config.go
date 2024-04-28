@@ -23,6 +23,21 @@ type Config struct {
 		SslMode  string
 	}
 
+	UserService struct {
+		Host string
+		Port string
+	}
+
+	ProductService struct {
+		Host string
+		Port string
+	}
+
+	PaymentService struct {
+		Host string
+		Port string
+	}
+
 	OTLPCollector struct {
 		Host string
 		Port string
@@ -46,6 +61,14 @@ func New() *Config {
 	config.DB.Password = getEnv("POSTGRES_PASSWORD", "root")
 	config.DB.SslMode = getEnv("POSTGRES_SSLMODE", "disable")
 	config.DB.Name = getEnv("POSTGRES_DATABASE", "csm_media")
+
+	// servicess
+	config.UserService.Host = getEnv("USER_SERVICE_HOST", "localhost")
+	config.UserService.Port = getEnv("USER_SERVICE_PORT", ":1111")
+	config.ProductService.Host = getEnv("PRODUCT_SERVICE_HOST", "localhost")
+	config.ProductService.Port = getEnv("PRODUCT_SERVICE_PORT", ":3333")
+	config.PaymentService.Host = getEnv("PAYMENT_SERVICE_HOST", "localhost")
+	config.PaymentService.Port = getEnv("PAYMENT_SERVICE_PORT", ":4444")
 
 	// otlp collector configuration
 	config.OTLPCollector.Host = getEnv("OTLP_COLLECTOR_HOST", "localhost")

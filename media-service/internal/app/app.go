@@ -1,18 +1,18 @@
 package app
 
 import (
-	pm "clothes-store/media-service/genproto/media_service"
-	grpc_server "clothes-store/media-service/internal/delivery/grpc/server"
-	invest_grpc "clothes-store/media-service/internal/delivery/grpc/service"
-	"clothes-store/media-service/internal/infrastructure/grpc_service_client"
-	"clothes-store/media-service/internal/usecase"
+	pm "media-service/genproto/media_service"
+	grpc_server "media-service/internal/delivery/grpc/server"
+	invest_grpc "media-service/internal/delivery/grpc/service"
+	grpc_service_clients "media-service/internal/infrastructure/grpc_service_client"
+	"media-service/internal/usecase"
 
-	repo "clothes-store/media-service/internal/infrastructure/repository/postgres"
-	"clothes-store/media-service/internal/pkg/config"
-	"clothes-store/media-service/internal/pkg/logger"
+	repo "media-service/internal/infrastructure/repository/postgres"
+	"media-service/internal/pkg/config"
+	"media-service/internal/pkg/logger"
+	"media-service/internal/pkg/otlp"
 
-	// "evrone/userService/internal/pkg/otlp"
-	"clothes-store/media-service/internal/pkg/postgres"
+	"media-service/internal/pkg/postgres"
 
 	"fmt"
 	"time"
@@ -30,6 +30,7 @@ type App struct {
 	Logger         *zap.Logger
 	DB             *postgres.PostgresDB
 	GrpcServer     *grpc.Server
+	ShutdownOTLP   func() error
 	ServiceClients grpc_service_clients.ServiceClients
 }
 
@@ -40,7 +41,11 @@ func NewApp(cfg *config.Config) (*App, error) {
 		return nil, err
 	}
 
-	
+	// otlp collector initialization
+	shutdownOTLP, err := otlp.InitOTLPProvider(cfg)
+	if err != nil {
+		return nil, err
+	}
 
 	// init db
 	db, err := postgres.New(cfg)
@@ -57,19 +62,20 @@ func NewApp(cfg *config.Config) (*App, error) {
 		)),
 		grpc.UnaryInterceptor(grpc_server.UnaryInterceptor(
 			grpc_middleware.ChainUnaryServer(
-			grpc_ctxtags.UnaryServerInterceptor(),
-			grpc_zap.UnaryServerInterceptor(logger),
-			grpc_recovery.UnaryServerInterceptor(),
+				grpc_ctxtags.UnaryServerInterceptor(),
+				grpc_zap.UnaryServerInterceptor(logger),
+				grpc_recovery.UnaryServerInterceptor(),
 			),
 			grpc_server.UnaryInterceptorData(logger),
 		)),
 	)
 
 	return &App{
-		Config:         cfg,
-		Logger:         logger,
-		DB:             db,
-		GrpcServer:     grpcServer,
+		Config:       cfg,
+		Logger:       logger,
+		DB:           db,
+		ShutdownOTLP: shutdownOTLP,
+		GrpcServer:   grpcServer,
 	}, nil
 }
 
@@ -92,12 +98,11 @@ func (a *App) Run() error {
 
 	// repositories initialization
 	mediaRepo := repo.NewMediaRepo(a.DB)
-    
 
 	// usecase initialization
 	userUsecase := usecase.NewMediaService(contextTimeout, mediaRepo)
 
-	pm.RegisterMediaServiceServer(a.GrpcServer, invest_grpc.NewRPC(a.Logger, userUsecase))
+	pm.RegisterMediaServiceServer(a.GrpcServer, invest_grpc.NewRPC(a.Logger, userUsecase, a.ServiceClients))
 	a.Logger.Info("gRPC Server Listening", zap.String("url", a.Config.RPCPort))
 	if err := grpc_server.Run(a.Config, a.GrpcServer); err != nil {
 		return fmt.Errorf("gRPC fatal to serve grpc server over %s %w", a.Config.RPCPort, err)
@@ -106,7 +111,7 @@ func (a *App) Run() error {
 }
 
 func (a *App) Stop() {
-	
+
 	a.ServiceClients.Close()
 
 	// stop gRPC server

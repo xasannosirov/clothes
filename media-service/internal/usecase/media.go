@@ -1,54 +1,61 @@
 package usecase
 
 import (
-	"clothes-store/media-service/internal/entity"
-	"clothes-store/media-service/internal/infrastructure/repository"
 	"context"
+	"media-service/internal/entity"
+	"media-service/internal/infrastructure/repository"
+	"media-service/internal/pkg/otlp"
 	"time"
-
 )
 
-
-type Media interface{
-	CreateMedia(ctx context.Context, media *entity.Media)(*entity.Media, error)
-	GetMediaWithProductId(ctx context.Context,  params map[string]string)([]*entity.Media, error)
-	DeleteMedia(ctx context.Context, params map[string]any)error
-
+type Media interface {
+	CreateMedia(ctx context.Context, media *entity.Media) (*entity.Media, error)
+	GetMediaWithProductId(ctx context.Context, params map[string]string) ([]*entity.Media, error)
+	DeleteMedia(ctx context.Context, params map[string]any) error
 }
 
-type mediaService struct{
+type mediaService struct {
 	BaseUseCase
-	repo   repository.MediaStorageI
+	repo       repository.MediaStorageI
 	ctxTimeout time.Duration
 }
 
-func NewMediaService(ctxTimout  time.Duration, repo  repository.MediaStorageI)mediaService{
+func NewMediaService(ctxTimout time.Duration, repo repository.MediaStorageI) mediaService {
 	return mediaService{
 		ctxTimeout: ctxTimout,
-		repo: repo,
+		repo:       repo,
 	}
 }
 
-func (m mediaService)CreateMedia(ctx context.Context, media *entity.Media)(*entity.Media, error){
+func (m mediaService) CreateMedia(ctx context.Context, media *entity.Media) (*entity.Media, error) {
 	ctx, cancel := context.WithTimeout(ctx, m.ctxTimeout)
 	defer cancel()
 
-	m.beforeRequest(&media.Id, &media.Created_at, &media.Updated_at)
+	ctx, span := otlp.Start(ctx, "media_grpc-usercase", "CreateMedia")
+	defer span.End()
+
+	m.beforeRequest(&media.Id, &media.CreatedAt, &media.UpdatedAt)
 	return m.repo.CreateMedia(ctx, media)
 }
 
-func (m mediaService)GetMediaWithProductId(ctx context.Context,  params map[string]string)([]*entity.Media, error){
+func (m mediaService) GetMediaWithProductId(ctx context.Context, params map[string]string) ([]*entity.Media, error) {
 	ctx, cancel := context.WithTimeout(ctx, m.ctxTimeout)
 	defer cancel()
+
+	ctx, span := otlp.Start(ctx, "product_grpc-usercase", "GetProduct")
+	defer span.End()
 
 	return m.repo.GetMediaWithProductId(ctx, params)
 }
 
-func (m mediaService)DeleteMedia(ctx context.Context, params map[string]any)error{
+func (m mediaService) DeleteMedia(ctx context.Context, params map[string]any) error {
 	ctx, cancel := context.WithTimeout(ctx, m.ctxTimeout)
 	defer cancel()
 
-    params["deleted_at"] = time.Now().UTC()
+	ctx, span := otlp.Start(ctx, "product_grpc-usercase", "DeleteProduct")
+	defer span.End()
+
+	params["deleted_at"] = time.Now().UTC()
 
 	return m.repo.DeleteMedia(ctx, params)
 }

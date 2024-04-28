@@ -1,10 +1,14 @@
 package service
 
 import (
-	pm "clothes-store/media-service/genproto/media_service"
-	"clothes-store/media-service/internal/entity"
-	"clothes-store/media-service/internal/usecase"
 	"context"
+	"go.opentelemetry.io/otel/attribute"
+	mediaproto "media-service/genproto/media_service"
+	"media-service/internal/entity"
+	grpc_service_clients "media-service/internal/infrastructure/grpc_service_client"
+	"media-service/internal/pkg/otlp"
+	"media-service/internal/usecase"
+	"time"
 
 	"go.uber.org/zap"
 )
@@ -12,71 +16,95 @@ import (
 type mediaRPC struct {
 	logger *zap.Logger
 	media  usecase.Media
+	client grpc_service_clients.ServiceClients
 }
 
-func NewRPC(logger *zap.Logger, media usecase.Media) mediaRPC {
+func NewRPC(logger *zap.Logger, media usecase.Media, clients grpc_service_clients.ServiceClients) mediaRPC {
 	return mediaRPC{
 		logger: logger,
 		media:  media,
+		client: clients,
 	}
 }
 
-func (m mediaRPC) Create(ctx context.Context, req *pm.Media) (*pm.MediaWithID, error) {
+// Create method creates media
+func (m mediaRPC) Create(ctx context.Context, req *mediaproto.Media) (*mediaproto.MediaWithID, error) {
+	ctx, span := otlp.Start(ctx, "media_grpc-delivery", "CreateMedia")
+	span.SetAttributes(
+		attribute.Key("guid").String(req.ProductId),
+	)
+	defer span.End()
+
 	media := &entity.Media{
-		Id:         req.Id,
-		Product_Id: req.ProductId,
-		Image_Url:  req.ImageUrl,
+		Id:        req.Id,
+		ProductID: req.ProductId,
+		ImageUrl:  req.ImageUrl,
 	}
 
 	respMedia, err := m.media.CreateMedia(ctx, media)
 	if err != nil {
-		m.logger.Error("user.Create", zap.Error(err))
+		m.logger.Error("media.Create", zap.Error(err))
 		return nil, err
 	}
-	
-	return &pm.MediaWithID{
+
+	return &mediaproto.MediaWithID{
 		Id: respMedia.Id,
 	}, nil
 }
 
-func (m mediaRPC) Get(ctx context.Context, req *pm.MediaWithProductID) (*pm.ProductImages, error) {
+// Get method returns media
+func (m mediaRPC) Get(ctx context.Context, req *mediaproto.MediaWithProductID) (*mediaproto.ProductImages, error) {
+	ctx, span := otlp.Start(ctx, "media_grpc-delivery", "GetMedia")
+	span.SetAttributes(
+		attribute.Key("guid").String(req.ProductId),
+	)
+	defer span.End()
+
 	params := make(map[string]string)
 	params["product_id"] = req.ProductId
 
 	response, err := m.media.GetMediaWithProductId(ctx, params)
 	if err != nil {
-		m.logger.Error("getMediaWithproductId", zap.Error(err))
+		m.logger.Error("getMediaWithProductId", zap.Error(err))
 	}
 
-	respMedia := []*pm.Media{}
+	respMedia := []*mediaproto.Media{}
 	for _, media := range response {
-		resp := &pm.Media{
+		resp := &mediaproto.Media{
 			Id:        media.Id,
-			ProductId: media.Product_Id,
-			ImageUrl:  media.Image_Url,
-			CreatedAt: media.Created_at.String(),
-			UpdatedAt: media.Updated_at.String(),
+			ProductId: media.ProductID,
+			ImageUrl:  media.ImageUrl,
+			CreatedAt: media.CreatedAt.Format(time.RFC3339),
+			UpdatedAt: media.UpdatedAt.Format(time.RFC3339),
 		}
 
 		respMedia = append(respMedia, resp)
 	}
 
-	return &pm.ProductImages{
+	return &mediaproto.ProductImages{
 		Images: respMedia,
 	}, nil
 
 }
 
-func (m mediaRPC) Delete(ctx context.Context, req *pm.MediaWithProductID) (*pm.DeleteMediaResponse, error) {
+// Delete method delete media
+func (m mediaRPC) Delete(ctx context.Context, req *mediaproto.MediaWithProductID) (*mediaproto.DeleteMediaResponse, error) {
+	ctx, span := otlp.Start(ctx, "media_grpc-delivery", "DeleteMedia")
+	span.SetAttributes(
+		attribute.Key("guid").String(req.ProductId),
+	)
+	defer span.End()
+
 	params := make(map[string]any)
 	params["product_id"] = req.ProductId
 
 	err := m.media.DeleteMedia(ctx, params)
 	if err != nil {
 		m.logger.Error("error", zap.Error(err))
+		return nil, err
 	}
 
-	return &pm.DeleteMediaResponse{
+	return &mediaproto.DeleteMediaResponse{
 		Status: true,
 	}, nil
 }

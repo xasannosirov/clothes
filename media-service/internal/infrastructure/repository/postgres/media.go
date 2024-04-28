@@ -1,10 +1,11 @@
 package postgres
 
 import (
-	"clothes-store/media-service/internal/entity"
-	"clothes-store/media-service/internal/pkg/postgres"
 	"context"
 	"fmt"
+	"media-service/internal/entity"
+	"media-service/internal/pkg/otlp"
+	"media-service/internal/pkg/postgres"
 
 	"github.com/Masterminds/squirrel"
 )
@@ -25,6 +26,7 @@ func NewMediaRepo(db *postgres.PostgresDB) *mediaRepo {
 		db:        db,
 	}
 }
+
 func (m *mediaRepo) mediaSelectQueryPrefix() squirrel.SelectBuilder {
 	return m.db.Sq.Builder.Select(
 		"id",
@@ -35,13 +37,17 @@ func (m *mediaRepo) mediaSelectQueryPrefix() squirrel.SelectBuilder {
 	).From(m.tableName)
 }
 
+// CreateMedia creates media consist of image_url, product_id and id
 func (m mediaRepo) CreateMedia(ctx context.Context, media *entity.Media) (*entity.Media, error) {
+	ctx, span := otlp.Start(ctx, "media_grpc-reposiroty", "CreateMedia")
+	defer span.End()
+
 	data := map[string]any{
 		"id":         media.Id,
-		"product_id": media.Product_Id,
-		"image_url":  media.Image_Url,
-		"created_at": media.Created_at,
-		"updated_at": media.Updated_at,
+		"product_id": media.ProductID,
+		"image_url":  media.ImageUrl,
+		"created_at": media.CreatedAt,
+		"updated_at": media.UpdatedAt,
 	}
 
 	query, args, err := m.db.Sq.Builder.Insert(m.tableName).SetMap(data).ToSql()
@@ -57,7 +63,11 @@ func (m mediaRepo) CreateMedia(ctx context.Context, media *entity.Media) (*entit
 	return media, nil
 }
 
+// GetMediaWithProductId returns list media by product id
 func (m mediaRepo) GetMediaWithProductId(ctx context.Context, filter map[string]string) ([]*entity.Media, error) {
+	ctx, span := otlp.Start(ctx, "media_grpc-reposiroty", "GetMedia")
+	defer span.End()
+
 	var (
 		ListMedia []*entity.Media
 	)
@@ -79,20 +89,26 @@ func (m mediaRepo) GetMediaWithProductId(ctx context.Context, filter map[string]
 		var media entity.Media
 		if err = rows.Scan(
 			&media.Id,
-			&media.Product_Id,
-			&media.Image_Url,
-			&media.Created_at,
-			&media.Updated_at,
+			&media.ProductID,
+			&media.ImageUrl,
+			&media.CreatedAt,
+			&media.UpdatedAt,
 		); err != nil {
 			return nil, m.db.Error(err)
 		}
+
 		ListMedia = append(ListMedia, &media)
 	}
+
 	return ListMedia, nil
 }
 
+// DeleteMedia delete all media by product id
 func (m mediaRepo) DeleteMedia(ctx context.Context, params map[string]any) error {
-	sqlStr, args, err := m.db.Sq.Builder.
+	ctx, span := otlp.Start(ctx, "media_grpc-reposiroty", "DeleteMedia")
+	defer span.End()
+
+	query, args, err := m.db.Sq.Builder.
 		Update(m.tableName).
 		SetMap(params).
 		Where(m.db.Sq.Equal("product_id", params["product_id"])).
@@ -102,7 +118,7 @@ func (m mediaRepo) DeleteMedia(ctx context.Context, params map[string]any) error
 		return m.db.ErrSQLBuild(err, m.tableName+" delete")
 	}
 
-	commandTag, err := m.db.Exec(ctx, sqlStr, args...)
+	commandTag, err := m.db.Exec(ctx, query, args...)
 	if err != nil {
 		return m.db.Error(err)
 	}

@@ -1,12 +1,12 @@
 package postgres
 
 import (
-	"clothes-store/media-service/internal/entity"
-	r "clothes-store/media-service/internal/infrastructure/repository"
-	configpkg "clothes-store/media-service/internal/pkg/config"
-	"clothes-store/media-service/internal/pkg/postgres"
 	"context"
 	"log"
+	"media-service/internal/entity"
+	r "media-service/internal/infrastructure/repository"
+	configpkg "media-service/internal/pkg/config"
+	"media-service/internal/pkg/postgres"
 	"testing"
 
 	"github.com/google/uuid"
@@ -18,6 +18,7 @@ type MediaRepositoryTestSuite struct {
 	Repository r.MediaStorageI
 }
 
+// SetupSuite set up envirenment for suite test
 func (s *MediaRepositoryTestSuite) SetupSuite() {
 	pgPool, err := postgres.New(configpkg.New())
 	if err != nil {
@@ -28,35 +29,52 @@ func (s *MediaRepositoryTestSuite) SetupSuite() {
 	s.Repository = NewMediaRepo(pgPool)
 }
 
+// TestSuite test media-service storage methods
 func (s *MediaRepositoryTestSuite) TestSuite() {
-	media := &entity.Media{
-		Id:         uuid.NewString(),
-		Product_Id: "69fdcba8-8d71-47f6-a3a0-977b3469221f",
-		Image_Url:  "https://example.com/image.jpg",
+
+	// mock info for check media-service storage methods
+	defaultProductID := uuid.NewString()
+	listMedia := []*entity.Media{
+		&entity.Media{
+			Id:        uuid.NewString(),
+			ProductID: defaultProductID,
+			ImageUrl:  "https://clothes-store-management/images/products/1",
+		},
+		&entity.Media{
+			Id:        uuid.NewString(),
+			ProductID: defaultProductID,
+			ImageUrl:  "https://clothes-store-management/images/products/2",
+		},
 	}
 
-	createdMedia, err := s.Repository.CreateMedia(context.Background(), media)
+	// suite test for create media method
+	for _, media := range listMedia {
+		createdMedia, err := s.Repository.CreateMedia(context.TODO(), media)
+		s.Require().NoError(err)
+		s.Require().NotNil(createdMedia)
+		s.Require().NotEmpty(createdMedia)
+	}
 
-	s.Require().NoError(err)
-	s.Require().NotNil(createdMedia)
-	s.Equal(createdMedia.Id, media.Id)
-	s.Equal(createdMedia.Product_Id, media.Product_Id)
-	s.Equal(createdMedia.Image_Url, media.Image_Url)
-
-	//suite test for get all media by product_id
+	// suite test for get all media by product_id
 	filter := make(map[string]string)
-	filter["product_id"] = createdMedia.Product_Id
-	getCreatedMedia, err := s.Repository.GetMediaWithProductId(context.Background(), filter)
+	filter["product_id"] = defaultProductID
+	listCreatedMedia, err := s.Repository.GetMediaWithProductId(context.Background(), filter)
 	s.Require().NoError(err)
-	s.Require().NotNil(getCreatedMedia)
+	s.Equal(listCreatedMedia[0].ProductID, defaultProductID)
+	s.Equal(listCreatedMedia[0].ImageUrl, "https://clothes-store-management/images/products/1")
+	s.Require().NotNil(listCreatedMedia[0].Id)
+	s.Equal(listCreatedMedia[1].ProductID, defaultProductID)
+	s.Equal(listCreatedMedia[1].ImageUrl, "https://clothes-store-management/images/products/2")
+	s.Require().NotNil(listCreatedMedia[1].Id)
 
-	//suite test for delete media
-	id := make(map[string]any)
-	id["product_id"] = createdMedia.Product_Id
-	err = s.Repository.DeleteMedia(context.Background(), id)
+	// suite test for delete media by product id
+	params := make(map[string]any)
+	params["product_id"] = defaultProductID
+	err = s.Repository.DeleteMedia(context.TODO(), params)
 	s.Require().NoError(err)
 }
 
+// running media-service suite test
 func TestMediaRepositoryTestSuite(t *testing.T) {
 	suite.Run(t, new(MediaRepositoryTestSuite))
 }
