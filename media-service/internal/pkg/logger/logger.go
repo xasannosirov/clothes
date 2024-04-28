@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"clothes-store/media-service/internal/pkg/app"
+	"media-service/internal/pkg/app"
 	"path/filepath"
 
 	"go.uber.org/zap"

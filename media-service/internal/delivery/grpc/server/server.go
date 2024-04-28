@@ -1,8 +1,8 @@
 package server
 
 import (
-	"clothes-store/media-service/internal/pkg/config"
 	"fmt"
+	"media-service/internal/pkg/config"
 	"net"
 
 	"google.golang.org/grpc"

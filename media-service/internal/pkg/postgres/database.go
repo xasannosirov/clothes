@@ -1,12 +1,12 @@
 package postgres
 
 import (
-	"clothes-store/media-service/internal/entity"
-	configpkg "clothes-store/media-service/internal/pkg/config"
 	"context"
 	"errors"
 	"fmt"
 	"log"
+	"media-service/internal/entity"
+	configpkg "media-service/internal/pkg/config"
 	"strings"
 
 	"github.com/jackc/pgconn"
