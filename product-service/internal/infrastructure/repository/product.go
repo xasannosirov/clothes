@@ -29,4 +29,9 @@ type Product interface {
 	DeleteSaveProduct(ctx context.Context, userId, productId string)error
 
 	CommentToProduct(ctx context.Context, req *entity.CommentToProduct)(bool, error)
+
+	GetProductOrders(ctx context.Context, req *entity.GetWithID) ([]*entity.Order, error)
+	GetProductComments(ctx context.Context, req *entity.GetWithID) ([]*entity.CommentToProduct, error)
+	GetProductLikes(ctx context.Context, req *entity.GetWithID) ([]*entity.LikeProduct, error)
+	GetProductStars(ctx context.Context, req *entity.GetWithID) ([]*entity.StarProduct, error)
 }
