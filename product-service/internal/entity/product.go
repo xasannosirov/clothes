@@ -100,5 +100,14 @@ type CommentToProduct struct{
 	Deleted_at time.Time
 }
 
+type StarProduct struct {
+	Id        string
+	ProductID string
+	UserID    string
+	Stars     int64
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
 
    
