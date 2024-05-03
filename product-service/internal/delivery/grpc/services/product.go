@@ -306,22 +306,87 @@ func (d *productRPC) GetDisableProducts(context.Context, *pb.ListRequest) (*pb.L
 	return nil, nil
 
 }
+func (d *productRPC) GetProductOrders(ctx context.Context, in *pb.GetWithID) (*pb.ListOrderResponse, error) {
+	orders, err := d.productUsecase.GetProductOrders(ctx, &entity.GetWithID{ID: in.Id})
+	if err != nil {
+		d.logger.Error("productUsecase.GetProductOrders", zap.Error(err))
+		return &pb.ListOrderResponse{}, grpc.Error(ctx, err)
+	}
 
-func (d *productRPC) GetProductOrders(context.Context, *pb.GetWithID) (*pb.ListOrderResponse, error) {
-	return nil, nil
+	var pbOrders []*pb.Order
+	for _, order := range orders {
+		pbOrders = append(pbOrders, &pb.Order{
+			Id:        order.Id,
+			ProductId: order.ProductID,
+			UserId:    order.UserID,
+			Status:    order.Status,
+			CreatedAt: order.CreatedAt.String(),
+			UpdatedAt: order.UpdatedAt.String(),
+		})
+	}
+	return &pb.ListOrderResponse{Orders: pbOrders}, nil
 
 }
+func (d *productRPC) GetProductComments(ctx context.Context, in *pb.GetWithID) (*pb.ListCommentResponse, error) {
+	comments, err := d.productUsecase.GetProductComments(ctx, &entity.GetWithID{ID: in.Id})
+	if err != nil {
+		d.logger.Error("productUsecase.GetProductComments", zap.Error(err))
+		return &pb.ListCommentResponse{}, grpc.Error(ctx, err)
+	}
 
-func (d *productRPC) GetProductComments(context.Context, *pb.GetWithID) (*pb.ListCommentResponse, error) {
-	return nil, nil
+	var pbComments []*pb.Comment
+	for _, comment := range comments {
+		pbComments = append(pbComments, &pb.Comment{
+			Id:        comment.Id,
+			ProductId: comment.Product_Id,
+			UserId:    comment.UserId,
+			Comment:   comment.Comment,
+			CreatedAt: comment.Created_at.String(),
+			UpdatedAt: comment.Updated_at.String(),
+		})
+	}
+	return &pb.ListCommentResponse{Comments: pbComments}, nil
+
 }
+func (d *productRPC) GetProductLikes(ctx context.Context, in *pb.GetWithID) (*pb.ListWishlistResponse, error) {
+	likes, err := d.productUsecase.GetProductLikes(ctx, &entity.GetWithID{ID: in.Id})
+	if err != nil {
+		d.logger.Error("productUsecase.GetProductLikes", zap.Error(err))
+		return &pb.ListWishlistResponse{}, grpc.Error(ctx, err)
+	}
 
-func (d *productRPC) GetProductLikes(context.Context, *pb.GetWithID) (*pb.ListWishlistResponse, error) {
-	return nil, nil
+	var pbLikes []*pb.Like
+	for _, like := range likes {
+		pbLikes = append(pbLikes, &pb.Like{
+			Id:        like.Id,
+			ProductId: like.Product_id,
+			UserId:    like.User_id,
+			CreatedAt: like.Created_at.String(),
+			UpdatedAt: like.Updated_at.String(),
+		})
+	}
+	return &pb.ListWishlistResponse{Likes: pbLikes}, nil
+
 }
+func (d *productRPC) GetProductStars(ctx context.Context, in *pb.GetWithID) (*pb.ListStarsResponse, error) {
+	stars, err := d.productUsecase.GetProductStars(ctx, &entity.GetWithID{ID: in.Id})
+	if err != nil {
+		d.logger.Error("productUsecase.GetProductStars", zap.Error(err))
+		return &pb.ListStarsResponse{}, grpc.Error(ctx, err)
+	}
 
-func (d *productRPC) GetProductStars(context.Context, *pb.GetWithID) (*pb.ListStarsResponse, error) {
-	return nil, nil
+	var pbStars []*pb.Star
+	for _, star := range stars {
+		pbStars = append(pbStars, &pb.Star{
+			Id:        star.Id,
+			ProductId: star.ProductID,
+			UserId:    star.UserID,
+			Star:      star.Stars,
+			CreatedAt: star.CreatedAt.String(),
+			UpdatedAt: star.UpdatedAt.String(),
+		})
+	}
+	return &pb.ListStarsResponse{Stars: pbStars}, nil
 
 }
 

@@ -8,7 +8,6 @@ import (
 	"testing"
 	"time"
 
-	pbp "product-service/genproto/product_service"
 	"product-service/internal/pkg/config"
 	db "product-service/internal/pkg/postgres"
 
@@ -31,8 +30,8 @@ func (p *ProductRepositorySuiteTest) SetupSuite() {
 	p.Repository = NewProductsRepo(pgPoll)
 }
 
-func (p *ProductRepositorySuiteTest) TestCreateProduct() {
-	productReq := &pbp.Product{
+var (
+	product = &entity.Product{
 		Id:             uuid.NewString(),
 		Name:           "test",
 		Description:    "test",
@@ -47,53 +46,52 @@ func (p *ProductRepositorySuiteTest) TestCreateProduct() {
 		TemperatureMin: 1,
 		TemperatureMax: 1,
 		ForGender:      "test",
-		Size_:          1,
-	}
-
-	createProduct, err := p.Repository.CreateProduct(context.Background(), &entity.Product{
-		Id:             productReq.Id,
-		Name:           productReq.Name,
-		Description:    productReq.Description,
-		Category:       productReq.Category,
-		MadeIn:         productReq.MadeIn,
-		Color:          productReq.Color,
-		Cost:           productReq.Cost,
-		Count:          productReq.Count,
-		Discount:       productReq.Discount,
-		AgeMin:         productReq.AgeMin,
-		AgeMax:         productReq.AgeMax,
-		TemperatureMin: productReq.TemperatureMin,
-		TemperatureMax: productReq.TemperatureMax,
-		ForGender:      productReq.ForGender,
-		Size:           productReq.Size_,
+		Size:           1,
 		CreatedAt:      time.Now(),
 		UpdatedAt:      time.Now(),
-	})
+	}
+
+	order = &entity.Order{
+		Id:        uuid.NewString(),
+		UserID:    uuid.NewString(),
+		Status:    "test",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+)
+
+func (p *ProductRepositorySuiteTest) TestCreateProduct() {
+
+	createProduct, err := p.Repository.CreateProduct(context.Background(), product)
 
 	p.Suite.NoError(err)
 	p.Suite.NotNil(createProduct)
-	p.Suite.Equal(productReq.Id, createProduct.Id)
-	p.Suite.Equal(productReq.Description, createProduct.Description)
-	p.Suite.Equal(productReq.Name, createProduct.Name)
-	p.Suite.Equal(productReq.Category, createProduct.Category)
-	p.Suite.Equal(productReq.MadeIn, createProduct.MadeIn)
-	p.Suite.Equal(productReq.Color, createProduct.Color)
-	p.Suite.Equal(productReq.Cost, createProduct.Cost)
-	p.Suite.Equal(productReq.Count, createProduct.Count)
-	p.Suite.Equal(productReq.Discount, createProduct.Discount)
-	p.Suite.Equal(productReq.AgeMin, createProduct.AgeMin)
-	p.Suite.Equal(productReq.AgeMax, createProduct.AgeMax)
-	p.Suite.Equal(productReq.TemperatureMin, createProduct.TemperatureMin)
-	p.Suite.Equal(productReq.TemperatureMax, createProduct.TemperatureMax)
-	p.Suite.Equal(productReq.ForGender, createProduct.ForGender)
-	p.Suite.Equal(productReq.Size_, createProduct.Size)
+	p.Suite.Equal(product.Id, createProduct.Id)
+	p.Suite.Equal(product.Description, createProduct.Description)
+	p.Suite.Equal(product.Name, createProduct.Name)
+	p.Suite.Equal(product.Category, createProduct.Category)
+	p.Suite.Equal(product.MadeIn, createProduct.MadeIn)
+	p.Suite.Equal(product.Color, createProduct.Color)
+	p.Suite.Equal(product.Cost, createProduct.Cost)
+	p.Suite.Equal(product.Count, createProduct.Count)
+	p.Suite.Equal(product.Discount, createProduct.Discount)
+	p.Suite.Equal(product.AgeMin, createProduct.AgeMin)
+	p.Suite.Equal(product.AgeMax, createProduct.AgeMax)
+	p.Suite.Equal(product.TemperatureMin, createProduct.TemperatureMin)
+	p.Suite.Equal(product.TemperatureMax, createProduct.TemperatureMax)
+	p.Suite.Equal(product.ForGender, createProduct.ForGender)
+	p.Suite.Equal(product.Size, createProduct.Size)
 	p.Suite.NotNil(createProduct.CreatedAt)
 	p.Suite.NotNil(createProduct.UpdatedAt)
 }
 
 func (p *ProductRepositorySuiteTest) TestGetProduct() {
+
+	createProduct, err := p.Repository.CreateProduct(context.Background(), product)
+	p.Suite.NoError(err)
+
 	filter := make(map[string]string)
-	filter["id"] = "fba19244-0b60-4a0c-a042-bb1e2a5fdfd5"
+	filter["id"] = createProduct.Id
 	getProduct, err := p.Repository.GetProduct(context.Background(), filter)
 	p.Suite.NoError(err)
 	p.Suite.NotNil(getProduct)
@@ -127,8 +125,12 @@ func (p *ProductRepositorySuiteTest) TestGetProducts() {
 }
 
 func (p *ProductRepositorySuiteTest) TestUpdateProduct() {
+
+	createProduct, err := p.Repository.CreateProduct(context.Background(), product)
+	p.Suite.NoError(err)
+
 	productReq := &entity.Product{
-		Id:             "19e41c4a-5a82-47fa-90be-ea3f2860b59a",
+		Id:             createProduct.Id,
 		Name:           "update test",
 		Description:    "update test",
 		Category:       "update test",
@@ -146,17 +148,83 @@ func (p *ProductRepositorySuiteTest) TestUpdateProduct() {
 		UpdatedAt:      time.Now(),
 	}
 
-	err := p.Repository.UpdateProduct(context.Background(), productReq)
+	err = p.Repository.UpdateProduct(context.Background(), productReq)
 	p.Suite.NoError(err)
 }
 
-func (p *ProductRepositorySuiteTest) TestDeleteProduct(){
-	idReq := "19e41c4a-5a82-47fa-90be-ea3f2860b59a"
-	err := p.Repository.DeleteProduct(context.Background(), idReq)
+func (p *ProductRepositorySuiteTest) TestDeleteProduct() {
+
+	createProduct, err := p.Repository.CreateProduct(context.Background(), product)
+	p.Suite.NoError(err)
+
+	idReq := createProduct.Id
+	err = p.Repository.DeleteProduct(context.Background(), idReq)
+	p.Suite.NoError(err)
+}
+
+func (p *ProductRepositorySuiteTest) TestCreateOrder() {
+
+	productForID, err := p.Repository.CreateProduct(context.Background(), product)
+	p.Suite.NoError(err)
+
+	order.ProductID = productForID.Id
+
+	createOrder, err := p.Repository.CreateOrder(context.Background(), order)
+	p.Suite.NoError(err)
+	p.Suite.NotNil(createOrder)
+	p.Suite.Equal(order.Id, createOrder.Id)
+	p.Suite.Equal(order.ProductID, createOrder.ProductID)
+	p.Suite.Equal(order.UserID, createOrder.UserID)
+	p.Suite.Equal(order.Status, createOrder.Status)
+	p.Suite.NotNil(createOrder.CreatedAt)
+	p.Suite.NotNil(createOrder.UpdatedAt)
+}
+
+func (p *ProductRepositorySuiteTest) TestGetOrderByID() {
+
+	productForID, err := p.Repository.CreateProduct(context.Background(), product)
+	p.Suite.NoError(err)
+	order.ProductID = productForID.Id
+	createOrder, err := p.Repository.CreateOrder(context.Background(), order)
+	p.Suite.NoError(err)
+
+	param := make(map[string]string)
+	param["id"] = createOrder.Id
+	getOrder, err := p.Repository.GetOrderByID(context.Background(), param)
+	p.Suite.NoError(err)
+	p.Suite.NotNil(getOrder)
+	p.Suite.Equal(getOrder.Id, param["id"])
+	p.Suite.NotNil(getOrder.ProductID)
+	p.Suite.NotNil(getOrder.UserID)
+	p.Suite.Equal(getOrder.Status, "test")
+	p.Suite.IsType(time.Now(), getOrder.CreatedAt)
+	p.Suite.IsType(time.Now(), getOrder.UpdatedAt)
+}
+
+func (p *ProductRepositorySuiteTest) TestGetAllOrders() {
+	filter := &entity.ListRequest{
+		Page:  1,
+		Limit: 10,
+	}
+	getOrders, err := p.Repository.GetAllOrders(context.Background(), filter)
+	p.Suite.NoError(err)
+	p.Suite.LessOrEqual(len(getOrders), 10)
+	p.Suite.IsType([]*entity.Order{}, getOrders)
+}
+
+func (p *ProductRepositorySuiteTest) TestCancelOrder() {
+
+	productForID, err := p.Repository.CreateProduct(context.Background(), product)
+	p.Suite.NoError(err)
+	order.ProductID = productForID.Id
+	createOrder, err := p.Repository.CreateOrder(context.Background(), order)
+	p.Suite.NoError(err)
+	
+	id := createOrder.Id
+	err = p.Repository.CancelOrder(context.Background(), id)
 	p.Suite.NoError(err)
 }
 
 func TestExampleTestSuite(t *testing.T) {
-	suite.Run(t, new(ProductRepositorySuiteTest))
 	suite.Run(t, new(ProductRepositorySuiteTest))
 }

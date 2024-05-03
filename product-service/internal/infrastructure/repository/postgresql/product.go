@@ -13,15 +13,20 @@ import (
 )
 
 const (
-	productsTableName    = "products"
-	ordersTableName      = "orders"
-	productServiceName   = "productService"
-	productServicePrefix = "productServiceRepo"
+	productsTableName  = "products"
+	ordersTableName    = "orders"
+	productServiceName = "productService"
+	commentsTableName  = "comments"
+	likesTableName     = "wishlist"
+	starsTableName     = "stars"
 )
 
 type productRepo struct {
 	productTable string
 	orderTable   string
+	commentTable string
+	likesTable   string
+	starsTable   string
 	db           *postgres.PostgresDB
 }
 
@@ -63,6 +68,37 @@ func (u *productRepo) ordersSelectQueryPrefix() squirrel.SelectBuilder {
 		"status",
 		"created_at",
 		"updated_at").From(u.orderTable)
+}
+
+func (u *productRepo) commentsSelectQueryPrefix() squirrel.SelectBuilder {
+	return u.db.Sq.Builder.Select(
+		"id",
+		"product_id",
+		"user_id",
+		"comment",
+		"created_at",
+		"updated_at").From(u.commentTable)
+}
+
+func (u *productRepo) likesSelectQueryPrefix() squirrel.SelectBuilder {
+	return u.db.Sq.Builder.Select(
+		"id",
+		"product_id",
+		"user_id",
+		"created_at",
+		"updated_at",
+	)
+}
+
+func (u *productRepo) starsSelectQueryPrefix() squirrel.SelectBuilder {
+	return u.db.Sq.Builder.Select(
+		"id",
+		"product_id",
+		"user_id",
+		"star",
+		"created_at",
+		"updated_at",
+	)
 }
 
 func (u *productRepo) CreateProduct(ctx context.Context, req *entity.Product) (*entity.Product, error) {
@@ -237,7 +273,6 @@ func (u *productRepo) UpdateProduct(ctx context.Context, req *entity.Product) er
 		SetMap(data).
 		Where(squirrel.Eq{"id": req.Id}).
 		ToSql()
-	fmt.Printf("%v\n\n", sqlStr)
 	if err != nil {
 		return u.db.ErrSQLBuild(err, u.productTable+" updateProduct")
 	}
@@ -604,4 +639,183 @@ func (p *productRepo) CommentToProduct(ctx context.Context, req *entity.CommentT
 		return false, p.db.Error(err)
 	}
 	return true, nil
+}
+
+// GetProductComments implements repository.Product.
+func (u *productRepo) GetProductComments(ctx context.Context, req *entity.GetWithID) ([]*entity.CommentToProduct, error) {
+	var (
+		comments []*entity.CommentToProduct
+	)
+
+	queryBuilder := u.commentsSelectQueryPrefix()
+
+	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).From(commentsTableName)
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.commentTable, "GetProductComments"))
+	}
+
+	rows, err := u.db.Query(ctx, query, args[0])
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+
+	var (
+		updatedAt sql.NullTime
+	)
+	for rows.Next() {
+		var comment entity.CommentToProduct
+		if err = rows.Scan(
+			&comment.Id,
+			&comment.Product_Id,
+			&comment.UserId,
+			&comment.Comment,
+			&comment.Created_at,
+			&updatedAt); err != nil {
+			return nil, u.db.Error(err)
+		}
+
+		if updatedAt.Valid {
+			comment.Updated_at = updatedAt.Time
+		}
+
+		comments = append(comments, &comment)
+	}
+	return comments, nil
+}
+
+// GetProductLikes implements repository.Product.
+func (u *productRepo) GetProductLikes(ctx context.Context, req *entity.GetWithID) ([]*entity.LikeProduct, error) {
+	var (
+		likes []*entity.LikeProduct
+	)
+
+	queryBuilder := u.likesSelectQueryPrefix()
+
+	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).From(likesTableName)
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.likesTable, "GetProductLikes"))
+	}
+
+	rows, err := u.db.Query(ctx, query, args[0])
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+
+	var (
+		updatedAt sql.NullTime
+	)
+	for rows.Next() {
+		var like entity.LikeProduct
+		if err = rows.Scan(
+			&like.Id,
+			&like.Product_id,
+			&like.User_id,
+			&like.Created_at,
+			&updatedAt); err != nil {
+			return nil, u.db.Error(err)
+		}
+
+		if updatedAt.Valid {
+			like.Updated_at = updatedAt.Time
+		}
+
+		likes = append(likes, &like)
+	}
+	return likes, nil
+}
+
+// GetProductOrders implements repository.Product.
+func (u *productRepo) GetProductOrders(ctx context.Context, req *entity.GetWithID) ([]*entity.Order, error) {
+	var (
+		orders []*entity.Order
+	)
+
+	queryBuilder := u.ordersSelectQueryPrefix()
+
+	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).From(ordersTableName)
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.orderTable, "GetProductOrders"))
+	}
+
+	rows, err := u.db.Query(ctx, query, args[0])
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+
+	var (
+		updatedAt sql.NullTime
+	)
+	for rows.Next() {
+		var order entity.Order
+		if err = rows.Scan(
+			&order.Id,
+			&order.ProductID,
+			&order.UserID,
+			&order.Status,
+			&order.CreatedAt,
+			&updatedAt); err != nil {
+			return nil, u.db.Error(err)
+		}
+
+		if updatedAt.Valid {
+			order.UpdatedAt = updatedAt.Time
+		}
+
+		orders = append(orders, &order)
+	}
+	return orders, nil
+}
+
+// GetProductStars implements repository.Product.
+func (u *productRepo) GetProductStars(ctx context.Context, req *entity.GetWithID) ([]*entity.StarProduct, error) {
+	var (
+		stars []*entity.StarProduct
+	)
+
+	queryBuilder := u.starsSelectQueryPrefix()
+
+	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).From(starsTableName)
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.starsTable, "GetProductStars"))
+	}
+
+	rows, err := u.db.Query(ctx, query, args[0])
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+
+	var (
+		updatedAt sql.NullTime
+	)
+	for rows.Next() {
+		var star entity.StarProduct
+		if err = rows.Scan(
+			&star.Id,
+			&star.ProductID,
+			&star.UserID,
+			&star.Stars,
+			&star.CreatedAt,
+			&updatedAt); err != nil {
+			return nil, u.db.Error(err)
+		}
+
+		if updatedAt.Valid {
+			star.UpdatedAt = updatedAt.Time
+		}
+
+		stars = append(stars, &star)
+	}
+	return stars, nil
 }

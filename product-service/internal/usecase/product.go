@@ -30,6 +30,11 @@ type Product interface {
 	SaveProduct(ctx context.Context, req *entity.SaveProduct) (bool, error)
 
 	CommentToProduct(ctx context.Context, req *entity.CommentToProduct) (bool, error)
+
+	GetProductOrders(ctx context.Context, req *entity.GetWithID) ([]*entity.Order, error)
+	GetProductComments(ctx context.Context, req *entity.GetWithID) ([]*entity.CommentToProduct, error)
+	GetProductLikes(ctx context.Context, req *entity.GetWithID) ([]*entity.LikeProduct, error)
+	GetProductStars(ctx context.Context, req *entity.GetWithID) ([]*entity.StarProduct, error)
 }
 
 type productService struct {
@@ -201,4 +206,36 @@ func (u *productService) CommentToProduct(ctx context.Context, req *entity.Comme
 		return false, err
 	}
 	return status, nil
+}
+
+// GetProductComments implements Product.
+func (u *productService) GetProductComments(ctx context.Context, req *entity.GetWithID) ([]*entity.CommentToProduct, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetProductComments(ctx, req)
+}
+
+// GetProductLikes implements Product.
+func (u *productService) GetProductLikes(ctx context.Context, req *entity.GetWithID) ([]*entity.LikeProduct, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetProductLikes(ctx, req)
+}
+
+// GetProductOrders implements Product.
+func (u *productService) GetProductOrders(ctx context.Context, req *entity.GetWithID) ([]*entity.Order, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetProductOrders(ctx, req)
+}
+
+// GetProductStars implements Product.
+func (u *productService) GetProductStars(ctx context.Context, req *entity.GetWithID) ([]*entity.StarProduct, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetProductStars(ctx, req)
 }
