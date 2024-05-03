@@ -1,0 +1,30 @@
+2024-04-29T18:08:43.293+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-04-29T18:08:48.859+0500	INFO	app/main.go:41	api gateway service stops
+2024-04-29T18:08:48.860+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-04-29T18:10:58.261+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-04-29T18:10:59.590+0500	INFO	app/main.go:41	api gateway service stops
+2024-04-29T18:10:59.591+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-04-29T18:16:56.565+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-04-29T18:16:57.734+0500	INFO	app/main.go:41	api gateway service stops
+2024-04-29T18:16:57.734+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-04-29T18:17:10.488+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-04-29T18:17:10.818+0500	INFO	app/main.go:41	api gateway service stops
+2024-04-29T18:17:10.819+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-04-29T18:23:25.855+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-04-29T18:26:11.707+0500	INFO	app/main.go:41	api gateway service stops
+2024-04-29T18:26:11.707+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-04-29T18:53:04.619+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-04-29T18:53:05.641+0500	INFO	app/main.go:41	api gateway service stops
+2024-04-29T18:53:05.642+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32

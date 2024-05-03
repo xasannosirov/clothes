@@ -1,4 +1,2 @@
-2024-04-25T17:45:27.909+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":3333"}
-2024-04-25T17:45:28.660+0500	INFO	app/main.go:40	Product service stops !
-2024-04-25T17:45:46.574+0500	INFO	app/app.go:90	gRPC Server Listening	{"url": ":3333"}
-2024-04-25T17:45:48.199+0500	INFO	app/main.go:40	Product service stops !
+2024-05-03T18:23:33.818+0500	INFO	app/app.go:100	gRPC Server Listening	{"url": ":3333"}
+2024-05-03T18:24:43.594+0500	INFO	app/main.go:40	Product service stops !

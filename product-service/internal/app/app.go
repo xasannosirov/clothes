@@ -12,6 +12,7 @@ import (
 	repo "product-service/internal/infrastructure/repository/postgresql"
 	"product-service/internal/pkg/config"
 	"product-service/internal/pkg/logger"
+	"product-service/internal/pkg/otlp"
 	"product-service/internal/pkg/postgres"
 	"product-service/internal/usecase"
 	"product-service/internal/usecase/event"
@@ -26,6 +27,7 @@ type App struct {
 	DB             *postgres.PostgresDB
 	ServiceClients grpc_service_clients.ServiceClients
 	GrpcServer     *grpc.Server
+	ShutdownOTLP   func() error
 	BrokerProducer event.BrokerProducer
 	BrokerConsumer event.BrokerConsumer
 }
@@ -38,6 +40,12 @@ func NewApp(cfg *config.Config) (*App, error) {
 
 	// kafkaProducer := kafka.NewProducer(cfg, logger)
 	// kafkaConsumer := kafka.NewConsumer(logger)
+
+	// otlp collector initialization
+	shutdownOTLP, err := otlp.InitOTLPProvider(cfg)
+	if err != nil {
+		return nil, err
+	}
 
 	db, err := postgres.New(cfg)
 	if err != nil {
@@ -60,6 +68,7 @@ func NewApp(cfg *config.Config) (*App, error) {
 		Logger:         logger,
 		DB:             db,
 		GrpcServer:     grpcServer,
+		ShutdownOTLP:   shutdownOTLP,
 		ServiceClients: clients,
 		// BrokerConsumer: consumerApp.BrokerConsumer,
 		// BrokerProducer: kafkaProducer,

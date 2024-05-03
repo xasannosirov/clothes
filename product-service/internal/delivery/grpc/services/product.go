@@ -5,10 +5,12 @@ import (
 	pb "product-service/genproto/product_service"
 	grpc "product-service/internal/delivery"
 	"product-service/internal/entity"
+	"product-service/internal/pkg/otlp"
 	"product-service/internal/usecase"
 	"time"
 
 	"github.com/google/uuid"
+	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
 
@@ -25,7 +27,13 @@ func NewRPC(logger *zap.Logger, productUsecase usecase.Product) pb.ProductServic
 }
 
 func (d *productRPC) CreateProduct(ctx context.Context, in *pb.Product) (*pb.GetWithID, error) {
+	ctx, span := otlp.Start(ctx, "product_grpc-delivery", "CreateProduct")
+	span.SetAttributes(
+		attribute.Key("guid").String(in.Id),
+	)
+	defer span.End()
 	respProduct, err := d.productUsecase.CreateProduct(ctx, &entity.Product{
+		Id:             in.Id,
 		Name:           in.Name,
 		Description:    in.Description,
 		Category:       in.Category,
@@ -233,8 +241,8 @@ func (d *productRPC) Recommendation(context.Context, *pb.Recom) (*pb.ListProduct
 }
 func (d *productRPC) GetSavedProductsByUserID(context.Context, *pb.GetWithUserID) (*pb.ListProductResponse, error) {
 	return nil, nil
-
 }
+
 func (d *productRPC) GetWishlistByUserID(context.Context, *pb.GetWithUserID) (*pb.ListProductResponse, error) {
 	return nil, nil
 
@@ -246,7 +254,7 @@ func (d *productRPC) GetOrderedProductsByUserID(context.Context, *pb.GetWithUser
 func (d *productRPC) LikeProduct(ctx context.Context, req *pb.Like) (*pb.MoveResponse, error) {
 	status, err := d.productUsecase.LikeProduct(ctx, &entity.LikeProduct{
 		Product_id: req.ProductId,
-		User_id: req.UserId,
+		User_id:    req.UserId,
 	})
 
 	if err != nil {
@@ -256,13 +264,13 @@ func (d *productRPC) LikeProduct(ctx context.Context, req *pb.Like) (*pb.MoveRes
 
 	return &pb.MoveResponse{
 		Status: status,
-	},nil
+	}, nil
 }
 
 func (d *productRPC) SaveProduct(ctx context.Context, req *pb.Save) (*pb.MoveResponse, error) {
 	status, err := d.productUsecase.SaveProduct(ctx, &entity.SaveProduct{
 		Product_id: req.ProductId,
-		User_id: req.UserId,
+		User_id:    req.UserId,
 	})
 
 	if err != nil {
@@ -272,50 +280,56 @@ func (d *productRPC) SaveProduct(ctx context.Context, req *pb.Save) (*pb.MoveRes
 
 	return &pb.MoveResponse{
 		Status: status,
-	},nil
+	}, nil
 }
 
 func (d *productRPC) StarProduct(context.Context, *pb.Star) (*pb.MoveResponse, error) {
 	return nil, nil
 
 }
+
 func (d *productRPC) CommentToProduct(ctx context.Context, req *pb.Comment) (*pb.MoveResponse, error) {
 	status, err := d.productUsecase.CommentToProduct(ctx, &entity.CommentToProduct{
-		UserId: req.UserId,
+		UserId:     req.UserId,
 		Product_Id: req.ProductId,
-		Comment: req.Comment,
+		Comment:    req.Comment,
 	})
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	return &pb.MoveResponse{
 		Status: status,
 	}, nil
 }
+
 func (d *productRPC) GetDisableProducts(context.Context, *pb.ListRequest) (*pb.ListOrderResponse, error) {
 	return nil, nil
 
 }
+
 func (d *productRPC) GetProductOrders(context.Context, *pb.GetWithID) (*pb.ListOrderResponse, error) {
 	return nil, nil
 
 }
+
 func (d *productRPC) GetProductComments(context.Context, *pb.GetWithID) (*pb.ListCommentResponse, error) {
 	return nil, nil
-
 }
+
 func (d *productRPC) GetProductLikes(context.Context, *pb.GetWithID) (*pb.ListWishlistResponse, error) {
 	return nil, nil
-
 }
+
 func (d *productRPC) GetProductStars(context.Context, *pb.GetWithID) (*pb.ListStarsResponse, error) {
 	return nil, nil
 
 }
+
 func (d *productRPC) GetAllComments(context.Context, *pb.ListRequest) (*pb.ListCommentResponse, error) {
 	return nil, nil
 
 }
+
 func (d *productRPC) GetAllStars(context.Context, *pb.ListRequest) (*pb.ListStarsResponse, error) {
 	return nil, nil
 

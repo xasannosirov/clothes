@@ -6,15 +6,17 @@ import (
 	"fmt"
 	"product-service/internal/entity"
 	"product-service/internal/infrastructure/repository"
+	"product-service/internal/pkg/otlp"
 	"product-service/internal/pkg/postgres"
 
 	"github.com/Masterminds/squirrel"
 )
 
 const (
-	productsTableName  = "products"
-	ordersTableName    = "orders"
-	productServiceName = "productService"
+	productsTableName    = "products"
+	ordersTableName      = "orders"
+	productServiceName   = "productService"
+	productServicePrefix = "productServiceRepo"
 )
 
 type productRepo struct {
@@ -64,6 +66,9 @@ func (u *productRepo) ordersSelectQueryPrefix() squirrel.SelectBuilder {
 }
 
 func (u *productRepo) CreateProduct(ctx context.Context, req *entity.Product) (*entity.Product, error) {
+	ctx, span := otlp.Start(ctx, "product_grpc-reposiroty", "CreateProduct")
+	defer span.End()
+
 	data := map[string]any{
 		"id":              req.Id,
 		"name":            req.Name,
@@ -462,7 +467,7 @@ func (p *productRepo) RecommentProducts(ctx context.Context, req *entity.Recom) 
 	return nil, nil
 }
 
-func (p *productRepo) IsUnique(ctx context.Context,tableName, UserId, ProductId string) (bool, error) {
+func (p *productRepo) IsUnique(ctx context.Context, tableName, UserId, ProductId string) (bool, error) {
 
 	queryBuilder := p.db.Sq.Builder.Select("COUNT(1)").
 		From(tableName).
@@ -532,7 +537,7 @@ func (p *productRepo) DeleteLikeProduct(ctx context.Context, userId, productId s
 	return nil
 }
 
-func (p *productRepo)SaveProduct(ctx context.Context, req *entity.SaveProduct)(bool, error){
+func (p *productRepo) SaveProduct(ctx context.Context, req *entity.SaveProduct) (bool, error) {
 	data := map[string]any{
 		"id":         req.Id,
 		"user_id":    req.User_id,
@@ -554,7 +559,7 @@ func (p *productRepo)SaveProduct(ctx context.Context, req *entity.SaveProduct)(b
 	return true, nil
 }
 
-func (p *productRepo)DeleteSaveProduct(ctx context.Context, userId, productId string)error{
+func (p *productRepo) DeleteSaveProduct(ctx context.Context, userId, productId string) error {
 	sqlStr, args, err := p.db.Sq.Builder.
 		Delete("saved").
 		Where(p.db.Sq.Equal("user_id", userId)).
@@ -577,27 +582,26 @@ func (p *productRepo)DeleteSaveProduct(ctx context.Context, userId, productId st
 	return nil
 }
 
-func (p *productRepo)CommentToProduct(ctx context.Context, req *entity.CommentToProduct)(bool, error){
+func (p *productRepo) CommentToProduct(ctx context.Context, req *entity.CommentToProduct) (bool, error) {
 	data := map[string]any{
-		"id": req.Id,
-		"user_id": req.UserId,
+		"id":         req.Id,
+		"user_id":    req.UserId,
 		"product_id": req.Product_Id,
-		"comment": req.Comment,
-		"created_at":req.Created_at,
+		"comment":    req.Comment,
+		"created_at": req.Created_at,
 		"updated_at": req.Updated_at,
 	}
 	query, args, err := p.db.Sq.Builder.Insert("comments").
-									SetMap(data).
-									ToSql()
-
+		SetMap(data).
+		ToSql()
 
 	if err != nil {
 		return false, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.productTable, "createProduct"))
-	}	
-	
+	}
+
 	_, err = p.db.Exec(ctx, query, args...)
 	if err != nil {
 		return false, p.db.Error(err)
 	}
-	return true, nil 
+	return true, nil
 }
