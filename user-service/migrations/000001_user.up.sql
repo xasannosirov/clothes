@@ -7,6 +7,8 @@ CREATE TABLE users (
     password TEXT NOT NULL,
     gender VARCHAR(6),
     age INT,
+    refresh_token TEXT,
+    role VARCHAR(10) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ

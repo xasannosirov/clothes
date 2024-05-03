@@ -11,6 +11,27 @@ type User struct {
 	Password    string
 	Gender      string
 	Age         uint8
+	Refresh     string
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
+}
+
+type IsUnique struct {
+	Email string
+}
+
+type UpdateRefresh struct {
+	UserID       string
+	Role         string
+	RefreshToken string
+}
+
+type UpdatePassword struct {
+	UserID      string
+	Role        string
+	NewPassword string
+}
+
+type Response struct {
+	Status bool
 }

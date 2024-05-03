@@ -1,0 +1,191 @@
+definitions:
+  models.CreateUser:
+    properties:
+      email:
+        type: string
+      last_name:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  models.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  models.StandardErrorModel:
+    properties:
+      error:
+        $ref: '#/definitions/models.Error'
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  models.UserResponse:
+    properties:
+      access_token:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      refresh_token:
+        type: string
+      role:
+        type: string
+      updated_at:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/users/create:
+    post:
+      consumes:
+      - application/json
+      description: Get categories
+      parameters:
+      - description: createUserModel
+        in: body
+        name: User
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      security:
+      - ApiKeyAuth: []
+      summary: Get categories
+      tags:
+      - user
+  /v1/users/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Api for delete user
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteUser
+      tags:
+      - user
+  /v1/users/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Api for getting user by id
+      parameters:
+      - description: id or email
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: GetUser
+      tags:
+      - user
+  /v1/users/update/:id:
+    put:
+      consumes:
+      - application/json
+      description: Api for update user
+      parameters:
+      - description: createUserModel
+        in: body
+        name: User
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateUser
+      tags:
+      - user
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -5,10 +5,12 @@ import (
 	pb "product-service/genproto/product_service"
 	grpc "product-service/internal/delivery"
 	"product-service/internal/entity"
+	"product-service/internal/pkg/otlp"
 	"product-service/internal/usecase"
 	"time"
 
 	"github.com/google/uuid"
+	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
 
@@ -25,7 +27,13 @@ func NewRPC(logger *zap.Logger, productUsecase usecase.Product) pb.ProductServic
 }
 
 func (d *productRPC) CreateProduct(ctx context.Context, in *pb.Product) (*pb.GetWithID, error) {
+	ctx, span := otlp.Start(ctx, "product_grpc-delivery", "CreateProduct")
+	span.SetAttributes(
+		attribute.Key("guid").String(in.Id),
+	)
+	defer span.End()
 	respProduct, err := d.productUsecase.CreateProduct(ctx, &entity.Product{
+		Id:             in.Id,
 		Name:           in.Name,
 		Description:    in.Description,
 		Category:       in.Category,
@@ -233,8 +241,8 @@ func (d *productRPC) Recommendation(context.Context, *pb.Recom) (*pb.ListProduct
 }
 func (d *productRPC) GetSavedProductsByUserID(context.Context, *pb.GetWithUserID) (*pb.ListProductResponse, error) {
 	return nil, nil
-
 }
+
 func (d *productRPC) GetWishlistByUserID(context.Context, *pb.GetWithUserID) (*pb.ListProductResponse, error) {
 	return nil, nil
 
@@ -279,6 +287,7 @@ func (d *productRPC) StarProduct(context.Context, *pb.Star) (*pb.MoveResponse, e
 	return nil, nil
 
 }
+
 func (d *productRPC) CommentToProduct(ctx context.Context, req *pb.Comment) (*pb.MoveResponse, error) {
 	status, err := d.productUsecase.CommentToProduct(ctx, &entity.CommentToProduct{
 		UserId:     req.UserId,
@@ -380,10 +389,12 @@ func (d *productRPC) GetProductStars(ctx context.Context, in *pb.GetWithID) (*pb
 	return &pb.ListStarsResponse{Stars: pbStars}, nil
 
 }
+
 func (d *productRPC) GetAllComments(context.Context, *pb.ListRequest) (*pb.ListCommentResponse, error) {
 	return nil, nil
 
 }
+
 func (d *productRPC) GetAllStars(context.Context, *pb.ListRequest) (*pb.ListStarsResponse, error) {
 	return nil, nil
 

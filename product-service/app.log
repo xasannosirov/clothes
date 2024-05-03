@@ -180,3 +180,5 @@ google.golang.org/grpc.(*Server).serveStreams.func2.1
 2024-04-26T15:43:54.822+0500	INFO	app/main.go:40	Product service stops !
 2024-04-26T15:43:56.106+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
 2024-04-26T15:45:03.107+0500	INFO	app/main.go:40	Product service stops !
+2024-04-28T20:46:38.713+0500	INFO	app/app.go:100	gRPC Server Listening	{"url": ":3333"}
+2024-04-28T20:46:40.315+0500	INFO	app/main.go:40	Product service stops !

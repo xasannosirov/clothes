@@ -18,7 +18,7 @@ type MediaRepositoryTestSuite struct {
 	Repository r.MediaStorageI
 }
 
-// SetupSuite set up envirenment for suite test
+// This method set up envirenment for suite test
 func (s *MediaRepositoryTestSuite) SetupSuite() {
 	pgPool, err := postgres.New(configpkg.New())
 	if err != nil {

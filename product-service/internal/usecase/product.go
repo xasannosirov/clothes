@@ -7,6 +7,7 @@ import (
 
 	"product-service/internal/entity"
 	"product-service/internal/infrastructure/repository"
+	"product-service/internal/pkg/otlp"
 )
 
 type Product interface {
@@ -52,6 +53,9 @@ func NewUserService(ctxTimeout time.Duration, repo repository.Product) Product {
 func (u *productService) CreateProduct(ctx context.Context, req *entity.Product) (*entity.Product, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
+
+	ctx, span := otlp.Start(ctx, "product_grpc-usercase", "CreateProduct")
+	defer span.End()
 
 	u.beforeRequest(&req.Id, &req.CreatedAt, &req.UpdatedAt)
 

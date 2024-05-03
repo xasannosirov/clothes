@@ -18,7 +18,7 @@ service ProductService {
   rpc GetAllOrders(ListRequest) returns (ListOrderResponse);
 
   rpc SearchProduct(Filter) returns (ListProductResponse);
-  rpc Recommendation(Recom) returns (ListProductResponse);
+  rpc GetDisableProducts(ListRequest) returns (ListOrderResponse);
   
   rpc GetSavedProductsByUserID(GetWithUserID) returns (ListProductResponse);
   rpc GetWishlistByUserID(GetWithUserID) returns (ListProductResponse);
@@ -28,8 +28,8 @@ service ProductService {
   rpc SaveProduct(Save) returns (MoveResponse);
   rpc StarProduct(Star) returns (MoveResponse);
   rpc CommentToProduct(Comment) returns (MoveResponse);
-  
-  rpc GetDisableProducts(ListRequest) returns (ListOrderResponse);
+
+  rpc Recommendation(Recom) returns (ListProductResponse);
   rpc GetProductOrders(GetWithID) returns (ListOrderResponse);
   rpc GetProductComments(GetWithID) returns (ListCommentResponse);
   rpc GetProductLikes(GetWithID) returns (ListWishlistResponse);
