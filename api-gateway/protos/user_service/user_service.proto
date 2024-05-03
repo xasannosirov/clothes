@@ -6,10 +6,10 @@ option go_package = "genproto/user_service";
 import "user_model.proto";
 
 service UserService {
-  rpc CreateUser(User) returns (UserWithID);
-  rpc GetUser(UserWithID) returns (User);
+  rpc CreateUser(User) returns (UserWithGUID);
+  rpc GetUser(Filter) returns (User);
   rpc UpdateUser(User) returns (User);
-  rpc DeleteUser(UserWithID) returns (DeleteUserResponse);
+  rpc DeleteUser(UserWithGUID) returns (ResponseStatus);
   rpc GetAllUsers(ListUserRequest) returns (ListUserResponse);
 
   rpc UniqueEmail(IsUnique) returns (ResponseStatus);

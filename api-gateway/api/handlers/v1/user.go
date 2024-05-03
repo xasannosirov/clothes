@@ -57,7 +57,7 @@ func (h HandlerV1) CreateUser(c *gin.Context) {
 		return
 	}
 	respProduct := pbu.User{
-		Id: response.Id,
+		Id: response.Guid,
 		// LastName:  response.LastName,
 		// FirstName: response.Name,
 		// Email:     response.Email,

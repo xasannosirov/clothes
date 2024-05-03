@@ -27,7 +27,7 @@ func NewRPC(logger *zap.Logger, userUsecase usecase.User, client *grpc_service_c
 	}
 }
 
-func (s userRPC) CreateUser(ctx context.Context, in *userproto.User) (*userproto.UserWithID, error) {
+func (s userRPC) CreateUser(ctx context.Context, in *userproto.User) (*userproto.UserWithGUID, error) {
 	ctx, span := otlp.Start(ctx, "user_grpc-delivery", "CreateUser")
 	span.SetAttributes(
 		attribute.Key("guid").String(in.Id),
@@ -52,8 +52,8 @@ func (s userRPC) CreateUser(ctx context.Context, in *userproto.User) (*userproto
 		return nil, err
 	}
 
-	return &userproto.UserWithID{
-		Id: user.GUID,
+	return &userproto.UserWithGUID{
+		Guid: user.GUID,
 	}, nil
 }
 
@@ -93,31 +93,41 @@ func (s userRPC) UpdateUser(ctx context.Context, in *userproto.User) (*userproto
 	}, nil
 }
 
-func (s userRPC) DeleteUser(ctx context.Context, in *userproto.UserWithID) (*userproto.DeleteUserResponse, error) {
+func (s userRPC) DeleteUser(ctx context.Context, in *userproto.UserWithGUID) (*userproto.ResponseStatus, error) {
 	ctx, span := otlp.Start(ctx, "user_grpc-delivery", "DeleteUser")
 	span.SetAttributes(
-		attribute.Key("guid").String(in.Id),
+		attribute.Key("guid").String(in.Guid),
 	)
 	defer span.End()
 
-	if err := s.userUsecase.Delete(ctx, in.Id); err != nil {
+	if err := s.userUsecase.Delete(ctx, in.Guid); err != nil {
 		s.logger.Error(err.Error())
-		return &userproto.DeleteUserResponse{Status: false}, err
+		return &userproto.ResponseStatus{Status: false}, err
 	}
 
-	return &userproto.DeleteUserResponse{Status: true}, nil
+	return &userproto.ResponseStatus{Status: true}, nil
 }
 
-func (s userRPC) GetUser(ctx context.Context, in *userproto.UserWithID) (*userproto.User, error) {
+func (s userRPC) GetUser(ctx context.Context, in *userproto.Filter) (*userproto.User, error) {
 	ctx, span := otlp.Start(ctx, "user_grpc-delivery", "GetUser")
-	span.SetAttributes(
-		attribute.Key("guid").String(in.Id),
-	)
+	for key, value := range in.Filter {
+		if key == "id" {
+			span.SetAttributes(
+				attribute.Key("id").String(value),
+			)
+		} else if key == "refresh" {
+			span.SetAttributes(
+				attribute.Key("refresh").String(value),
+			)
+		} else if key == "email" {
+			span.SetAttributes(
+				attribute.Key("email").String(value),
+			)
+		}
+	}
 	defer span.End()
 
-	user, err := s.userUsecase.Get(ctx, map[string]string{
-		"id": in.Id,
-	})
+	user, err := s.userUsecase.Get(ctx, in.Filter)
 
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -205,7 +215,6 @@ func (s userRPC) UpdateRefresh(ctx context.Context, in *userproto.RefreshRequest
 
 	_, err := s.userUsecase.UpdateRefresh(ctx, &entity.UpdateRefresh{
 		UserID:       in.UserId,
-		Role:         in.Role,
 		RefreshToken: in.RefreshToken,
 	})
 	if err != nil {
@@ -225,7 +234,6 @@ func (s userRPC) UpdatePassword(ctx context.Context, in *userproto.UpdatePasswor
 
 	_, err := s.userUsecase.UpdatePassword(ctx, &entity.UpdatePassword{
 		UserID:      in.UserId,
-		Role:        in.Role,
 		NewPassword: in.NewPassword,
 	})
 	if err != nil {

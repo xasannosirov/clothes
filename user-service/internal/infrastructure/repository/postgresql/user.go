@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/k0kubun/pp"
 	"user-service/internal/entity"
 	"user-service/internal/pkg/otlp"
 	"user-service/internal/pkg/postgres"
@@ -136,7 +137,6 @@ func (p usersRepo) Delete(ctx context.Context, guid string) error {
 }
 
 func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.User, error) {
-
 	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "GetUser")
 	defer span.End()
 
@@ -148,6 +148,10 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 
 	for key, value := range params {
 		if key == "id" {
+			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
+		} else if key == "email" {
+			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
+		} else if key == "refresh" {
 			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
 		}
 	}
@@ -161,6 +165,7 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 		nullAge         sql.NullInt32
 		nullRefresh     sql.NullString
 	)
+	pp.Println(query)
 	if err = p.db.QueryRow(ctx, query, args...).Scan(
 		&user.GUID,
 		&user.FirstName,

@@ -12,21 +12,42 @@ message User {
   string phone_number = 6;
   string gender = 7;
   int64 age = 8;
-  string created_at = 9;
-  string updated_at = 10;
+  string role = 9; // admin, worker, user
+  string refresh = 10;
+  string created_at = 11;
+  string updated_at = 12;
 }
 
-message UserWithID {
-  string id = 1;
+message UserWithGUID {
+  string guid = 1;
 }
 
-message DeleteUserResponse {
+message Filter {
+  map<string, string> filter = 1;
+}
+
+message IsUnique {
+  string email = 1;
+}
+
+message RefreshRequest {
+  string user_id = 1;
+  string refresh_token = 3;
+}
+
+message UpdatePasswordRequest {
+  string user_id = 1;
+  string new_password = 3;
+}
+
+message ResponseStatus {
   bool status = 1;
 }
 
 message ListUserRequest {
   int64 page = 1;
   int64 limit = 2;
+  string role = 3;
 }
 
 message ListUserResponse {

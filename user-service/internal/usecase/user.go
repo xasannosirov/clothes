@@ -39,7 +39,7 @@ func (u userService) Create(ctx context.Context, user *entity.User) (*entity.Use
 	ctx, span := otlp.Start(ctx, "user_grpc-usercase", "CreateUser")
 	defer span.End()
 
-	u.beforeRequest(&user.GUID, &user.CreatedAt, &user.UpdatedAt)
+	u.beforeRequest(nil, &user.CreatedAt, &user.UpdatedAt)
 
 	return u.repo.Create(ctx, user)
 }
