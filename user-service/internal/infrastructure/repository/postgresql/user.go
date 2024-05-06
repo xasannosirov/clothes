@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/k0kubun/pp"
 	"user-service/internal/entity"
 	"user-service/internal/pkg/otlp"
 	"user-service/internal/pkg/postgres"
@@ -40,7 +39,8 @@ func (p *usersRepo) usersSelectQueryPrefix() squirrel.SelectBuilder {
 			"password",
 			"gender",
 			"age",
-			"refresh",
+			"role",
+			"refresh_token",
 			"created_at",
 			"updated_at",
 		).From(p.tableName)
@@ -52,16 +52,18 @@ func (p usersRepo) Create(ctx context.Context, user *entity.User) (*entity.User,
 	defer span.End()
 
 	data := map[string]any{
-		"id":           user.GUID,
-		"first_name":   user.FirstName,
-		"last_name":    user.LastName,
-		"email":        user.Email,
-		"phone_number": user.PhoneNumber,
-		"password":     user.Password,
-		"gender":       user.Gender,
-		"age":          user.Age,
-		"created_at":   user.CreatedAt,
-		"updated_at":   user.UpdatedAt,
+		"id":            user.GUID,
+		"first_name":    user.FirstName,
+		"last_name":     user.LastName,
+		"email":         user.Email,
+		"phone_number":  user.PhoneNumber,
+		"password":      user.Password,
+		"gender":        user.Gender,
+		"age":           user.Age,
+		"refresh_token": user.Refresh,
+		"role":          user.Role,
+		"created_at":    user.CreatedAt,
+		"updated_at":    user.UpdatedAt,
 	}
 	query, args, err := p.db.Sq.Builder.Insert(p.tableName).SetMap(data).ToSql()
 	if err != nil {
@@ -151,7 +153,7 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
 		} else if key == "email" {
 			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
-		} else if key == "refresh" {
+		} else if key == "refresh_token" {
 			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
 		}
 	}
@@ -165,7 +167,6 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 		nullAge         sql.NullInt32
 		nullRefresh     sql.NullString
 	)
-	pp.Println(query)
 	if err = p.db.QueryRow(ctx, query, args...).Scan(
 		&user.GUID,
 		&user.FirstName,
@@ -175,6 +176,7 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 		&user.Password,
 		&nullGender,
 		&nullAge,
+		&user.Role,
 		&nullRefresh,
 		&user.CreatedAt,
 		&user.UpdatedAt,
@@ -277,7 +279,7 @@ func (p usersRepo) UniqueEmail(ctx context.Context, request *entity.IsUnique) (*
 		return &entity.Response{Status: true}, p.db.Error(err)
 	}
 	if count != 0 {
-		return &entity.Response{Status: true}, p.db.Error(fmt.Errorf("email already exists"))
+		return &entity.Response{Status: true}, nil
 	}
 
 	return &entity.Response{Status: false}, nil
@@ -288,7 +290,7 @@ func (p usersRepo) UpdateRefresh(ctx context.Context, request *entity.UpdateRefr
 	defer span.End()
 
 	clauses := map[string]any{
-		"refresh": request.RefreshToken,
+		"refresh_token": request.RefreshToken,
 	}
 	sqlStr, args, err := p.db.Sq.Builder.
 		Update(p.tableName).

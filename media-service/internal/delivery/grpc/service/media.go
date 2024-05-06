@@ -2,13 +2,14 @@ package service
 
 import (
 	"context"
-	"go.opentelemetry.io/otel/attribute"
 	mediaproto "media-service/genproto/media_service"
 	"media-service/internal/entity"
 	grpc_service_clients "media-service/internal/infrastructure/grpc_service_client"
 	"media-service/internal/pkg/otlp"
 	"media-service/internal/usecase"
 	"time"
+
+	"go.opentelemetry.io/otel/attribute"
 
 	"go.uber.org/zap"
 )

@@ -1,0 +1,5 @@
+2024-05-06T17:07:35.769+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-06T17:10:48.431+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-06T17:10:48.431+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/abudlaziz/project/go/src/clothes/api-gateway/cmd/app/main.go:32

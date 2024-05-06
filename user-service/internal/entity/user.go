@@ -11,6 +11,7 @@ type User struct {
 	Password    string
 	Gender      string
 	Age         uint8
+	Role        string
 	Refresh     string
 	CreatedAt   time.Time
 	UpdatedAt   time.Time

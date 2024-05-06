@@ -1,7 +1,6 @@
 package otlp
 
 import (
-	"api-gateway/internal/pkg/config"
 	"context"
 	"fmt"
 
@@ -12,10 +11,12 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
+
+	configpkg "api-gateway/internal/pkg/config"
 )
 
 // Initializes an OTLP exporter, and configures the corresponding trace
-func InitOTLPProvider(config *config.Config) (func() error, error) {
+func InitOTLPProvider(config *configpkg.Config) (func() error, error) {
 	var (
 		ctx           = context.Background()
 		otelAgentAddr = fmt.Sprintf("%s%s", config.OTLPCollector.Host, config.OTLPCollector.Port)

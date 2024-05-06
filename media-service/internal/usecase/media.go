@@ -34,7 +34,7 @@ func (m mediaService) CreateMedia(ctx context.Context, media *entity.Media) (*en
 	ctx, span := otlp.Start(ctx, "media_grpc-usercase", "CreateMedia")
 	defer span.End()
 
-	m.beforeRequest(&media.Id, &media.CreatedAt, &media.UpdatedAt)
+	m.beforeRequest(nil, &media.CreatedAt, &media.UpdatedAt)
 	return m.repo.CreateMedia(ctx, media)
 }
 

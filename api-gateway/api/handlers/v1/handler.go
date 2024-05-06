@@ -1,26 +1,35 @@
 package v1
 
 import (
-	grpc_service_clients "api-gateway/internal/infrastructure/grpc_service_client"
+	grpcClients "api-gateway/internal/infrastructure/grpc_client"
+	repo "api-gateway/internal/infrastructure/repository/redis"
 	"api-gateway/internal/pkg/config"
+	"api-gateway/internal/usecase/refresh_token"
 	"time"
 
+	"github.com/casbin/casbin/v2"
 	"go.uber.org/zap"
 )
 
 type HandlerV1 struct {
-	Config         *config.Config
+	Config         config.Config
 	Logger         *zap.Logger
 	ContextTimeout time.Duration
-	Service        grpc_service_clients.ServiceClient
+	Service        grpcClients.ServiceClient
+	redisStorage   repo.Cache
+	RefreshToken   refresh_token.JWTHandler
+	Enforcer       *casbin.Enforcer
 }
 
 // HandlerV1Config ...
 type HandlerV1Config struct {
-	Config         *config.Config
+	Config         config.Config
 	Logger         *zap.Logger
 	ContextTimeout time.Duration
-	Service        grpc_service_clients.ServiceClient
+	Service        grpcClients.ServiceClient
+	Redis          repo.Cache
+	RefreshToken   refresh_token.JWTHandler
+	Enforcer       *casbin.Enforcer
 }
 
 // New ...
@@ -30,5 +39,8 @@ func New(c *HandlerV1Config) *HandlerV1 {
 		Logger:         c.Logger,
 		Service:        c.Service,
 		ContextTimeout: c.ContextTimeout,
+		redisStorage:   c.Redis,
+		Enforcer:       c.Enforcer,
+		RefreshToken:   c.RefreshToken,
 	}
 }

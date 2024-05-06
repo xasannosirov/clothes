@@ -34,7 +34,7 @@ func (JWTHandler *JWTHandler) GenerateAuthJWT() (access, refresh string, err err
 		accessToken  *jwt.Token
 		refreshToken *jwt.Token
 		claims       jwt.MapClaims
-		//	rtClaims     jwt.MapClaims
+	//	rtClaims     jwt.MapClaims
 	)
 	accessToken = jwt.New(jwt.SigningMethodHS256)
 	refreshToken = jwt.New(jwt.SigningMethodHS256)
