@@ -1,10 +1,11 @@
 package redis
 
 import (
-	"api-gateway/internal/pkg/config"
 	"strconv"
 
 	"github.com/go-redis/redis/v8"
+
+	"api-gateway/internal/pkg/config"
 )
 
 type RedisDB struct {

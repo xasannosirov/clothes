@@ -1,10 +1,11 @@
 package api
 
 import (
-	"api-gateway/internal/pkg/config"
 	"fmt"
 	"net/http"
 	"time"
+
+	"api-gateway/internal/pkg/config"
 )
 
 func NewServer(cfg *config.Config, handler http.Handler) (*http.Server, error) {

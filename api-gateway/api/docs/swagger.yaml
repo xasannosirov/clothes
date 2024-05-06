@@ -1,103 +1,91 @@
 definitions:
-  models.CreateUser:
-    properties:
-      email:
-        type: string
-      last_name:
-        type: string
-      name:
-        type: string
-      password:
-        type: string
-    type: object
   models.Error:
     properties:
       message:
         type: string
     type: object
-  models.StandardErrorModel:
+  models.Media:
     properties:
-      error:
-        $ref: '#/definitions/models.Error'
-    type: object
-  models.User:
-    properties:
-      email:
-        type: string
       id:
         type: string
-      last_name:
+      image_url:
         type: string
-      name:
+      product_id:
+        type: string
+    type: object
+  models.ProductImages:
+    properties:
+      images:
+        items:
+          $ref: '#/definitions/models.Media'
+        type: array
+    type: object
+  models.Response:
+    properties:
+      response:
+        type: string
+    type: object
+  models.UserCreateReq:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      firstName:
+        type: string
+      gender:
+        type: string
+      lastName:
         type: string
       password:
+        type: string
+      phoneNumber:
         type: string
     type: object
   models.UserResponse:
     properties:
-      access_token:
+      access:
         type: string
-      created_at:
-        type: string
+      age:
+        type: integer
       email:
+        type: string
+      firstName:
+        type: string
+      gender:
         type: string
       id:
         type: string
-      last_name:
-        type: string
-      name:
+      lastName:
         type: string
       password:
         type: string
-      refresh_token:
+      phoneNumber:
+        type: string
+      refresh:
         type: string
       role:
         type: string
-      updated_at:
+    type: object
+  models.VerifyForgetPassword:
+    properties:
+      email:
+        type: string
+      newPassword:
+        type: string
+      otp:
         type: string
     type: object
 info:
   contact: {}
 paths:
-  /v1/users/create:
-    post:
-      consumes:
-      - application/json
-      description: Get categories
-      parameters:
-      - description: createUserModel
-        in: body
-        name: User
-        required: true
-        schema:
-          $ref: '#/definitions/models.CreateUser'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.UserResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.StandardErrorModel'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.StandardErrorModel'
-      security:
-      - ApiKeyAuth: []
-      summary: Get categories
-      tags:
-      - user
-  /v1/users/delete/{id}:
+  /v1/media/delete/{id}:
     delete:
       consumes:
       - application/json
-      description: Api for delete user
+      description: Api for delete media
       parameters:
-      - description: id
+      - description: productId
         in: path
         name: id
         required: true
@@ -108,27 +96,27 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/models.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.StandardErrorModel'
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.StandardErrorModel'
+            $ref: '#/definitions/models.Error'
       security:
       - ApiKeyAuth: []
-      summary: DeleteUser
+      summary: Delete Media
       tags:
-      - user
-  /v1/users/get/{id}:
+      - Media
+  /v1/media/get/{id}:
     get:
       consumes:
       - application/json
-      description: Api for getting user by id
+      description: Api for getting media by id
       parameters:
-      - description: id or email
+      - description: Product ID
         in: path
         name: id
         required: true
@@ -139,30 +127,98 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/models.ProductImages'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.StandardErrorModel'
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.StandardErrorModel'
-      summary: GetUser
+            $ref: '#/definitions/models.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Media
       tags:
-      - user
-  /v1/users/update/:id:
-    put:
+      - Media
+  /v1/media/photo:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Through this api frontent can upload photo and get the link to
+        the media.
+      parameters:
+      - description: productId
+        in: query
+        name: productId
+        required: true
+        type: string
+      - description: File
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Upload media
+      tags:
+      - Media
+  /v1/users/forgetpassword:
+    post:
       consumes:
       - application/json
-      description: Api for update user
+      description: Api for sending otp
       parameters:
-      - description: createUserModel
-        in: body
-        name: User
+      - description: email
+        in: query
+        name: email
         required: true
-        schema:
-          $ref: '#/definitions/models.User'
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: ForgetPassword
+      tags:
+      - registration
+  /v1/users/login:
+    post:
+      consumes:
+      - application/json
+      description: Api for user user
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -173,16 +229,137 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.StandardErrorModel'
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.StandardErrorModel'
-      security:
-      - ApiKeyAuth: []
-      summary: UpdateUser
+            $ref: '#/definitions/models.Error'
+      summary: LoginUser
       tags:
-      - user
+      - registration
+  /v1/users/register:
+    post:
+      consumes:
+      - application/json
+      description: Api for register user
+      parameters:
+      - description: RegisterUser
+        in: body
+        name: User
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserCreateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: RegisterUser
+      tags:
+      - registration
+  /v1/users/token:
+    post:
+      consumes:
+      - application/json
+      description: Api for updated acces token
+      parameters:
+      - description: Refresh Token
+        in: query
+        name: refreshToken
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: LoginUser
+      tags:
+      - registration
+  /v1/users/verify:
+    post:
+      consumes:
+      - application/json
+      description: Api for verify user
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: code
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: RegisterUser
+      tags:
+      - registration
+  /v1/users/verify/forgetpassword:
+    post:
+      consumes:
+      - application/json
+      description: Api for verify forget password
+      parameters:
+      - description: VerifyForgotPassword
+        in: body
+        name: User
+        required: true
+        schema:
+          $ref: '#/definitions/models.VerifyForgetPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: VerifyForgetPassword
+      tags:
+      - registration
 securityDefinitions:
   ApiKeyAuth:
     in: header

@@ -2,6 +2,9 @@ package config
 
 import (
 	"os"
+	"strings"
+
+	// "strings"
 	"time"
 )
 
@@ -41,11 +44,13 @@ type Config struct {
 		Port     string
 		Password string
 		Name     string
+		Time     time.Time
 	}
 	Token struct {
 		Secret     string
 		AccessTTL  time.Duration
 		RefreshTTL time.Duration
+		SignInKey  string
 	}
 	Minio struct {
 		Endpoint              string
@@ -54,12 +59,23 @@ type Config struct {
 		Location              string
 		MovieUploadBucketName string
 	}
-	InvestmentService webAddress
-	InvestorService   webAddress
-	ContentService    webAddress
-	AggregateService  webAddress
-	PaymentService    webAddress
-	OTLPCollector     webAddress
+	Kafka struct {
+		Address []string
+		Topic   struct {
+			UserCreateTopic string
+		}
+	}
+	SMTP struct {
+		Email         string
+		EmailPassword string
+		SMTPPort      string
+		SMTPHost      string
+	}
+	UserService    webAddress
+	MediaService   webAddress
+	PaymentServie  webAddress
+	ProductService webAddress
+	OTLPCollector  webAddress
 }
 
 func NewConfig() (*Config, error) {
@@ -81,9 +97,9 @@ func NewConfig() (*Config, error) {
 	// db configuration
 	config.DB.Host = getEnv("POSTGRES_HOST", "localhost")
 	config.DB.Port = getEnv("POSTGRES_PORT", "5432")
-	config.DB.Name = getEnv("POSTGRES_DATABASE", "csm_api")
+	config.DB.Name = getEnv("POSTGRES_DATABASE", "examdb")
 	config.DB.User = getEnv("POSTGRES_USER", "postgres")
-	config.DB.Password = getEnv("POSTGRES_PASSWORD", "root")
+	config.DB.Password = getEnv("POSTGRES_PASSWORD", "4444")
 	config.DB.SSLMode = getEnv("POSTGRES_SSLMODE", "disable")
 
 	// redis configuration
@@ -92,8 +108,21 @@ func NewConfig() (*Config, error) {
 	config.Redis.Password = getEnv("REDIS_PASSWORD", "")
 	config.Redis.Name = getEnv("REDIS_DATABASE", "0")
 
-	config.ContentService.Host = getEnv("USER_SERVICE_GRPC_HOST", "localhost")
-	config.ContentService.Port = getEnv("USER_SERVICE_GRPC_PORT", ":1111")
+	//user service
+	config.UserService.Host = getEnv("USER_SERVICE_HOST", "localhost")
+	config.UserService.Port = getEnv("USER_SERVICE_PORT", ":1111")
+
+	//media service
+	config.MediaService.Host = getEnv("MEDIA_SERVICE_HOST", "localhost")
+	config.MediaService.Port = getEnv("MEDIA_SERVICE_PORT", ":2222")
+ 
+	//product service
+	config.ProductService.Host = getEnv("PRODUCT_SERVICE_HOST", "localhost")
+	config.ProductService.Port = getEnv("PRODUCT_SERVICE_PORT", ":3333")
+
+	//payment servicve
+	config.PaymentServie.Host = getEnv("PAYMENT_SERVICE_HOST", "localhost")
+	config.PaymentServie.Port = getEnv("PAYMENT_SERVICE_PORT", ":4444")
 
 	// token configuration
 	config.Token.Secret = getEnv("TOKEN_SECRET", "token_secret")
@@ -110,14 +139,20 @@ func NewConfig() (*Config, error) {
 	}
 	config.Token.AccessTTL = accessTTl
 	config.Token.RefreshTTL = refreshTTL
+	config.Token.SignInKey = getEnv("TOKEN_SIGNIN_KEY", "abdulazizXoshimov")
 
 	// otlp collector configuration
-	config.OTLPCollector.Host = getEnv("OTLP_COLLECTOR_HOST", "localhost")
-	config.OTLPCollector.Port = getEnv("OTLP_COLLECTOR_PORT", ":4317")
+	config.OTLPCollector.Host = getEnv("OTLP_COLLECTOR_HOST", "otel-collector")
+	config.OTLPCollector.Port = getEnv("OTLP_COLLECTOR_PORT", ":4318")
 
 	// kafka configuration
-	// config.Kafka.Address = strings.Split(getEnv("KAFKA_ADDRESS", "localhost:9092"), ",")
-	// config.Kafka.Topic.UserCreateTopic = getEnv("KAFKA_USER_CREATE_TOPIC", "api.create.user")
+	config.Kafka.Address = strings.Split(getEnv("KAFKA_ADDRESS", "kafka:9091"), ",")
+	config.Kafka.Topic.UserCreateTopic = getEnv("KAFKA_USER_CREATE_TOPIC", "api.create.user")
+
+	config.SMTP.Email = getEnv("SMTP_EMAIL", "abdulazizxoshimov22@gmail.com")
+	config.SMTP.EmailPassword = getEnv("SMTP_EMAIL_PASSWORD", "hxytgczqprxfsltu ")
+	config.SMTP.SMTPPort = getEnv("SMTP_PORT", "587")
+	config.SMTP.SMTPHost = getEnv("SMTP_HOST", "smtp.gmail.com")
 
 	return &config, nil
 }

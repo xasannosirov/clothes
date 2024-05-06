@@ -6,25 +6,42 @@ import (
 	"net/http"
 	"time"
 
+	// "github.com/casbin/casbin/v2"
+	"api-gateway/api"
+
+	"github.com/casbin/casbin/v2/util"
+
+	"github.com/casbin/casbin/v2"
+	defaultrolemanager "github.com/casbin/casbin/v2/rbac/default-role-manager"
 	"go.uber.org/zap"
 
-	"api-gateway/api"
-	grpcService "api-gateway/internal/infrastructure/grpc_service_client"
+	grpcService "api-gateway/internal/infrastructure/grpc_client"
 
+	// "exam_5/api_gateway/internal/infrastructure/kafka"
+	// "exam_5/api_gateway/internal/infrastructure/repository/postgresql"
+	redisrepo "api-gateway/internal/infrastructure/repository/redis"
 	"api-gateway/internal/pkg/config"
 	"api-gateway/internal/pkg/logger"
 
+	// "exam_5/api_gateway/internal/pkg/policy"
+
 	"api-gateway/internal/pkg/otlp"
-	"api-gateway/internal/pkg/postgres"
+	// "exam_5/api_gateway/internal/pkg/policy"
+	// "exam_5/api_gateway/internal/pkg/postgres"
+	"api-gateway/internal/pkg/storage/redis"
+	// "exam_5/api_gateway/internal/usecase/app_version"
+	// "exam_5/api_gateway/internal/usecase/event"
+	// "evrone_api_gateway/internal/usecase/refresh_token"
 )
 
 type App struct {
-	Config       *config.Config
+	Config       config.Config
 	Logger       *zap.Logger
-	DB           *postgres.PostgresDB
 	server       *http.Server
+	RedisDB      *redis.RedisDB
 	ShutdownOTLP func() error
 	Clients      grpcService.ServiceClient
+	Enforcer     *casbin.Enforcer
 }
 
 func NewApp(cfg config.Config) (*App, error) {
@@ -34,8 +51,12 @@ func NewApp(cfg config.Config) (*App, error) {
 		return nil, err
 	}
 
-	// postgres init
-	db, err := postgres.New(&cfg)
+	// redis init
+	redisdb, err := redis.New(&cfg)
+	if err != nil {
+		return nil, err
+	}
+	enforcer, err := casbin.NewEnforcer("auth.conf", "auth.csv")
 	if err != nil {
 		return nil, err
 	}
@@ -47,10 +68,11 @@ func NewApp(cfg config.Config) (*App, error) {
 	}
 
 	return &App{
-		Config:       &cfg,
+		Config:       cfg,
 		Logger:       logger,
-		DB:           db,
 		ShutdownOTLP: shutdownOTLP,
+		RedisDB:      redisdb,
+		Enforcer:     enforcer,
 	}, nil
 }
 
@@ -60,14 +82,14 @@ func (a *App) Run() error {
 		return fmt.Errorf("error while parsing context timeout: %v", err)
 	}
 
-	clients, err := grpcService.New(a.Config)
+	clients, err := grpcService.New(&a.Config)
 	if err != nil {
 		return err
 	}
 	a.Clients = clients
 
 	// initialize cache
-	// cache := redisrepo.NewCache(a.RedisDB)
+	cache := redisrepo.NewCache(a.RedisDB)
 
 	// api init
 	handler := api.NewRoute(api.RouteOption{
@@ -75,13 +97,20 @@ func (a *App) Run() error {
 		Logger:         a.Logger,
 		ContextTimeout: contextTimeout,
 		Service:        clients,
+		Cache:          cache,
+		Enforcer:       a.Enforcer,
 	})
-	// if err = a.Enforcer.LoadPolicy(); err != nil {
-	// 	return fmt.Errorf("error during enforcer load policy: %w", err)
-	// }
+	err = a.Enforcer.LoadPolicy()
+	if err != nil {
+		return err
+	}
+	roleManager := a.Enforcer.GetRoleManager().(*defaultrolemanager.RoleManagerImpl)
+
+	roleManager.AddMatchingFunc("keyMatch", util.KeyMatch)
+	roleManager.AddMatchingFunc("keyMatch3", util.KeyMatch3)
 
 	// server init
-	a.server, err = api.NewServer(a.Config, handler)
+	a.server, err = api.NewServer(&a.Config, handler)
 	if err != nil {
 		return fmt.Errorf("error while initializing server: %v", err)
 	}
@@ -90,9 +119,6 @@ func (a *App) Run() error {
 }
 
 func (a *App) Stop() {
-
-	// close database
-	a.DB.Close()
 
 	// close grpc connections
 	a.Clients.Close()

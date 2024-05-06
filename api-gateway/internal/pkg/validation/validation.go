@@ -1,78 +1,87 @@
 package validation
 
 import (
-	"errors"
-	"reflect"
+	"log"
 	"regexp"
 	"strings"
+	"unicode"
 
-	english "github.com/go-playground/locales/en"
-	ut "github.com/go-playground/universal-translator"
-	"github.com/go-playground/validator/v10"
-	validatorEn "github.com/go-playground/validator/v10/translations/en"
-	errorpkg "api-gateway/internal/errors"
+	validation "github.com/go-ozzo/ozzo-validation/v3"
 )
 
-func Validator(s interface{}) error {
-	var (
-		eng      = english.New()
-		uni      = ut.New(eng, eng)
-		validate = validator.New()
-	)
 
-	trans, found := uni.GetTranslator("en")
-	if !found {
-		return errors.New("Validator translator not found")
-	}
 
-	if err := validatorEn.RegisterDefaultTranslations(validate, trans); err != nil {
-		return err
-	}
-
-	validate.RegisterTagNameFunc(func(fld reflect.StructField) string {
-		name := strings.SplitN(fld.Tag.Get("json"), ",", 2)[0]
-		if name == "-" {
-			return ""
-		}
-		return name
-	})
-
-	customValidation := NewCustomValidation(validate)
-	if err := validate.RegisterValidation("phone_uz", customValidation.PhoneUz); err != nil {
-		return nil
-	}
-
-	err := validate.Struct(s)
-	if err == nil {
-		return nil
-	}
-
-	if errs, ok := err.(validator.ValidationErrors); ok {
-		errValidation := errorpkg.NewErrValidation()
-		errValidation.Err = err
-		for _, e := range errs {
-			errValidation.Errors[e.Field()] = strings.Replace(e.Translate(trans), e.Field(), "", 1)
-		}
-		return errValidation
-	}
-	return nil
-}
-
-type customValidation struct {
-	Validate *validator.Validate
-}
-
-func NewCustomValidation(validate *validator.Validate) *customValidation {
-	return &customValidation{Validate: validate}
-}
-
-func (v *customValidation) PhoneUz(fl validator.FieldLevel) bool {
+func PhoneUz(phone string) bool {
 	// get value
-	phone := strings.TrimSpace(fl.Field().String())
+	phone = strings.TrimSpace(phone)
 	// parse our phone number
-	isMatch, err := regexp.MatchString("^[9]{1}[9]{1}[8]{1}(?:77|88|93|94|90|91|95|93|99|97|98|33)[0-9]{7}$", phone)
+	isMatch, err := regexp.MatchString("^[9]{1}[9]{1}[8]{1}(?:77|88|93|94|90|91|95|93|99|97|98|33|50)[0-9]{7}$", phone)
 	if err != nil {
 		return false
 	}
 	return isMatch
+}
+func  EmailValidation(email string)(string, error){
+	//get email
+	email = strings.TrimSpace(email)
+	email = strings.ToLower(email)
+	emailErr := validation.Validate(email, validation.Required)
+	if emailErr != nil{
+		log.Println(emailErr)
+		return "", emailErr
+	}
+	return email, nil
+}
+func PasswordValidation(password string) bool {
+	if len(password) < 8 {
+		return false
+	}
+
+	var (
+		hasLowerCase bool
+		hasUpperCase bool
+		hasDigit     bool
+		hasSpecial   bool
+	)
+
+	for _, char := range password {
+		if unicode.IsLower(char) {
+			hasLowerCase = true
+		} else if unicode.IsUpper(char) {
+			hasUpperCase = true
+		} else if unicode.IsDigit(char) {
+			hasDigit = true
+		} else if !unicode.IsLetter(char) && !unicode.IsDigit(char) {
+			hasSpecial = true
+		}
+
+		if hasLowerCase && hasUpperCase && hasDigit && hasSpecial {
+			break
+		}
+	}
+
+	return hasLowerCase && hasUpperCase && hasDigit && hasSpecial
+}
+func NameValiddation(name string) bool {
+	name = strings.TrimSpace(name)
+	name = strings.ToLower(name)
+	name = strings.ToUpper(string(name[0]))
+	if len(name) < 2 || len(name) > 50 {
+		return false 
+	}
+
+	for _, r := range name {
+		if !unicode.IsLetter(r) && !unicode.IsSpace(r) {
+			return false
+		}
+	}
+
+	return true
+}
+func GenderValidation(gender string)bool{
+	gender = strings.ToLower(gender)
+	if gender != "erkak" &&  gender != "ayol"{
+		return false 
+	}
+	return true
 }

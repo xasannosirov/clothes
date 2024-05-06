@@ -2,13 +2,14 @@ package services
 
 import (
 	"context"
-	"go.opentelemetry.io/otel/attribute"
 	"time"
 	userproto "user-service/genproto/user_service"
 	"user-service/internal/entity"
 	"user-service/internal/infrastructure/grpc_service_clients"
 	"user-service/internal/pkg/otlp"
 	"user-service/internal/usecase"
+
+	"go.opentelemetry.io/otel/attribute"
 
 	"go.uber.org/zap"
 )
@@ -43,6 +44,8 @@ func (s userRPC) CreateUser(ctx context.Context, in *userproto.User) (*userproto
 		Password:    in.Password,
 		Gender:      in.Gender,
 		Age:         uint8(in.Age),
+		Role:        in.Role,
+		Refresh:     in.Refresh,
 		CreatedAt:   time.Now().UTC(),
 		UpdatedAt:   time.Now().UTC(),
 	})
@@ -143,6 +146,7 @@ func (s userRPC) GetUser(ctx context.Context, in *userproto.Filter) (*userproto.
 		Password:    user.Password,
 		Gender:      user.Gender,
 		Age:         int64(user.Age),
+		Role:        user.Role,
 		Refresh:     user.Refresh,
 		CreatedAt:   user.CreatedAt.Format(time.RFC3339),
 		UpdatedAt:   user.UpdatedAt.Format(time.RFC3339),
@@ -198,7 +202,6 @@ func (s userRPC) UniqueEmail(ctx context.Context, in *userproto.IsUnique) (*user
 		s.logger.Error(err.Error())
 		return &userproto.ResponseStatus{Status: true}, err
 	}
-
 	if response.Status {
 		return &userproto.ResponseStatus{Status: true}, nil
 	}

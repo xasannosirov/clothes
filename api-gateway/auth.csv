@@ -1,0 +1,29 @@
+p, unauthorized, /v1/swagger/*,  GET
+p, unauthorized, /v1/users/verify/forgetpassword, POST
+p, unauthorized, /v1/users/forgetpassword, POST
+p, unauthorized, /v1/users/register, POST
+p, unauthorized, /v1/users/verify, POST
+p, unauthorized, /v1/users/login, POST
+p, unauthorized, /v1/users/token, POST
+p, unauthorized, /v1/media/photo, POST
+p, unauthorized, /v1/media/get/{id}, GET
+p, unauthorized, /v1/media/delete/{id}, DELETE
+
+p, user, /v1/users/get/{id}, GET
+p, user, /v1/users/update/{id}, PUT
+p, user, /v1/jobs/create, POST
+p, user, /v1/jobs/get/{id}, GET
+p, user, /v1/jobs/list, GET
+p, user, /v1/jobs/update/{id}, PUT
+p, user, /v1/jobs/delete/{id}, DELETE
+p, admin, /v1/jobs/listwithowner, GET
+p, admin, /v1/jobs/listbyclientid/{id}, GET
+p, admin, /v1/users/list, GET
+p, admin, /v1/users/create, POST
+p, admin, /v1/users/delete/{id}, DELETE
+
+
+
+g, admin, user * 
+
+
