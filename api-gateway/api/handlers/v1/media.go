@@ -35,7 +35,7 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.TODO(), time.Second*time.Duration(7))
 	defer cancel()
 
-	endpoint := "localhost:9000"
+	endpoint := "13.201.56.179:9000"
 	accessKeyID := "abdulaziz"
 	secretAccessKey := "abdulaziz"
 	bucketName := "clothesstore"
@@ -46,6 +46,40 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
+	err = minioClient.MakeBucket(context.Background(), bucketName, minio.MakeBucketOptions{})
+	if err != nil {
+		if minio.ToErrorResponse(err).Code == "BucketAlreadyOwnedByYou" {
+		} else {
+			c.JSON(http.StatusInternalServerError, models.Error{
+				Message: err.Error(),
+			})
+			log.Println(err.Error())
+			return
+		}
+	}
+
+	policy := fmt.Sprintf(`{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "AWS": ["*"]
+                },
+                "Action": ["s3:GetObject"],
+                "Resource": ["arn:aws:s3:::%s/*"]
+            }
+        ]
+    }`, bucketName)
+
+	err = minioClient.SetBucketPolicy(context.Background(), bucketName, policy)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
 
 	productId := c.Query("productId")
 
@@ -53,12 +87,11 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	err = c.ShouldBind(&file)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
-		  Message: err.Error(),
+			Message: err.Error(),
 		})
 		log.Println(err.Error())
 		return
-	  }
-	
+	}
 
 	if file.File.Size > 10<<20 {
 		c.JSON(http.StatusRequestEntityTooLarge, models.Error{
@@ -68,7 +101,7 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	}
 
 	ext := filepath.Ext(file.File.Filename)
-	if ext != ".jpg" && ext != ".png" {
+	if ext != ".png" && ext != ".jpg" && ext != ".svg" && ext != ".jpeg"{
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "Only .jpg and .png format images are accepted",
 		})
@@ -95,7 +128,6 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 
 	objectName := newFilename
 	contentType := "image/jpeg"
-	// minioClient.FGetObject(ctx, bucketName, )
 	_, err = minioClient.FPutObject(context.Background(), bucketName, objectName, uploadPath, minio.PutObjectOptions{
 		ContentType: contentType,
 	})
