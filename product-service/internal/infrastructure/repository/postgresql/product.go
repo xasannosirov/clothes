@@ -8,6 +8,7 @@ import (
 	"product-service/internal/infrastructure/repository"
 	"product-service/internal/pkg/otlp"
 	"product-service/internal/pkg/postgres"
+	"time"
 
 	"github.com/Masterminds/squirrel"
 )
@@ -19,6 +20,7 @@ const (
 	commentsTableName  = "comments"
 	likesTableName     = "wishlist"
 	starsTableName     = "stars"
+	savesTableName     = "saves"
 )
 
 type productRepo struct {
@@ -27,6 +29,7 @@ type productRepo struct {
 	commentTable string
 	likesTable   string
 	starsTable   string
+	savesTable   string
 	db           *postgres.PostgresDB
 }
 
@@ -34,6 +37,10 @@ func NewProductsRepo(db *postgres.PostgresDB) repository.Product {
 	return &productRepo{
 		productTable: productsTableName,
 		orderTable:   ordersTableName,
+		likesTable:   likesTableName,
+		commentTable: commentsTableName,
+		starsTable:   starsTableName,
+		savesTable:   savesTableName,
 		db:           db,
 	}
 }
@@ -96,6 +103,16 @@ func (u *productRepo) starsSelectQueryPrefix() squirrel.SelectBuilder {
 		"product_id",
 		"user_id",
 		"star",
+		"created_at",
+		"updated_at",
+	)
+}
+
+func (u *productRepo) savesSelectQueryPrefix() squirrel.SelectBuilder {
+	return u.db.Sq.Builder.Select(
+		"id",
+		"product_id",
+		"user_id",
 		"created_at",
 		"updated_at",
 	)
@@ -492,14 +509,70 @@ func (p *productRepo) GetDiscountProducts(ctx context.Context, req *entity.ListR
 	}
 
 	return products, nil
-
 }
+
 func (p *productRepo) SearchProduct(ctx context.Context, req *entity.Filter) ([]*entity.Product, error) {
 	return nil, nil
 }
 
-func (p *productRepo) RecommentProducts(ctx context.Context, req *entity.Recom) ([]*entity.Product, error) {
-	return nil, nil
+func (u *productRepo) RecommentProducts(ctx context.Context, req *entity.Recom) ([]*entity.Product, error) {
+	var (
+		products []*entity.Product
+	)
+
+	queryBuilder := u.productsSelectQueryPrefix()
+
+	queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"for_gender": req.Gender})
+	queryBuilder = queryBuilder.Where(squirrel.LtOrEq{"age_min": req.Age})
+	queryBuilder = queryBuilder.Where(squirrel.GtOrEq{"age_max": req.Age})
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+	queryBuilder = queryBuilder.Offset(0).Limit(10)
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.productTable, "Recommendations"))
+	}
+
+	rows, err := u.db.Query(ctx, query, args...)
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+
+	var updatedAt sql.NullTime
+
+	for rows.Next() {
+		var product entity.Product
+		if err = rows.Scan(
+			&product.Id,
+			&product.Name,
+			&product.Description,
+			&product.Category,
+			&product.MadeIn,
+			&product.Color,
+			&product.Count,
+			&product.Cost,
+			&product.Discount,
+			&product.AgeMin,
+			&product.AgeMax,
+			&product.TemperatureMin,
+			&product.TemperatureMax,
+			&product.ForGender,
+			&product.Size,
+			&product.CreatedAt,
+			&updatedAt,
+		); err != nil {
+			return nil, u.db.Error(err)
+		}
+
+		if updatedAt.Valid {
+			product.UpdatedAt = updatedAt.Time
+		}
+
+		products = append(products, &product)
+	}
+
+	return products, nil
 }
 
 func (p *productRepo) IsUnique(ctx context.Context, tableName, UserId, ProductId string) (bool, error) {
@@ -580,10 +653,10 @@ func (p *productRepo) SaveProduct(ctx context.Context, req *entity.SaveProduct) 
 		"created_at": req.Created_at,
 		"updated_at": req.Updated_at,
 	}
-	query, args, err := p.db.Sq.Builder.Insert("saved").SetMap(data).ToSql()
+	query, args, err := p.db.Sq.Builder.Insert("saves").SetMap(data).ToSql()
 
 	if err != nil {
-		return false, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", "saved", "LikeProduct"))
+		return false, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", "saves", "SaveProduct"))
 	}
 
 	_, err = p.db.Exec(ctx, query, args...)
@@ -818,4 +891,437 @@ func (u *productRepo) GetProductStars(ctx context.Context, req *entity.GetWithID
 		stars = append(stars, &star)
 	}
 	return stars, nil
+}
+
+// GetSavedProductsByUserID implements repository.Product.
+func (u *productRepo) GetSavedProductsByUserID(ctx context.Context, req string) ([]*entity.Product, error) {
+	var (
+		products []*entity.Product
+		saves    []*entity.SaveProduct
+	)
+
+	queryBuilder := u.savesSelectQueryPrefix()
+
+	queryBuilder = queryBuilder.From(u.savesTable).Where(squirrel.Eq{"user_id": req})
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.savesTable, "GetSavedProductByUserID"))
+	}
+
+	rows, err := u.db.Query(ctx, query, args[0])
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+
+	var updatedAt sql.NullTime
+
+	for rows.Next() {
+		var save entity.SaveProduct
+		if err = rows.Scan(
+			&save.Id,
+			&save.Product_id,
+			&save.User_id,
+			&save.Created_at,
+			&save.Updated_at,
+		); err != nil {
+			return nil, u.db.Error(err)
+		}
+		saves = append(saves, &save)
+	}
+
+	for _, save := range saves {
+		queryBuilder = u.productsSelectQueryPrefix()
+		queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"id": save.Product_id})
+		query, args, err := queryBuilder.ToSql()
+		if err != nil {
+			return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.savesTable, "GetSavedProductByUserID"))
+		}
+		rows, err := u.db.Query(ctx, query, args[0])
+		if err != nil {
+			return nil, u.db.Error(err)
+		}
+		defer rows.Close()
+
+		for rows.Next() {
+			var product entity.Product
+			if err = rows.Scan(
+				&product.Id,
+				&product.Name,
+				&product.Description,
+				&product.Category,
+				&product.MadeIn,
+				&product.Color,
+				&product.Count,
+				&product.Cost,
+				&product.Discount,
+				&product.AgeMin,
+				&product.AgeMax,
+				&product.TemperatureMin,
+				&product.TemperatureMax,
+				&product.ForGender,
+				&product.Size,
+				&product.CreatedAt,
+				&updatedAt,
+			); err != nil {
+				return nil, u.db.Error(err)
+			}
+
+			if updatedAt.Valid {
+				product.UpdatedAt = updatedAt.Time
+			}
+
+			products = append(products, &product)
+		}
+	}
+	return products, nil
+}
+
+// GetWishlistByUserID implements repository.Product.
+func (u *productRepo) GetWishlistByUserID(ctx context.Context, req string) ([]*entity.Product, error) {
+	var (
+		products []*entity.Product
+		likes    []*entity.LikeProduct
+	)
+
+	queryBuilder := u.likesSelectQueryPrefix()
+
+	queryBuilder = queryBuilder.From(u.likesTable).Where(squirrel.Eq{"user_id": req})
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.savesTable, "GetWishlistByUserID"))
+	}
+
+	rows, err := u.db.Query(ctx, query, args[0])
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+
+	var updatedAt sql.NullTime
+
+	for rows.Next() {
+		var like entity.LikeProduct
+		if err = rows.Scan(
+			&like.Id,
+			&like.Product_id,
+			&like.User_id,
+			&like.Created_at,
+			&like.Updated_at,
+		); err != nil {
+			return nil, u.db.Error(err)
+		}
+		likes = append(likes, &like)
+	}
+
+	for _, like := range likes {
+		queryBuilder = u.productsSelectQueryPrefix()
+		queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"id": like.Product_id})
+		query, args, err := queryBuilder.ToSql()
+		if err != nil {
+			return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.savesTable, "GetWishlistByUserID"))
+		}
+		rows, err := u.db.Query(ctx, query, args[0])
+		if err != nil {
+			return nil, u.db.Error(err)
+		}
+		defer rows.Close()
+
+		for rows.Next() {
+			var product entity.Product
+			if err = rows.Scan(
+				&product.Id,
+				&product.Name,
+				&product.Description,
+				&product.Category,
+				&product.MadeIn,
+				&product.Color,
+				&product.Count,
+				&product.Cost,
+				&product.Discount,
+				&product.AgeMin,
+				&product.AgeMax,
+				&product.TemperatureMin,
+				&product.TemperatureMax,
+				&product.ForGender,
+				&product.Size,
+				&product.CreatedAt,
+				&updatedAt,
+			); err != nil {
+				return nil, u.db.Error(err)
+			}
+
+			if updatedAt.Valid {
+				product.UpdatedAt = updatedAt.Time
+			}
+
+			products = append(products, &product)
+		}
+	}
+	return products, nil
+}
+
+// GetOrderedProductsByUserID implements repository.Product.
+func (u *productRepo) GetOrderedProductsByUserID(ctx context.Context, req string) ([]*entity.Product, error) {
+	var (
+		products []*entity.Product
+		orders   []*entity.Order
+	)
+
+	queryBuilder := u.ordersSelectQueryPrefix()
+
+	queryBuilder = queryBuilder.From(u.orderTable).Where(squirrel.Eq{"user_id": req})
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.savesTable, "GetOrderProductByUserID"))
+	}
+
+	rows, err := u.db.Query(ctx, query, args[0])
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+
+	var updatedAt sql.NullTime
+
+	for rows.Next() {
+		var order entity.Order
+		if err = rows.Scan(
+			&order.Id,
+			&order.ProductID,
+			&order.UserID,
+			&order.Status,
+			&order.CreatedAt,
+			&order.UpdatedAt,
+		); err != nil {
+			return nil, u.db.Error(err)
+		}
+		orders = append(orders, &order)
+	}
+
+	for _, order := range orders {
+		queryBuilder = u.productsSelectQueryPrefix()
+		queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"id": order.ProductID})
+		query, args, err := queryBuilder.ToSql()
+		if err != nil {
+			return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.orderTable, "GetOrderProductsByUserID"))
+		}
+		rows, err := u.db.Query(ctx, query, args[0])
+		if err != nil {
+			return nil, u.db.Error(err)
+		}
+		defer rows.Close()
+
+		for rows.Next() {
+			var product entity.Product
+			if err = rows.Scan(
+				&product.Id,
+				&product.Name,
+				&product.Description,
+				&product.Category,
+				&product.MadeIn,
+				&product.Color,
+				&product.Count,
+				&product.Cost,
+				&product.Discount,
+				&product.AgeMin,
+				&product.AgeMax,
+				&product.TemperatureMin,
+				&product.TemperatureMax,
+				&product.ForGender,
+				&product.Size,
+				&product.CreatedAt,
+				&updatedAt,
+			); err != nil {
+				return nil, u.db.Error(err)
+			}
+
+			if updatedAt.Valid {
+				product.UpdatedAt = updatedAt.Time
+			}
+
+			products = append(products, &product)
+		}
+	}
+	return products, nil
+}
+
+// GetAllComments implements repository.Product.
+func (u *productRepo) GetAllComments(ctx context.Context, req *entity.ListRequest) ([]*entity.CommentToProduct, error) {
+	var (
+		comments []*entity.CommentToProduct
+	)
+	queryBuilder := u.commentsSelectQueryPrefix()
+
+	offset := (req.Page - 1) * req.Limit
+
+	if req.Limit != 0 {
+		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
+	}
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.commentTable, "GetAllComments"))
+	}
+
+	rows, err := u.db.Query(ctx, query, args...)
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+	var (
+		updatedAt sql.NullTime
+	)
+	for rows.Next() {
+		var comment entity.CommentToProduct
+		if err = rows.Scan(
+			&comment.Id,
+			&comment.Product_Id,
+			&comment.UserId,
+			&comment.Comment,
+			&comment.Created_at,
+			&updatedAt,
+		); err != nil {
+			return nil, u.db.Error(err)
+		}
+
+		if updatedAt.Valid {
+			comment.Updated_at = updatedAt.Time
+		}
+		comments = append(comments, &comment)
+	}
+
+	return comments, nil
+}
+
+// GetAllStars implements repository.Product.
+func (u *productRepo) GetAllStars(ctx context.Context, req *entity.ListRequest) ([]*entity.StarProduct, error) {
+	var (
+		stars []*entity.StarProduct
+	)
+	queryBuilder := u.starsSelectQueryPrefix()
+
+	offset := (req.Page - 1) * req.Limit
+
+	if req.Limit != 0 {
+		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset)).From(u.starsTable)
+	}
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.starsTable, "GetAllStars"))
+	}
+	fmt.Println(query)
+
+	rows, err := u.db.Query(ctx, query, args...)
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+	var (
+		updatedAt sql.NullTime
+	)
+	for rows.Next() {
+		var star entity.StarProduct
+		if err = rows.Scan(
+			&star.Id,
+			&star.ProductID,
+			&star.UserID,
+			&star.Stars,
+			&star.CreatedAt,
+			&updatedAt,
+		); err != nil {
+			return nil, u.db.Error(err)
+		}
+
+		if updatedAt.Valid {
+			star.UpdatedAt = updatedAt.Time
+		}
+		stars = append(stars, &star)
+	}
+
+	return stars, nil
+}
+
+// StarProduct implements repository.Product.
+func (u *productRepo) StarProduct(ctx context.Context, req *entity.StarProduct) (*entity.StarProduct, error) {
+	data := map[string]any{
+		"id":         req.Id,
+		"product_id": req.ProductID,
+		"user_id":    req.UserID,
+		"star":       req.Stars,
+		"created_at": req.CreatedAt,
+		"updated_at": req.UpdatedAt,
+	}
+
+	query, args, err := u.db.Sq.Builder.Insert(u.starsTable).SetMap(data).ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.starsTable, "StarProduct"))
+	}
+
+	_, err = u.db.Exec(ctx, query, args...)
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+
+	return req, nil
+}
+
+// GetDisableProducts implements repository.Product.
+func (u *productRepo) GetDisableProducts(ctx context.Context, req *entity.ListRequest) ([]*entity.Order, error) {
+	var (
+		orders []*entity.Order
+	)
+
+	queryBuilder := u.ordersSelectQueryPrefix()
+
+	offset := (req.Page - 1) * req.Limit
+
+	if req.Limit != 0 {
+		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
+	}
+
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+	queryBuilder = queryBuilder.Where(squirrel.Eq{"status":"test"})
+	queryBuilder = queryBuilder.Where(squirrel.LtOrEq{"created_at":time.Now().AddDate(0,0,-10)})
+	queryBuilder = queryBuilder.Offset(uint64(offset)).Limit(uint64(req.Limit))
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.productTable, "GetDisableProducts"))
+	}
+	fmt.Println(query)
+
+	rows, err := u.db.Query(ctx, query, args...)
+	if err != nil {
+		return nil, u.db.Error(err)
+	}
+	defer rows.Close()
+
+	var updatedAt sql.NullTime
+
+	for rows.Next() {
+		var order entity.Order
+		if err = rows.Scan(
+			&order.Id,
+			&order.ProductID,
+			&order.UserID,
+			&order.Status,
+			&order.CreatedAt,
+			&updatedAt,
+		); err != nil {
+			return nil, u.db.Error(err)
+		}
+
+		if updatedAt.Valid {
+			order.UpdatedAt = updatedAt.Time
+		}
+
+		orders = append(orders, &order)
+	}
+
+	return orders, nil
 }
