@@ -6,35 +6,35 @@ option go_package = "genproto/product_service";
 import "product_model.proto";
 
 service ProductService {
-  rpc CreateProduct(Product) returns (GetWithID);
-  rpc UpdateProduct(Product) returns (Product);
-  rpc DeleteProduct(GetWithID) returns (DeleteResponse);
-  rpc GetProductByID(GetWithID) returns (Product);
-  rpc GetAllProducts(ListRequest) returns (ListProductResponse);
+  rpc CreateProduct(Product) returns (GetWithID); //bajarildi --- test
+  rpc UpdateProduct(Product) returns (Product); //bajarildi --- test
+  rpc DeleteProduct(GetWithID) returns (DeleteResponse); //bajarildi --- test
+  rpc GetProductByID(GetWithID) returns (Product); //bajarildi --- test
+  rpc GetAllProducts(ListRequest) returns (ListProductResponse); //bajarildi --- test
 
-  rpc CreateOrder(Order) returns (GetWithID);
-  rpc CancelOrder(GetWithID) returns (DeleteResponse);
-  rpc GetOrderByID(GetWithID) returns (Order);
-  rpc GetAllOrders(ListRequest) returns (ListOrderResponse);
+  rpc CreateOrder(Order) returns (GetWithID); //bajarildi --- test
+  rpc CancelOrder(GetWithID) returns (DeleteResponse); //bajarildi --- test
+  rpc GetOrderByID(GetWithID) returns (Order);//bajarildi  --- test
+  rpc GetAllOrders(ListRequest) returns (ListOrderResponse); //bajarildi --- test
 
   rpc SearchProduct(Filter) returns (ListProductResponse);
-  rpc Recommendation(Recom) returns (ListProductResponse);
+  rpc Recommendation(Recom) returns (ListProductResponse); //bajarildi ---test
   
-  rpc GetSavedProductsByUserID(GetWithUserID) returns (ListProductResponse);
-  rpc GetWishlistByUserID(GetWithUserID) returns (ListProductResponse);
-  rpc GetOrderedProductsByUserID(GetWithUserID) returns (ListProductResponse);
+  rpc GetSavedProductsByUserID(GetWithUserID) returns (ListProductResponse); //bajarildi ---test
+  rpc GetWishlistByUserID(GetWithUserID) returns (ListProductResponse); //bajarildi ---test
+  rpc GetOrderedProductsByUserID(GetWithUserID) returns (ListProductResponse); //bajarildi ---test
   
-  rpc LikeProduct(Like) returns (MoveResponse);
-  rpc SaveProduct(Save) returns (MoveResponse);
-  rpc StarProduct(Star) returns (MoveResponse);
-  rpc CommentToProduct(Comment) returns (MoveResponse);
+  rpc LikeProduct(Like) returns (MoveResponse); //bajarildi ---test
+  rpc SaveProduct(Save) returns (MoveResponse); //bajarildi ---test
+  rpc StarProduct(Star) returns (MoveResponse); //bajarildi ---test
+  rpc CommentToProduct(Comment) returns (MoveResponse); //bajarildi ---test
   
-  rpc GetDisableProducts(ListRequest) returns (ListOrderResponse);
-  rpc GetProductOrders(GetWithID) returns (ListOrderResponse);
-  rpc GetProductComments(GetWithID) returns (ListCommentResponse);
-  rpc GetProductLikes(GetWithID) returns (ListWishlistResponse);
-  rpc GetProductStars(GetWithID) returns (ListStarsResponse);
+  rpc GetDisableProducts(ListRequest) returns (ListOrderResponse); //bajarildi ---test
+  rpc GetProductOrders(GetWithID) returns (ListOrderResponse); //bajarildi ---test
+  rpc GetProductComments(GetWithID) returns (ListCommentResponse); //bajarildi ---test
+  rpc GetProductLikes(GetWithID) returns (ListWishlistResponse); //bajarildi ---test
+  rpc GetProductStars(GetWithID) returns (ListStarsResponse); //bajarildi ---test
 
-  rpc GetAllComments(ListRequest) returns (ListCommentResponse);
-  rpc GetAllStars(ListRequest) returns (ListStarsResponse); 
+  rpc GetAllComments(ListRequest) returns (ListCommentResponse); //bajarildi ---test
+  rpc GetAllStars(ListRequest) returns (ListStarsResponse); //bajarildi ---test
 }

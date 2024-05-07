@@ -29,11 +29,20 @@ type Product interface {
 	SaveProduct(ctx context.Context, req *entity.SaveProduct) (bool, error)
 
 	CommentToProduct(ctx context.Context, req *entity.CommentToProduct) (bool, error)
+	GetAllComments(ctx context.Context, req *entity.ListRequest) ([]*entity.CommentToProduct, error)
 
 	GetProductOrders(ctx context.Context, req *entity.GetWithID) ([]*entity.Order, error)
 	GetProductComments(ctx context.Context, req *entity.GetWithID) ([]*entity.CommentToProduct, error)
 	GetProductLikes(ctx context.Context, req *entity.GetWithID) ([]*entity.LikeProduct, error)
 	GetProductStars(ctx context.Context, req *entity.GetWithID) ([]*entity.StarProduct, error)
+
+	GetSavedProductsByUserID(ctx context.Context, req string) ([]*entity.Product, error)
+	GetWishlistByUserID(ctx context.Context, req string) ([]*entity.Product, error)
+	GetOrderedProductsByUserID(ctx context.Context, req string) ([]*entity.Product, error)
+
+	StarProduct(ctx context.Context, req *entity.StarProduct) (*entity.StarProduct, error)
+	GetAllStars(ctx context.Context, req *entity.ListRequest) ([]*entity.StarProduct, error)
+	GetDisableProducts(ctx context.Context, req *entity.ListRequest) ([]*entity.Order, error)
 }
 
 type productService struct {
@@ -42,10 +51,11 @@ type productService struct {
 	ctxTimeout time.Duration
 }
 
-func NewUserService(ctxTimeout time.Duration, repo repository.Product) Product {
+func NewProductService(ctxTimeout time.Duration, repo repository.Product) Product {
 	return &productService{
-		repo:       repo,
-		ctxTimeout: ctxTimeout,
+		BaseUseCase: BaseUseCase{},
+		repo:        repo,
+		ctxTimeout:  ctxTimeout,
 	}
 }
 
@@ -169,7 +179,7 @@ func (u *productService) SaveProduct(ctx context.Context, req *entity.SaveProduc
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
-	respStatus, err := u.repo.IsUnique(ctx, "saved", req.User_id, req.Product_id)
+	respStatus, err := u.repo.IsUnique(ctx, "saves", req.User_id, req.Product_id)
 
 	if err != nil {
 		log.Println("error while is check is unique", err)
@@ -234,4 +244,59 @@ func (u *productService) GetProductStars(ctx context.Context, req *entity.GetWit
 	defer cancel()
 
 	return u.repo.GetProductStars(ctx, req)
+}
+
+// GetSavedProductsByUserID implements Product.
+func (u *productService) GetSavedProductsByUserID(ctx context.Context, req string) ([]*entity.Product, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetSavedProductsByUserID(ctx, req)
+}
+
+func (u *productService) GetWishlistByUserID(ctx context.Context, req string) ([]*entity.Product, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetWishlistByUserID(ctx, req)
+}
+
+// GetOrderedProductsByUserID implements Product.
+func (u *productService) GetOrderedProductsByUserID(ctx context.Context, req string) ([]*entity.Product, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetOrderedProductsByUserID(ctx, req)
+}
+
+// GetAllComments implements Product.
+func (u *productService) GetAllComments(ctx context.Context, req *entity.ListRequest) ([]*entity.CommentToProduct, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetAllComments(ctx, req)
+}
+
+// GetAllStars implements Product.
+func (u *productService) GetAllStars(ctx context.Context, req *entity.ListRequest) ([]*entity.StarProduct, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetAllStars(ctx, req)
+}
+
+// StarProduct implements Product.
+func (u *productService) StarProduct(ctx context.Context, req *entity.StarProduct) (*entity.StarProduct, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.StarProduct(ctx, req)
+}
+
+// GetDisableProducts implements Product.
+func (u *productService) GetDisableProducts(ctx context.Context, req *entity.ListRequest) ([]*entity.Order, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetDisableProducts(ctx, req)
 }

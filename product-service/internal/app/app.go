@@ -84,7 +84,7 @@ func (a *App) Run() error {
 
 	productRepo := repo.NewProductsRepo(a.DB)
 
-	productUseCase := usecase.NewUserService(contextTimeout, productRepo)
+	productUseCase := usecase.NewProductService(contextTimeout, productRepo)
 
 	pb.RegisterProductServiceServer(a.GrpcServer, services.NewRPC(a.Logger, productUseCase))
 

@@ -5,3 +5,167 @@
 2024-04-29T20:30:56.686+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
 2024-04-29T20:35:50.117+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
 2024-04-29T20:58:58.276+0500	INFO	app/main.go:40	Product service stops !
+2024-05-03T20:32:58.331+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-03T20:34:05.072+0500	ERROR	services/product.go:237	productUsecase.GetSavedProductByUserID	{"error": "number of field descriptions must equal number of destinations, got 5 and 1"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetSavedProductsByUserID
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:237
+product-service/genproto/product_service._ProductService_GetSavedProductsByUserID_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:655
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-03T20:35:15.663+0500	INFO	app/main.go:40	Product service stops !
+2024-05-03T20:35:19.978+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-03T20:38:08.150+0500	INFO	app/main.go:40	Product service stops !
+2024-05-03T20:55:13.877+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-03T21:04:25.005+0500	INFO	app/main.go:40	Product service stops !
+2024-05-03T21:18:13.003+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-03T21:18:38.677+0500	ERROR	services/product.go:301	productUsecase.GetOrderedProductsByUserID	{"error": "number of field descriptions must equal number of destinations, got 6 and 5"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetOrderedProductsByUserID
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:301
+product-service/genproto/product_service._ProductService_GetOrderedProductsByUserID_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:691
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-03T21:20:13.695+0500	INFO	app/main.go:40	Product service stops !
+2024-05-03T21:20:15.969+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-03T21:25:40.573+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T15:10:14.312+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T15:17:37.205+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T16:54:09.972+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T16:54:28.232+0500	ERROR	services/product.go:502	starUseCase.List	{"error": "ERROR: column \"id\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetAllStars
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:502
+product-service/genproto/product_service._ProductService_GetAllStars_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:889
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-06T16:56:48.983+0500	ERROR	services/product.go:502	starUseCase.List	{"error": "ERROR: column \"id\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetAllStars
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:502
+product-service/genproto/product_service._ProductService_GetAllStars_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:889
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-06T16:57:43.614+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T16:57:45.931+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T16:57:53.505+0500	ERROR	services/product.go:502	starUseCase.List	{"error": "ERROR: column \"id\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetAllStars
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:502
+product-service/genproto/product_service._ProductService_GetAllStars_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:889
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-06T17:02:22.916+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T17:06:34.005+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T17:06:40.228+0500	ERROR	services/product.go:502	starUseCase.List	{"error": "ERROR: column \"id\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetAllStars
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:502
+product-service/genproto/product_service._ProductService_GetAllStars_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:889
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-06T17:08:07.808+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T17:08:10.174+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T17:08:16.858+0500	ERROR	services/product.go:502	starUseCase.List	{"error": "ERROR: column \"id\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetAllStars
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:502
+product-service/genproto/product_service._ProductService_GetAllStars_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:889
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-06T17:08:51.828+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T17:08:54.081+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T17:25:02.874+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T17:28:49.062+0500	ERROR	services/product.go:353	productUseCase.CreateProduct	{"error": "ERROR: relation \"saved\" does not exist (SQLSTATE 42P01)"}
+product-service/internal/delivery/grpc/services.(*productRPC).SaveProduct
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:353
+product-service/genproto/product_service._ProductService_SaveProduct_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:727
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-06T17:30:02.177+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T17:30:07.609+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T17:30:13.414+0500	ERROR	services/product.go:353	productUseCase.CreateProduct	{"error": "ERROR: relation \"saved\" does not exist (SQLSTATE 42P01)"}
+product-service/internal/delivery/grpc/services.(*productRPC).SaveProduct
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:353
+product-service/genproto/product_service._ProductService_SaveProduct_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:727
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-06T17:34:05.649+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T17:34:13.429+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T18:06:22.993+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T18:06:29.120+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T18:07:12.146+0500	ERROR	services/product.go:374	productUsecase.StarProduct	{"error": "ERROR: column \"status\" of relation \"stars\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).StarProduct
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:374
+product-service/genproto/product_service._ProductService_StarProduct_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:745
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-06T18:07:41.910+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T18:07:50.758+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T18:08:03.250+0500	ERROR	services/product.go:374	productUsecase.StarProduct	{"error": "ERROR: column \"stars\" of relation \"stars\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).StarProduct
+	/home/davron/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:374
+product-service/genproto/product_service._ProductService_StarProduct_Handler
+	/home/davron/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:745
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/davron/projects/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-06T18:08:31.220+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T18:08:37.689+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T19:25:52.947+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T19:25:56.974+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T21:08:01.026+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T21:08:10.522+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T21:09:36.947+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T21:09:40.011+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T21:10:41.356+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T21:10:47.268+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T21:11:06.283+0500	INFO	app/main.go:40	Product service stops !
+2024-05-06T21:11:16.272+0500	INFO	app/app.go:91	gRPC Server Listening	{"url": ":3333"}
+2024-05-06T21:13:10.878+0500	INFO	app/main.go:40	Product service stops !
