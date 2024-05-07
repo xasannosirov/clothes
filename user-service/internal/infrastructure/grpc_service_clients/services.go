@@ -12,32 +12,22 @@ import (
 )
 
 type ServiceClients interface {
-	ProductService() productproto.ProductServiceClient
 	MediaService() mediaproto.MediaServiceClient
+	ProductService() productproto.ProductServiceClient
 	PaymentService() paymentproto.PaymentServiceClient
 	Close()
 }
 
 type serviceClients struct {
-	productService productproto.ProductServiceClient
 	mediaService   mediaproto.MediaServiceClient
+	productService productproto.ProductServiceClient
 	paymentService paymentproto.PaymentServiceClient
 	services       []*grpc.ClientConn
 }
 
 func New(config *config.Config) (ServiceClients, error) {
 
-	connProductService, err := grpc.Dial(
-		fmt.Sprintf("%s%s", config.ProductService.Host, config.ProductService.Port),
-		grpc.WithInsecure(),
-		grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor()),
-		grpc.WithStreamInterceptor(otelgrpc.StreamClientInterceptor()),
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	connMediaService, err := grpc.Dial(
+	mediaServiceConnection, err := grpc.Dial(
 		fmt.Sprintf("%s%s", config.MediaService.Host, config.MediaService.Port),
 		grpc.WithInsecure(),
 		grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor()),
@@ -47,7 +37,17 @@ func New(config *config.Config) (ServiceClients, error) {
 		return nil, err
 	}
 
-	connPaymentService, err := grpc.Dial(
+	productServiceConnection, err := grpc.Dial(
+		fmt.Sprintf("%s%s", config.ProductService.Host, config.ProductService.Port),
+		grpc.WithInsecure(),
+		grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor()),
+		grpc.WithStreamInterceptor(otelgrpc.StreamClientInterceptor()),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	paymentServiceConnection, err := grpc.Dial(
 		fmt.Sprintf("%s%s", config.PaymentService.Host, config.PaymentService.Port),
 		grpc.WithInsecure(),
 		grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor()),
@@ -58,15 +58,15 @@ func New(config *config.Config) (ServiceClients, error) {
 	}
 
 	return &serviceClients{
-		productService: productproto.NewProductServiceClient(connProductService),
-		mediaService:   mediaproto.NewMediaServiceClient(connMediaService),
-		paymentService: paymentproto.NewPaymentServiceClient(connPaymentService),
+		mediaService:   mediaproto.NewMediaServiceClient(mediaServiceConnection),
+		productService: productproto.NewProductServiceClient(productServiceConnection),
+		paymentService: paymentproto.NewPaymentServiceClient(paymentServiceConnection),
 		services:       []*grpc.ClientConn{},
 	}, nil
 }
 
 func (s *serviceClients) Close() {
-	// closing investment service
+	// closing store-management service
 	for _, conn := range s.services {
 		conn.Close()
 	}

@@ -5,16 +5,14 @@ import (
 	"database/sql"
 	"fmt"
 	"user-service/internal/entity"
-	"user-service/internal/infrastructure/repository"
+	"user-service/internal/pkg/otlp"
 	"user-service/internal/pkg/postgres"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/k0kubun/pp"
 )
 
 const (
 	usersTableName      = "users"
-	usersServiceName    = "userService"
 	usersSpanRepoPrefix = "usersRepo"
 )
 
@@ -23,7 +21,7 @@ type usersRepo struct {
 	db        *postgres.PostgresDB
 }
 
-func NewUsersRepo(db *postgres.PostgresDB) repository.Users {
+func NewUsersRepo(db *postgres.PostgresDB) *usersRepo {
 	return &usersRepo{
 		tableName: usersTableName,
 		db:        db,
@@ -41,47 +39,55 @@ func (p *usersRepo) usersSelectQueryPrefix() squirrel.SelectBuilder {
 			"password",
 			"gender",
 			"age",
+			"role",
+			"refresh_token",
 			"created_at",
 			"updated_at",
 		).From(p.tableName)
 }
 
-func (p usersRepo) Create(ctx context.Context, news *entity.User) error {
-	pp.Println(int(news.Age))
+func (p usersRepo) Create(ctx context.Context, user *entity.User) (*entity.User, error) {
+
+	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "CreateUser")
+	defer span.End()
+
 	data := map[string]any{
-		"id":           news.GUID,
-		"first_name":   news.FirstName,
-		"last_name":    news.LastName,
-		"email":        news.Email,
-		"phone_number": news.PhoneNumber,
-		"password":     news.Password,
-		"gender":       news.Gender,
-		"age":          news.Age,
-		"created_at":   news.CreatedAt,
-		"updated_at":   news.UpdatedAt,
+		"id":            user.GUID,
+		"first_name":    user.FirstName,
+		"last_name":     user.LastName,
+		"email":         user.Email,
+		"phone_number":  user.PhoneNumber,
+		"password":      user.Password,
+		"gender":        user.Gender,
+		"age":           user.Age,
+		"refresh_token": user.Refresh,
+		"role":          user.Role,
+		"created_at":    user.CreatedAt,
+		"updated_at":    user.UpdatedAt,
 	}
 	query, args, err := p.db.Sq.Builder.Insert(p.tableName).SetMap(data).ToSql()
 	if err != nil {
-		return p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.tableName, "create"))
+		return nil, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.tableName, "create"))
 	}
-	pp.Println(query)
 
 	_, err = p.db.Exec(ctx, query, args...)
 	if err != nil {
-		pp.Println(err)
-		return p.db.Error(err)
+		return nil, p.db.Error(err)
 	}
 
-	return nil
+	return user, nil
 }
 
-func (p usersRepo) Update(ctx context.Context, users *entity.User) error {
+func (p usersRepo) Update(ctx context.Context, users *entity.User) (*entity.User, error) {
+
+	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "UpdateUser")
+	defer span.End()
+
 	clauses := map[string]any{
 		"first_name":   users.FirstName,
 		"last_name":    users.LastName,
 		"email":        users.Email,
 		"phone_number": users.PhoneNumber,
-		"password":     users.Password,
 		"age":          users.Age,
 		"gender":       users.Gender,
 		"updated_at":   users.UpdatedAt,
@@ -92,22 +98,26 @@ func (p usersRepo) Update(ctx context.Context, users *entity.User) error {
 		Where(p.db.Sq.Equal("id", users.GUID)).
 		ToSql()
 	if err != nil {
-		return p.db.ErrSQLBuild(err, p.tableName+" update")
+		return nil, p.db.ErrSQLBuild(err, p.tableName+" update")
 	}
 
 	commandTag, err := p.db.Exec(ctx, sqlStr, args...)
 	if err != nil {
-		return p.db.Error(err)
+		return nil, p.db.Error(err)
 	}
 
 	if commandTag.RowsAffected() == 0 {
-		return p.db.Error(fmt.Errorf("no sql rows"))
+		return nil, p.db.Error(fmt.Errorf("no sql rows"))
 	}
 
-	return nil
+	return users, nil
 }
 
 func (p usersRepo) Delete(ctx context.Context, guid string) error {
+
+	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "DeleteUser")
+	defer span.End()
+
 	sqlStr, args, err := p.db.Sq.Builder.
 		Delete(p.tableName).
 		Where(p.db.Sq.Equal("id", guid)).
@@ -129,6 +139,9 @@ func (p usersRepo) Delete(ctx context.Context, guid string) error {
 }
 
 func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.User, error) {
+	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "GetUser")
+	defer span.End()
+
 	var (
 		user entity.User
 	)
@@ -137,6 +150,10 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 
 	for key, value := range params {
 		if key == "id" {
+			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
+		} else if key == "email" {
+			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
+		} else if key == "refresh_token" {
 			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
 		}
 	}
@@ -148,6 +165,7 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 		nullPhoneNumber sql.NullString
 		nullGender      sql.NullString
 		nullAge         sql.NullInt32
+		nullRefresh     sql.NullString
 	)
 	if err = p.db.QueryRow(ctx, query, args...).Scan(
 		&user.GUID,
@@ -158,6 +176,8 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 		&user.Password,
 		&nullGender,
 		&nullAge,
+		&user.Role,
+		&nullRefresh,
 		&user.CreatedAt,
 		&user.UpdatedAt,
 	); err != nil {
@@ -172,11 +192,18 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 	if nullAge.Valid {
 		user.Age = uint8(nullAge.Int32)
 	}
+	if nullRefresh.Valid {
+		user.Refresh = nullRefresh.String
+	}
 
 	return &user, nil
 }
 
 func (p usersRepo) List(ctx context.Context, limit uint64, offset uint64, filter map[string]string) ([]*entity.User, error) {
+
+	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "ListUsers")
+	defer span.End()
+
 	var (
 		users []*entity.User
 	)
@@ -204,6 +231,7 @@ func (p usersRepo) List(ctx context.Context, limit uint64, offset uint64, filter
 			nullPhoneNumber sql.NullString
 			nullGender      sql.NullString
 			nullAge         sql.NullInt32
+			nullRefresh     sql.NullString
 		)
 		if err = rows.Scan(
 			&user.GUID,
@@ -214,6 +242,7 @@ func (p usersRepo) List(ctx context.Context, limit uint64, offset uint64, filter
 			&user.Password,
 			&nullGender,
 			&nullAge,
+			&nullRefresh,
 			&user.CreatedAt,
 			&user.UpdatedAt,
 		); err != nil {
@@ -228,9 +257,88 @@ func (p usersRepo) List(ctx context.Context, limit uint64, offset uint64, filter
 		if nullAge.Valid {
 			user.Age = uint8(nullAge.Int32)
 		}
+		if nullRefresh.Valid {
+			user.Refresh = nullRefresh.String
+		}
 
 		users = append(users, &user)
 	}
 
 	return users, nil
+}
+
+func (p usersRepo) UniqueEmail(ctx context.Context, request *entity.IsUnique) (*entity.Response, error) {
+	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "UniqueEmail")
+	defer span.End()
+
+	query := `SELECT COUNT(*) FROM users WHERE email = $1`
+
+	var count int
+	err := p.db.QueryRow(ctx, query, request.Email).Scan(&count)
+	if err != nil {
+		return &entity.Response{Status: true}, p.db.Error(err)
+	}
+	if count != 0 {
+		return &entity.Response{Status: true}, nil
+	}
+
+	return &entity.Response{Status: false}, nil
+}
+
+func (p usersRepo) UpdateRefresh(ctx context.Context, request *entity.UpdateRefresh) (*entity.Response, error) {
+	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "UpdateRefresh")
+	defer span.End()
+
+	clauses := map[string]any{
+		"refresh_token": request.RefreshToken,
+	}
+	sqlStr, args, err := p.db.Sq.Builder.
+		Update(p.tableName).
+		SetMap(clauses).
+		Where(p.db.Sq.Equal("id", request.UserID)).
+		Where("deleted_at IS NULL").
+		ToSql()
+	if err != nil {
+		return &entity.Response{Status: false}, p.db.ErrSQLBuild(err, p.tableName+" update")
+	}
+
+	commandTag, err := p.db.Exec(ctx, sqlStr, args...)
+	if err != nil {
+		return &entity.Response{Status: false}, p.db.Error(err)
+	}
+
+	if commandTag.RowsAffected() == 0 {
+		return &entity.Response{Status: false}, p.db.Error(fmt.Errorf("no sql rows"))
+	}
+
+	return &entity.Response{Status: true}, nil
+}
+
+func (p usersRepo) UpdatePassword(ctx context.Context, request *entity.UpdatePassword) (*entity.Response, error) {
+	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "UpdatePassword")
+	defer span.End()
+
+	clauses := map[string]any{
+		"password": request.NewPassword,
+	}
+	sqlStr, args, err := p.db.Sq.Builder.
+		Update(p.tableName).
+		SetMap(clauses).
+		Where(p.db.Sq.Equal("id", request.UserID)).
+		Where("deleted_at IS NULL").
+		ToSql()
+	if err != nil {
+		return &entity.Response{Status: false}, p.db.ErrSQLBuild(err, p.tableName+" update")
+	}
+
+	commandTag, err := p.db.Exec(ctx, sqlStr, args...)
+	if err != nil {
+		return &entity.Response{Status: false}, p.db.Error(err)
+	}
+
+	if commandTag.RowsAffected() == 0 {
+		return &entity.Response{Status: false}, p.db.Error(fmt.Errorf("no sql rows"))
+	}
+
+	return &entity.Response{Status: true}, nil
 }

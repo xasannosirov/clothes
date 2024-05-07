@@ -5,10 +5,12 @@ import (
 	pb "product-service/genproto/product_service"
 	grpc "product-service/internal/delivery"
 	"product-service/internal/entity"
+	"product-service/internal/pkg/otlp"
 	"product-service/internal/usecase"
 	"time"
 
 	"github.com/google/uuid"
+	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
 
@@ -25,7 +27,13 @@ func NewRPC(logger *zap.Logger, productUsecase usecase.Product) pb.ProductServic
 }
 
 func (d *productRPC) CreateProduct(ctx context.Context, in *pb.Product) (*pb.GetWithID, error) {
+	ctx, span := otlp.Start(ctx, "product_grpc-delivery", "CreateProduct")
+	span.SetAttributes(
+		attribute.Key("guid").String(in.Id),
+	)
+	defer span.End()
 	respProduct, err := d.productUsecase.CreateProduct(ctx, &entity.Product{
+		Id:             in.Id,
 		Name:           in.Name,
 		Description:    in.Description,
 		Category:       in.Category,
@@ -261,6 +269,7 @@ func (d *productRPC) Recommendation(ctx context.Context, in *pb.Recom) (*pb.List
 	return &pb.ListProductResponse{Products: pbProducts}, nil
 
 }
+
 func (d *productRPC) GetSavedProductsByUserID(ctx context.Context, in *pb.GetWithUserID) (*pb.ListProductResponse, error) {
 	products, err := d.productUsecase.GetSavedProductsByUserID(ctx, in.UserId)
 	if err != nil {
@@ -323,8 +332,7 @@ func (d *productRPC) GetWishlistByUserID(ctx context.Context, in *pb.GetWithUser
 		})
 	}
 	return &pb.ListProductResponse{Products: pbProducts}, nil
-
-}
+  
 func (d *productRPC) GetOrderedProductsByUserID(ctx context.Context, in *pb.GetWithUserID) (*pb.ListProductResponse, error) {
 	products, err := d.productUsecase.GetOrderedProductsByUserID(ctx, in.UserId)
 	if err != nil {
@@ -409,6 +417,7 @@ func (d *productRPC) StarProduct(ctx context.Context, in *pb.Star) (*pb.MoveResp
 	return &pb.MoveResponse{Status: true}, nil
 
 }
+
 func (d *productRPC) CommentToProduct(ctx context.Context, req *pb.Comment) (*pb.MoveResponse, error) {
 	status, err := d.productUsecase.CommentToProduct(ctx, &entity.CommentToProduct{
 		UserId:     req.UserId,
@@ -527,6 +536,7 @@ func (d *productRPC) GetProductStars(ctx context.Context, in *pb.GetWithID) (*pb
 	return &pb.ListStarsResponse{Stars: pbStars}, nil
 
 }
+  
 func (d *productRPC) GetAllComments(ctx context.Context, in *pb.ListRequest) (*pb.ListCommentResponse, error) {
 	filter := &entity.ListRequest{
 		Limit: in.Limit,
@@ -578,5 +588,4 @@ func (d *productRPC) GetAllStars(ctx context.Context, in *pb.ListRequest) (*pb.L
 		})
 	}
 
-	return &pb.ListStarsResponse{Stars: pbStars}, nil
 }

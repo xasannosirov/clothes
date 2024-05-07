@@ -14,6 +14,11 @@ type Config struct {
 		Timeout string
 	}
 
+	OTLPCollector struct {
+		Host string
+		Port string
+	}
+
 	DB struct {
 		Host     string
 		Port     string
@@ -48,6 +53,10 @@ func New() *Config {
 	config.DB.Password = getEnv("POSTGRES_PASSWORD", "root")
 	config.DB.SslMode = getEnv("POSTGRES_SSLMODE", "disable")
 	config.DB.Name = getEnv("POSTGRES_DATABASE", "csm_product")
+
+	// otlp collector configuration
+	config.OTLPCollector.Host = getEnv("OTLP_COLLECTOR_HOST", "localhost")
+	config.OTLPCollector.Port = getEnv("OTLP_COLLECTOR_PORT", ":4317")
 
 	// config.Kafka.Address = strings.Split(getEnv("KAFKA_ADDRESS", "localhost:29092"), ",")
 	// config.Kafka.Topic.InvestorCreate = getEnv("KAFKA_TOPIC_INVESTOR_CREATE", "clean.created.product")
