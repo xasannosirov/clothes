@@ -61,7 +61,11 @@ func New(config *config.Config) (ServiceClients, error) {
 		mediaService:   mediaproto.NewMediaServiceClient(mediaServiceConnection),
 		productService: productproto.NewProductServiceClient(productServiceConnection),
 		paymentService: paymentproto.NewPaymentServiceClient(paymentServiceConnection),
-		services:       []*grpc.ClientConn{},
+		services:       []*grpc.ClientConn{
+			mediaServiceConnection,
+			productServiceConnection,
+			paymentServiceConnection,
+		},
 	}, nil
 }
 

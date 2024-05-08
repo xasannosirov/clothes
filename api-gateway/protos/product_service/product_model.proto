@@ -15,12 +15,10 @@ message Product {
   float discount = 9;
   int64 age_min = 10;
   int64 age_max = 11;
-  int64 temperature_min = 12;
-  int64 temperature_max = 13;
-  string for_gender = 14;
-  int64 size = 15;
-  string created_at = 16;
-  string updated_at = 17;
+  string for_gender = 12;
+  int64 size = 13;
+  string created_at = 14;
+  string updated_at = 15;
 }
 
 message Filter {

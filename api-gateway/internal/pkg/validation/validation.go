@@ -9,8 +9,6 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v3"
 )
 
-
-
 func PhoneUz(phone string) bool {
 	// get value
 	phone = strings.TrimSpace(phone)
@@ -21,12 +19,12 @@ func PhoneUz(phone string) bool {
 	}
 	return isMatch
 }
-func  EmailValidation(email string)(string, error){
+func EmailValidation(email string) (string, error) {
 	//get email
 	email = strings.TrimSpace(email)
 	email = strings.ToLower(email)
 	emailErr := validation.Validate(email, validation.Required)
-	if emailErr != nil{
+	if emailErr != nil {
 		log.Println(emailErr)
 		return "", emailErr
 	}
@@ -67,7 +65,7 @@ func NameValiddation(name string) bool {
 	name = strings.ToLower(name)
 	name = strings.ToUpper(string(name[0]))
 	if len(name) < 2 || len(name) > 50 {
-		return false 
+		return false
 	}
 
 	for _, r := range name {
@@ -78,10 +76,10 @@ func NameValiddation(name string) bool {
 
 	return true
 }
-func GenderValidation(gender string)bool{
+func GenderValidation(gender string) bool {
 	gender = strings.ToLower(gender)
-	if gender != "erkak" &&  gender != "ayol"{
-		return false 
+	if gender != "erkak" && gender != "ayol" {
+		return false
 	}
 	return true
 }

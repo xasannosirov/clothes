@@ -2,7 +2,7 @@
 export
 
 CURRENT_DIR=$(shell pwd)
-APP=evrone_api_gateway
+APP=api-gateway
 CMD_DIR=./cmd
 
 .DEFAULT_GOAL = build
@@ -25,7 +25,7 @@ run:
 # proto
 .PHONY: proto-gen
 proto-gen:
-	./scripts/genproto.sh	${CURRENT_DIR}
+	./scripts/gen-proto.sh
 
 
 # git submodule init
@@ -43,7 +43,6 @@ go-gen:
 .PHONY: swag-gen
 swag-gen:
 	swag init -g api/router.go -o api/docs
-
 
 # run test
 .PHONY: test

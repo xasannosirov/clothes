@@ -157,19 +157,19 @@ func (u *productService) LikeProduct(ctx context.Context, req *entity.LikeProduc
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
-	respStatus, err := u.repo.IsUnique(ctx, "wishlist", req.User_id, req.Product_id)
+	respStatus, err := u.repo.IsUnique(ctx, "wishlist", req.UserID, req.ProductID)
 
 	if err != nil {
 		log.Println("error while is check is unique", err)
 		return false, err
 	} else if respStatus {
-		err := u.repo.DeleteLikeProduct(ctx, req.User_id, req.Product_id)
+		err := u.repo.DeleteLikeProduct(ctx, req.UserID, req.ProductID)
 		if err != nil {
 			return false, err
 		}
 		return false, nil
 	} else {
-		u.beforeRequest(&req.Id, &req.Created_at, &req.Updated_at)
+		u.beforeRequest(&req.Id, &req.CreatedAt, &req.UpdatedAt)
 
 		resp, err := u.repo.LikeProduct(ctx, req)
 		if err != nil {
@@ -183,19 +183,19 @@ func (u *productService) SaveProduct(ctx context.Context, req *entity.SaveProduc
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
-	respStatus, err := u.repo.IsUnique(ctx, "saves", req.User_id, req.Product_id)
+	respStatus, err := u.repo.IsUnique(ctx, "saves", req.UserID, req.ProductID)
 
 	if err != nil {
 		log.Println("error while is check is unique", err)
 		return false, err
 	} else if respStatus {
-		err := u.repo.DeleteSaveProduct(ctx, req.User_id, req.Product_id)
+		err := u.repo.DeleteSaveProduct(ctx, req.UserID, req.ProductID)
 		if err != nil {
 			return false, err
 		}
 		return false, nil
 	} else {
-		u.beforeRequest(&req.Id, &req.Created_at, &req.Updated_at)
+		u.beforeRequest(&req.Id, &req.CreatedAt, &req.UpdatedAt)
 
 		resp, err := u.repo.SaveProduct(ctx, req)
 		if err != nil {
@@ -209,7 +209,7 @@ func (u *productService) CommentToProduct(ctx context.Context, req *entity.Comme
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
-	u.beforeRequest(&req.Id, &req.Created_at, &req.Updated_at)
+	u.beforeRequest(&req.Id, &req.CreatedAt, &req.UpdatedAt)
 
 	status, err := u.repo.CommentToProduct(ctx, req)
 	if err != nil {

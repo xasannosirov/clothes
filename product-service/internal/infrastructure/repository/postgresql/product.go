@@ -11,12 +11,13 @@ import (
 	"time"
 
 	"github.com/Masterminds/squirrel"
+	"github.com/k0kubun/pp"
 )
 
 const (
+	productServiceName = "productService"
 	productsTableName  = "products"
 	ordersTableName    = "orders"
-	productServiceName = "productService"
 	commentsTableName  = "comments"
 	likesTableName     = "wishlist"
 	starsTableName     = "stars"
@@ -58,8 +59,6 @@ func (u *productRepo) productsSelectQueryPrefix() squirrel.SelectBuilder {
 		"discount",
 		"age_min",
 		"age_max",
-		"temperature_min",
-		"temperature_max",
 		"for_gender",
 		"size",
 		"created_at",
@@ -123,23 +122,21 @@ func (u *productRepo) CreateProduct(ctx context.Context, req *entity.Product) (*
 	defer span.End()
 
 	data := map[string]any{
-		"id":              req.Id,
-		"name":            req.Name,
-		"category":        req.Category,
-		"description":     req.Description,
-		"made_in":         req.MadeIn,
-		"color":           req.Color,
-		"cost":            req.Cost,
-		"count":           req.Count,
-		"discount":        req.Discount,
-		"age_min":         req.AgeMin,
-		"age_max":         req.AgeMax,
-		"temperature_min": req.TemperatureMin,
-		"temperature_max": req.TemperatureMax,
-		"for_gender":      req.ForGender,
-		"size":            req.Size,
-		"created_at":      req.CreatedAt,
-		"updated_at":      req.UpdatedAt,
+		"id":          req.Id,
+		"name":        req.Name,
+		"category":    req.Category,
+		"description": req.Description,
+		"made_in":     req.MadeIn,
+		"color":       req.Color,
+		"cost":        req.Cost,
+		"count":       req.Count,
+		"discount":    req.Discount,
+		"age_min":     req.AgeMin,
+		"age_max":     req.AgeMax,
+		"for_gender":  req.ForGender,
+		"size":        req.Size,
+		"created_at":  req.CreatedAt,
+		"updated_at":  req.UpdatedAt,
 	}
 
 	query, args, err := u.db.Sq.Builder.Insert(u.productTable).SetMap(data).ToSql()
@@ -167,42 +164,47 @@ func (u *productRepo) GetProduct(ctx context.Context, params map[string]string) 
 			queryBuilder = queryBuilder.Where(squirrel.Eq{key: value})
 		}
 	}
+
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
 		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.productTable, "getProduct"))
 	}
 
 	var (
-		updatedAt sql.NullTime
-		category  sql.NullString
+		nullDesc   sql.NullString
+		nullColor  sql.NullString
+		nullAgeMax sql.NullInt64
 	)
 	if err = u.db.QueryRow(ctx, query, args...).Scan(
 		&product.Id,
 		&product.Name,
-		&product.Description,
-		&category,
+		&nullDesc,
+		&product.Category,
 		&product.MadeIn,
-		&product.Color,
+		&nullColor,
 		&product.Count,
 		&product.Cost,
 		&product.Discount,
 		&product.AgeMin,
-		&product.AgeMax,
-		&product.TemperatureMin,
-		&product.TemperatureMax,
+		&nullAgeMax,
 		&product.ForGender,
 		&product.Size,
 		&product.CreatedAt,
-		&updatedAt,
+		&product.UpdatedAt,
 	); err != nil {
 		return nil, u.db.Error(err)
 	}
 
-	if updatedAt.Valid {
-		product.UpdatedAt = updatedAt.Time
+	if nullDesc.Valid {
+		product.Description = nullDesc.String
 	}
-	if category.Valid {
-		product.Category = category.String
+	if nullColor.Valid {
+		product.Color = nullColor.String
+	}
+	if nullAgeMax.Valid {
+		product.AgeMax = nullAgeMax.Int64
 	}
 
 	return &product, nil
@@ -220,6 +222,8 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListRequest) 
 		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
 	}
 
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
 		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.productTable, "getProducts"))
@@ -230,35 +234,42 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListRequest) 
 		return nil, u.db.Error(err)
 	}
 	defer rows.Close()
+
 	var (
-		updatedAt sql.NullTime
+		nullDesc   sql.NullString
+		nullColor  sql.NullString
+		nullAgeMax sql.NullInt64
 	)
 	for rows.Next() {
 		var product entity.Product
 		if err = rows.Scan(
 			&product.Id,
 			&product.Name,
-			&product.Description,
+			&nullDesc,
 			&product.Category,
 			&product.MadeIn,
-			&product.Color,
+			&nullColor,
 			&product.Count,
 			&product.Cost,
 			&product.Discount,
 			&product.AgeMin,
-			&product.AgeMax,
-			&product.TemperatureMin,
-			&product.TemperatureMax,
+			&nullAgeMax,
 			&product.ForGender,
 			&product.Size,
 			&product.CreatedAt,
-			&updatedAt,
+			&product.UpdatedAt,
 		); err != nil {
 			return nil, u.db.Error(err)
 		}
 
-		if updatedAt.Valid {
-			product.UpdatedAt = updatedAt.Time
+		if nullDesc.Valid {
+			product.Description = nullDesc.String
+		}
+		if nullColor.Valid {
+			product.Color = nullColor.String
+		}
+		if nullAgeMax.Valid {
+			product.AgeMax = nullAgeMax.Int64
 		}
 		products = append(products, &product)
 	}
@@ -268,21 +279,19 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListRequest) 
 
 func (u *productRepo) UpdateProduct(ctx context.Context, req *entity.Product) error {
 	data := map[string]any{
-		"name":            req.Name,
-		"description":     req.Description,
-		"category":        req.Category,
-		"made_in":         req.MadeIn,
-		"color":           req.Color,
-		"count":           req.Count,
-		"cost":            req.Cost,
-		"discount":        req.Discount,
-		"age_min":         req.AgeMin,
-		"age_max":         req.AgeMax,
-		"temperature_min": req.TemperatureMin,
-		"temperature_max": req.TemperatureMax,
-		"for_gender":      req.ForGender,
-		"size":            req.Size,
-		"updated_at":      req.UpdatedAt,
+		"name":        req.Name,
+		"description": req.Description,
+		"category":    req.Category,
+		"made_in":     req.MadeIn,
+		"color":       req.Color,
+		"count":       req.Count,
+		"cost":        req.Cost,
+		"discount":    req.Discount,
+		"age_min":     req.AgeMin,
+		"age_max":     req.AgeMax,
+		"for_gender":  req.ForGender,
+		"size":        req.Size,
+		"updated_at":  req.UpdatedAt,
 	}
 
 	sqlStr, args, err := u.db.Sq.Builder.
@@ -306,9 +315,15 @@ func (u *productRepo) UpdateProduct(ctx context.Context, req *entity.Product) er
 }
 
 func (u *productRepo) DeleteProduct(ctx context.Context, id string) error {
+	caluses := map[string]interface{}{
+		"deleted_at": time.Now().Format(time.RFC3339),
+	}
+
 	sqlStr, args, err := u.db.Sq.Builder.
-		Delete(u.productTable).
+		Update(u.productTable).
+		SetMap(caluses).
 		Where(u.db.Sq.Equal("id", id)).
+		Where("deleted_at IS NULL").
 		ToSql()
 	if err != nil {
 		return u.db.ErrSQLBuild(err, u.productTable+" deleteProduct")
@@ -360,14 +375,12 @@ func (u *productRepo) GetOrderByID(ctx context.Context, params map[string]string
 			queryBuilder = queryBuilder.Where(squirrel.Eq{key: value})
 		}
 	}
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
 		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.orderTable, "GetOrder"))
 	}
-	fmt.Printf("%v\n", query)
-	var (
-		updatedAt sql.NullTime
-	)
 
 	if err = u.db.QueryRow(ctx, query, args...).Scan(
 		&order.Id,
@@ -375,16 +388,37 @@ func (u *productRepo) GetOrderByID(ctx context.Context, params map[string]string
 		&order.UserID,
 		&order.Status,
 		&order.CreatedAt,
-		&updatedAt,
+		&order.UpdatedAt,
 	); err != nil {
 		return nil, u.db.Error(err)
 	}
 
-	if updatedAt.Valid {
-		order.UpdatedAt = updatedAt.Time
+	return &order, nil
+}
+
+func (u *productRepo) CancelOrder(ctx context.Context, id string) error {
+	clauses := map[string]interface{}{
+		"deleted_at": time.Now().Format(time.RFC3339),
+	}
+	sqlStr, args, err := u.db.Sq.Builder.
+		Update(u.orderTable).
+		SetMap(clauses).
+		Where(u.db.Sq.Equal("id", id)).
+		Where("deleted_at IS NULL").
+		ToSql()
+	if err != nil {
+		return u.db.ErrSQLBuild(err, u.orderTable+" CancelOrder")
 	}
 
-	return &order, nil
+	commandTag, err := u.db.Exec(ctx, sqlStr, args...)
+	if err != nil {
+		return u.db.Error(err)
+	}
+
+	if commandTag.RowsAffected() == 0 {
+		return u.db.Error(fmt.Errorf("no sql rows"))
+	}
+	return nil
 }
 
 func (u *productRepo) GetAllOrders(ctx context.Context, req *entity.ListRequest) ([]*entity.Order, error) {
@@ -400,6 +434,8 @@ func (u *productRepo) GetAllOrders(ctx context.Context, req *entity.ListRequest)
 		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
 	}
 
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
 		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.orderTable, "getAllOrders"))
@@ -407,13 +443,9 @@ func (u *productRepo) GetAllOrders(ctx context.Context, req *entity.ListRequest)
 
 	rows, err := u.db.Query(ctx, query, args...)
 	if err != nil {
-		return nil, u.db.Error(err)
+		return nil, err
 	}
 	defer rows.Close()
-
-	var (
-		updatedAt sql.NullTime
-	)
 
 	for rows.Next() {
 		var order entity.Order
@@ -423,36 +455,15 @@ func (u *productRepo) GetAllOrders(ctx context.Context, req *entity.ListRequest)
 			&order.UserID,
 			&order.Status,
 			&order.CreatedAt,
-			&updatedAt,
+			&order.UpdatedAt,
 		); err != nil {
-			return nil, u.db.Error(err)
-		}
-
-		if updatedAt.Valid {
-			order.UpdatedAt = updatedAt.Time
+			return nil, err
 		}
 
 		orders = append(orders, &order)
 	}
 
 	return orders, nil
-}
-
-func (u *productRepo) CancelOrder(ctx context.Context, id string) error {
-	sqlStr, args, err := u.db.Sq.Builder.Delete(u.orderTable).Where(u.db.Sq.Equal("id", id)).ToSql()
-	if err != nil {
-		return u.db.ErrSQLBuild(err, u.orderTable+" CancelOrder")
-	}
-
-	commandTag, err := u.db.Exec(ctx, sqlStr, args...)
-	if err != nil {
-		return u.db.Error(err)
-	}
-
-	if commandTag.RowsAffected() == 0 {
-		return u.db.Error(fmt.Errorf("no sql rows"))
-	}
-	return nil
 }
 
 func (p *productRepo) GetDiscountProducts(ctx context.Context, req *entity.ListRequest) ([]*entity.Product, error) {
@@ -495,8 +506,6 @@ func (p *productRepo) GetDiscountProducts(ctx context.Context, req *entity.ListR
 			&product.Discount,
 			&product.AgeMin,
 			&product.AgeMax,
-			&product.TemperatureMin,
-			&product.TemperatureMax,
 			&product.ForGender,
 			&product.Size,
 			&product.CreatedAt,
@@ -512,7 +521,67 @@ func (p *productRepo) GetDiscountProducts(ctx context.Context, req *entity.ListR
 }
 
 func (p *productRepo) SearchProduct(ctx context.Context, req *entity.Filter) ([]*entity.Product, error) {
-	return nil, nil
+	var (
+		products []*entity.Product
+	)
+
+	queryBuilder := p.productsSelectQueryPrefix()
+
+	queryBuilder = queryBuilder.Where(squirrel.ILike{"name": req.Name})
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.productTable, "SearchProduct"))
+	}
+
+	fmt.Println(query)
+	rows, err := p.db.Query(ctx, query, args[0])
+	if err != nil {
+		return nil, p.db.Error(err)
+	}
+	defer rows.Close()
+
+	var (
+		nullDesc      sql.NullString
+		nullColor     sql.NullString
+		nullAgeMin    sql.NullInt64
+		nullAgeMax    sql.NullInt64
+		nullForGender sql.NullString
+		nullSize      sql.NullInt64
+		updatedAt     sql.NullTime
+	)
+
+	for rows.Next() {
+		var product entity.Product
+		err = rows.Scan(
+			&product.Id,
+			&product.Name,
+			&nullDesc,
+			&product.Category,
+			&product.MadeIn,
+			&nullColor,
+			&product.Count,
+			&product.Cost,
+			&product.Discount,
+			&nullAgeMin,
+			&nullAgeMax,
+			&nullForGender,
+			&nullSize,
+			&product.CreatedAt,
+			&updatedAt,
+		)
+		if err != nil {
+			return nil, p.db.Error(err)
+		}
+
+		if updatedAt.Valid {
+			product.UpdatedAt = updatedAt.Time
+		}
+
+		products = append(products, &product)
+	}
+
+	return products, nil
 }
 
 func (u *productRepo) RecommentProducts(ctx context.Context, req *entity.Recom) ([]*entity.Product, error) {
@@ -555,8 +624,6 @@ func (u *productRepo) RecommentProducts(ctx context.Context, req *entity.Recom) 
 			&product.Discount,
 			&product.AgeMin,
 			&product.AgeMax,
-			&product.TemperatureMin,
-			&product.TemperatureMax,
 			&product.ForGender,
 			&product.Size,
 			&product.CreatedAt,
@@ -602,21 +669,21 @@ func (p *productRepo) IsUnique(ctx context.Context, tableName, UserId, ProductId
 func (p *productRepo) LikeProduct(ctx context.Context, req *entity.LikeProduct) (bool, error) {
 	data := map[string]any{
 		"id":         req.Id,
-		"user_id":    req.User_id,
-		"product_id": req.Product_id,
-		"created_at": req.Created_at,
-		"updated_at": req.Updated_at,
+		"user_id":    req.UserID,
+		"product_id": req.ProductID,
+		"created_at": req.CreatedAt,
+		"updated_at": req.UpdatedAt,
 	}
 	query, args, err := p.db.Sq.Builder.Insert("wishlist").SetMap(data).ToSql()
 
 	if err != nil {
-		return false, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", "wishlist", "LikeProduct"))
+		return false, err
 	}
 
 	_, err = p.db.Exec(ctx, query, args...)
 
 	if err != nil {
-		return false, p.db.Error(err)
+		return false, err
 	}
 	return true, nil
 }
@@ -630,12 +697,12 @@ func (p *productRepo) DeleteLikeProduct(ctx context.Context, userId, productId s
 		ToSql()
 
 	if err != nil {
-		return p.db.ErrSQLBuild(err, "wishlist"+" deleteLikeProduct")
+		return err
 	}
 
 	commandTag, err := p.db.Exec(ctx, sqlStr, args...)
 	if err != nil {
-		return p.db.Error(err)
+		return err
 	}
 
 	if commandTag.RowsAffected() == 0 {
@@ -648,10 +715,10 @@ func (p *productRepo) DeleteLikeProduct(ctx context.Context, userId, productId s
 func (p *productRepo) SaveProduct(ctx context.Context, req *entity.SaveProduct) (bool, error) {
 	data := map[string]any{
 		"id":         req.Id,
-		"user_id":    req.User_id,
-		"product_id": req.Product_id,
-		"created_at": req.Created_at,
-		"updated_at": req.Updated_at,
+		"user_id":    req.UserID,
+		"product_id": req.ProductID,
+		"created_at": req.CreatedAt,
+		"updated_at": req.UpdatedAt,
 	}
 	query, args, err := p.db.Sq.Builder.Insert("saves").SetMap(data).ToSql()
 
@@ -669,7 +736,7 @@ func (p *productRepo) SaveProduct(ctx context.Context, req *entity.SaveProduct) 
 
 func (p *productRepo) DeleteSaveProduct(ctx context.Context, userId, productId string) error {
 	sqlStr, args, err := p.db.Sq.Builder.
-		Delete("saved").
+		Delete("saves").
 		Where(p.db.Sq.Equal("user_id", userId)).
 		Where(p.db.Sq.Equal("product_id", productId)).
 		ToSql()
@@ -693,11 +760,11 @@ func (p *productRepo) DeleteSaveProduct(ctx context.Context, userId, productId s
 func (p *productRepo) CommentToProduct(ctx context.Context, req *entity.CommentToProduct) (bool, error) {
 	data := map[string]any{
 		"id":         req.Id,
-		"user_id":    req.UserId,
-		"product_id": req.Product_Id,
+		"user_id":    req.UserID,
+		"product_id": req.ProductID,
 		"comment":    req.Comment,
-		"created_at": req.Created_at,
-		"updated_at": req.Updated_at,
+		"created_at": req.CreatedAt,
+		"updated_at": req.UpdatedAt,
 	}
 	query, args, err := p.db.Sq.Builder.Insert("comments").
 		SetMap(data).
@@ -714,7 +781,6 @@ func (p *productRepo) CommentToProduct(ctx context.Context, req *entity.CommentT
 	return true, nil
 }
 
-// GetProductComments implements repository.Product.
 func (u *productRepo) GetProductComments(ctx context.Context, req *entity.GetWithID) ([]*entity.CommentToProduct, error) {
 	var (
 		comments []*entity.CommentToProduct
@@ -742,16 +808,16 @@ func (u *productRepo) GetProductComments(ctx context.Context, req *entity.GetWit
 		var comment entity.CommentToProduct
 		if err = rows.Scan(
 			&comment.Id,
-			&comment.Product_Id,
-			&comment.UserId,
+			&comment.ProductID,
+			&comment.UserID,
 			&comment.Comment,
-			&comment.Created_at,
+			&comment.CreatedAt,
 			&updatedAt); err != nil {
 			return nil, u.db.Error(err)
 		}
 
 		if updatedAt.Valid {
-			comment.Updated_at = updatedAt.Time
+			comment.UpdatedAt = updatedAt.Time
 		}
 
 		comments = append(comments, &comment)
@@ -759,7 +825,6 @@ func (u *productRepo) GetProductComments(ctx context.Context, req *entity.GetWit
 	return comments, nil
 }
 
-// GetProductLikes implements repository.Product.
 func (u *productRepo) GetProductLikes(ctx context.Context, req *entity.GetWithID) ([]*entity.LikeProduct, error) {
 	var (
 		likes []*entity.LikeProduct
@@ -787,15 +852,15 @@ func (u *productRepo) GetProductLikes(ctx context.Context, req *entity.GetWithID
 		var like entity.LikeProduct
 		if err = rows.Scan(
 			&like.Id,
-			&like.Product_id,
-			&like.User_id,
-			&like.Created_at,
+			&like.ProductID,
+			&like.UserID,
+			&like.CreatedAt,
 			&updatedAt); err != nil {
 			return nil, u.db.Error(err)
 		}
 
 		if updatedAt.Valid {
-			like.Updated_at = updatedAt.Time
+			like.UpdatedAt = updatedAt.Time
 		}
 
 		likes = append(likes, &like)
@@ -803,7 +868,6 @@ func (u *productRepo) GetProductLikes(ctx context.Context, req *entity.GetWithID
 	return likes, nil
 }
 
-// GetProductOrders implements repository.Product.
 func (u *productRepo) GetProductOrders(ctx context.Context, req *entity.GetWithID) ([]*entity.Order, error) {
 	var (
 		orders []*entity.Order
@@ -848,7 +912,6 @@ func (u *productRepo) GetProductOrders(ctx context.Context, req *entity.GetWithI
 	return orders, nil
 }
 
-// GetProductStars implements repository.Product.
 func (u *productRepo) GetProductStars(ctx context.Context, req *entity.GetWithID) ([]*entity.StarProduct, error) {
 	var (
 		stars []*entity.StarProduct
@@ -893,7 +956,6 @@ func (u *productRepo) GetProductStars(ctx context.Context, req *entity.GetWithID
 	return stars, nil
 }
 
-// GetSavedProductsByUserID implements repository.Product.
 func (u *productRepo) GetSavedProductsByUserID(ctx context.Context, req string) ([]*entity.Product, error) {
 	var (
 		products []*entity.Product
@@ -921,10 +983,10 @@ func (u *productRepo) GetSavedProductsByUserID(ctx context.Context, req string) 
 		var save entity.SaveProduct
 		if err = rows.Scan(
 			&save.Id,
-			&save.Product_id,
-			&save.User_id,
-			&save.Created_at,
-			&save.Updated_at,
+			&save.ProductID,
+			&save.UserID,
+			&save.CreatedAt,
+			&save.UpdatedAt,
 		); err != nil {
 			return nil, u.db.Error(err)
 		}
@@ -933,7 +995,7 @@ func (u *productRepo) GetSavedProductsByUserID(ctx context.Context, req string) 
 
 	for _, save := range saves {
 		queryBuilder = u.productsSelectQueryPrefix()
-		queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"id": save.Product_id})
+		queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"id": save.ProductID})
 		query, args, err := queryBuilder.ToSql()
 		if err != nil {
 			return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.savesTable, "GetSavedProductByUserID"))
@@ -958,8 +1020,6 @@ func (u *productRepo) GetSavedProductsByUserID(ctx context.Context, req string) 
 				&product.Discount,
 				&product.AgeMin,
 				&product.AgeMax,
-				&product.TemperatureMin,
-				&product.TemperatureMax,
 				&product.ForGender,
 				&product.Size,
 				&product.CreatedAt,
@@ -978,7 +1038,6 @@ func (u *productRepo) GetSavedProductsByUserID(ctx context.Context, req string) 
 	return products, nil
 }
 
-// GetWishlistByUserID implements repository.Product.
 func (u *productRepo) GetWishlistByUserID(ctx context.Context, req string) ([]*entity.Product, error) {
 	var (
 		products []*entity.Product
@@ -1006,10 +1065,10 @@ func (u *productRepo) GetWishlistByUserID(ctx context.Context, req string) ([]*e
 		var like entity.LikeProduct
 		if err = rows.Scan(
 			&like.Id,
-			&like.Product_id,
-			&like.User_id,
-			&like.Created_at,
-			&like.Updated_at,
+			&like.ProductID,
+			&like.UserID,
+			&like.CreatedAt,
+			&like.UpdatedAt,
 		); err != nil {
 			return nil, u.db.Error(err)
 		}
@@ -1018,7 +1077,7 @@ func (u *productRepo) GetWishlistByUserID(ctx context.Context, req string) ([]*e
 
 	for _, like := range likes {
 		queryBuilder = u.productsSelectQueryPrefix()
-		queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"id": like.Product_id})
+		queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"id": like.ProductID})
 		query, args, err := queryBuilder.ToSql()
 		if err != nil {
 			return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.savesTable, "GetWishlistByUserID"))
@@ -1043,8 +1102,6 @@ func (u *productRepo) GetWishlistByUserID(ctx context.Context, req string) ([]*e
 				&product.Discount,
 				&product.AgeMin,
 				&product.AgeMax,
-				&product.TemperatureMin,
-				&product.TemperatureMax,
 				&product.ForGender,
 				&product.Size,
 				&product.CreatedAt,
@@ -1063,7 +1120,6 @@ func (u *productRepo) GetWishlistByUserID(ctx context.Context, req string) ([]*e
 	return products, nil
 }
 
-// GetOrderedProductsByUserID implements repository.Product.
 func (u *productRepo) GetOrderedProductsByUserID(ctx context.Context, req string) ([]*entity.Product, error) {
 	var (
 		products []*entity.Product
@@ -1073,6 +1129,7 @@ func (u *productRepo) GetOrderedProductsByUserID(ctx context.Context, req string
 	queryBuilder := u.ordersSelectQueryPrefix()
 
 	queryBuilder = queryBuilder.From(u.orderTable).Where(squirrel.Eq{"user_id": req})
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -1129,8 +1186,6 @@ func (u *productRepo) GetOrderedProductsByUserID(ctx context.Context, req string
 				&product.Discount,
 				&product.AgeMin,
 				&product.AgeMax,
-				&product.TemperatureMin,
-				&product.TemperatureMax,
 				&product.ForGender,
 				&product.Size,
 				&product.CreatedAt,
@@ -1149,7 +1204,6 @@ func (u *productRepo) GetOrderedProductsByUserID(ctx context.Context, req string
 	return products, nil
 }
 
-// GetAllComments implements repository.Product.
 func (u *productRepo) GetAllComments(ctx context.Context, req *entity.ListRequest) ([]*entity.CommentToProduct, error) {
 	var (
 		comments []*entity.CommentToProduct
@@ -1179,17 +1233,17 @@ func (u *productRepo) GetAllComments(ctx context.Context, req *entity.ListReques
 		var comment entity.CommentToProduct
 		if err = rows.Scan(
 			&comment.Id,
-			&comment.Product_Id,
-			&comment.UserId,
+			&comment.ProductID,
+			&comment.UserID,
 			&comment.Comment,
-			&comment.Created_at,
+			&comment.CreatedAt,
 			&updatedAt,
 		); err != nil {
 			return nil, u.db.Error(err)
 		}
 
 		if updatedAt.Valid {
-			comment.Updated_at = updatedAt.Time
+			comment.UpdatedAt = updatedAt.Time
 		}
 		comments = append(comments, &comment)
 	}
@@ -1197,7 +1251,6 @@ func (u *productRepo) GetAllComments(ctx context.Context, req *entity.ListReques
 	return comments, nil
 }
 
-// GetAllStars implements repository.Product.
 func (u *productRepo) GetAllStars(ctx context.Context, req *entity.ListRequest) ([]*entity.StarProduct, error) {
 	var (
 		stars []*entity.StarProduct
@@ -1246,7 +1299,6 @@ func (u *productRepo) GetAllStars(ctx context.Context, req *entity.ListRequest) 
 	return stars, nil
 }
 
-// StarProduct implements repository.Product.
 func (u *productRepo) StarProduct(ctx context.Context, req *entity.StarProduct) (*entity.StarProduct, error) {
 	data := map[string]any{
 		"id":         req.Id,
@@ -1270,7 +1322,6 @@ func (u *productRepo) StarProduct(ctx context.Context, req *entity.StarProduct) 
 	return req, nil
 }
 
-// GetDisableProducts implements repository.Product.
 func (u *productRepo) GetDisableProducts(ctx context.Context, req *entity.ListRequest) ([]*entity.Order, error) {
 	var (
 		orders []*entity.Order
@@ -1285,23 +1336,20 @@ func (u *productRepo) GetDisableProducts(ctx context.Context, req *entity.ListRe
 	}
 
 	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
-	queryBuilder = queryBuilder.Where(squirrel.Eq{"status":"test"})
-	queryBuilder = queryBuilder.Where(squirrel.LtOrEq{"created_at":time.Now().AddDate(0,0,-10)})
-	queryBuilder = queryBuilder.Offset(uint64(offset)).Limit(uint64(req.Limit))
+	// queryBuilder = queryBuilder.Where(squirrel.Eq{"status": "ordered"})
+	queryBuilder = queryBuilder.Where(squirrel.LtOrEq{"created_at": time.Now().AddDate(0, 0, -10)})
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
-		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.productTable, "GetDisableProducts"))
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.orderTable, "GetDisableProducts"))
 	}
-	fmt.Println(query)
+	pp.Println(query)
 
 	rows, err := u.db.Query(ctx, query, args...)
 	if err != nil {
 		return nil, u.db.Error(err)
 	}
 	defer rows.Close()
-
-	var updatedAt sql.NullTime
 
 	for rows.Next() {
 		var order entity.Order
@@ -1311,13 +1359,9 @@ func (u *productRepo) GetDisableProducts(ctx context.Context, req *entity.ListRe
 			&order.UserID,
 			&order.Status,
 			&order.CreatedAt,
-			&updatedAt,
+			&order.UpdatedAt,
 		); err != nil {
 			return nil, u.db.Error(err)
-		}
-
-		if updatedAt.Valid {
-			order.UpdatedAt = updatedAt.Time
 		}
 
 		orders = append(orders, &order)

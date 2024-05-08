@@ -31,6 +31,7 @@ func (s *MediaRepositoryTestSuite) SetupSuite() {
 
 // TestSuite test media-service storage methods
 func (s *MediaRepositoryTestSuite) TestSuite() {
+	fileName := "debug"
 
 	// mock info for check media-service storage methods
 	defaultProductID := uuid.NewString()
@@ -38,11 +39,13 @@ func (s *MediaRepositoryTestSuite) TestSuite() {
 		&entity.Media{
 			Id:        uuid.NewString(),
 			ProductID: defaultProductID,
+			FileName:  fileName,
 			ImageUrl:  "https://clothes-store-management/images/products/1",
 		},
 		&entity.Media{
 			Id:        uuid.NewString(),
 			ProductID: defaultProductID,
+			FileName:  fileName,
 			ImageUrl:  "https://clothes-store-management/images/products/2",
 		},
 	}

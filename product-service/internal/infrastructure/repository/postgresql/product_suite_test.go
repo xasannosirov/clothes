@@ -43,8 +43,6 @@ var (
 		Discount:       1,
 		AgeMin:         1,
 		AgeMax:         1,
-		TemperatureMin: 1,
-		TemperatureMax: 1,
 		ForGender:      "test",
 		Size:           1,
 		CreatedAt:      time.Now(),
@@ -61,16 +59,16 @@ var (
 
 	like = &entity.LikeProduct{
 		Id:         uuid.NewString(),
-		User_id:    uuid.NewString(),
-		Created_at: time.Now(),
-		Updated_at: time.Now(),
+		UserID:    uuid.NewString(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 
 	save = &entity.SaveProduct{
 		Id:         uuid.NewString(),
-		User_id:    uuid.NewString(),
-		Created_at: time.Now(),
-		Updated_at: time.Now(),
+		UserID:    uuid.NewString(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 
 	star = &entity.StarProduct{
@@ -83,10 +81,10 @@ var (
 
 	comment = &entity.CommentToProduct{
 		Id:         uuid.NewString(),
-		UserId:     uuid.NewString(),
+		UserID:     uuid.NewString(),
 		Comment:    "test",
-		Created_at: time.Now(),
-		Updated_at: time.Now(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 )
 
@@ -107,8 +105,6 @@ func (p *ProductRepositorySuiteTest) TestCreateProduct() {
 	p.Suite.Equal(product.Discount, createProduct.Discount)
 	p.Suite.Equal(product.AgeMin, createProduct.AgeMin)
 	p.Suite.Equal(product.AgeMax, createProduct.AgeMax)
-	p.Suite.Equal(product.TemperatureMin, createProduct.TemperatureMin)
-	p.Suite.Equal(product.TemperatureMax, createProduct.TemperatureMax)
 	p.Suite.Equal(product.ForGender, createProduct.ForGender)
 	p.Suite.Equal(product.Size, createProduct.Size)
 	p.Suite.NotNil(createProduct.CreatedAt)
@@ -135,8 +131,6 @@ func (p *ProductRepositorySuiteTest) TestGetProduct() {
 	p.Suite.Equal(getProduct.Discount, float32(1))
 	p.Suite.Equal(getProduct.AgeMin, int64(1))
 	p.Suite.Equal(getProduct.AgeMax, int64(1))
-	p.Suite.Equal(getProduct.TemperatureMin, int64(1))
-	p.Suite.Equal(getProduct.TemperatureMax, int64(1))
 	p.Suite.Equal(getProduct.ForGender, "test")
 	p.Suite.Equal(getProduct.Size, int64(1))
 	p.Suite.NotNil(getProduct.CreatedAt)
@@ -171,8 +165,6 @@ func (p *ProductRepositorySuiteTest) TestUpdateProduct() {
 		Discount:       1,
 		AgeMin:         1,
 		AgeMax:         1,
-		TemperatureMin: 1,
-		TemperatureMax: 1,
 		ForGender:      "uptest",
 		Size:           1,
 		UpdatedAt:      time.Now(),
@@ -267,15 +259,11 @@ func (p *ProductRepositorySuiteTest) TestRecommendation() {
 	p.Suite.IsType(recommendation, []*entity.Product{})
 }
 
-// func (p *ProductRepositorySuiteTest) TestGetSavedProductsByUserID(){
-// 	products, err := p.Repository.GetSavedProductsByUserID(context.Background(), )
-// }
-
 func (p *ProductRepositorySuiteTest) TestLikeProduct() {
 	productForID, err := p.Repository.CreateProduct(context.Background(), product)
 	p.Suite.NoError(err)
 
-	like.Product_id = productForID.Id
+	like.ProductID = productForID.Id
 
 	likeResp, err := p.Repository.LikeProduct(context.Background(), like)
 	p.Suite.NoError(err)
@@ -287,7 +275,7 @@ func (p *ProductRepositorySuiteTest) TestSaveProduct() {
 	productForID, err := p.Repository.CreateProduct(context.Background(), product)
 	p.Suite.NoError(err)
 
-	save.Product_id = productForID.Id
+	save.ProductID = productForID.Id
 
 	saveResp, err := p.Repository.SaveProduct(context.Background(), save)
 	p.Suite.NoError(err)
@@ -317,7 +305,7 @@ func (p *ProductRepositorySuiteTest) TestCommentToProduct() {
 	productForID, err := p.Repository.CreateProduct(context.Background(), product)
 	p.Suite.NoError(err)
 
-	comment.Product_Id = productForID.Id
+	comment.ProductID = productForID.Id
 	commentResp, err := p.Repository.CommentToProduct(context.Background(), comment)
 	p.Suite.NoError(err)
 	p.Suite.NotNil(commentResp)
@@ -413,7 +401,6 @@ func (p *ProductRepositorySuiteTest) TestGetOrderedProductsByUserID() {
 	p.Suite.NoError(err)
 	p.Suite.IsType([]*entity.Product{}, products)
 }
-
 
 func TestExampleTestSuite(t *testing.T) {
 	suite.Run(t, new(ProductRepositorySuiteTest))
