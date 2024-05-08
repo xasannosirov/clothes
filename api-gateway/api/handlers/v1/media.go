@@ -100,7 +100,8 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	}
 
 	ext := filepath.Ext(file.File.Filename)
-	if ext != ".png" && ext != ".jpg" && ext != ".svg" && ext != ".jpeg" {
+  
+	if ext != ".png" && ext != ".jpg" && ext != ".svg" && ext != ".jpeg"{
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "Only .jpg and .png format images are accepted",
 		})
