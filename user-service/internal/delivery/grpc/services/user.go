@@ -161,7 +161,9 @@ func (s userRPC) GetAllUsers(ctx context.Context, in *userproto.ListUserRequest)
 	defer span.End()
 
 	offset := in.Limit * (in.Page - 1)
-	users, err := s.userUsecase.List(ctx, uint64(in.Limit), uint64(offset), map[string]string{})
+	users, err := s.userUsecase.List(ctx, uint64(in.Limit), uint64(offset), map[string]string{
+		"role": in.Role,
+	})
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, err
@@ -169,7 +171,6 @@ func (s userRPC) GetAllUsers(ctx context.Context, in *userproto.ListUserRequest)
 
 	var response userproto.ListUserResponse
 	for _, u := range users {
-
 		temp := &userproto.User{
 			Id:          u.GUID,
 			FirstName:   u.FirstName,
@@ -178,6 +179,8 @@ func (s userRPC) GetAllUsers(ctx context.Context, in *userproto.ListUserRequest)
 			PhoneNumber: u.PhoneNumber,
 			Password:    u.Password,
 			Gender:      u.Gender,
+			Role:        u.Role,
+			Refresh:     u.Refresh,
 			Age:         int64(u.Age),
 			CreatedAt:   u.CreatedAt.Format(time.RFC3339),
 			UpdatedAt:   u.UpdatedAt.Format(time.RFC3339),

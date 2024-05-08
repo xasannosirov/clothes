@@ -3,9 +3,9 @@ package api
 import (
 	"time"
 
+	_ "api-gateway/api/docs"
 	v1 "api-gateway/api/handlers/v1"
 	"api-gateway/api/middleware"
-	_ "api-gateway/api/docs"
 
 	redisrepo "api-gateway/internal/infrastructure/repository/redis"
 
@@ -32,9 +32,10 @@ type RouteOption struct {
 }
 
 // NewRoute
+// @Description Online Clothes Store
 // @securityDefinitions.apikey ApiKeyAuth
-// @in header
-// @name Authorization
+// @in 			header
+// @name 		Authorization
 func NewRoute(option RouteOption) *gin.Engine {
 	router := gin.New()
 
@@ -58,29 +59,69 @@ func NewRoute(option RouteOption) *gin.Engine {
 	corsConfig.AllowBrowserExtensions = true
 	corsConfig.AllowMethods = []string{"*"}
 	router.Use(cors.New(corsConfig))
-	// router.Use()
+
 	router.Use(middleware.Tracing)
 	router.Use(middleware.CheckCasbinPermission(option.Enforcer, option.Config))
 
 	router.Static("/media", "./media")
 
-	api := router.Group("/v1")
+	apiV1 := router.Group("/v1")
 
-	// register verify login
-	api.POST("/users/register", HandlerV1.Register)
-	api.POST("/users/verify", HandlerV1.Verify)
-	api.POST("/users/login", HandlerV1.LoginUser)
-	api.POST("/users/token", HandlerV1.Token)
-	api.POST("/users/forgetpassword", HandlerV1.ForgetPassword)
-	api.POST("/users/verify/forgetpassword", HandlerV1.VerifyForgetPassword)
+	// registration
+	apiV1.POST("/register", HandlerV1.Register)
+	apiV1.GET("/login", HandlerV1.Login)
+	apiV1.POST("/forgot/:email", HandlerV1.Forgot)
+	apiV1.POST("/verify", HandlerV1.Verify)
+	apiV1.PUT("/reset-password", HandlerV1.ResetPassword)
+	apiV1.GET("/token/:refresh", HandlerV1.Token)
 
-	//photo
-	api.POST("/media/photo", HandlerV1.UploadMedia)
-	api.GET("/media/get/:id", HandlerV1.GetMedia)
-	api.DELETE("/media/delete/:id", HandlerV1.DeleteMedia)
+	// media
+	apiV1.POST("/media/upload-photo", HandlerV1.UploadMedia)
+	apiV1.GET("/media/:id", HandlerV1.GetMedia)
+	apiV1.DELETE("/media/:id", HandlerV1.DeleteMedia)
+
+	// users
+	apiV1.POST("/user", HandlerV1.CreateUser)
+	apiV1.PUT("/user", HandlerV1.UpdateUser)
+	apiV1.DELETE("/user/:id", HandlerV1.DeleteUser)
+	apiV1.GET("/user/:id", HandlerV1.GetUser)
+	apiV1.GET("/users", HandlerV1.ListUsers)
+
+	// products
+	apiV1.POST("/product", HandlerV1.CreateProduct)
+	apiV1.PUT("/product", HandlerV1.UpdateProduct)
+	apiV1.DELETE("/product/:id", HandlerV1.DeleteProduct)
+	apiV1.GET("/product/:id", HandlerV1.GetProduct)
+	apiV1.GET("/products", HandlerV1.ListProducts)
+
+	apiV1.POST("/order", HandlerV1.CreateOrder)
+	apiV1.GET("/order/:id", HandlerV1.GetOrder)
+	apiV1.DELETE("/order/:id", HandlerV1.CancelOrder)
+	apiV1.GET("/orders", HandlerV1.ListOrders)
+
+	apiV1.POST("/like-product", HandlerV1.LikeProduct)
+	apiV1.POST("/save-product", HandlerV1.SaveProduct)
+	apiV1.POST("/star-product", HandlerV1.StarToProduct)
+	apiV1.POST("/comment-product", HandlerV1.CommentToProduct)
+
+	apiV1.GET("/comments", HandlerV1.GetAllComments)
+	apiV1.GET("/stars", HandlerV1.GetAllStars)
+
+	apiV1.GET("/product/orders/:id", HandlerV1.GetProductOrders)
+	apiV1.GET("/product/comments/:id", HandlerV1.GetProductComments)
+	apiV1.GET("/product/likes/:id", HandlerV1.GetProductLikes)
+	apiV1.GET("/product/stars/:id", HandlerV1.GetProductStars)
+
+	apiV1.GET("/user/save/:id", HandlerV1.GetUserSavedProducts)
+	apiV1.GET("/user/likes/:id", HandlerV1.GetUserLikesProducts)
+	apiV1.GET("/user/orders/:id", HandlerV1.GetUserOrderedProducts)
+
+	apiV1.GET("/search/:name", HandlerV1.SearchProduct)
+	apiV1.GET("/recommendation", HandlerV1.RecommendProducts)
+	apiV1.GET("/disable-orders", HandlerV1.GetDisableProducts)
 
 	url := ginSwagger.URL("swagger/doc.json")
-	api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+	apiV1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	return router
 }

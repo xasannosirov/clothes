@@ -1,44 +1,26 @@
 package models
 
-type User struct {
-	Id          string
-	FirstName   string
-	LastName    string
-	Email       string
-	Password    string
-	PhoneNumber string
-	Gender      string
-	Age         int64
-	Role        string
-	Refresh     string
-}
-type UserCreateReq struct {
-	FirstName   string
-	LastName    string
-	Email       string
-	Password    string
-	PhoneNumber string
-	Gender      string
-	Age         int64
-}
-type UserResponse struct {
-	Id          string
-	FirstName   string
-	LastName    string
-	Email       string
-	Password    string
-	PhoneNumber string
-	Gender      string
-	Age         int64
-	Role        string
-	Refresh     string
-	Access      string
-}
-type Response struct{
-	Response string
-}
-type VerifyForgetPassword struct{
-	Otp string
-	Email string
-	NewPassword string
-}
+type (
+	UserRegister struct {
+		FirstName string `json:"first_name"`
+		LastName  string `json:"last_name"`
+		Email     string `json:"email"`
+		Password  string `json:"password"`
+		Gender    string `json:"gender"`
+		Role      string `json:"role"`
+	}
+
+	User struct {
+		Id          string `json:"id"`
+		FirstName   string `json:"first_name"`
+		LastName    string `json:"last_name"`
+		Email       string `json:"email"`
+		Password    string `json:"password"`
+		PhoneNumber string `json:"phone_number"`
+		Gender      string `json:"gender"`
+		Age         int64  `json:"age"`
+		Role        string `json:"role"`
+		Refresh     string `json:"refresh_token"`
+		Access      string `json:"access_token"`
+	}
+)

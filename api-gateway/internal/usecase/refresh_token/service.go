@@ -20,6 +20,7 @@ type JWTHandler struct {
 	Token      string
 	Timeout    int
 }
+
 type CustomClaims struct {
 	*jwt.Token
 	Sub  string   `json:"sub"`

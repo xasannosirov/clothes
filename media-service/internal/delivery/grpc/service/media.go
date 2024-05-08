@@ -40,6 +40,7 @@ func (m mediaRPC) Create(ctx context.Context, req *mediaproto.Media) (*mediaprot
 		Id:        req.Id,
 		ProductID: req.ProductId,
 		ImageUrl:  req.ImageUrl,
+		FileName:  req.FileName,
 	}
 
 	respMedia, err := m.media.CreateMedia(ctx, media)
@@ -75,6 +76,7 @@ func (m mediaRPC) Get(ctx context.Context, req *mediaproto.MediaWithProductID) (
 			Id:        media.Id,
 			ProductId: media.ProductID,
 			ImageUrl:  media.ImageUrl,
+			FileName:  media.FileName,
 			CreatedAt: media.CreatedAt.Format(time.RFC3339),
 			UpdatedAt: media.UpdatedAt.Format(time.RFC3339),
 		}

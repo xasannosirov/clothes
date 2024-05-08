@@ -32,6 +32,7 @@ func (m *mediaRepo) mediaSelectQueryPrefix() squirrel.SelectBuilder {
 		"id",
 		"product_id",
 		"image_url",
+		"file_name",
 		"created_at",
 		"updated_at",
 	).From(m.tableName)
@@ -46,6 +47,7 @@ func (m mediaRepo) CreateMedia(ctx context.Context, media *entity.Media) (*entit
 		"id":         media.Id,
 		"product_id": media.ProductID,
 		"image_url":  media.ImageUrl,
+		"file_name":  media.FileName,
 		"created_at": media.CreatedAt,
 		"updated_at": media.UpdatedAt,
 	}
@@ -91,6 +93,7 @@ func (m mediaRepo) GetMediaWithProductId(ctx context.Context, filter map[string]
 			&media.Id,
 			&media.ProductID,
 			&media.ImageUrl,
+			&media.FileName,
 			&media.CreatedAt,
 			&media.UpdatedAt,
 		); err != nil {

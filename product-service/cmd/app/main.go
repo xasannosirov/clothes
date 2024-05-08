@@ -19,12 +19,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// consumer init
-	// go func() {
-	// 	// fmt.Println("worked app.BrokerConsumer.Run()")
-	// 	app.BrokerConsumer.Run()
-	// }()
-
 	//running
 	go func() {
 		if err := app.Run(); err != nil {

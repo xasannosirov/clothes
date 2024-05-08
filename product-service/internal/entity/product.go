@@ -5,41 +5,25 @@ import (
 )
 
 type Product struct {
-	Id             string
-	Name           string
-	Description    string
-	Category       string
-	MadeIn         string
-	Color          string
-	Count          int64
-	Cost           float32
-	Discount       float32
-	AgeMin         int64
-	AgeMax         int64
-	TemperatureMin int64
-	TemperatureMax int64
-	ForGender      string
-	Size           int64
-	CreatedAt      time.Time
-	UpdatedAt      time.Time
+	Id          string
+	Name        string
+	Description string
+	Category    string
+	MadeIn      string
+	Color       string
+	Count       int64
+	Cost        float32
+	Discount    float32
+	AgeMin      int64
+	AgeMax      int64
+	ForGender   string
+	Size        int64
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 type Filter struct {
-	Name           string
-	Description    string
-	Category       string
-	MadeIn         string
-	Color          string
-	Count          int64
-	Cost           int64
-	Discount       int64
-	AgeMin         int64
-	AgeMax         int64
-	TemperatureMin int64
-	TemperatureMax int64
-	ForGender      string
-	Page           int64
-	Limit          int64
+	Name string
 }
 
 type Order struct {
@@ -74,30 +58,27 @@ type DeleteResponse struct {
 }
 
 type LikeProduct struct {
-	Id         string
-	Product_id string
-	User_id    string
-	Created_at time.Time
-	Updated_at time.Time
-	Deleted_at time.Time
+	Id        string
+	ProductID string
+	UserID    string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 type SaveProduct struct {
-	Id         string
-	Product_id string
-	User_id    string
-	Created_at time.Time
-	Updated_at time.Time
-	Deleted_at time.Time
+	Id        string
+	ProductID string
+	UserID    string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
-type CommentToProduct struct{
-	Id string
-	Product_Id string
-	UserId string
-	Comment string
-	Created_at time.Time
-	Updated_at time.Time
-	Deleted_at time.Time
+type CommentToProduct struct {
+	Id        string
+	ProductID string
+	UserID    string
+	Comment   string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type StarProduct struct {
@@ -108,6 +89,3 @@ type StarProduct struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
-
-
-   

@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"time"
 	"user-service/internal/entity"
 	"user-service/internal/pkg/otlp"
 	"user-service/internal/pkg/postgres"
@@ -40,7 +41,7 @@ func (p *usersRepo) usersSelectQueryPrefix() squirrel.SelectBuilder {
 			"gender",
 			"age",
 			"role",
-			"refresh_token",
+			"refresh",
 			"created_at",
 			"updated_at",
 		).From(p.tableName)
@@ -52,18 +53,18 @@ func (p usersRepo) Create(ctx context.Context, user *entity.User) (*entity.User,
 	defer span.End()
 
 	data := map[string]any{
-		"id":            user.GUID,
-		"first_name":    user.FirstName,
-		"last_name":     user.LastName,
-		"email":         user.Email,
-		"phone_number":  user.PhoneNumber,
-		"password":      user.Password,
-		"gender":        user.Gender,
-		"age":           user.Age,
-		"refresh_token": user.Refresh,
-		"role":          user.Role,
-		"created_at":    user.CreatedAt,
-		"updated_at":    user.UpdatedAt,
+		"id":           user.GUID,
+		"first_name":   user.FirstName,
+		"last_name":    user.LastName,
+		"email":        user.Email,
+		"phone_number": user.PhoneNumber,
+		"password":     user.Password,
+		"gender":       user.Gender,
+		"age":          user.Age,
+		"role":         user.Role,
+		"refresh":      user.Refresh,
+		"created_at":   user.CreatedAt,
+		"updated_at":   user.UpdatedAt,
 	}
 	query, args, err := p.db.Sq.Builder.Insert(p.tableName).SetMap(data).ToSql()
 	if err != nil {
@@ -114,13 +115,18 @@ func (p usersRepo) Update(ctx context.Context, users *entity.User) (*entity.User
 }
 
 func (p usersRepo) Delete(ctx context.Context, guid string) error {
-
 	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "DeleteUser")
 	defer span.End()
 
+	clauses := map[string]interface{}{
+		"deleted_at": time.Now().Format(time.RFC3339),
+	}
+
 	sqlStr, args, err := p.db.Sq.Builder.
-		Delete(p.tableName).
+		Update(p.tableName).
+		SetMap(clauses).
 		Where(p.db.Sq.Equal("id", guid)).
+		Where("deleted_at IS NULL").
 		ToSql()
 	if err != nil {
 		return p.db.ErrSQLBuild(err, p.tableName+" delete")
@@ -153,7 +159,7 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
 		} else if key == "email" {
 			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
-		} else if key == "refresh_token" {
+		} else if key == "refresh" {
 			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
 		}
 	}
@@ -213,6 +219,9 @@ func (p usersRepo) List(ctx context.Context, limit uint64, offset uint64, filter
 		queryBuilder = queryBuilder.Limit(limit).Offset(offset)
 	}
 
+	role := filter["role"]
+	queryBuilder = queryBuilder.Where(p.db.Sq.Equal("role", role))
+
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
 		return nil, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.tableName, "list"))
@@ -242,6 +251,7 @@ func (p usersRepo) List(ctx context.Context, limit uint64, offset uint64, filter
 			&user.Password,
 			&nullGender,
 			&nullAge,
+			&user.Role,
 			&nullRefresh,
 			&user.CreatedAt,
 			&user.UpdatedAt,
@@ -290,7 +300,7 @@ func (p usersRepo) UpdateRefresh(ctx context.Context, request *entity.UpdateRefr
 	defer span.End()
 
 	clauses := map[string]any{
-		"refresh_token": request.RefreshToken,
+		"refresh": request.RefreshToken,
 	}
 	sqlStr, args, err := p.db.Sq.Builder.
 		Update(p.tableName).
