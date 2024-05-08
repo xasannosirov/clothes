@@ -55,7 +55,7 @@ func New() *Config {
 	config.Context.Timeout = getEnv("CONTEXT_TIMEOUT", "30s")
 
 	// db configuration
-	config.DB.Host = getEnv("POSTGRES_HOST", "localhost")
+	config.DB.Host = getEnv("POSTGRES_HOST", "postgres")
 	config.DB.Port = getEnv("POSTGRES_PORT", "5432")
 	config.DB.User = getEnv("POSTGRES_USER", "postgres")
 	config.DB.Password = getEnv("POSTGRES_PASSWORD", "root")
@@ -63,9 +63,9 @@ func New() *Config {
 	config.DB.Name = getEnv("POSTGRES_DATABASE", "clothes_store")
 
 	// servicess
-	config.UserService.Host = getEnv("USER_SERVICE_HOST", "localhost")
+	config.UserService.Host = getEnv("USER_SERVICE_HOST", "user-service")
 	config.UserService.Port = getEnv("USER_SERVICE_PORT", ":1111")
-	config.ProductService.Host = getEnv("PRODUCT_SERVICE_HOST", "localhost")
+	config.ProductService.Host = getEnv("PRODUCT_SERVICE_HOST", "product-service")
 	config.ProductService.Port = getEnv("PRODUCT_SERVICE_PORT", ":3333")
 	config.PaymentService.Host = getEnv("PAYMENT_SERVICE_HOST", "localhost")
 	config.PaymentService.Port = getEnv("PAYMENT_SERVICE_PORT", ":4444")

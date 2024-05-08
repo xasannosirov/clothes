@@ -1,4 +1,4 @@
-FROM golang:1.20-alpine3.16 AS builder
+FROM golang:1.22.2-alpine3.18 AS builder
 
 RUN mkdir app
 
@@ -8,7 +8,7 @@ WORKDIR /app
 
 RUN go build -o main cmd/app/main.go
 
-FROM alpine:3.16
+FROM alpine:3.18
 
 WORKDIR /app
 

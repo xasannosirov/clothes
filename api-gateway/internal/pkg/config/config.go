@@ -2,7 +2,6 @@ package config
 
 import (
 	"os"
-	"strings"
 
 	// "strings"
 	"time"
@@ -88,36 +87,36 @@ func NewConfig() (*Config, error) {
 	config.Context.Timeout = getEnv("CONTEXT_TIMEOUT", "30s")
 
 	// server configuration
-	config.Server.Host = getEnv("SERVER_HOST", "localhost")
+	config.Server.Host = getEnv("SERVER_HOST", "api")
 	config.Server.Port = getEnv("SERVER_PORT", ":5555")
 	config.Server.ReadTimeout = getEnv("SERVER_READ_TIMEOUT", "10s")
 	config.Server.WriteTimeout = getEnv("SERVER_WRITE_TIMEOUT", "10s")
 	config.Server.IdleTimeout = getEnv("SERVER_IDLE_TIMEOUT", "120s")
 
 	// db configuration
-	config.DB.Host = getEnv("POSTGRES_HOST", "localhost")
-	config.DB.Port = getEnv("POSTGRES_PORT", "5432")
-	config.DB.Name = getEnv("POSTGRES_DATABASE", "examdb")
-	config.DB.User = getEnv("POSTGRES_USER", "postgres")
-	config.DB.Password = getEnv("POSTGRES_PASSWORD", "4444")
-	config.DB.SSLMode = getEnv("POSTGRES_SSLMODE", "disable")
+	// config.DB.Host = getEnv("POSTGRES_HOST", "localhost")
+	// config.DB.Port = getEnv("POSTGRES_PORT", "5432")
+	// config.DB.Name = getEnv("POSTGRES_DATABASE", "examdb")
+	// config.DB.User = getEnv("POSTGRES_USER", "postgres")
+	// config.DB.Password = getEnv("POSTGRES_PASSWORD", "4444")
+	// config.DB.SSLMode = getEnv("POSTGRES_SSLMODE", "disable")
 
 	// redis configuration
-	config.Redis.Host = getEnv("REDIS_HOST", "localhost")
+	config.Redis.Host = getEnv("REDIS_HOST", "redisdb")
 	config.Redis.Port = getEnv("REDIS_PORT", "6379")
 	config.Redis.Password = getEnv("REDIS_PASSWORD", "")
 	config.Redis.Name = getEnv("REDIS_DATABASE", "0")
 
 	//user service
-	config.UserService.Host = getEnv("USER_SERVICE_HOST", "localhost")
+	config.UserService.Host = getEnv("USER_SERVICE_HOST", "user-service")
 	config.UserService.Port = getEnv("USER_SERVICE_PORT", ":1111")
 
 	//media service
-	config.MediaService.Host = getEnv("MEDIA_SERVICE_HOST", "localhost")
+	config.MediaService.Host = getEnv("MEDIA_SERVICE_HOST", "media-service")
 	config.MediaService.Port = getEnv("MEDIA_SERVICE_PORT", ":2222")
- 
+
 	//product service
-	config.ProductService.Host = getEnv("PRODUCT_SERVICE_HOST", "localhost")
+	config.ProductService.Host = getEnv("PRODUCT_SERVICE_HOST", "product-service")
 	config.ProductService.Port = getEnv("PRODUCT_SERVICE_PORT", ":3333")
 
 	//payment servicve
@@ -128,7 +127,7 @@ func NewConfig() (*Config, error) {
 	config.Token.Secret = getEnv("TOKEN_SECRET", "token_secret")
 
 	// access ttl parse
-	accessTTl, err := time.ParseDuration(getEnv("TOKEN_ACCESS_TTL", "1h"))
+	accessTTl, err := time.ParseDuration(getEnv("TOKEN_ACCESS_TTL", "3h"))
 	if err != nil {
 		return nil, err
 	}
@@ -139,18 +138,18 @@ func NewConfig() (*Config, error) {
 	}
 	config.Token.AccessTTL = accessTTl
 	config.Token.RefreshTTL = refreshTTL
-	config.Token.SignInKey = getEnv("TOKEN_SIGNIN_KEY", "abdulazizXoshimov")
+	config.Token.SignInKey = getEnv("TOKEN_SIGNIN_KEY", "debug")
 
 	// otlp collector configuration
 	config.OTLPCollector.Host = getEnv("OTLP_COLLECTOR_HOST", "otel-collector")
 	config.OTLPCollector.Port = getEnv("OTLP_COLLECTOR_PORT", ":4318")
 
 	// kafka configuration
-	config.Kafka.Address = strings.Split(getEnv("KAFKA_ADDRESS", "kafka:9091"), ",")
-	config.Kafka.Topic.UserCreateTopic = getEnv("KAFKA_USER_CREATE_TOPIC", "api.create.user")
+	// config.Kafka.Address = strings.Split(getEnv("KAFKA_ADDRESS", "kafka:9091"), ",")
+	// config.Kafka.Topic.UserCreateTopic = getEnv("KAFKA_USER_CREATE_TOPIC", "api.create.user")
 
-	config.SMTP.Email = getEnv("SMTP_EMAIL", "abdulazizxoshimov22@gmail.com")
-	config.SMTP.EmailPassword = getEnv("SMTP_EMAIL_PASSWORD", "hxytgczqprxfsltu ")
+	config.SMTP.Email = getEnv("SMTP_EMAIL", "storegoclothes@gmail.com")
+	config.SMTP.EmailPassword = getEnv("SMTP_EMAIL_PASSWORD", "dnrzomyvooftjcgc ")
 	config.SMTP.SMTPPort = getEnv("SMTP_PORT", "587")
 	config.SMTP.SMTPHost = getEnv("SMTP_HOST", "smtp.gmail.com")
 

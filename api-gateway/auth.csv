@@ -5,6 +5,10 @@ p, unauthorized, /v1/forgot/{email}, POST
 p, unauthorized, /v1/verify, POST
 p, unauthorized, /v1/reset-password, PUT
 p, unauthorized, /v1/token/{refresh}, GET
+p, unauthorized, /v1/media/{id}, GET
+p, unauthorized, /v1/product/{id}, GET
+p, unauthorized, /v1/products, GET
+p, unauthorized, /v1/search/{name}, GET
 
 p, user, /v1/media/{id}, GET
 p, user, /v1/user, PUT

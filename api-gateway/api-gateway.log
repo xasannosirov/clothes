@@ -268,3 +268,4 @@ main.main.func1
 main.main.func1
 	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
 2024-05-08T17:30:45.850+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T18:22:08.636+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}

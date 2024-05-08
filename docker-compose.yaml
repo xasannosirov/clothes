@@ -33,7 +33,6 @@ services:
       timeout: 10s
       retries: 5
 
-
   user-service:
     container_name: user-service
     build: ./user-service
