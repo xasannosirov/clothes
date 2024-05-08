@@ -2,6 +2,38 @@ version: '3.8'
 
 services:
 
+  migrate:
+    image: migrate/migrate
+    networks:
+      - store
+    volumes:
+      - ./api-gateway/migrations:/migrations
+    command: [ "-path", "/migrations", "-database",  "postgres://postgres:root@postgres:5432/clothes_store?sslmode=disable", "up" ]
+    depends_on:
+      - postgres-db
+
+  postgres-db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      PGDATA: /data/postgres
+      POSTGRES_DB: clothes_store
+    volumes:
+      - db:/databasedatadb/postgres
+    ports:
+      - "5332:5332"
+    networks:
+      - store
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+
   user-service:
     container_name: user-service
     build: ./user-service
@@ -55,3 +87,6 @@ services:
 networks:
   store:
     driver: bridge
+
+volumes:
+  db:

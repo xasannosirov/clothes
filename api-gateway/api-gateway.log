@@ -230,3 +230,41 @@ main.main.func1
 	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
 2024-05-08T14:46:14.154+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
 2024-05-08T14:48:30.077+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T15:20:37.609+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T15:22:44.145+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-08T15:22:44.146+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-08T15:55:45.367+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T15:56:05.615+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T15:56:05.617+0500	ERROR	app/main.go:32	app run	{"error": "listen tcp 127.0.0.1:5555: bind: address already in use"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-08T15:56:07.637+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-08T15:56:14.130+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-08T15:56:14.131+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-08T15:56:18.665+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T15:57:17.105+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-08T15:57:17.106+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-08T15:57:40.460+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T15:58:37.487+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-08T15:58:37.487+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-08T15:58:38.955+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T15:58:40.102+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-08T15:58:40.103+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-08T15:58:41.626+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T17:19:58.711+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T17:28:39.846+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-08T17:30:36.995+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-08T17:30:36.996+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/gopher/projects/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-08T17:30:45.850+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}

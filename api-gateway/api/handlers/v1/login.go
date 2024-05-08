@@ -5,8 +5,8 @@ import (
 	"api-gateway/api/models"
 	pb "api-gateway/genproto/user_service"
 	regtool "api-gateway/internal/pkg/regtool"
+	tokens "api-gateway/internal/pkg/token"
 	validation "api-gateway/internal/pkg/validation"
-	"api-gateway/internal/usecase/refresh_token"
 	"context"
 	"encoding/json"
 	"log"
@@ -28,6 +28,7 @@ import (
 // @Param 			User body models.UserRegister true "Register User"
 // @Success 		200 {object} models.User
 // @Failure 		400 {object} models.Error
+// @Failure 		409 {object} models.Error
 // @Failure 		500 {object} models.Error
 // @Router 			/v1/register [POST]
 func (h *HandlerV1) Register(c *gin.Context) {
@@ -119,7 +120,7 @@ func (h *HandlerV1) Register(c *gin.Context) {
 		return
 	}
 
-	h.RefreshToken = refresh_token.JWTHandler{
+	h.RefreshToken = tokens.JWTHandler{
 		Sub:        createdUser.Guid,
 		Role:       "user",
 		SigningKey: h.Config.Token.SignInKey,
@@ -174,21 +175,29 @@ func (h *HandlerV1) Register(c *gin.Context) {
 // @Tags 			registration
 // @Accept 			json
 // @Produce 		json
-// @Param 			email query string true "Email"
-// @Param 			password query string true "Password"
+// @Param 			login body models.Login true "Login Model"
 // @Success 		200 {object} models.User
 // @Failure 		400 {object} models.Error
+// @Failure 		409 {object} models.Error
 // @Failure 		500 {object} models.Error
-// @Router 			/v1/login [GET]
+// @Router 			/v1/login [POST]
 func (h *HandlerV1) Login(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(7))
 	defer cancel()
 
-	email := c.Query("email")
-	password := c.Query("password")
+	var body models.Login
+
+	err := c.ShouldBindJSON(&body)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
 
 	filter := map[string]string{
-		"email": email,
+		"email": body.Email,
 	}
 
 	response, err := h.Service.UserService().GetUser(
@@ -203,14 +212,14 @@ func (h *HandlerV1) Login(c *gin.Context) {
 		return
 	}
 
-	if !(regtool.CheckHashPassword(password, response.Password)) {
+	if !(regtool.CheckHashPassword(body.Password, response.Password)) {
 		c.JSON(http.StatusInternalServerError, models.Error{
-			Message: "Noto'gri parol!!!!",
+			Message: "Incorrect Password",
 		})
 		return
 	}
 
-	h.RefreshToken = refresh_token.JWTHandler{
+	h.RefreshToken = tokens.JWTHandler{
 		Sub:        response.Id,
 		Role:       response.Role,
 		SigningKey: h.Config.Token.SignInKey,
@@ -286,7 +295,7 @@ func (h *HandlerV1) Forgot(c *gin.Context) {
 	})
 
 	if err != nil {
-		c.JSON(500, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err)
@@ -294,7 +303,7 @@ func (h *HandlerV1) Forgot(c *gin.Context) {
 	}
 
 	if !status.Status {
-		c.JSON(500, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: "This user is not registered",
 		})
 		return
@@ -436,7 +445,7 @@ func (h *HandlerV1) ResetPassword(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-	if ! responseStatus.Status {
+	if !responseStatus.Status {
 		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: "Password doesn't updated",
 		})
@@ -456,6 +465,7 @@ func (h *HandlerV1) ResetPassword(c *gin.Context) {
 // @Success 		200 {object} models.TokenResp
 // @Failure 		400 {object} models.Error
 // @Failure 		403 {object} models.Error
+// @Failure 		409 {object} models.Error
 // @Failure 		500 {object} models.Error
 // @Router 			/v1/token/{refresh} [GET]
 func (h *HandlerV1) Token(c *gin.Context) {
@@ -478,18 +488,18 @@ func (h *HandlerV1) Token(c *gin.Context) {
 		return
 	}
 
-	resclaim, err := refresh_token.ExtractClaim(RToken, []byte(h.Config.Token.SignInKey))
+	resclaim, err := tokens.ExtractClaim(RToken, []byte(h.Config.Token.SignInKey))
 	if err != nil {
 		c.JSON(500, models.Error{
 			Message: models.InternalMessage,
 		})
-		log.Println(err)
+		log.Println(err.Error())
 		return
 	}
 	Now_time := time.Now().Unix()
 	exp := (resclaim["exp"])
 	if exp.(float64)-float64(Now_time) > 0 {
-		h.RefreshToken = refresh_token.JWTHandler{
+		h.RefreshToken = tokens.JWTHandler{
 			Sub:        user.Id,
 			Role:       user.Role,
 			SigningKey: h.Config.Token.SignInKey,

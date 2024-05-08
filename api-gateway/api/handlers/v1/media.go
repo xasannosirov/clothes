@@ -25,7 +25,7 @@ import (
 // @Tags 			media
 // @Accept 			multipart/form-data
 // @Produce         json
-// @Param 			product_id query string true "Product ID"
+// @Param 			id query string true "Product ID"
 // @Param 			file formData file true "File"
 // @Success 		200 {object} string
 // @Failure 		500 {object} models.Error
@@ -80,7 +80,7 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 		return
 	}
 
-	productId := c.Query("product_id")
+	productId := c.Query("id")
 
 	file := &models.File{}
 	err = c.ShouldBind(&file)

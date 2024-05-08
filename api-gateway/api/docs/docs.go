@@ -316,7 +316,7 @@ const docTemplate = `{
             }
         },
         "/v1/login": {
-            "get": {
+            "post": {
                 "description": "Api for user user",
                 "consumes": [
                     "application/json"
@@ -330,18 +330,13 @@ const docTemplate = `{
                 "summary": "Login",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Email",
-                        "name": "email",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Password",
-                        "name": "password",
-                        "in": "query",
-                        "required": true
+                        "description": "Login Model",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Login"
+                        }
                     }
                 ],
                 "responses": {
@@ -353,6 +348,12 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
@@ -388,7 +389,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Product ID",
-                        "name": "product_id",
+                        "name": "id",
                         "in": "query",
                         "required": true
                     },
@@ -1388,6 +1389,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.Error"
                         }
                     },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -1729,6 +1736,12 @@ const docTemplate = `{
                     },
                     "403": {
                         "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
@@ -2364,6 +2377,17 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Login": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Media": {
             "type": "object",
             "properties": {
@@ -2376,7 +2400,7 @@ const docTemplate = `{
                 "image_url": {
                     "type": "string"
                 },
-                "product_id": {
+                "productId": {
                     "type": "string"
                 }
             }
@@ -2641,7 +2665,7 @@ const docTemplate = `{
         }
     },
     "securityDefinitions": {
-        "ApiKeyAuth": {
+        "BearerAuth": {
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"

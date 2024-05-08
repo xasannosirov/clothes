@@ -40,6 +40,13 @@ definitions:
       user_id:
         type: string
     type: object
+  models.Login:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
   models.Media:
     properties:
       file_name:
@@ -48,7 +55,7 @@ definitions:
         type: string
       image_url:
         type: string
-      product_id:
+      productId:
         type: string
     type: object
   models.Order:
@@ -417,21 +424,17 @@ paths:
       tags:
       - products and orders
   /v1/login:
-    get:
+    post:
       consumes:
       - application/json
       description: Api for user user
       parameters:
-      - description: Email
-        in: query
-        name: email
+      - description: Login Model
+        in: body
+        name: login
         required: true
-        type: string
-      - description: Password
-        in: query
-        name: password
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/models.Login'
       produces:
       - application/json
       responses:
@@ -441,6 +444,10 @@ paths:
             $ref: '#/definitions/models.User'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "409":
+          description: Conflict
           schema:
             $ref: '#/definitions/models.Error'
         "500":
@@ -520,7 +527,7 @@ paths:
       parameters:
       - description: Product ID
         in: query
-        name: product_id
+        name: id
         required: true
         type: string
       - description: File
@@ -1104,6 +1111,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/models.Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
@@ -1324,6 +1335,10 @@ paths:
             $ref: '#/definitions/models.Error'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "409":
+          description: Conflict
           schema:
             $ref: '#/definitions/models.Error'
         "500":
@@ -1691,7 +1706,7 @@ paths:
       tags:
       - registration
 securityDefinitions:
-  ApiKeyAuth:
+  BearerAuth:
     in: header
     name: Authorization
     type: apiKey

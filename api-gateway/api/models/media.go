@@ -19,7 +19,7 @@ type (
 
 	Media struct {
 		Id        string `json:"id,omitempty"`
-		ProductId string `json:"product_id,omitempty"`
+		ProductId string `json:",omitempty"`
 		ImageUrl  string `json:"image_url,omitempty"`
 		FileName  string `json:"file_name"`
 	}

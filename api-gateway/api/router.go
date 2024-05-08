@@ -18,7 +18,7 @@ import (
 
 	grpcClients "api-gateway/internal/infrastructure/grpc_client"
 	"api-gateway/internal/pkg/config"
-	"api-gateway/internal/usecase/refresh_token"
+	"api-gateway/internal/pkg/token"
 )
 
 type RouteOption struct {
@@ -28,12 +28,12 @@ type RouteOption struct {
 	Service        grpcClients.ServiceClient
 	Cache          redisrepo.Cache
 	Enforcer       *casbin.Enforcer
-	RefreshToken   refresh_token.JWTHandler
+	RefreshToken   token.JWTHandler
 }
 
 // NewRoute
 // @Description Online Clothes Store
-// @securityDefinitions.apikey ApiKeyAuth
+// @securityDefinitions.apikey BearerAuth
 // @in 			header
 // @name 		Authorization
 func NewRoute(option RouteOption) *gin.Engine {
@@ -69,7 +69,7 @@ func NewRoute(option RouteOption) *gin.Engine {
 
 	// registration
 	apiV1.POST("/register", HandlerV1.Register)
-	apiV1.GET("/login", HandlerV1.Login)
+	apiV1.POST("/login", HandlerV1.Login)
 	apiV1.POST("/forgot/:email", HandlerV1.Forgot)
 	apiV1.POST("/verify", HandlerV1.Verify)
 	apiV1.PUT("/reset-password", HandlerV1.ResetPassword)

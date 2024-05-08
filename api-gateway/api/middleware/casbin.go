@@ -2,9 +2,8 @@ package middleware
 
 import (
 	"api-gateway/internal/pkg/config"
-	"api-gateway/internal/usecase/refresh_token"
+	tokens "api-gateway/internal/pkg/token"
 	"errors"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -51,7 +50,7 @@ func (casb *JwtRoleAuth) GetRole(c *gin.Context) (string, int) {
 		t = token
 	}
 
-	claims, err := refresh_token.ExtractClaim(t, []byte(casb.cfg.Token.SignInKey))
+	claims, err := tokens.ExtractClaim(t, []byte(casb.cfg.Token.SignInKey))
 	if err != nil {
 		return "unauthorized", http.StatusUnauthorized
 	}
@@ -82,7 +81,6 @@ func (casb *JwtRoleAuth) CheckPermission(c *gin.Context) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	fmt.Println(role, path, method)
-	fmt.Println(allowed)
+
 	return allowed, nil
 }

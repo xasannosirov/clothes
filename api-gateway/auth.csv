@@ -1,50 +1,54 @@
 p, unauthorized, /v1/swagger/*,  GET
-
 p, unauthorized, /v1/register, POST
-p, unauthorized, /v1/login, GET
+p, unauthorized, /v1/login, POST
 p, unauthorized, /v1/forgot/{email}, POST
 p, unauthorized, /v1/verify, POST
 p, unauthorized, /v1/reset-password, PUT
 p, unauthorized, /v1/token/{refresh}, GET
 
-p, unauthorized, /v1/media/upload-photo, POST
-p, unauthorized, /v1/media/{id}, GET
-p, unauthorized, /v1/media/{id}, DELETE
+p, user, /v1/media/{id}, GET
+p, user, /v1/user, PUT
+p, user, /v1/user/{id}, DELETE
+p, user, /v1/user/{id}, GET
+p, user, /v1/product/{id}, GET
+p, user, /v1/products, GET
+p, user, /v1/order, POST
+p, user, /v1/order/{id}, GET
+p, user, /v1/like-product, POST
+p, user, /v1/save-product, POST
+p, user, /v1/star-product, POST
+p, user, /v1/comment-product, POST
+p, user, /v1/user/save/{id}, GET
+p, user, /v1/user/likes/{id}, GET
+p, user, /v1/user/orders/{id}, GET
+p, user, /v1/search/{name}, GET
+p, user, /v1/recommendation, GET
+p, user, /v1/disable-orders, GET
 
-p, unauthorized, /v1/user, POST
-p, unauthorized, /v1/user, PUT
-p, unauthorized, /v1/user/{id}, DELETE
-p, unauthorized, /v1/user/{id}, GET
-p, unauthorized, /v1/users, GET
+p, worker, /v1/media/upload-photo, POST
+p, worker, /v1/media/{id}, GET
+p, worker, /v1/media/{id}, DELETE
+p, worker, /v1/user, PUT
+p, worker, /v1/user/{id}, GET
+p, worker, /v1/users, GET
+p, worker, /v1/product, POST
+p, worker, /v1/product, PUT
+p, worker, /v1/product/{id}, GET
+p, worker, /v1/product/{id}, DELETE
+p, worker, /v1/products, GET
+p, worker, /v1/order/{id}, GET
+p, worker, /v1/order/{id}, DELETE
+p, worker, /v1/orders, GET
+p, worker, /v1/comments, GET
+p, worker, /v1/stars, GET
+p, worker, /v1/product/orders/{id}, GET
+p, worker, /v1/product/comments/{id}, GET
+p, worker, /v1/product/likes/{id}, GET
+p, worker, /v1/product/stars/{id}, GET
+p, worker, /v1/search/{name}, GET
+p, worker, /v1/disable-orders, GET
 
-p, unauthorized, /v1/product, POST
-p, unauthorized, /v1/product, PUT
-p, unauthorized, /v1/product/{id}, GET
-p, unauthorized, /v1/product/{id}, DELETE
-p, unauthorized, /v1/products, GET
-
-p, unauthorized, /v1/order, POST
-p, unauthorized, /v1/order/{id}, GET
-p, unauthorized, /v1/order/{id}, DELETE
-p, unauthorized, /v1/orders, GET
-
-p, unauthorized, /v1/like-product, POST
-p, unauthorized, /v1/save-product, POST
-p, unauthorized, /v1/star-product, POST
-p, unauthorized, /v1/comment-product, POST
-
-p, unauthorized, /v1/comments, GET
-p, unauthorized, /v1/stars, GET
-
-p, unauthorized, /v1/product/orders/{id}, GET
-p, unauthorized, /v1/product/comments/{id}, GET
-p, unauthorized, /v1/product/likes/{id}, GET
-p, unauthorized, /v1/product/stars/{id}, GET
-
-p, unauthorized, /v1/user/save/{id}, GET
-p, unauthorized, /v1/user/likes/{id}, GET
-p, unauthorized, /v1/user/orders/{id}, GET
-
-p, unauthorized, /v1/search/{name}, GET
-p, unauthorized, /v1/recommendation, GET
-p, unauthorized, /v1/disable-orders, GET
+p, admin, /v1/*, POST
+p, admin, /v1/*, PUT
+p, admin, /v1/*, DELETE
+p, admin, /v1/*, GET

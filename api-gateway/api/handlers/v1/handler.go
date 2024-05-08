@@ -4,7 +4,7 @@ import (
 	grpcClients "api-gateway/internal/infrastructure/grpc_client"
 	repo "api-gateway/internal/infrastructure/repository/redis"
 	"api-gateway/internal/pkg/config"
-	"api-gateway/internal/usecase/refresh_token"
+	tokens "api-gateway/internal/pkg/token"
 	"time"
 
 	"github.com/casbin/casbin/v2"
@@ -17,7 +17,7 @@ type HandlerV1 struct {
 	ContextTimeout time.Duration
 	Service        grpcClients.ServiceClient
 	redisStorage   repo.Cache
-	RefreshToken   refresh_token.JWTHandler
+	RefreshToken   tokens.JWTHandler
 	Enforcer       *casbin.Enforcer
 }
 
@@ -28,7 +28,7 @@ type HandlerV1Config struct {
 	ContextTimeout time.Duration
 	Service        grpcClients.ServiceClient
 	Redis          repo.Cache
-	RefreshToken   refresh_token.JWTHandler
+	RefreshToken   tokens.JWTHandler
 	Enforcer       *casbin.Enforcer
 }
 
