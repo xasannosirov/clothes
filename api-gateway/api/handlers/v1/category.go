@@ -10,25 +10,26 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
 // @Security 		BearerAuth
-// @Summary 		Create Product
-// @Description 	This API for create a new product
-// @Tags 			products
+// @Summary 		Create Category
+// @Description 	This API for create a new category for product
+// @Tags 			category
 // @Produce 		json
 // @Accept 			json
-// @Param 			product body models.ProductReq true "Create Product Model"
+// @Param 			order body models.CategoryReq true "Create Category Model"
 // @Success			201 {object} string
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
-// @Router 			/v1/product [POST]
-func (h *HandlerV1) CreateProduct(c *gin.Context) {
+// @Router 			/v1/category [POST]
+func (h *HandlerV1) CreateCategory(c *gin.Context) {
 	var (
-		body        models.ProductReq
+		body        models.CategoryReq
 		jspbMarshal protojson.MarshalOptions
 	)
 	jspbMarshal.UseProtoNames = true
@@ -53,19 +54,9 @@ func (h *HandlerV1) CreateProduct(c *gin.Context) {
 		return
 	}
 
-	createdProductResponse, err := h.Service.ProductService().CreateProduct(ctx, &product_service.Product{
-		Name:        body.Name,
-		Description: body.Description,
-		Category:    body.Category,
-		MadeIn:      body.MadeIn,
-		Color:       body.Color,
-		Count:       body.Count,
-		Cost:        float32(body.Cost),
-		Discount:    float32(body.Discount),
-		AgeMin:      body.AgeMin,
-		AgeMax:      body.AgeMax,
-		ForGender:   body.ForGender,
-		Size_:       body.Size,
+	category, err := h.Service.ProductService().CreateCategory(ctx, &product_service.Category{
+		Id:   uuid.NewString(),
+		Name: body.Name,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
@@ -75,25 +66,28 @@ func (h *HandlerV1) CreateProduct(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, createdProductResponse.Id)
+	c.JSON(http.StatusCreated, models.Category{
+		ID:   category.Id,
+		Name: category.Name,
+	})
 }
 
 // @Security 		BearerAuth
-// @Summary 		Update Product
-// @Description 	This API for updating a product
-// @Tags 			products
+// @Summary 		Update Category
+// @Description 	This API for update a category
+// @Tags 			category
 // @Produce 		json
 // @Accept 			json
-// @Param 			product body models.Product true "Update Product Model"
-// @Success			200 {object} models.Product
+// @Param 			order body models.Category true "Create Category Model"
+// @Success			200 {object} models.Category
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
-// @Router 			/v1/product [PUT]
-func (h *HandlerV1) UpdateProduct(c *gin.Context) {
+// @Router 			/v1/category [PUT]
+func (h *HandlerV1) UpdateCategory(c *gin.Context) {
 	var (
-		body        models.Product
+		body        models.Category
 		jspbMarshal protojson.MarshalOptions
 	)
 	jspbMarshal.UseProtoNames = true
@@ -118,20 +112,9 @@ func (h *HandlerV1) UpdateProduct(c *gin.Context) {
 		return
 	}
 
-	updatedProduct, err := h.Service.ProductService().UpdateProduct(ctx, &product_service.Product{
-		Id:          body.ID,
-		Name:        body.Name,
-		Description: body.Description,
-		Category:    body.Category,
-		MadeIn:      body.MadeIn,
-		Color:       body.Color,
-		Count:       body.Count,
-		Cost:        float32(body.Cost),
-		Discount:    float32(body.Discount),
-		AgeMin:      body.AgeMin,
-		AgeMax:      body.AgeMax,
-		ForGender:   body.ForGender,
-		Size_:       body.Size,
+	category, err := h.Service.ProductService().UpdateCategory(ctx, &product_service.Category{
+		Id:   body.ID,
+		Name: body.Name,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
@@ -141,37 +124,26 @@ func (h *HandlerV1) UpdateProduct(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, models.Product{
-		ID:          updatedProduct.Id,
-		Name:        updatedProduct.Name,
-		Category:    updatedProduct.Category,
-		Description: updatedProduct.Description,
-		MadeIn:      updatedProduct.MadeIn,
-		Color:       updatedProduct.Color,
-		Size:        updatedProduct.Size_,
-		Count:       updatedProduct.Count,
-		Cost:        float64(updatedProduct.Cost),
-		Discount:    float64(updatedProduct.Discount),
-		AgeMin:      updatedProduct.AgeMin,
-		AgeMax:      updatedProduct.AgeMax,
-		ForGender:   updatedProduct.ForGender,
+	c.JSON(http.StatusOK, models.Category{
+		ID:   category.Id,
+		Name: category.Name,
 	})
 }
 
 // @Security 		BearerAuth
-// @Summary 		Delete Product
-// @Description 	This API for deleting a product with product_id
-// @Tags 			products
+// @Summary 		Delete Category
+// @Description 	This API for delete a category with id
+// @Tags 			category
 // @Produce 		json
 // @Accept 			json
-// @Param 			id path string true "Product ID"
-// @Success			200 {object} bool
+// @Param 			id path string true "Category ID"
+// @Success			201 {object} bool
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
-// @Router 			/v1/product/{id} [DELETE]
-func (h *HandlerV1) DeleteProduct(c *gin.Context) {
+// @Router 			/v1/category/{id} [DELETE]
+func (h *HandlerV1) DeleteCategory(c *gin.Context) {
 	var (
 		jspbMarshal protojson.MarshalOptions
 	)
@@ -188,10 +160,10 @@ func (h *HandlerV1) DeleteProduct(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 
-	productID := c.Param("id")
+	categoryID := c.Param("id")
 
-	responseStatus, err := h.Service.ProductService().DeleteProduct(ctx, &product_service.GetWithID{
-		Id: productID,
+	status, err := h.Service.ProductService().DeleteCategory(ctx, &product_service.GetWithID{
+		Id: categoryID,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
@@ -201,23 +173,23 @@ func (h *HandlerV1) DeleteProduct(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, responseStatus.Status)
+	c.JSON(http.StatusOK, status.Status)
 }
 
 // @Security 		BearerAuth
-// @Summary 		Get Product
-// @Description 	This API for getting a product with product_id
-// @Tags 			products
+// @Summary 		Get Category
+// @Description 	This API for getting a category with id
+// @Tags 			category
 // @Produce 		json
 // @Accept 			json
-// @Param 			id path string true "Product ID"
-// @Success			200 {object} models.Product
+// @Param 			id path string true "Category ID"
+// @Success			201 {object} models.Category
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
-// @Router 			/v1/product/{id} [GET]
-func (h *HandlerV1) GetProduct(c *gin.Context) {
+// @Router 			/v1/category/{id} [GET]
+func (h *HandlerV1) GetCategory(c *gin.Context) {
 	var (
 		jspbMarshal protojson.MarshalOptions
 	)
@@ -234,10 +206,10 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 
-	productID := c.Param("id")
+	categoryID := c.Param("id")
 
-	product, err := h.Service.ProductService().GetProductByID(ctx, &product_service.GetWithID{
-		Id: productID,
+	category, err := h.Service.ProductService().GetCategory(ctx, &product_service.GetWithID{
+		Id: categoryID,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
@@ -247,38 +219,27 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, models.Product{
-		ID:          productID,
-		Name:        product.Name,
-		Category:    product.Category,
-		Description: product.Description,
-		MadeIn:      product.MadeIn,
-		Color:       product.Color,
-		Size:        product.Size_,
-		Count:       product.Count,
-		Cost:        float64(product.Cost),
-		Discount:    float64(product.Discount),
-		AgeMin:      product.AgeMin,
-		AgeMax:      product.AgeMax,
-		ForGender:   product.ForGender,
+	c.JSON(http.StatusOK, models.Category{
+		ID:   categoryID,
+		Name: category.Name,
 	})
 }
 
 // @Security 		BearerAuth
-// @Summary 		List Products
-// @Description 	This API for getting list of products
-// @Tags 			products
+// @Summary 		List Category
+// @Description 	This API for getting categories
+// @Tags 			category
 // @Produce 		json
 // @Accept 			json
 // @Param 			page query uint64 true "Page"
 // @Param 			limit query uint64 true "Limit"
-// @Success			200 {object} models.Product
+// @Success			201 {object} string
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
-// @Router 			/v1/products [GET]
-func (h *HandlerV1) ListProducts(c *gin.Context) {
+// @Router 			/v1/categories [GET]
+func (h *HandlerV1) ListCategory(c *gin.Context) {
 	var (
 		jspbMarshal protojson.MarshalOptions
 	)
@@ -314,7 +275,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 		return
 	}
 
-	listProducts, err := h.Service.ProductService().GetAllProducts(ctx, &product_service.ListRequest{
+	listCategories, err := h.Service.ProductService().GetAllCategory(ctx, &product_service.ListRequest{
 		Page:  int64(pageInt),
 		Limit: int64(limitInt),
 	})
@@ -326,27 +287,16 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 		return
 	}
 
-	var products []models.Product
-	for _, product := range listProducts.Products {
-		products = append(products, models.Product{
-			ID:          product.Id,
-			Name:        product.Name,
-			Category:    product.Category,
-			Description: product.Description,
-			MadeIn:      product.MadeIn,
-			Color:       product.Color,
-			Size:        product.Size_,
-			Count:       product.Count,
-			Cost:        float64(product.Cost),
-			Discount:    float64(product.Discount),
-			AgeMin:      product.AgeMin,
-			AgeMax:      product.AgeMax,
-			ForGender:   product.ForGender,
+	var categories []models.Category
+	for _, category := range listCategories.Categories {
+		categories = append(categories, models.Category{
+			ID:   category.Id,
+			Name: category.Name,
 		})
 	}
 
-	c.JSON(http.StatusCreated, models.ListProduct{
-		Products: products,
-		Total:    listProducts.TotalCount,
+	c.JSON(http.StatusOK, models.ListCategory{
+		Categories: categories,
+		Total:      listCategories.TotalCount,
 	})
 }

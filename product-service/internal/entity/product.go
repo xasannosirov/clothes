@@ -22,6 +22,11 @@ type Product struct {
 	UpdatedAt   time.Time
 }
 
+type ListProduct struct {
+	Products   []*Product
+	TotalCount uint64
+}
+
 type Filter struct {
 	Name string
 }
@@ -33,6 +38,11 @@ type Order struct {
 	Status    string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+}
+
+type ListOrders struct {
+	Orders     []*Order
+	TotalCount uint64
 }
 
 type Recom struct {
@@ -64,12 +74,23 @@ type LikeProduct struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+type ListLikes struct {
+	Likes      []*LikeProduct
+	TotalCount uint64
+}
+
 type SaveProduct struct {
 	Id        string
 	ProductID string
 	UserID    string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+}
+
+type ListSaves struct {
+	Saves      []*SaveProduct
+	TotalCount uint64
 }
 
 type CommentToProduct struct {
@@ -81,6 +102,11 @@ type CommentToProduct struct {
 	UpdatedAt time.Time
 }
 
+type ListComments struct {
+	Comments   []*CommentToProduct
+	TotalCount uint64
+}
+
 type StarProduct struct {
 	Id        string
 	ProductID string
@@ -88,4 +114,21 @@ type StarProduct struct {
 	Stars     int64
 	CreatedAt time.Time
 	UpdatedAt time.Time
+}
+
+type ListStars struct {
+	Stars      []*StarProduct
+	TotalCount uint64
+}
+
+type Category struct {
+	ID        string
+	Name      string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
+type LiestCategory struct {
+	Categories []*Category
+	TotalCount uint64
 }

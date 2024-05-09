@@ -16,7 +16,7 @@ func (d *productRPC) GetSavedProductsByUserID(ctx context.Context, in *pb.GetWit
 	}
 
 	var pbProducts []*pb.Product
-	for _, product := range products {
+	for _, product := range products.Products {
 		pbProducts = append(pbProducts, &pb.Product{
 			Id:          product.Id,
 			Name:        product.Name,
@@ -46,7 +46,7 @@ func (d *productRPC) GetWishlistByUserID(ctx context.Context, in *pb.GetWithUser
 	}
 
 	var pbProducts []*pb.Product
-	for _, product := range products {
+	for _, product := range products.Products {
 		pbProducts = append(pbProducts, &pb.Product{
 			Id:          product.Id,
 			Name:        product.Name,
@@ -76,7 +76,7 @@ func (d *productRPC) GetOrderedProductsByUserID(ctx context.Context, in *pb.GetW
 	}
 
 	var pbProducts []*pb.Product
-	for _, product := range products {
+	for _, product := range products.Products {
 		pbProducts = append(pbProducts, &pb.Product{
 			Id:          product.Id,
 			Name:        product.Name,

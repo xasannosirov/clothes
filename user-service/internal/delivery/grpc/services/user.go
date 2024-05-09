@@ -169,7 +169,7 @@ func (s userRPC) GetAllUsers(ctx context.Context, in *userproto.ListUserRequest)
 		return nil, err
 	}
 
-	var response userproto.ListUserResponse
+	response := userproto.ListUserResponse{}
 	for _, u := range users {
 		temp := &userproto.User{
 			Id:          u.GUID,
@@ -188,6 +188,8 @@ func (s userRPC) GetAllUsers(ctx context.Context, in *userproto.ListUserRequest)
 
 		response.Users = append(response.Users, temp)
 	}
+
+	response.TotalCount = s.userUsecase.Total(ctx, in.Role)
 
 	return &response, nil
 }

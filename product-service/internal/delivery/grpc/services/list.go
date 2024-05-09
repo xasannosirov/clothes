@@ -21,9 +21,9 @@ func (d *productRPC) GetAllComments(ctx context.Context, in *pb.ListRequest) (*p
 		return &pb.ListCommentResponse{}, grpc.Error(ctx, err)
 	}
 
-	var pbComments []*pb.Comment
-	for _, comment := range comments {
-		pbComments = append(pbComments, &pb.Comment{
+	pbComments := &pb.ListCommentResponse{}
+	for _, comment := range comments.Comments {
+		pbComments.Comments = append(pbComments.Comments, &pb.Comment{
 			Id:        comment.Id,
 			ProductId: comment.ProductID,
 			UserId:    comment.UserID,
@@ -33,7 +33,10 @@ func (d *productRPC) GetAllComments(ctx context.Context, in *pb.ListRequest) (*p
 		})
 	}
 
-	return &pb.ListCommentResponse{Comments: pbComments}, nil
+	return &pb.ListCommentResponse{
+		Comments:   pbComments.Comments,
+		TotalCount: comments.TotalCount,
+	}, nil
 }
 
 func (d *productRPC) GetAllStars(ctx context.Context, in *pb.ListRequest) (*pb.ListStarsResponse, error) {
@@ -46,9 +49,9 @@ func (d *productRPC) GetAllStars(ctx context.Context, in *pb.ListRequest) (*pb.L
 	if err != nil {
 		return &pb.ListStarsResponse{}, grpc.Error(ctx, err)
 	}
-	var pbStars []*pb.Star
-	for _, star := range stars {
-		pbStars = append(pbStars, &pb.Star{
+	pbStars := &pb.ListStarsResponse{}
+	for _, star := range stars.Stars {
+		pbStars.Stars = append(pbStars.Stars, &pb.Star{
 			Id:        star.Id,
 			ProductId: star.ProductID,
 			UserId:    star.UserID,
@@ -59,7 +62,8 @@ func (d *productRPC) GetAllStars(ctx context.Context, in *pb.ListRequest) (*pb.L
 	}
 
 	return &pb.ListStarsResponse{
-		Stars: pbStars,
+		Stars:      pbStars.Stars,
+		TotalCount: stars.TotalCount,
 	}, nil
 }
 
@@ -70,9 +74,9 @@ func (d *productRPC) GetProductOrders(ctx context.Context, in *pb.GetWithID) (*p
 		return &pb.ListOrderResponse{}, grpc.Error(ctx, err)
 	}
 
-	var pbOrders []*pb.Order
-	for _, order := range orders {
-		pbOrders = append(pbOrders, &pb.Order{
+	pbOrders := &pb.ListOrderResponse{}
+	for _, order := range orders.Orders {
+		pbOrders.Orders = append(pbOrders.Orders, &pb.Order{
 			Id:        order.Id,
 			ProductId: order.ProductID,
 			UserId:    order.UserID,
@@ -81,7 +85,10 @@ func (d *productRPC) GetProductOrders(ctx context.Context, in *pb.GetWithID) (*p
 			UpdatedAt: order.UpdatedAt.String(),
 		})
 	}
-	return &pb.ListOrderResponse{Orders: pbOrders}, nil
+	return &pb.ListOrderResponse{
+		Orders:     pbOrders.Orders,
+		TotalCount: orders.TotalCount,
+	}, nil
 }
 
 func (d *productRPC) GetProductComments(ctx context.Context, in *pb.GetWithID) (*pb.ListCommentResponse, error) {
@@ -91,9 +98,9 @@ func (d *productRPC) GetProductComments(ctx context.Context, in *pb.GetWithID) (
 		return &pb.ListCommentResponse{}, grpc.Error(ctx, err)
 	}
 
-	var pbComments []*pb.Comment
-	for _, comment := range comments {
-		pbComments = append(pbComments, &pb.Comment{
+	pbComments := &pb.ListCommentResponse{}
+	for _, comment := range comments.Comments {
+		pbComments.Comments = append(pbComments.Comments, &pb.Comment{
 			Id:        comment.Id,
 			ProductId: comment.ProductID,
 			UserId:    comment.UserID,
@@ -102,7 +109,10 @@ func (d *productRPC) GetProductComments(ctx context.Context, in *pb.GetWithID) (
 			UpdatedAt: comment.UpdatedAt.String(),
 		})
 	}
-	return &pb.ListCommentResponse{Comments: pbComments}, nil
+	return &pb.ListCommentResponse{
+		Comments:   pbComments.Comments,
+		TotalCount: comments.TotalCount,
+	}, nil
 }
 
 func (d *productRPC) GetProductLikes(ctx context.Context, in *pb.GetWithID) (*pb.ListWishlistResponse, error) {
@@ -112,9 +122,9 @@ func (d *productRPC) GetProductLikes(ctx context.Context, in *pb.GetWithID) (*pb
 		return &pb.ListWishlistResponse{}, grpc.Error(ctx, err)
 	}
 
-	var pbLikes []*pb.Like
-	for _, like := range likes {
-		pbLikes = append(pbLikes, &pb.Like{
+	pbLikes := &pb.ListWishlistResponse{}
+	for _, like := range likes.Likes {
+		pbLikes.Likes = append(pbLikes.Likes, &pb.Like{
 			Id:        like.Id,
 			ProductId: like.ProductID,
 			UserId:    like.UserID,
@@ -122,7 +132,10 @@ func (d *productRPC) GetProductLikes(ctx context.Context, in *pb.GetWithID) (*pb
 			UpdatedAt: like.UpdatedAt.String(),
 		})
 	}
-	return &pb.ListWishlistResponse{Likes: pbLikes}, nil
+	return &pb.ListWishlistResponse{
+		Likes:      pbLikes.Likes,
+		TotalCount: likes.TotalCount,
+	}, nil
 }
 
 func (d *productRPC) GetProductStars(ctx context.Context, in *pb.GetWithID) (*pb.ListStarsResponse, error) {
@@ -132,9 +145,9 @@ func (d *productRPC) GetProductStars(ctx context.Context, in *pb.GetWithID) (*pb
 		return &pb.ListStarsResponse{}, grpc.Error(ctx, err)
 	}
 
-	var pbStars []*pb.Star
-	for _, star := range stars {
-		pbStars = append(pbStars, &pb.Star{
+	pbStars := &pb.ListStarsResponse{}
+	for _, star := range stars.Stars {
+		pbStars.Stars = append(pbStars.Stars, &pb.Star{
 			Id:        star.Id,
 			ProductId: star.ProductID,
 			UserId:    star.UserID,
@@ -143,5 +156,8 @@ func (d *productRPC) GetProductStars(ctx context.Context, in *pb.GetWithID) (*pb
 			UpdatedAt: star.UpdatedAt.String(),
 		})
 	}
-	return &pb.ListStarsResponse{Stars: pbStars}, nil
+	return &pb.ListStarsResponse{
+		Stars:      pbStars.Stars,
+		TotalCount: stars.TotalCount,
+	}, nil
 }

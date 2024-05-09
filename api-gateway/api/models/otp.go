@@ -2,8 +2,8 @@ package models
 
 type (
 	Login struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
+		Email    string `json:"email" example:"xasannosirov094@gmail.com"`
+		Password string `json:"password" example:"Sehtols@01"`
 	}
 
 	Otp struct {

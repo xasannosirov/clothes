@@ -70,9 +70,9 @@ func (d *productRPC) GetAllOrders(ctx context.Context, in *pb.ListRequest) (*pb.
 		return &pb.ListOrderResponse{}, err
 	}
 
-	var pbOrders []*pb.Order
-	for _, order := range orders {
-		pbOrders = append(pbOrders, &pb.Order{
+	pbOrders := &pb.ListOrderResponse{}
+	for _, order := range orders.Orders {
+		pbOrders.Orders = append(pbOrders.Orders, &pb.Order{
 			Id:        order.Id,
 			ProductId: order.ProductID,
 			UserId:    order.UserID,
@@ -81,5 +81,8 @@ func (d *productRPC) GetAllOrders(ctx context.Context, in *pb.ListRequest) (*pb.
 			UpdatedAt: order.UpdatedAt.Format(time.RFC3339),
 		})
 	}
-	return &pb.ListOrderResponse{Orders: pbOrders}, nil
+	return &pb.ListOrderResponse{
+		Orders:     pbOrders.Orders,
+		TotalCount: orders.TotalCount,
+	}, nil
 }

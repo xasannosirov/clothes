@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -52,6 +53,15 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
+		return
+	}
+
+	body.Role = strings.ToLower(body.Role)
+	if !(body.Role == "user") || !(body.Role == "worker") {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "Invalid role",
+		})
+		log.Println(body.Role)
 		return
 	}
 
@@ -287,8 +297,9 @@ func (h *HandlerV1) GetUser(c *gin.Context) {
 // @Tags 			users
 // @Accept 			json
 // @Produce 		json
-// @Param 			page query uint64 false "Page"
-// @Param 			limit query uint64 false "Limit"
+// @Param 			page query uint64 true "Page"
+// @Param 			limit query uint64 true "Limit"
+// @Param 			role query string true "Role"
 // @Success 		200 {object} []models.User
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
@@ -314,6 +325,7 @@ func (h *HandlerV1) ListUsers(c *gin.Context) {
 
 	page := c.Query("page")
 	limit := c.Query("limit")
+	role := c.Query("role")
 	pageInt, err := strconv.Atoi(page)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.Error{
@@ -334,7 +346,7 @@ func (h *HandlerV1) ListUsers(c *gin.Context) {
 	listUsers, err := h.Service.UserService().GetAllUsers(ctx, &userproto.ListUserRequest{
 		Page:  int64(pageInt),
 		Limit: int64(limitInt),
-		Role:  "user",
+		Role:  role,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
@@ -344,9 +356,9 @@ func (h *HandlerV1) ListUsers(c *gin.Context) {
 		return
 	}
 
-	var response []models.User
+	var users []models.User
 	for _, user := range listUsers.Users {
-		response = append(response, models.User{
+		users = append(users, models.User{
 			Id:        user.Id,
 			FirstName: user.FirstName,
 			LastName:  user.LastName,
@@ -358,5 +370,8 @@ func (h *HandlerV1) ListUsers(c *gin.Context) {
 		})
 	}
 
-	c.JSON(http.StatusOK, response)
+	c.JSON(http.StatusOK, models.ListUser{
+		User:  users,
+		Total: listUsers.TotalCount,
+	})
 }

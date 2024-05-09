@@ -52,4 +52,5 @@ message ListUserRequest {
 
 message ListUserResponse {
   repeated User users = 1;
+  uint64 total_count = 2;
 }

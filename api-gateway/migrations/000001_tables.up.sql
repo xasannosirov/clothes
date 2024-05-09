@@ -14,10 +14,18 @@ CREATE TABLE users (
     deleted_at TIMESTAMPTZ
 );
 
+CREATE TABLE category (
+    id UUID PRIMARY KEY,
+    name TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMPTZ
+);
+
 CREATE TABLE products (
     id UUID PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    category VARCHAR(50) NOT NULL,
+    category_id UUID NOT NULL,
     description TEXT,
     made_in VARCHAR(100) NOT NULL,
     count INT NOT NULL,
@@ -30,7 +38,8 @@ CREATE TABLE products (
     for_gender VARCHAR(6) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMPTZ
+    deleted_at TIMESTAMPTZ,
+    FOREIGN KEY (category_id) REFERENCES category (id)
 );
 
 CREATE TABLE media (
@@ -104,6 +113,4 @@ CREATE TABLE comments (
 
 INSERT INTO users (id, first_name, last_name, email, phone_number, password, gender, age, refresh, role) 
 VALUES 
-('19d16003-586a-4190-92ee-ab0c45504023', 'Xasan', 'Nosirov', 'xasannosirov094@gmail.com', '+998944970514', '$2a$10$VOukMtTpUxICddVOCTJJou594V0cZ4zbRVN9smlrcMrH6i4AjqrbK', 'male', 18, NULL, 'admin'),
-('19d16003-586a-4190-92ee-ab0c45504024', 'Alisher', 'Botirov', 'xasannosirov094@gmail.com', '+998998887766', '$2a$10$VOukMtTpUxICddVOCTJJou594V0cZ4zbRVN9smlrcMrH6i4AjqrbK', 'male', 23, NULL, 'worker'),
-('19d16003-586a-4190-92ee-ab0c45504025', 'Jasur', 'Abudllaev', 'xasannosirov094@gmail.com', '+998997778866', '$2a$10$VOukMtTpUxICddVOCTJJou594V0cZ4zbRVN9smlrcMrH6i4AjqrbK', 'male', 25, NULL, 'user');
+('19d16003-586a-4190-92ee-ab0c45504023', 'Xasan', 'Nosirov', 'xasannosirov094@gmail.com', '+998944970514', '$2a$10$VOukMtTpUxICddVOCTJJou594V0cZ4zbRVN9smlrcMrH6i4AjqrbK', 'male', 18, NULL, 'admin');

@@ -19,7 +19,7 @@ func (d *productRPC) SearchProduct(ctx context.Context, in *pb.Filter) (*pb.List
 	}
 
 	var serviceResponse pb.ListProductResponse
-	for _, product := range products {
+	for _, product := range products.Products {
 		serviceResponse.Products = append(serviceResponse.Products, &pb.Product{
 			Id:          product.Id,
 			Name:        product.Name,
@@ -39,6 +39,8 @@ func (d *productRPC) SearchProduct(ctx context.Context, in *pb.Filter) (*pb.List
 		})
 	}
 
+	serviceResponse.TotalCount = products.TotalCount
+
 	return &serviceResponse, nil
 }
 
@@ -49,9 +51,9 @@ func (d *productRPC) Recommendation(ctx context.Context, in *pb.Recom) (*pb.List
 		return &pb.ListProductResponse{}, grpc.Error(ctx, err)
 	}
 
-	var pbProducts []*pb.Product
-	for _, product := range products {
-		pbProducts = append(pbProducts, &pb.Product{
+	pbProducts := &pb.ListProductResponse{}
+	for _, product := range products.Products {
+		pbProducts.Products = append(pbProducts.Products, &pb.Product{
 			Id:          product.Id,
 			Name:        product.Name,
 			Description: product.Description,
@@ -70,7 +72,10 @@ func (d *productRPC) Recommendation(ctx context.Context, in *pb.Recom) (*pb.List
 		})
 	}
 
-	return &pb.ListProductResponse{Products: pbProducts}, nil
+	return &pb.ListProductResponse{
+		Products:   pbProducts.Products,
+		TotalCount: products.TotalCount,
+	}, nil
 }
 
 func (d *productRPC) GetDisableProducts(ctx context.Context, in *pb.ListRequest) (*pb.ListOrderResponse, error) {
@@ -80,9 +85,9 @@ func (d *productRPC) GetDisableProducts(ctx context.Context, in *pb.ListRequest)
 		return &pb.ListOrderResponse{}, grpc.Error(ctx, err)
 	}
 
-	var pbOrders []*pb.Order
-	for _, order := range orders {
-		pbOrders = append(pbOrders, &pb.Order{
+	pbOrders := &pb.ListOrderResponse{}
+	for _, order := range orders.Orders {
+		pbOrders.Orders = append(pbOrders.Orders, &pb.Order{
 			Id:        order.Id,
 			ProductId: order.ProductID,
 			UserId:    order.UserID,
@@ -91,5 +96,8 @@ func (d *productRPC) GetDisableProducts(ctx context.Context, in *pb.ListRequest)
 			UpdatedAt: order.UpdatedAt.Format(time.RFC3339),
 		})
 	}
-	return &pb.ListOrderResponse{Orders: pbOrders}, nil
+	return &pb.ListOrderResponse{
+		Orders:     pbOrders.Orders,
+		TotalCount: orders.TotalCount,
+	}, nil
 }

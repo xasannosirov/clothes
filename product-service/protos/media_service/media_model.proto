@@ -7,9 +7,8 @@ message Media {
   string id = 1;
   string product_id = 2;
   string image_url = 3;
-  string filen_name = 4;
-  string created_at = 5;
-  string updated_at = 6;
+  string created_at = 4;
+  string updated_at = 5;
 }
 
 message MediaWithID {

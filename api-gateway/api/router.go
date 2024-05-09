@@ -32,7 +32,8 @@ type RouteOption struct {
 }
 
 // NewRoute
-// @Description Online Clothes Store
+// @Title Online Clothes Store
+// @Description Contacs: https://t.me/xasannosirov
 // @securityDefinitions.apikey BearerAuth
 // @in 			header
 // @name 		Authorization
@@ -67,7 +68,7 @@ func NewRoute(option RouteOption) *gin.Engine {
 
 	apiV1 := router.Group("/v1")
 
-	// registration
+	// login
 	apiV1.POST("/register", HandlerV1.Register)
 	apiV1.POST("/login", HandlerV1.Login)
 	apiV1.POST("/forgot/:email", HandlerV1.Forgot)
@@ -87,6 +88,13 @@ func NewRoute(option RouteOption) *gin.Engine {
 	apiV1.GET("/user/:id", HandlerV1.GetUser)
 	apiV1.GET("/users", HandlerV1.ListUsers)
 
+	// category
+	apiV1.POST("/category", HandlerV1.CreateCategory)
+	apiV1.PUT("/category", HandlerV1.UpdateCategory)
+	apiV1.DELETE("/category/:id", HandlerV1.DeleteCategory)
+	apiV1.GET("/category/:id", HandlerV1.GetCategory)
+	apiV1.GET("/categories", HandlerV1.ListCategory)
+
 	// products
 	apiV1.POST("/product", HandlerV1.CreateProduct)
 	apiV1.PUT("/product", HandlerV1.UpdateProduct)
@@ -94,28 +102,34 @@ func NewRoute(option RouteOption) *gin.Engine {
 	apiV1.GET("/product/:id", HandlerV1.GetProduct)
 	apiV1.GET("/products", HandlerV1.ListProducts)
 
+	// orders
 	apiV1.POST("/order", HandlerV1.CreateOrder)
 	apiV1.GET("/order/:id", HandlerV1.GetOrder)
 	apiV1.DELETE("/order/:id", HandlerV1.CancelOrder)
 	apiV1.GET("/orders", HandlerV1.ListOrders)
 
+	// pin products
 	apiV1.POST("/like-product", HandlerV1.LikeProduct)
 	apiV1.POST("/save-product", HandlerV1.SaveProduct)
 	apiV1.POST("/star-product", HandlerV1.StarToProduct)
 	apiV1.POST("/comment-product", HandlerV1.CommentToProduct)
 
+	// list
 	apiV1.GET("/comments", HandlerV1.GetAllComments)
 	apiV1.GET("/stars", HandlerV1.GetAllStars)
 
+	// list with product
 	apiV1.GET("/product/orders/:id", HandlerV1.GetProductOrders)
 	apiV1.GET("/product/comments/:id", HandlerV1.GetProductComments)
 	apiV1.GET("/product/likes/:id", HandlerV1.GetProductLikes)
 	apiV1.GET("/product/stars/:id", HandlerV1.GetProductStars)
 
+	// list with user
 	apiV1.GET("/user/save/:id", HandlerV1.GetUserSavedProducts)
 	apiV1.GET("/user/likes/:id", HandlerV1.GetUserLikesProducts)
 	apiV1.GET("/user/orders/:id", HandlerV1.GetUserOrderedProducts)
 
+	// another
 	apiV1.GET("/search/:name", HandlerV1.SearchProduct)
 	apiV1.GET("/recommendation", HandlerV1.RecommendProducts)
 	apiV1.GET("/disable-orders", HandlerV1.GetDisableProducts)
