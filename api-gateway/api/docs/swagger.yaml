@@ -1,4 +1,16 @@
 definitions:
+  models.Category:
+    properties:
+      category_id:
+        type: string
+      category_name:
+        type: string
+    type: object
+  models.CategoryReq:
+    properties:
+      category_name:
+        type: string
+    type: object
   models.Comment:
     properties:
       comment_id:
@@ -43,8 +55,10 @@ definitions:
   models.Login:
     properties:
       email:
+        example: xasannosirov094@gmail.com
         type: string
       password:
+        example: Sehtols@01
         type: string
     type: object
   models.Media:
@@ -82,7 +96,7 @@ definitions:
         type: integer
       age_min:
         type: integer
-      category:
+      category_id:
         type: string
       color:
         type: string
@@ -118,7 +132,7 @@ definitions:
         type: integer
       age_min:
         type: integer
-      category:
+      category_id:
         type: string
       color:
         type: string
@@ -228,8 +242,189 @@ definitions:
     type: object
 info:
   contact: {}
-  description: Online Clothes Store
+  description: 'Contacs: https://t.me/xasannosirov'
+  title: Online Clothes Store
 paths:
+  /v1/categories:
+    get:
+      consumes:
+      - application/json
+      description: This API for getting categories
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Category
+      tags:
+      - category
+  /v1/category:
+    post:
+      consumes:
+      - application/json
+      description: This API for create a new category for product
+      parameters:
+      - description: Create Category Model
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.CategoryReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Category
+      tags:
+      - category
+    put:
+      consumes:
+      - application/json
+      description: This API for update a category
+      parameters:
+      - description: Create Category Model
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Category'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Category'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Category
+      tags:
+      - category
+  /v1/category/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This API for delete a category with id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: boolean
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Category
+      tags:
+      - category
+    get:
+      consumes:
+      - application/json
+      description: This API for getting a category with id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Category'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Category
+      tags:
+      - category
   /v1/comment-product:
     post:
       consumes:
@@ -265,7 +460,7 @@ paths:
       - BearerAuth: []
       summary: Comment to Product
       tags:
-      - products and orders
+      - pin
   /v1/comments:
     get:
       consumes:
@@ -311,7 +506,7 @@ paths:
       - BearerAuth: []
       summary: List Commnets
       tags:
-      - products and orders
+      - list
   /v1/disable-orders:
     get:
       consumes:
@@ -357,7 +552,7 @@ paths:
       - BearerAuth: []
       summary: List Disable Products
       tags:
-      - products and orders
+      - another
   /v1/forgot/{email}:
     post:
       consumes:
@@ -422,7 +617,7 @@ paths:
       - BearerAuth: []
       summary: Like Product
       tags:
-      - products and orders
+      - pin
   /v1/login:
     post:
       consumes:
@@ -586,7 +781,7 @@ paths:
       - BearerAuth: []
       summary: Create Order
       tags:
-      - products and orders
+      - orders
   /v1/order/{id}:
     delete:
       consumes:
@@ -621,7 +816,7 @@ paths:
       - BearerAuth: []
       summary: Cancel Order
       tags:
-      - products and orders
+      - orders
     get:
       consumes:
       - application/json
@@ -655,7 +850,7 @@ paths:
       - BearerAuth: []
       summary: Get Order
       tags:
-      - products and orders
+      - orders
   /v1/orders:
     get:
       consumes:
@@ -697,7 +892,7 @@ paths:
       - BearerAuth: []
       summary: List Orders
       tags:
-      - products and orders
+      - orders
   /v1/product:
     post:
       consumes:
@@ -733,7 +928,7 @@ paths:
       - BearerAuth: []
       summary: Create Product
       tags:
-      - products and orders
+      - products
     put:
       consumes:
       - application/json
@@ -768,7 +963,7 @@ paths:
       - BearerAuth: []
       summary: Update Product
       tags:
-      - products and orders
+      - products
   /v1/product/{id}:
     delete:
       consumes:
@@ -803,7 +998,7 @@ paths:
       - BearerAuth: []
       summary: Delete Product
       tags:
-      - products and orders
+      - products
     get:
       consumes:
       - application/json
@@ -837,7 +1032,7 @@ paths:
       - BearerAuth: []
       summary: Get Product
       tags:
-      - products and orders
+      - products
   /v1/product/comments/{id}:
     get:
       consumes:
@@ -878,7 +1073,7 @@ paths:
       - BearerAuth: []
       summary: Get Product Comments
       tags:
-      - products and orders
+      - list with product
   /v1/product/likes/{id}:
     get:
       consumes:
@@ -919,7 +1114,7 @@ paths:
       - BearerAuth: []
       summary: Get Product Likes
       tags:
-      - products and orders
+      - list with product
   /v1/product/orders/{id}:
     get:
       consumes:
@@ -960,7 +1155,7 @@ paths:
       - BearerAuth: []
       summary: Get Product Orders
       tags:
-      - products and orders
+      - list with product
   /v1/product/stars/{id}:
     get:
       consumes:
@@ -1001,7 +1196,7 @@ paths:
       - BearerAuth: []
       summary: Get Product Stars
       tags:
-      - products and orders
+      - list with product
   /v1/products:
     get:
       consumes:
@@ -1041,7 +1236,7 @@ paths:
       - BearerAuth: []
       summary: List Products
       tags:
-      - products and orders
+      - products
   /v1/recommendation:
     get:
       consumes:
@@ -1087,7 +1282,7 @@ paths:
       - BearerAuth: []
       summary: Recommandation Products
       tags:
-      - products and orders
+      - another
   /v1/register:
     post:
       consumes:
@@ -1187,7 +1382,7 @@ paths:
       - BearerAuth: []
       summary: Save Product
       tags:
-      - products and orders
+      - pin
   /v1/search/{name}:
     get:
       consumes:
@@ -1228,7 +1423,7 @@ paths:
       - BearerAuth: []
       summary: Search Products
       tags:
-      - products and orders
+      - another
   /v1/star-product:
     post:
       consumes:
@@ -1264,7 +1459,7 @@ paths:
       - BearerAuth: []
       summary: Star Product
       tags:
-      - products and orders
+      - pin
   /v1/stars:
     get:
       consumes:
@@ -1310,7 +1505,7 @@ paths:
       - BearerAuth: []
       summary: List Stars
       tags:
-      - products and orders
+      - list
   /v1/token/{refresh}:
     get:
       consumes:
@@ -1544,7 +1739,7 @@ paths:
       - BearerAuth: []
       summary: Get User Likes Products
       tags:
-      - products and orders
+      - list with user
   /v1/user/orders/{id}:
     get:
       consumes:
@@ -1585,7 +1780,7 @@ paths:
       - BearerAuth: []
       summary: Get User Ordered Products
       tags:
-      - products and orders
+      - list with user
   /v1/user/save/{id}:
     get:
       consumes:
@@ -1626,7 +1821,7 @@ paths:
       - BearerAuth: []
       summary: Get User Saved Products
       tags:
-      - products and orders
+      - list with user
   /v1/users:
     get:
       consumes:
@@ -1636,11 +1831,18 @@ paths:
       - description: Page
         in: query
         name: page
+        required: true
         type: integer
       - description: Limit
         in: query
         name: limit
+        required: true
         type: integer
+      - description: Role
+        in: query
+        name: role
+        required: true
+        type: string
       produces:
       - application/json
       responses:

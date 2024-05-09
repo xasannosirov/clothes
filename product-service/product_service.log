@@ -1128,3 +1128,58 @@ google.golang.org/grpc.(*Server).serveStreams.func2.1
 2024-05-08T14:34:44.260+0500	INFO	app/main.go:34	Product service stops !
 2024-05-08T14:34:45.422+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
 2024-05-08T18:22:01.939+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T07:07:09.524+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T07:08:28.418+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T07:09:08.461+0500	INFO	app/main.go:34	Product service stops !
+2024-05-09T07:09:09.315+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T09:53:47.731+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T10:08:36.091+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T10:09:14.966+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T10:10:04.222+0500	INFO	app/main.go:34	Product service stops !
+2024-05-09T10:10:05.062+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T10:10:57.809+0500	INFO	app/main.go:34	Product service stops !
+2024-05-09T10:10:58.850+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T10:15:28.208+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T10:31:45.822+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T10:32:33.137+0500	ERROR	services/product.go:39	productUseCase.CreateProduct	{"error": "ERROR: column \"category_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateProduct
+	/home/gopher/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:39
+product-service/genproto/product_service._ProductService_CreateProduct_Handler
+	/home/gopher/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:531
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-09T10:32:39.903+0500	ERROR	services/product.go:39	productUseCase.CreateProduct	{"error": "ERROR: column \"category_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateProduct
+	/home/gopher/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:39
+product-service/genproto/product_service._ProductService_CreateProduct_Handler
+	/home/gopher/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:531
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-09T10:32:46.241+0500	ERROR	services/product.go:39	productUseCase.CreateProduct	{"error": "ERROR: column \"category_id\" of relation \"products\" does not exist (SQLSTATE 42703)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateProduct
+	/home/gopher/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:39
+product-service/genproto/product_service._ProductService_CreateProduct_Handler
+	/home/gopher/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:531
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-09T10:34:14.763+0500	INFO	app/main.go:34	Product service stops !
+2024-05-09T10:34:15.668+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T11:18:56.539+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T15:47:07.959+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T15:47:08.659+0500	INFO	app/main.go:34	Product service stops !
+2024-05-09T15:47:12.077+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T15:54:15.793+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T15:54:27.781+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-09T16:06:25.380+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}

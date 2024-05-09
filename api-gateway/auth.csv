@@ -29,6 +29,11 @@ p, user, /v1/search/{name}, GET
 p, user, /v1/recommendation, GET
 p, user, /v1/disable-orders, GET
 
+p, worker, /v1/category, POST
+p, worker, /v1/category, PUT
+p, worker, /v1/category/{id}, DELETE
+p, worker, /v1/category/{id}, GET
+p, worker, /v1/categories, GET
 p, worker, /v1/media/upload-photo, POST
 p, worker, /v1/media/{id}, GET
 p, worker, /v1/media/{id}, DELETE

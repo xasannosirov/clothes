@@ -15,6 +15,288 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/categories": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "This API for getting categories",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "List Category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/category": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "This API for update a category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Update Category",
+                "parameters": [
+                    {
+                        "description": "Create Category Model",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Category"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "This API for create a new category for product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Create Category",
+                "parameters": [
+                    {
+                        "description": "Create Category Model",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CategoryReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/category/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "This API for getting a category with id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Get Category",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Category"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "This API for delete a category with id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Delete Category",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/comment-product": {
             "post": {
                 "security": [
@@ -30,7 +312,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "pin"
                 ],
                 "summary": "Comment to Product",
                 "parameters": [
@@ -87,7 +369,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "list"
                 ],
                 "summary": "List Commnets",
                 "parameters": [
@@ -158,7 +440,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "another"
                 ],
                 "summary": "List Disable Products",
                 "parameters": [
@@ -273,7 +555,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "pin"
                 ],
                 "summary": "Like Product",
                 "parameters": [
@@ -528,7 +810,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "orders"
                 ],
                 "summary": "Create Order",
                 "parameters": [
@@ -585,7 +867,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "orders"
                 ],
                 "summary": "Get Order",
                 "parameters": [
@@ -638,7 +920,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "orders"
                 ],
                 "summary": "Cancel Order",
                 "parameters": [
@@ -693,7 +975,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "orders"
                 ],
                 "summary": "List Orders",
                 "parameters": [
@@ -758,7 +1040,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "products"
                 ],
                 "summary": "Update Product",
                 "parameters": [
@@ -813,7 +1095,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "products"
                 ],
                 "summary": "Create Product",
                 "parameters": [
@@ -870,7 +1152,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "list with product"
                 ],
                 "summary": "Get Product Comments",
                 "parameters": [
@@ -934,7 +1216,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "list with product"
                 ],
                 "summary": "Get Product Likes",
                 "parameters": [
@@ -998,7 +1280,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "list with product"
                 ],
                 "summary": "Get Product Orders",
                 "parameters": [
@@ -1062,7 +1344,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "list with product"
                 ],
                 "summary": "Get Product Stars",
                 "parameters": [
@@ -1126,7 +1408,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "products"
                 ],
                 "summary": "Get Product",
                 "parameters": [
@@ -1179,7 +1461,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "products"
                 ],
                 "summary": "Delete Product",
                 "parameters": [
@@ -1234,7 +1516,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "products"
                 ],
                 "summary": "List Products",
                 "parameters": [
@@ -1296,7 +1578,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "another"
                 ],
                 "summary": "Recommandation Products",
                 "parameters": [
@@ -1465,7 +1747,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "pin"
                 ],
                 "summary": "Save Product",
                 "parameters": [
@@ -1522,7 +1804,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "another"
                 ],
                 "summary": "Search Products",
                 "parameters": [
@@ -1586,7 +1868,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "pin"
                 ],
                 "summary": "Star Product",
                 "parameters": [
@@ -1643,7 +1925,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "list"
                 ],
                 "summary": "List Stars",
                 "parameters": [
@@ -1894,7 +2176,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "list with user"
                 ],
                 "summary": "Get User Likes Products",
                 "parameters": [
@@ -1958,7 +2240,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "list with user"
                 ],
                 "summary": "Get User Ordered Products",
                 "parameters": [
@@ -2022,7 +2304,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products and orders"
+                    "list with user"
                 ],
                 "summary": "Get User Saved Products",
                 "parameters": [
@@ -2214,13 +2496,22 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "Page",
                         "name": "page",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "integer",
                         "description": "Limit",
                         "name": "limit",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Role",
+                        "name": "role",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2313,6 +2604,25 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.Category": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "type": "string"
+                },
+                "category_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CategoryReq": {
+            "type": "object",
+            "properties": {
+                "category_name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Comment": {
             "type": "object",
             "properties": {
@@ -2381,10 +2691,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "xasannosirov094@gmail.com"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Sehtols@01"
                 }
             }
         },
@@ -2442,7 +2754,7 @@ const docTemplate = `{
                 "age_min": {
                     "type": "integer"
                 },
-                "category": {
+                "category_id": {
                     "type": "string"
                 },
                 "color": {
@@ -2497,7 +2809,7 @@ const docTemplate = `{
                 "age_min": {
                     "type": "integer"
                 },
-                "category": {
+                "category_id": {
                     "type": "string"
                 },
                 "color": {
@@ -2679,8 +2991,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "Online Clothes Store",
+	Title:            "Online Clothes Store",
+	Description:      "Contacs: https://t.me/xasannosirov",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

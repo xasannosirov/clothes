@@ -37,4 +37,10 @@ service ProductService {
 
   rpc GetAllComments(ListRequest) returns (ListCommentResponse); 
   rpc GetAllStars(ListRequest) returns (ListStarsResponse); 
+
+  rpc CreateCategory(Category) returns (Category);
+  rpc DeleteCategory(GetWithID) returns (DeleteResponse);
+  rpc UpdateCategory(Category) returns (Category);
+  rpc GetCategory(GetWithID) returns (Category);
+  rpc GetAllCategory(ListRequest) returns (ListCategory);
 }

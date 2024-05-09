@@ -352,3 +352,13 @@ func (p usersRepo) UpdatePassword(ctx context.Context, request *entity.UpdatePas
 
 	return &entity.Response{Status: true}, nil
 }
+
+func (p usersRepo) Total(ctx context.Context, role string) uint64 {
+	query := `SELECT COUNT(*) FROM users WHERE deleted_at IS NULL AND role = $1`
+
+	var count uint64
+	if err := p.db.QueryRow(ctx, query, role).Scan(&count); err != nil {
+		return 0
+	}
+	return count
+}

@@ -3,7 +3,6 @@ package config
 import (
 	"os"
 
-	// "strings"
 	"time"
 )
 
@@ -93,14 +92,6 @@ func NewConfig() (*Config, error) {
 	config.Server.WriteTimeout = getEnv("SERVER_WRITE_TIMEOUT", "10s")
 	config.Server.IdleTimeout = getEnv("SERVER_IDLE_TIMEOUT", "120s")
 
-	// db configuration
-	// config.DB.Host = getEnv("POSTGRES_HOST", "localhost")
-	// config.DB.Port = getEnv("POSTGRES_PORT", "5432")
-	// config.DB.Name = getEnv("POSTGRES_DATABASE", "examdb")
-	// config.DB.User = getEnv("POSTGRES_USER", "postgres")
-	// config.DB.Password = getEnv("POSTGRES_PASSWORD", "4444")
-	// config.DB.SSLMode = getEnv("POSTGRES_SSLMODE", "disable")
-
 	// redis configuration
 	config.Redis.Host = getEnv("REDIS_HOST", "redisdb")
 	config.Redis.Port = getEnv("REDIS_PORT", "6379")
@@ -108,20 +99,20 @@ func NewConfig() (*Config, error) {
 	config.Redis.Name = getEnv("REDIS_DATABASE", "0")
 
 	//user service
-	config.UserService.Host = getEnv("USER_SERVICE_HOST", "user-service")
-	config.UserService.Port = getEnv("USER_SERVICE_PORT", ":1111")
+	config.UserService.Host = getEnv("USER_SERVICE_GRPC_HOST", "user-service")
+	config.UserService.Port = getEnv("USER_SERVICE_GRPC_PORT", ":1111")
 
 	//media service
-	config.MediaService.Host = getEnv("MEDIA_SERVICE_HOST", "media-service")
-	config.MediaService.Port = getEnv("MEDIA_SERVICE_PORT", ":2222")
+	config.MediaService.Host = getEnv("MEDIA_SERVICE_GRPC_HOST", "media-service")
+	config.MediaService.Port = getEnv("MEDIA_SERVICE_GRPC_PORT", ":2222")
 
 	//product service
-	config.ProductService.Host = getEnv("PRODUCT_SERVICE_HOST", "product-service")
-	config.ProductService.Port = getEnv("PRODUCT_SERVICE_PORT", ":3333")
+	config.ProductService.Host = getEnv("PRODUCT_SERVICE_GRPC_HOST", "product-service")
+	config.ProductService.Port = getEnv("PRODUCT_SERVICE_GRPC_PORT", ":3333")
 
 	//payment servicve
-	config.PaymentServie.Host = getEnv("PAYMENT_SERVICE_HOST", "localhost")
-	config.PaymentServie.Port = getEnv("PAYMENT_SERVICE_PORT", ":4444")
+	config.PaymentServie.Host = getEnv("PAYMENT_SERVICE_GRPC_HOST", "localhost")
+	config.PaymentServie.Port = getEnv("PAYMENT_SERVICE_GRPC_PORT", ":4444")
 
 	// token configuration
 	config.Token.Secret = getEnv("TOKEN_SECRET", "token_secret")

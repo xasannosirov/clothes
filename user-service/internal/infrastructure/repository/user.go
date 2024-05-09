@@ -14,4 +14,5 @@ type Users interface {
 	UniqueEmail(ctx context.Context, request *entity.IsUnique) (*entity.Response, error)
 	UpdateRefresh(ctx context.Context, request *entity.UpdateRefresh) (*entity.Response, error)
 	UpdatePassword(ctx context.Context, request *entity.UpdatePassword) (*entity.Response, error)
+	Total(ctx context.Context, role string) uint64
 }

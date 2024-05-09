@@ -73,6 +73,11 @@ message Comment {
     string updated_at = 6;
 }
 
+message Category {
+    string id = 1;
+    string name = 2;
+}
+
 message ListRequest {
     int64 page = 1;
     int64 limit = 2;
@@ -96,24 +101,35 @@ message MoveResponse {
 
 message ListProductResponse {
     repeated Product products = 1;
+    uint64 total_count = 2;
 }
 
 message ListOrderResponse {
     repeated Order orders = 1;
+    uint64 total_count = 2;
 }
 
 message ListSavedResponse {
     repeated Save saved_products = 1;
+    uint64 total_count = 2;
 }
 
 message ListWishlistResponse {
     repeated Like likes = 1;
+    uint64 total_count = 2;
 }
 
 message ListCommentResponse {
     repeated Comment comments = 1;
+    uint64 total_count = 2;
 }
 
 message ListStarsResponse {
     repeated Star stars = 1;
+    uint64 total_count = 2;
+}
+
+message ListCategory {
+    repeated Category categories = 1;
+    uint64 total_count = 2;
 }

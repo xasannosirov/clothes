@@ -17,6 +17,7 @@ type User interface {
 	UniqueEmail(ctx context.Context, request *entity.IsUnique) (*entity.Response, error)
 	UpdateRefresh(ctx context.Context, request *entity.UpdateRefresh) (*entity.Response, error)
 	UpdatePassword(ctx context.Context, request *entity.UpdatePassword) (*entity.Response, error)
+	Total(ctx context.Context, role string) uint64
 }
 
 type userService struct {
@@ -114,4 +115,8 @@ func (u userService) UpdatePassword(ctx context.Context, request *entity.UpdateP
 	defer span.End()
 
 	return u.repo.UpdatePassword(ctx, request)
+}
+
+func (u userService) Total(ctx context.Context, role string) uint64 {
+	return u.repo.Total(ctx, role)
 }

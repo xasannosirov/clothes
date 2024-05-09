@@ -23,4 +23,9 @@ type (
 		Refresh     string `json:"refresh_token"`
 		Access      string `json:"access_token"`
 	}
+
+	ListUser struct {
+		User  []User `json:"user"`
+		Total uint64 `json:"totcal_count"`
+	}
 )

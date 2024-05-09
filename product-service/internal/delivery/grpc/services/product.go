@@ -115,9 +115,9 @@ func (d *productRPC) GetAllProducts(ctx context.Context, in *pb.ListRequest) (*p
 		return &pb.ListProductResponse{}, grpc.Error(ctx, err)
 	}
 
-	var pbProducts []*pb.Product
-	for _, product := range products {
-		pbProducts = append(pbProducts, &pb.Product{
+	pbProducts := &pb.ListProductResponse{}
+	for _, product := range products.Products {
+		pbProducts.Products = append(pbProducts.Products, &pb.Product{
 			Id:          product.Id,
 			Name:        product.Name,
 			Description: product.Description,
@@ -136,5 +136,8 @@ func (d *productRPC) GetAllProducts(ctx context.Context, in *pb.ListRequest) (*p
 		})
 	}
 
-	return &pb.ListProductResponse{Products: pbProducts}, nil
+	return &pb.ListProductResponse{
+		Products:   pbProducts.Products,
+		TotalCount: products.TotalCount,
+	}, nil
 }

@@ -63,12 +63,12 @@ func New() *Config {
 	config.DB.Name = getEnv("POSTGRES_DATABASE", "clothes_store")
 
 	// servicess
-	config.UserService.Host = getEnv("USER_SERVICE_HOST", "user-service")
-	config.UserService.Port = getEnv("USER_SERVICE_PORT", ":1111")
-	config.ProductService.Host = getEnv("PRODUCT_SERVICE_HOST", "product-service")
-	config.ProductService.Port = getEnv("PRODUCT_SERVICE_PORT", ":3333")
-	config.PaymentService.Host = getEnv("PAYMENT_SERVICE_HOST", "localhost")
-	config.PaymentService.Port = getEnv("PAYMENT_SERVICE_PORT", ":4444")
+	config.UserService.Host = getEnv("USER_SERVICE_RPC_HOST", "user-service")
+	config.UserService.Port = getEnv("USER_SERVICE_RPC_PORT", ":1111")
+	config.ProductService.Host = getEnv("PRODUCT_SERVICE_RPC_HOST", "product-service")
+	config.ProductService.Port = getEnv("PRODUCT_SERVICE_RPC_PORT", ":3333")
+	config.PaymentService.Host = getEnv("PAYMENT_SERVICE_RPC_HOST", "localhost")
+	config.PaymentService.Port = getEnv("PAYMENT_SERVICE_RPC_PORT", ":4444")
 
 	// otlp collector configuration
 	config.OTLPCollector.Host = getEnv("OTLP_COLLECTOR_HOST", "localhost")
