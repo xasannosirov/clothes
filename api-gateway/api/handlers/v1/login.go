@@ -171,7 +171,6 @@ func (h *HandlerV1) Register(c *gin.Context) {
 		Email:     body.Email,
 		Password:  hashPassword,
 		Gender:    body.Gender,
-		Role:      "user",
 		Refresh:   refresh,
 		Access:    access,
 	})
@@ -261,7 +260,6 @@ func (h *HandlerV1) Login(c *gin.Context) {
 		PhoneNumber: response.PhoneNumber,
 		Gender:      response.Gender,
 		Age:         response.Age,
-		Role:        response.Role,
 		Refresh:     refresh,
 		Access:      access,
 	}

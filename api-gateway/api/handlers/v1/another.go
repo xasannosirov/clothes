@@ -253,7 +253,6 @@ func (h *HandlerV1) GetDisableProducts(c *gin.Context) {
 				PhoneNumber: user.PhoneNumber,
 				Gender:      user.Gender,
 				Age:         user.Age,
-				Role:        user.Role,
 				Refresh:     user.Refresh,
 			},
 			Product: models.Product{

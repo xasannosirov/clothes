@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"log"
 	"time"
 	userproto "user-service/genproto/user_service"
 	"user-service/internal/entity"
@@ -112,6 +113,7 @@ func (s userRPC) DeleteUser(ctx context.Context, in *userproto.UserWithGUID) (*u
 }
 
 func (s userRPC) GetUser(ctx context.Context, in *userproto.Filter) (*userproto.User, error) {
+	log.Println("keldi")
 	ctx, span := otlp.Start(ctx, "user_grpc-delivery", "GetUser")
 	for key, value := range in.Filter {
 		if key == "id" {
@@ -188,7 +190,6 @@ func (s userRPC) GetAllUsers(ctx context.Context, in *userproto.ListUserRequest)
 
 		response.Users = append(response.Users, temp)
 	}
-
 	response.TotalCount = s.userUsecase.Total(ctx, in.Role)
 
 	return &response, nil

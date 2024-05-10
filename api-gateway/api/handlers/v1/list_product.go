@@ -86,7 +86,6 @@ func (h *HandlerV1) GetProductOrders(c *gin.Context) {
 				PhoneNumber: user.PhoneNumber,
 				Gender:      user.Gender,
 				Age:         user.Age,
-				Role:        user.Role,
 				Refresh:     user.Refresh,
 			},
 			Product: models.Product{
@@ -186,7 +185,6 @@ func (h *HandlerV1) GetProductComments(c *gin.Context) {
 				PhoneNumber: user.PhoneNumber,
 				Gender:      user.Gender,
 				Age:         user.Age,
-				Role:        user.Role,
 				Refresh:     user.Refresh,
 			},
 			Product: models.Product{
@@ -285,7 +283,6 @@ func (h *HandlerV1) GetProductLikes(c *gin.Context) {
 				PhoneNumber: user.PhoneNumber,
 				Gender:      user.Gender,
 				Age:         user.Age,
-				Role:        user.Role,
 				Refresh:     user.Refresh,
 			},
 			Product: models.Product{
@@ -385,7 +382,6 @@ func (h *HandlerV1) GetProductStars(c *gin.Context) {
 				PhoneNumber: user.PhoneNumber,
 				Gender:      user.Gender,
 				Age:         user.Age,
-				Role:        user.Role,
 				Refresh:     user.Refresh,
 			},
 			Product: models.Product{

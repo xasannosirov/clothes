@@ -1183,3 +1183,6 @@ google.golang.org/grpc.(*Server).serveStreams.func2.1
 2024-05-09T15:54:15.793+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
 2024-05-09T15:54:27.781+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
 2024-05-09T16:06:25.380+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-10T20:08:12.678+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-10T20:11:55.100+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-10T20:20:05.872+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}

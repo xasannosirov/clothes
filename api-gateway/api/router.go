@@ -88,6 +88,13 @@ func NewRoute(option RouteOption) *gin.Engine {
 	apiV1.GET("/user/:id", HandlerV1.GetUser)
 	apiV1.GET("/users", HandlerV1.ListUsers)
 
+	// workers
+	apiV1.POST("/worker", HandlerV1.CreateWorker)
+	apiV1.PUT("/worker", HandlerV1.UpdateWorker)
+	apiV1.DELETE("/worker/:id", HandlerV1.DeleteWorker)
+	apiV1.GET("/worker/:id", HandlerV1.GetWorker)
+	apiV1.GET("/workers", HandlerV1.ListWorker)
+
 	// category
 	apiV1.POST("/category", HandlerV1.CreateCategory)
 	apiV1.PUT("/category", HandlerV1.UpdateCategory)
