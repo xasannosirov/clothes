@@ -11,7 +11,6 @@ type (
 		Email     string `json:"email"`
 		Password  string `json:"password"`
 		Gender    string `json:"gender"`
-		Role      string `json:"role"`
 	}
 
 	User struct {
@@ -23,7 +22,6 @@ type (
 		PhoneNumber string `json:"phone_number"`
 		Gender      string `json:"gender"`
 		Age         int64  `json:"age"`
-		Role        string `json:"role"`
 		Refresh     string `json:"refresh_token"`
 		Access      string `json:"access_token"`
 	}

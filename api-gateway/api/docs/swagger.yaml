@@ -61,6 +61,15 @@ definitions:
       total_count:
         type: integer
     type: object
+  models.ListUser:
+    properties:
+      totcal_count:
+        type: integer
+      user:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
   models.Login:
     properties:
       email:
@@ -236,8 +245,6 @@ definitions:
         type: string
       refresh_token:
         type: string
-      role:
-        type: string
     type: object
   models.UserCreateResponse:
     properties:
@@ -255,8 +262,6 @@ definitions:
       last_name:
         type: string
       password:
-        type: string
-      role:
         type: string
     type: object
 info:
@@ -1550,7 +1555,7 @@ paths:
       summary: New Token
       tags:
       - registration
-  /v1/user/:
+  /v1/user:
     post:
       consumes:
       - application/json
@@ -1595,7 +1600,7 @@ paths:
       - application/json
       description: Api for update a user
       parameters:
-      - description: Create User Model
+      - description: Update User Model
         in: body
         name: user
         required: true
@@ -1845,20 +1850,13 @@ paths:
         name: limit
         required: true
         type: integer
-      - description: Role
-        in: query
-        name: role
-        required: true
-        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/models.User'
-            type: array
+            $ref: '#/definitions/models.ListUser'
         "401":
           description: Unauthorized
           schema:
@@ -1914,6 +1912,206 @@ paths:
       summary: Verify OTP
       tags:
       - registration
+  /v1/worker:
+    post:
+      consumes:
+      - application/json
+      description: Api for create a new worker
+      parameters:
+      - description: Create Worker Model
+        in: body
+        name: worker
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserRegister'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.UserCreateResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Worker
+      tags:
+      - workers
+    put:
+      consumes:
+      - application/json
+      description: Api for update a user
+      parameters:
+      - description: Update Worker Model
+        in: body
+        name: worker
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Worker
+      tags:
+      - workers
+  /v1/worker/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Api for delete a worker
+      parameters:
+      - description: Worker ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: boolean
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Worker
+      tags:
+      - workers
+    get:
+      consumes:
+      - application/json
+      description: Api for getting a worker
+      parameters:
+      - description: Worker ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Worker
+      tags:
+      - workers
+  /v1/workers:
+    get:
+      consumes:
+      - application/json
+      description: Api for getting list worker
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListUser'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Worker
+      tags:
+      - workers
 securityDefinitions:
   BearerAuth:
     in: header

@@ -106,7 +106,6 @@ func (h *HandlerV1) GetAllComments(c *gin.Context) {
 				PhoneNumber: user.PhoneNumber,
 				Gender:      user.Gender,
 				Age:         user.Age,
-				Role:        user.Role,
 				Refresh:     user.Refresh,
 			},
 			Product: models.Product{
@@ -225,7 +224,6 @@ func (h *HandlerV1) GetAllStars(c *gin.Context) {
 				PhoneNumber: user.PhoneNumber,
 				Gender:      user.Gender,
 				Age:         user.Age,
-				Role:        user.Role,
 				Refresh:     user.Refresh,
 			},
 			Product: models.Product{
