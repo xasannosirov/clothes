@@ -99,7 +99,7 @@ func NewConfig() (*Config, error) {
 	config.Redis.Name = getEnv("REDIS_DATABASE", "0")
 
 	//user service
-	config.UserService.Host = getEnv("USER_SERVICE_GRPC_HOST", "localhost")
+	config.UserService.Host = getEnv("USER_SERVICE_GRPC_HOST", "user-service")
 	config.UserService.Port = getEnv("USER_SERVICE_GRPC_PORT", ":1111")
 
 	//media service
