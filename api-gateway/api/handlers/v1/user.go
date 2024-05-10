@@ -57,7 +57,7 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 	}
 
 	body.Role = strings.ToLower(body.Role)
-	if !(body.Role == "user") || !(body.Role == "worker") {
+	if body.Role != "user" || body.Role != "worker" {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "Invalid role",
 		})
