@@ -26,7 +26,7 @@ definitions:
     properties:
       comment_message:
         type: string
-      produt_id:
+      product_id:
         type: string
       user_id:
         type: string
@@ -51,6 +51,15 @@ definitions:
         type: string
       user_id:
         type: string
+    type: object
+  models.ListProduct:
+    properties:
+      products:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
+      total_count:
+        type: integer
     type: object
   models.Login:
     properties:
@@ -104,7 +113,7 @@ definitions:
         type: number
       count:
         type: integer
-      descrition:
+      description:
         type: string
       discount:
         type: number
@@ -118,6 +127,11 @@ definitions:
         type: string
       size:
         type: integer
+    type: object
+  models.ProductCreateResponse:
+    properties:
+      product_id:
+        type: string
     type: object
   models.ProductImages:
     properties:
@@ -140,7 +154,7 @@ definitions:
         type: number
       count:
         type: integer
-      descrition:
+      description:
         type: string
       discount:
         type: number
@@ -225,6 +239,11 @@ definitions:
       role:
         type: string
     type: object
+  models.UserCreateResponse:
+    properties:
+      user_id:
+        type: string
+    type: object
   models.UserRegister:
     properties:
       email:
@@ -268,16 +287,16 @@ paths:
           description: Created
           schema:
             type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/models.Error'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
       security:
@@ -303,7 +322,7 @@ paths:
         "201":
           description: Created
           schema:
-            type: string
+            $ref: '#/definitions/models.Category'
         "400":
           description: Bad Request
           schema:
@@ -374,16 +393,16 @@ paths:
           description: Created
           schema:
             type: boolean
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/models.Error'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
       security:
@@ -408,16 +427,16 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/models.Category'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/models.Error'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
       security:
@@ -641,8 +660,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/models.Error'
-        "409":
-          description: Conflict
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
         "500":
@@ -670,12 +689,8 @@ paths:
           description: OK
           schema:
             type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
       security:
@@ -700,12 +715,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.ProductImages'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
       security:
@@ -911,7 +922,7 @@ paths:
         "201":
           description: Created
           schema:
-            type: string
+            $ref: '#/definitions/models.ProductCreateResponse'
         "400":
           description: Bad Request
           schema:
@@ -982,16 +993,16 @@ paths:
           description: OK
           schema:
             type: boolean
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/models.Error'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
       security:
@@ -1016,16 +1027,16 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Product'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/models.Error'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
       security:
@@ -1219,17 +1230,17 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Product'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
+            $ref: '#/definitions/models.ListProduct'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/models.Error'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
       security:
@@ -1298,16 +1309,12 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/models.User'
         "400":
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "409":
-          description: Conflict
           schema:
             $ref: '#/definitions/models.Error'
         "500":
@@ -1561,7 +1568,7 @@ paths:
         "201":
           description: Created
           schema:
-            type: string
+            $ref: '#/definitions/models.UserCreateResponse'
         "400":
           description: Bad Request
           schema:
@@ -1640,16 +1647,16 @@ paths:
           description: OK
           schema:
             type: boolean
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/models.Error'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
         "500":
@@ -1678,16 +1685,16 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.User'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/models.Error'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
         "500":
@@ -1852,10 +1859,6 @@ paths:
             items:
               $ref: '#/definitions/models.User'
             type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
         "401":
           description: Unauthorized
           schema:
@@ -1864,13 +1867,17 @@ paths:
           description: Forbidden
           schema:
             $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Update User
+      summary: List User
       tags:
       - users
   /v1/verify:

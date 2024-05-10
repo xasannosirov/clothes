@@ -26,22 +26,29 @@ import (
 // @Accept 			json
 // @Produce 		json
 // @Param 			User body models.UserRegister true "Register User"
-// @Success 		200 {object} models.User
+// @Success 		201 {object} models.User
 // @Failure 		400 {object} models.Error
-// @Failure 		409 {object} models.Error
 // @Failure 		500 {object} models.Error
 // @Router 			/v1/register [POST]
 func (h *HandlerV1) Register(c *gin.Context) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(7))
-	defer cancel()
-
 	var (
 		body        models.UserRegister
 		jspbMarshal protojson.MarshalOptions
 	)
 	jspbMarshal.UseProtoNames = true
 
-	err := c.ShouldBindJSON(&body)
+	duration, err := time.ParseDuration(h.Config.Context.Timeout)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), duration)
+	defer cancel()
+
+	err = c.ShouldBindJSON(&body)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
@@ -88,7 +95,7 @@ func (h *HandlerV1) Register(c *gin.Context) {
 		return
 	}
 	if exists.Status {
-		c.JSON(http.StatusConflict, models.Error{
+		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "This email already in use:",
 		})
 		return
@@ -131,7 +138,7 @@ func (h *HandlerV1) Register(c *gin.Context) {
 	access, refresh, err := h.RefreshToken.GenerateAuthJWT()
 
 	if err != nil {
-		c.JSON(http.StatusConflict, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err)
@@ -151,7 +158,7 @@ func (h *HandlerV1) Register(c *gin.Context) {
 	}
 	if !responseStatus.Status {
 		c.JSON(http.StatusInternalServerError, models.Error{
-			Message: "Server error",
+			Message: "Error happened",
 		})
 		log.Println("Server error updating refresh in register")
 		return
@@ -178,16 +185,24 @@ func (h *HandlerV1) Register(c *gin.Context) {
 // @Param 			login body models.Login true "Login Model"
 // @Success 		200 {object} models.User
 // @Failure 		400 {object} models.Error
-// @Failure 		409 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Failure 		500 {object} models.Error
 // @Router 			/v1/login [POST]
 func (h *HandlerV1) Login(c *gin.Context) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(7))
+	duration, err := time.ParseDuration(h.Config.Context.Timeout)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 
 	var body models.Login
 
-	err := c.ShouldBindJSON(&body)
+	err = c.ShouldBindJSON(&body)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
@@ -205,7 +220,7 @@ func (h *HandlerV1) Login(c *gin.Context) {
 			Filter: filter,
 		})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err)
@@ -213,7 +228,7 @@ func (h *HandlerV1) Login(c *gin.Context) {
 	}
 
 	if !(regtool.CheckHashPassword(body.Password, response.Password)) {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "Incorrect Password",
 		})
 		return
@@ -230,7 +245,7 @@ func (h *HandlerV1) Login(c *gin.Context) {
 	access, refresh, err := h.RefreshToken.GenerateAuthJWT()
 
 	if err != nil {
-		c.JSON(http.StatusConflict, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err)
@@ -255,14 +270,14 @@ func (h *HandlerV1) Login(c *gin.Context) {
 		RefreshToken: refresh,
 	})
 	if err != nil {
-		c.JSON(http.StatusConflict, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err)
 		return
 	}
 
-	c.JSON(http.StatusCreated, respUser)
+	c.JSON(http.StatusOK, respUser)
 }
 
 // @Summary 		Forget Password
@@ -276,12 +291,20 @@ func (h *HandlerV1) Login(c *gin.Context) {
 // @Failure 		500 {object} models.Error
 // @Router 			/v1/forgot/{email} [POST]
 func (h *HandlerV1) Forgot(c *gin.Context) {
-	ctx, cancel := context.WithTimeout(context.TODO(), time.Second*time.Duration(7))
+	duration, err := time.ParseDuration(h.Config.Context.Timeout)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 
 	email := c.Param("email")
 
-	email, err := validation.EmailValidation(email)
+	email, err = validation.EmailValidation(email)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
@@ -295,7 +318,7 @@ func (h *HandlerV1) Forgot(c *gin.Context) {
 	})
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err)
@@ -303,7 +326,7 @@ func (h *HandlerV1) Forgot(c *gin.Context) {
 	}
 
 	if !status.Status {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "This user is not registered",
 		})
 		return

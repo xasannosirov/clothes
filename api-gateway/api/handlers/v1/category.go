@@ -21,7 +21,7 @@ import (
 // @Produce 		json
 // @Accept 			json
 // @Param 			order body models.CategoryReq true "Create Category Model"
-// @Success			201 {object} string
+// @Success			201 {object} models.Category
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
@@ -36,7 +36,7 @@ func (h *HandlerV1) CreateCategory(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -94,7 +94,7 @@ func (h *HandlerV1) UpdateCategory(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -138,9 +138,9 @@ func (h *HandlerV1) UpdateCategory(c *gin.Context) {
 // @Accept 			json
 // @Param 			id path string true "Category ID"
 // @Success			201 {object} bool
-// @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Faulure 		500 {object} models.Error
 // @Router 			/v1/category/{id} [DELETE]
 func (h *HandlerV1) DeleteCategory(c *gin.Context) {
@@ -151,7 +151,7 @@ func (h *HandlerV1) DeleteCategory(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -166,7 +166,7 @@ func (h *HandlerV1) DeleteCategory(c *gin.Context) {
 		Id: categoryID,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -184,7 +184,7 @@ func (h *HandlerV1) DeleteCategory(c *gin.Context) {
 // @Accept 			json
 // @Param 			id path string true "Category ID"
 // @Success			201 {object} models.Category
-// @Failure 		400 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
@@ -197,7 +197,7 @@ func (h *HandlerV1) GetCategory(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -212,7 +212,7 @@ func (h *HandlerV1) GetCategory(c *gin.Context) {
 		Id: categoryID,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -234,7 +234,7 @@ func (h *HandlerV1) GetCategory(c *gin.Context) {
 // @Param 			page query uint64 true "Page"
 // @Param 			limit query uint64 true "Limit"
 // @Success			201 {object} string
-// @Failure 		400 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
@@ -247,7 +247,7 @@ func (h *HandlerV1) ListCategory(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -260,7 +260,7 @@ func (h *HandlerV1) ListCategory(c *gin.Context) {
 	limit := c.Query("limit")
 	pageInt, err := strconv.Atoi(page)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -268,7 +268,7 @@ func (h *HandlerV1) ListCategory(c *gin.Context) {
 	}
 	limitInt, err := strconv.Atoi(limit)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -280,7 +280,7 @@ func (h *HandlerV1) ListCategory(c *gin.Context) {
 		Limit: int64(limitInt),
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())

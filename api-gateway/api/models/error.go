@@ -6,5 +6,5 @@ type Error struct {
 }
 
 const (
-	InternalMessage = "Xatolik yuzaga keldi"
+	InternalMessage = "Error happened during process"
 )

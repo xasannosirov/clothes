@@ -1,6 +1,10 @@
 package models
 
 type (
+	UserCreateResponse struct {
+		UserID string `json:"user_id"`
+	}
+
 	UserRegister struct {
 		FirstName string `json:"first_name"`
 		LastName  string `json:"last_name"`

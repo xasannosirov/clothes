@@ -5,7 +5,6 @@ import (
 	userproto "api-gateway/genproto/user_service"
 	"api-gateway/internal/pkg/validation"
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -24,7 +23,7 @@ import (
 // @Accept 			json
 // @Produce 		json
 // @Param 			user body models.UserRegister true "Create User Model"
-// @Success 		201 {object} string
+// @Success 		201 {object} models.UserCreateResponse
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
@@ -39,7 +38,7 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -57,11 +56,10 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(body)
-	fmt.Println(body.Role)
 	body.Role = strings.ToLower(body.Role)
-	fmt.Println(body.Role)
-	if body.Role != "user" && body.Email == "worker" {
+	if body.Role == "user" || body.Email == "worker" {
+		log.Println(body.Role)
+	} else {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "Invalid role",
 		})
@@ -95,7 +93,9 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, userServiceCreateResponse.Guid)
+	c.JSON(http.StatusCreated, models.UserCreateResponse{
+		UserID: userServiceCreateResponse.Guid,
+	})
 }
 
 // @Security  		BearerAuth
@@ -195,7 +195,7 @@ func (h *HandlerV1) UpdateUser(c *gin.Context) {
 // @Produce 		json
 // @Param 			id path string true "User ID"
 // @Success 		200 {object} bool
-// @Failure 		400 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Failure 		500 {object} models.Error
@@ -222,13 +222,13 @@ func (h *HandlerV1) DeleteUser(c *gin.Context) {
 		Guid: userID,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
 		return
 	} else if !response.Status {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: "Server error",
 		})
 		log.Println(response.Status)
@@ -246,7 +246,7 @@ func (h *HandlerV1) DeleteUser(c *gin.Context) {
 // @Produce 		json
 // @Param 			id path string true "User ID"
 // @Success 		200 {object} models.User
-// @Failure 		400 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Failure 		500 {object} models.Error
@@ -276,7 +276,7 @@ func (h *HandlerV1) GetUser(c *gin.Context) {
 		Filter: filter,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -296,7 +296,7 @@ func (h *HandlerV1) GetUser(c *gin.Context) {
 }
 
 // @Security  		BearerAuth
-// @Summary   		Update User
+// @Summary   		List User
 // @Description 	Api for getting list user
 // @Tags 			users
 // @Accept 			json
@@ -305,7 +305,7 @@ func (h *HandlerV1) GetUser(c *gin.Context) {
 // @Param 			limit query uint64 true "Limit"
 // @Param 			role query string true "Role"
 // @Success 		200 {object} []models.User
-// @Failure 		400 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Failure 		500 {object} models.Error
@@ -353,7 +353,7 @@ func (h *HandlerV1) ListUsers(c *gin.Context) {
 		Role:  role,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())

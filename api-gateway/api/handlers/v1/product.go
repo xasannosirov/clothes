@@ -20,7 +20,7 @@ import (
 // @Produce 		json
 // @Accept 			json
 // @Param 			product body models.ProductReq true "Create Product Model"
-// @Success			201 {object} string
+// @Success			201 {object} models.ProductCreateResponse
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
@@ -35,7 +35,7 @@ func (h *HandlerV1) CreateProduct(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -75,7 +75,9 @@ func (h *HandlerV1) CreateProduct(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, createdProductResponse.Id)
+	c.JSON(http.StatusCreated, models.ProductCreateResponse{
+		ProductID: createdProductResponse.Id,
+	})
 }
 
 // @Security 		BearerAuth
@@ -100,7 +102,7 @@ func (h *HandlerV1) UpdateProduct(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -166,7 +168,7 @@ func (h *HandlerV1) UpdateProduct(c *gin.Context) {
 // @Accept 			json
 // @Param 			id path string true "Product ID"
 // @Success			200 {object} bool
-// @Failure 		400 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
@@ -179,7 +181,7 @@ func (h *HandlerV1) DeleteProduct(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -194,7 +196,7 @@ func (h *HandlerV1) DeleteProduct(c *gin.Context) {
 		Id: productID,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -212,7 +214,7 @@ func (h *HandlerV1) DeleteProduct(c *gin.Context) {
 // @Accept 			json
 // @Param 			id path string true "Product ID"
 // @Success			200 {object} models.Product
-// @Failure 		400 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
@@ -225,7 +227,7 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -240,7 +242,7 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 		Id: productID,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -272,8 +274,8 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 // @Accept 			json
 // @Param 			page query uint64 true "Page"
 // @Param 			limit query uint64 true "Limit"
-// @Success			200 {object} models.Product
-// @Failure 		400 {object} models.Error
+// @Success			200 {object} models.ListProduct
+// @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
@@ -286,7 +288,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -299,7 +301,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 	limit := c.Query("limit")
 	pageInt, err := strconv.Atoi(page)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -307,7 +309,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 	}
 	limitInt, err := strconv.Atoi(limit)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -319,7 +321,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 		Limit: int64(limitInt),
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -345,7 +347,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 		})
 	}
 
-	c.JSON(http.StatusCreated, models.ListProduct{
+	c.JSON(http.StatusOK, models.ListProduct{
 		Products: products,
 		Total:    listProducts.TotalCount,
 	})

@@ -31,7 +31,15 @@ import (
 // @Failure 		500 {object} models.Error
 // @Router  		/v1/media/upload-photo [POST]
 func (h *HandlerV1) UploadMedia(c *gin.Context) {
-	ctx, cancel := context.WithTimeout(context.TODO(), time.Second*time.Duration(7))
+	duration, err := time.ParseDuration(h.Config.Context.Timeout)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 
 	endpoint := "13.201.56.179:9000"
@@ -48,6 +56,7 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	err = minioClient.MakeBucket(context.Background(), bucketName, minio.MakeBucketOptions{})
 	if err != nil {
 		if minio.ToErrorResponse(err).Code == "BucketAlreadyOwnedByYou" {
+
 		} else {
 			c.JSON(http.StatusInternalServerError, models.Error{
 				Message: err.Error(),
@@ -85,7 +94,7 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	file := &models.File{}
 	err = c.ShouldBind(&file)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -93,15 +102,15 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	}
 
 	if file.File.Size > 10<<20 {
-		c.JSON(http.StatusRequestEntityTooLarge, models.Error{
+		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "File size cannot be larger than 10 MB",
 		})
 		return
 	}
 
 	ext := filepath.Ext(file.File.Filename)
-  
-	if ext != ".png" && ext != ".jpg" && ext != ".svg" && ext != ".jpeg"{
+
+	if ext != ".png" && ext != ".jpg" && ext != ".svg" && ext != ".jpeg" {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "Only .jpg and .png format images are accepted",
 		})
@@ -165,8 +174,7 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 // @Produce 		json
 // @Param 			id path string true "Product ID"
 // @Success 		200 {object} models.ProductImages
-// @Failure 		400 {object} models.Error
-// @Failure 		500 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Router 			/v1/media/{id} [GET]
 func (h *HandlerV1) GetMedia(c *gin.Context) {
 	var jspbMarshal protojson.MarshalOptions
@@ -181,7 +189,7 @@ func (h *HandlerV1) GetMedia(c *gin.Context) {
 			ProductId: id,
 		})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err)
@@ -204,8 +212,7 @@ func (h *HandlerV1) GetMedia(c *gin.Context) {
 // @Produce 		json
 // @Param 			id path string true "productId"
 // @Success 		200 {object} string
-// @Failure 		400 {object} models.Error
-// @Failure 		500 {object} models.Error
+// @Failure 		404 {object} models.Error
 // @Router 			/v1/media/{id} [DELETE]
 func (h *HandlerV1) DeleteMedia(c *gin.Context) {
 	var jspbMarshal protojson.MarshalOptions
@@ -219,7 +226,7 @@ func (h *HandlerV1) DeleteMedia(c *gin.Context) {
 			ProductId: productId,
 		})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
+		c.JSON(http.StatusNotFound, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err)

@@ -1,11 +1,15 @@
 package models
 
 type (
+	ProductCreateResponse struct {
+		ProductID string `json:"product_id"`
+	}
+
 	Product struct {
 		ID          string  `json:"product_id"`
 		Name        string  `json:"product_name"`
 		Category    string  `json:"category_id"`
-		Description string  `json:"descrition"`
+		Description string  `json:"description"`
 		MadeIn      string  `json:"made_in"`
 		Color       string  `json:"color"`
 		Size        int64   `json:"size"`
@@ -20,7 +24,7 @@ type (
 	ProductReq struct {
 		Name        string  `json:"product_name"`
 		Category    string  `json:"category_id"`
-		Description string  `json:"descrition"`
+		Description string  `json:"description"`
 		MadeIn      string  `json:"made_in"`
 		Color       string  `json:"color"`
 		Size        int64   `json:"size"`
@@ -34,7 +38,7 @@ type (
 
 	ListProduct struct {
 		Products []Product `json:"products"`
-		Total    uint64    `json:"totol_count"`
+		Total    uint64    `json:"total_count"`
 	}
 
 	Order struct {
@@ -105,7 +109,7 @@ type (
 	}
 
 	CommentReq struct {
-		ProductID string `json:"produt_id"`
+		ProductID string `json:"product_id"`
 		UserID    string `json:"user_id"`
 		Comment   string `json:"comment_message"`
 	}
