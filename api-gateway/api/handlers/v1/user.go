@@ -5,6 +5,7 @@ import (
 	userproto "api-gateway/genproto/user_service"
 	"api-gateway/internal/pkg/validation"
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -56,8 +57,11 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 		return
 	}
 
+	fmt.Println(body)
+	fmt.Println(body.Role)
 	body.Role = strings.ToLower(body.Role)
-	if body.Role != "user" || body.Role != "worker" {
+	fmt.Println(body.Role)
+	if body.Role != "user" && body.Email == "worker" {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "Invalid role",
 		})
