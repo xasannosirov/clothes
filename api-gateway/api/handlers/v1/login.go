@@ -182,7 +182,7 @@ func (h *HandlerV1) Register(c *gin.Context) {
 // @Accept 			json
 // @Produce 		json
 // @Param 			login body models.Login true "Login Model"
-// @Success 		200 {object} models.User
+// @Success 		200 {object} models.LoginResp
 // @Failure 		400 {object} models.Error
 // @Failure 		404 {object} models.Error
 // @Failure 		500 {object} models.Error
@@ -251,7 +251,7 @@ func (h *HandlerV1) Login(c *gin.Context) {
 		return
 	}
 
-	respUser := &models.User{
+	respUser := &models.LoginResp{
 		Id:          response.Id,
 		FirstName:   response.FirstName,
 		LastName:    response.LastName,
@@ -260,6 +260,7 @@ func (h *HandlerV1) Login(c *gin.Context) {
 		PhoneNumber: response.PhoneNumber,
 		Gender:      response.Gender,
 		Age:         response.Age,
+		Role:        response.Role,
 		Refresh:     refresh,
 		Access:      access,
 	}

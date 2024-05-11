@@ -79,6 +79,31 @@ definitions:
         example: Sehtols@01
         type: string
     type: object
+  models.LoginResp:
+    properties:
+      access_token:
+        type: string
+      age:
+        type: integer
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      refresh_token:
+        type: string
+      role:
+        type: string
+    type: object
   models.Media:
     properties:
       file_name:
@@ -660,7 +685,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/models.LoginResp'
         "400":
           description: Bad Request
           schema:
@@ -1518,6 +1543,27 @@ paths:
       summary: List Stars
       tags:
       - list
+  /v1/test:
+    get:
+      consumes:
+      - application/json
+      description: API get user_id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Test
+      tags:
+      - test
   /v1/token/{refresh}:
     get:
       consumes:
