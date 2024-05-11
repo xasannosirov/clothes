@@ -710,3 +710,25 @@ func (h *HandlerV1) ListWorker(c *gin.Context) {
 		Total: listUsers.TotalCount,
 	})
 }
+
+// @Security  		BearerAuth
+// @Summary   		Test
+// @Description 	API get user_id
+// @Tags 			test
+// @Accept 			json
+// @Produce 		json
+// @Success 		200 {object} string
+// @Failure 		400 {object} models.Error
+// @Router 			/v1/test [GET]
+func (h *HandlerV1) Test(c *gin.Context) {
+	userID, statusCode := GetIdFromToken(c.Request, &h.Config)
+
+	if statusCode == 401 {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "Access token expired",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, userID)
+}

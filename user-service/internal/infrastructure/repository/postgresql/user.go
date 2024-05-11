@@ -221,6 +221,7 @@ func (p usersRepo) List(ctx context.Context, limit uint64, offset uint64, filter
 
 	role := filter["role"]
 	queryBuilder = queryBuilder.Where(p.db.Sq.Equal("role", role))
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {

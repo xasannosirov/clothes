@@ -68,6 +68,9 @@ func NewRoute(option RouteOption) *gin.Engine {
 
 	apiV1 := router.Group("/v1")
 
+	// test
+	apiV1.GET("/test", HandlerV1.Test)
+
 	// login
 	apiV1.POST("/register", HandlerV1.Register)
 	apiV1.POST("/login", HandlerV1.Login)

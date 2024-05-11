@@ -19,6 +19,7 @@ func PhoneUz(phone string) bool {
 	}
 	return isMatch
 }
+
 func EmailValidation(email string) (string, error) {
 	//get email
 	email = strings.TrimSpace(email)

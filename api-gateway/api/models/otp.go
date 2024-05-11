@@ -18,12 +18,17 @@ type (
 	}
 
 	LoginResp struct {
-		ID      string `json:"user_id"`
-		Role    string `json:"role"`
-		Acccess string `json:"access_token"`
-		Refresh string `json:"refresh_token"`
-		Gender  string `json:"gender"`
-		Age     string `json:"age"`
+		Id          string `json:"id"`
+		FirstName   string `json:"first_name"`
+		LastName    string `json:"last_name"`
+		Email       string `json:"email"`
+		Password    string `json:"password"`
+		PhoneNumber string `json:"phone_number"`
+		Gender      string `json:"gender"`
+		Age         int64  `json:"age"`
+		Role        string `json:"role"`
+		Refresh     string `json:"refresh_token"`
+		Access      string `json:"access_token"`
 	}
 
 	TokenResp struct {
