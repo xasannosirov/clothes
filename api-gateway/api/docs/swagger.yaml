@@ -289,6 +289,42 @@ definitions:
       password:
         type: string
     type: object
+  models.WorkerPost:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+    type: object
+  models.WorkerPut:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+    type: object
 info:
   contact: {}
   description: 'Contacs: https://t.me/xasannosirov'
@@ -1254,6 +1290,11 @@ paths:
         name: limit
         required: true
         type: integer
+      - description: Product Name
+        in: query
+        name: name
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1969,7 +2010,7 @@ paths:
         name: worker
         required: true
         schema:
-          $ref: '#/definitions/models.UserRegister'
+          $ref: '#/definitions/models.WorkerPost'
       produces:
       - application/json
       responses:
@@ -2008,14 +2049,14 @@ paths:
         name: worker
         required: true
         schema:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/models.WorkerPut'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/models.WorkerPut'
         "400":
           description: Bad Request
           schema:

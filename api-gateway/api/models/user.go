@@ -13,6 +13,27 @@ type (
 		Gender    string `json:"gender"`
 	}
 
+	WorkerPost struct {
+		FirstName   string `json:"first_name"`
+		LastName    string `json:"last_name"`
+		Email       string `json:"email"`
+		Password    string `json:"password"`
+		PhoneNumber string `json:"phone_number"`
+		Gender      string `json:"gender"`
+		Age         int64  `json:"age"`
+	}
+
+	WorkerPut struct {
+		ID          string `json:"id"`
+		FirstName   string `json:"first_name"`
+		LastName    string `json:"last_name"`
+		Email       string `json:"email"`
+		Password    string `json:"password"`
+		PhoneNumber string `json:"phone_number"`
+		Gender      string `json:"gender"`
+		Age         int64  `json:"age"`
+	}
+
 	User struct {
 		Id          string `json:"id"`
 		FirstName   string `json:"first_name"`

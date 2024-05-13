@@ -54,6 +54,12 @@ type MoveResponse struct {
 	Status bool
 }
 
+type ListProductRequest struct {
+	Page  uint64
+	Limit uint64
+	Name  string
+}
+
 type ListRequest struct {
 	Page  int64
 	Limit int64

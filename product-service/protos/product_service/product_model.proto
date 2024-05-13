@@ -78,6 +78,12 @@ message Category {
     string name = 2;
 }
 
+message ListProductRequest {
+  uint64 Page = 1;
+  uint64 Limit = 2;
+  string Name = 3;
+}
+
 message ListRequest {
     int64 page = 1;
     int64 limit = 2;

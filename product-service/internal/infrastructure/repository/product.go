@@ -8,7 +8,7 @@ import (
 type Product interface {
 	CreateProduct(ctx context.Context, product *entity.Product) (*entity.Product, error)
 	GetProduct(ctx context.Context, params map[string]string) (*entity.Product, error)
-	GetProducts(ctx context.Context, req *entity.ListRequest) (*entity.ListProduct, error)
+	GetProducts(ctx context.Context, req *entity.ListProductRequest) (*entity.ListProduct, error)
 	UpdateProduct(ctx context.Context, product *entity.Product) error
 	DeleteProduct(ctx context.Context, ID string) error
 

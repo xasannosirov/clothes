@@ -103,10 +103,11 @@ func (d *productRPC) DeleteProduct(ctx context.Context, in *pb.GetWithID) (*pb.D
 	return &pb.DeleteResponse{Status: true}, nil
 }
 
-func (d *productRPC) GetAllProducts(ctx context.Context, in *pb.ListRequest) (*pb.ListProductResponse, error) {
-	filter := &entity.ListRequest{
+func (d *productRPC) GetAllProducts(ctx context.Context, in *pb.ListProductRequest) (*pb.ListProductResponse, error) {
+	filter := &entity.ListProductRequest{
 		Limit: in.Limit,
 		Page:  in.Page,
+		Name:  in.Name,
 	}
 
 	products, err := d.productUsecase.GetAllProducts(ctx, filter)

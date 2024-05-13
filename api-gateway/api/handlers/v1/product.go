@@ -274,6 +274,7 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 // @Accept 			json
 // @Param 			page query uint64 true "Page"
 // @Param 			limit query uint64 true "Limit"
+// @Param 			name query string true "Product Name"
 // @Success			200 {object} models.ListProduct
 // @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
@@ -299,6 +300,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 
 	page := c.Query("page")
 	limit := c.Query("limit")
+	name := c.Query("name")
 	pageInt, err := strconv.Atoi(page)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.Error{
@@ -316,9 +318,10 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 		return
 	}
 
-	listProducts, err := h.Service.ProductService().GetAllProducts(ctx, &product_service.ListRequest{
-		Page:  int64(pageInt),
-		Limit: int64(limitInt),
+	listProducts, err := h.Service.ProductService().GetAllProducts(ctx, &product_service.ListProductRequest{
+		Page:  uint64(pageInt),
+		Limit: uint64(limitInt),
+		Name:  name,
 	})
 	if err != nil {
 		c.JSON(http.StatusNotFound, models.Error{
@@ -347,8 +350,15 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 		})
 	}
 
-	c.JSON(http.StatusOK, models.ListProduct{
-		Products: products,
-		Total:    listProducts.TotalCount,
-	})
+	response := models.ListProduct{}
+	response.Products = products
+	if len(products) == 0 {
+		response.Total = 0
+	} else if len(products) < int(listProducts.TotalCount) {
+		response.Total = uint64(len(products))
+	} else {
+		response.Total = listProducts.TotalCount
+	}
+
+	c.JSON(http.StatusOK, response)
 }

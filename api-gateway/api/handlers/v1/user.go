@@ -135,13 +135,15 @@ func (h *HandlerV1) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	status := validation.PhoneUz(body.PhoneNumber)
-	if !status {
-		c.JSON(http.StatusBadRequest, models.Error{
-			Message: "phone number is invalid",
-		})
-		log.Println("phone number is invalid")
-		return
+	if body.PhoneNumber != "" {
+		status := validation.PhoneUz(body.PhoneNumber)
+		if !status {
+			c.JSON(http.StatusBadRequest, models.Error{
+				Message: "phone number is invalid",
+			})
+			log.Println("phone number is invalid")
+			return
+		}
 	}
 
 	updatedUser, err := h.Service.UserService().UpdateUser(ctx, &userproto.User{
@@ -369,7 +371,7 @@ func (h *HandlerV1) ListUsers(c *gin.Context) {
 // @Tags 			workers
 // @Accept 			json
 // @Produce 		json
-// @Param 			worker body models.UserRegister true "Create Worker Model"
+// @Param 			worker body models.WorkerPost true "Create Worker Model"
 // @Success 		201 {object} models.UserCreateResponse
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
@@ -378,7 +380,7 @@ func (h *HandlerV1) ListUsers(c *gin.Context) {
 // @Router 			/v1/worker [POST]
 func (h *HandlerV1) CreateWorker(c *gin.Context) {
 	var (
-		body        models.UserRegister
+		body        models.WorkerPost
 		jspbMarshal protojson.MarshalOptions
 	)
 	jspbMarshal.UseProtoNames = true
@@ -412,14 +414,24 @@ func (h *HandlerV1) CreateWorker(c *gin.Context) {
 		return
 	}
 
+	status := validation.PhoneUz(body.PhoneNumber)
+	if !status {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "phone number is invalid",
+		})
+		log.Println("phone number is invalid")
+		return
+	}
+
 	userServiceCreateResponse, err := h.Service.UserService().CreateUser(ctx, &userproto.User{
-		Id:        uuid.New().String(),
-		FirstName: body.FirstName,
-		LastName:  body.LastName,
-		Email:     body.Email,
-		Password:  body.Password,
-		Gender:    body.Gender,
-		Role:      "worker",
+		Id:          uuid.New().String(),
+		FirstName:   body.FirstName,
+		LastName:    body.LastName,
+		Email:       body.Email,
+		Password:    body.Password,
+		PhoneNumber: body.PhoneNumber,
+		Gender:      body.Gender,
+		Role:        "worker",
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
@@ -440,8 +452,8 @@ func (h *HandlerV1) CreateWorker(c *gin.Context) {
 // @Tags 			workers
 // @Accept 			json
 // @Produce 		json
-// @Param 			worker body models.User true "Update Worker Model"
-// @Success 		200 {object} models.User
+// @Param 			worker body models.WorkerPut true "Update Worker Model"
+// @Success 		200 {object} models.WorkerPut
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
@@ -449,7 +461,7 @@ func (h *HandlerV1) CreateWorker(c *gin.Context) {
 // @Router 			/v1/worker [PUT]
 func (h *HandlerV1) UpdateWorker(c *gin.Context) {
 	var (
-		body        models.User
+		body        models.WorkerPut
 		jspbMarshal protojson.MarshalOptions
 	)
 	jspbMarshal.UseProtoNames = true
@@ -493,7 +505,7 @@ func (h *HandlerV1) UpdateWorker(c *gin.Context) {
 	}
 
 	updatedUser, err := h.Service.UserService().UpdateUser(ctx, &userproto.User{
-		Id:          body.Id,
+		Id:          body.ID,
 		FirstName:   body.FirstName,
 		LastName:    body.LastName,
 		Email:       body.Email,
@@ -511,8 +523,8 @@ func (h *HandlerV1) UpdateWorker(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, models.User{
-		Id:          updatedUser.Id,
+	c.JSON(http.StatusOK, models.WorkerPut{
+		ID:          updatedUser.Id,
 		FirstName:   updatedUser.FirstName,
 		LastName:    updatedUser.LastName,
 		Email:       updatedUser.Email,
