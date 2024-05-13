@@ -274,7 +274,7 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 // @Accept 			json
 // @Param 			page query uint64 true "Page"
 // @Param 			limit query uint64 true "Limit"
-// @Param 			name query string true "Product Name"
+// @Param 			name query string false "Product Name"
 // @Success			200 {object} models.ListProduct
 // @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
@@ -301,6 +301,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 	page := c.Query("page")
 	limit := c.Query("limit")
 	name := c.Query("name")
+
 	pageInt, err := strconv.Atoi(page)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.Error{

@@ -3,6 +3,7 @@ package v1
 import (
 	"api-gateway/api/models"
 	userproto "api-gateway/genproto/user_service"
+	regtool "api-gateway/internal/pkg/regtool"
 	"api-gateway/internal/pkg/validation"
 	"context"
 	"log"
@@ -61,6 +62,18 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 			Message: models.InternalMessage,
 		})
 		log.Println(err.Error())
+		return
+	}
+
+	_, err = h.Service.UserService().GetUser(ctx, &userproto.Filter{
+		Filter: map[string]string{
+			"email": body.Email,
+		},
+	})
+	if err == nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "Email already used",
+		})
 		return
 	}
 
@@ -414,6 +427,18 @@ func (h *HandlerV1) CreateWorker(c *gin.Context) {
 		return
 	}
 
+	_, err = h.Service.UserService().GetUser(ctx, &userproto.Filter{
+		Filter: map[string]string{
+			"email": body.Email,
+		},
+	})
+	if err == nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: "Email already used",
+		})
+		return
+	}
+
 	status := validation.PhoneUz(body.PhoneNumber)
 	if !status {
 		c.JSON(http.StatusBadRequest, models.Error{
@@ -423,12 +448,21 @@ func (h *HandlerV1) CreateWorker(c *gin.Context) {
 		return
 	}
 
+	hashPassword, err := regtool.HashPassword(body.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+
 	userServiceCreateResponse, err := h.Service.UserService().CreateUser(ctx, &userproto.User{
 		Id:          uuid.New().String(),
 		FirstName:   body.FirstName,
 		LastName:    body.LastName,
 		Email:       body.Email,
-		Password:    body.Password,
+		Password:    hashPassword,
 		PhoneNumber: body.PhoneNumber,
 		Gender:      body.Gender,
 		Role:        "worker",

@@ -1526,8 +1526,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Product Name",
                         "name": "name",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     }
                 ],
                 "responses": {
