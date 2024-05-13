@@ -359,8 +359,12 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 	response.Products = products
 	if len(products) == 0 {
 		response.Total = 0
-	} else if len(products) < int(listProducts.TotalCount) {
-		response.Total = uint64(len(products))
+	} else if listProducts.TotalCount == 0 {
+		c.JSON(http.StatusNotFound, models.ListProduct{
+			Products: nil,
+			Total:    0,
+		})
+		return
 	} else {
 		response.Total = listProducts.TotalCount
 	}

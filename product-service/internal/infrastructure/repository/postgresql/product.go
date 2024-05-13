@@ -230,7 +230,7 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListProductRe
 	offset := (req.Page - 1) * req.Limit
 
 	if req.Name != "SkottAdkins" {
-		queryBuilder = queryBuilder.Where("name ILIKE " + "'%" + req.Name + "%' AND")
+		queryBuilder = queryBuilder.Where("name ILIKE " + "'%" + req.Name + "%'")
 	}
 	queryBuilder = queryBuilder.Where(" deleted_at IS NULL LIMIT $1 OFFSET $2")
 
@@ -239,7 +239,6 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListProductRe
 		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.productTable, "getProducts"))
 	}
 
-	fmt.Println(query)
 	rows, err := u.db.Query(ctx, query, req.Limit, offset)
 	if err != nil {
 		return nil, u.db.Error(err)
@@ -286,7 +285,10 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListProductRe
 	}
 
 	var count uint64
-	total := `SELECT COUNT(*) FROM products WHERE deleted_at IS NULL`
+	total := "SELECT COUNT(*) FROM products WHERE deleted_at IS NULL"
+	if req.Name != "SkottAdkins" {
+		total += " AND name ILIKE " + "'%" + req.Name + "%'"
+	}
 	if err := u.db.QueryRow(ctx, total).Scan(&count); err != nil {
 		products.TotalCount = 0
 	}
@@ -1347,7 +1349,6 @@ func (u *productRepo) GetAllStars(ctx context.Context, req *entity.ListRequest) 
 	if err != nil {
 		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.starsTable, "GetAllStars"))
 	}
-	fmt.Println(query)
 
 	rows, err := u.db.Query(ctx, query, args...)
 	if err != nil {
