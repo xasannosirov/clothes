@@ -65,6 +65,18 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 		return
 	}
 
+	_, err = h.Service.UserService().GetUser(ctx, &userproto.Filter{
+		Filter: map[string]string{
+			"email": body.Email,
+		},
+	})
+	if err == nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "Email already used",
+		})
+		return
+	}
+
 	userServiceCreateResponse, err := h.Service.UserService().CreateUser(ctx, &userproto.User{
 		Id:        uuid.New().String(),
 		FirstName: body.FirstName,
@@ -412,6 +424,18 @@ func (h *HandlerV1) CreateWorker(c *gin.Context) {
 			Message: models.InternalMessage,
 		})
 		log.Println(err.Error())
+		return
+	}
+
+	_, err = h.Service.UserService().GetUser(ctx, &userproto.Filter{
+		Filter: map[string]string{
+			"email": body.Email,
+		},
+	})
+	if err == nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: "Email already used",
+		})
 		return
 	}
 

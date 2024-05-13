@@ -1293,7 +1293,6 @@ paths:
       - description: Product Name
         in: query
         name: name
-        required: true
         type: string
       produces:
       - application/json
