@@ -10,7 +10,7 @@ service ProductService {
   rpc UpdateProduct(Product) returns (Product); 
   rpc DeleteProduct(GetWithID) returns (DeleteResponse); 
   rpc GetProductByID(GetWithID) returns (Product); 
-  rpc GetAllProducts(ListRequest) returns (ListProductResponse); 
+  rpc GetAllProducts(ListProductRequest) returns (ListProductResponse);
 
   rpc CreateOrder(Order) returns (GetWithID); 
   rpc CancelOrder(GetWithID) returns (DeleteResponse); 

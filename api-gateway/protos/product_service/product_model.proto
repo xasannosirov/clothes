@@ -21,6 +21,12 @@ message Product {
   string updated_at = 15;
 }
 
+message ListProductRequest {
+  uint64 Page = 1;
+  uint64 Limit = 2;
+  string Name = 3;
+}
+
 message Filter {
     string name = 1;
 }

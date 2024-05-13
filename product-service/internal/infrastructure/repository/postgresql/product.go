@@ -223,7 +223,7 @@ func (u *productRepo) GetProduct(ctx context.Context, params map[string]string) 
 	return &product, nil
 }
 
-func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListRequest) (*entity.ListProduct, error) {
+func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListProductRequest) (*entity.ListProduct, error) {
 	products := &entity.ListProduct{}
 	queryBuilder := u.productsSelectQueryPrefix()
 
@@ -233,6 +233,7 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListRequest) 
 		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
 	}
 
+	queryBuilder = queryBuilder.Where(squirrel.Eq{"name": req.Name})
 	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
 
 	query, args, err := queryBuilder.ToSql()

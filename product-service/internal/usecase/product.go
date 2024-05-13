@@ -13,7 +13,7 @@ import (
 type Product interface {
 	CreateProduct(ctx context.Context, req *entity.Product) (*entity.Product, error)
 	GetProductByID(ctx context.Context, params map[string]string) (*entity.Product, error)
-	GetAllProducts(ctx context.Context, req *entity.ListRequest) (*entity.ListProduct, error)
+	GetAllProducts(ctx context.Context, req *entity.ListProductRequest) (*entity.ListProduct, error)
 	UpdateProduct(ctx context.Context, req *entity.Product) error
 	DeleteProduct(ctx context.Context, id string) error
 
@@ -85,7 +85,7 @@ func (u *productService) GetProductByID(ctx context.Context, params map[string]s
 	return u.repo.GetProduct(ctx, params)
 }
 
-func (u *productService) GetAllProducts(ctx context.Context, req *entity.ListRequest) (*entity.ListProduct, error) {
+func (u *productService) GetAllProducts(ctx context.Context, req *entity.ListProductRequest) (*entity.ListProduct, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
