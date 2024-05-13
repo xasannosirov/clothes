@@ -3,6 +3,7 @@ package v1
 import (
 	"api-gateway/api/models"
 	userproto "api-gateway/genproto/user_service"
+	regtool "api-gateway/internal/pkg/regtool"
 	"api-gateway/internal/pkg/validation"
 	"context"
 	"log"
@@ -423,12 +424,21 @@ func (h *HandlerV1) CreateWorker(c *gin.Context) {
 		return
 	}
 
+	hashPassword, err := regtool.HashPassword(body.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+
 	userServiceCreateResponse, err := h.Service.UserService().CreateUser(ctx, &userproto.User{
 		Id:          uuid.New().String(),
 		FirstName:   body.FirstName,
 		LastName:    body.LastName,
 		Email:       body.Email,
-		Password:    body.Password,
+		Password:    hashPassword,
 		PhoneNumber: body.PhoneNumber,
 		Gender:      body.Gender,
 		Role:        "worker",
