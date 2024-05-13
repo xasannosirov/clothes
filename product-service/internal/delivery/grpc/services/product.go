@@ -113,7 +113,7 @@ func (d *productRPC) GetAllProducts(ctx context.Context, in *pb.ListProductReque
 	products, err := d.productUsecase.GetAllProducts(ctx, filter)
 	if err != nil {
 		d.logger.Error("productUseCase.List", zap.Error(err))
-		return &pb.ListProductResponse{}, grpc.Error(ctx, err)
+		return nil, err
 	}
 
 	pbProducts := &pb.ListProductResponse{}

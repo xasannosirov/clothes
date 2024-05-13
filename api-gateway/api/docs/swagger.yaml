@@ -1691,7 +1691,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/models.WorkerPut'
       produces:
       - application/json
       responses:

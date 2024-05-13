@@ -65,15 +65,28 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 		return
 	}
 
-	_, err = h.Service.UserService().GetUser(ctx, &userproto.Filter{
-		Filter: map[string]string{
-			"email": body.Email,
-		},
+	status, err := h.Service.UserService().UniqueEmail(ctx, &userproto.IsUnique{
+		Email: body.Email,
 	})
-	if err == nil {
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		return
+	}
+	if status.Status {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "Email already used",
 		})
+		return
+	}
+
+	hashpassword, err := regtool.HashPassword(body.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
 		return
 	}
 
@@ -82,7 +95,7 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 		FirstName: body.FirstName,
 		LastName:  body.LastName,
 		Email:     body.Email,
-		Password:  body.Password,
+		Password:  hashpassword,
 		Gender:    body.Gender,
 		Role:      "user",
 	})
@@ -105,7 +118,7 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 // @Tags 			users
 // @Accept 			json
 // @Produce 		json
-// @Param 			user body models.User true "Update User Model"
+// @Param 			user body models.WorkerPut true "Update User Model"
 // @Success 		200 {object} models.User
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
@@ -145,6 +158,23 @@ func (h *HandlerV1) UpdateUser(c *gin.Context) {
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
+		return
+	}
+
+	status, err := h.Service.UserService().UniqueEmail(ctx, &userproto.IsUnique{
+		Email: body.Email,
+	})
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		return
+	}
+	if status.Status {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "Email already used",
+		})
 		return
 	}
 
@@ -220,6 +250,26 @@ func (h *HandlerV1) DeleteUser(c *gin.Context) {
 	defer cancel()
 
 	userID := c.Param("id")
+
+	user, err := h.Service.UserService().GetUser(ctx, &userproto.Filter{
+		Filter: map[string]string{
+			"id": userID,
+		},
+	})
+	if err != nil {
+		c.JSON(http.StatusNotFound, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+	if user.Role == "admin" {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "Wrong request",
+		})
+		return
+	}
+
 	response, err := h.Service.UserService().DeleteUser(ctx, &userproto.UserWithGUID{
 		Guid: userID,
 	})
@@ -427,20 +477,24 @@ func (h *HandlerV1) CreateWorker(c *gin.Context) {
 		return
 	}
 
-	_, err = h.Service.UserService().GetUser(ctx, &userproto.Filter{
-		Filter: map[string]string{
-			"email": body.Email,
-		},
+	status, err := h.Service.UserService().UniqueEmail(ctx, &userproto.IsUnique{
+		Email: body.Email,
 	})
-	if err == nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
-			Message: "Email already used",
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		return
+	}
+	if status.Status {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "Eamil already used",
 		})
 		return
 	}
 
-	status := validation.PhoneUz(body.PhoneNumber)
-	if !status {
+	st := validation.PhoneUz(body.PhoneNumber)
+	if !st {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "phone number is invalid",
 		})
@@ -529,8 +583,25 @@ func (h *HandlerV1) UpdateWorker(c *gin.Context) {
 		return
 	}
 
-	status := validation.PhoneUz(body.PhoneNumber)
-	if !status {
+	status, err := h.Service.UserService().UniqueEmail(ctx, &userproto.IsUnique{
+		Email: body.Email,
+	})
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+	if status.Status {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "email already used",
+		})
+		return
+	}
+
+	st := validation.PhoneUz(body.PhoneNumber)
+	if !st {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "phone number is invalid",
 		})
@@ -599,6 +670,25 @@ func (h *HandlerV1) DeleteWorker(c *gin.Context) {
 	defer cancel()
 
 	userID := c.Param("id")
+
+	user, err := h.Service.UserService().GetUser(ctx, &userproto.Filter{
+		Filter: map[string]string{
+			"id": userID,
+		},
+	})
+	if err != nil {
+		c.JSON(http.StatusNotFound, models.Error{
+			Message: err.Error(),
+		})
+		return
+	}
+	if user.Role == "admin" {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "Bad request",
+		})
+		return
+	}
+
 	response, err := h.Service.UserService().DeleteUser(ctx, &userproto.UserWithGUID{
 		Guid: userID,
 	})

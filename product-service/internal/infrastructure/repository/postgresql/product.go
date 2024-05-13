@@ -229,10 +229,10 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListProductRe
 
 	offset := (req.Page - 1) * req.Limit
 
-	if req.Name != "" {
-		queryBuilder = queryBuilder.Where("name ILIKE " + "'%" + req.Name + "%' ")
+	if req.Name != "SkottAdkins" {
+		queryBuilder = queryBuilder.Where("name ILIKE " + "'%" + req.Name + "%' AND")
 	}
-	queryBuilder = queryBuilder.Where("AND deleted_at IS NULL LIMIT $1 OFFSET $2")
+	queryBuilder = queryBuilder.Where(" deleted_at IS NULL LIMIT $1 OFFSET $2")
 
 	query, _, err := queryBuilder.ToSql()
 	if err != nil {
@@ -270,7 +270,7 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListProductRe
 			&product.CreatedAt,
 			&product.UpdatedAt,
 		); err != nil {
-			return nil, u.db.Error(err)
+			return nil, err
 		}
 
 		if nullDesc.Valid {

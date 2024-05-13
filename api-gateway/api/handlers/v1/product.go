@@ -319,6 +319,10 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 		return
 	}
 
+	if name == "" {
+		name = "SkottAdkins"
+	}
+
 	listProducts, err := h.Service.ProductService().GetAllProducts(ctx, &product_service.ListProductRequest{
 		Page:  uint64(pageInt),
 		Limit: uint64(limitInt),
