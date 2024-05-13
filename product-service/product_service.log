@@ -1186,3 +1186,65 @@ google.golang.org/grpc.(*Server).serveStreams.func2.1
 2024-05-10T20:08:12.678+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
 2024-05-10T20:11:55.100+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
 2024-05-10T20:20:05.872+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-13T09:41:16.648+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-13T09:41:38.213+0500	ERROR	services/product.go:39	productUseCase.CreateProduct	{"error": "ERROR: insert or update on table \"products\" violates foreign key constraint \"products_category_id_fkey\" (SQLSTATE 23503)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateProduct
+	/home/gopher/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:39
+product-service/genproto/product_service._ProductService_CreateProduct_Handler
+	/home/gopher/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:531
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-13T09:42:23.726+0500	ERROR	services/product.go:39	productUseCase.CreateProduct	{"error": "ERROR: invalid input syntax for type uuid: \"Hello\" (SQLSTATE 22P02)"}
+product-service/internal/delivery/grpc/services.(*productRPC).CreateProduct
+	/home/gopher/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:39
+product-service/genproto/product_service._ProductService_CreateProduct_Handler
+	/home/gopher/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:531
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-13T09:43:06.668+0500	ERROR	services/product.go:115	productUseCase.List	{"error": "expected 0 arguments, got 2"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetAllProducts
+	/home/gopher/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:115
+product-service/genproto/product_service._ProductService_GetAllProducts_Handler
+	/home/gopher/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:603
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-13T09:43:11.238+0500	INFO	app/main.go:34	Product service stops !
+2024-05-13T09:43:13.446+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-13T09:43:15.273+0500	ERROR	services/product.go:115	productUseCase.List	{"error": "expected 0 arguments, got 2"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetAllProducts
+	/home/gopher/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:115
+product-service/genproto/product_service._ProductService_GetAllProducts_Handler
+	/home/gopher/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:603
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-13T09:44:20.376+0500	INFO	app/main.go:34	Product service stops !
+2024-05-13T09:44:21.481+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}
+2024-05-13T09:44:24.200+0500	ERROR	services/product.go:115	productUseCase.List	{"error": "ERROR: syntax error at or near \"OFFSET\" (SQLSTATE 42601)"}
+product-service/internal/delivery/grpc/services.(*productRPC).GetAllProducts
+	/home/gopher/projects/go/src/clothes/product-service/internal/delivery/grpc/services/product.go:115
+product-service/genproto/product_service._ProductService_GetAllProducts_Handler
+	/home/gopher/projects/go/src/clothes/product-service/genproto/product_service/product_service.pb.go:603
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/gopher/mod-cache/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-13T09:44:35.492+0500	INFO	app/main.go:34	Product service stops !
+2024-05-13T09:44:39.804+0500	INFO	app/app.go:85	gRPC Server Listening	{"url": ":3333"}

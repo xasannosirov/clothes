@@ -229,19 +229,15 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListProductRe
 
 	offset := (req.Page - 1) * req.Limit
 
-	if req.Limit != 0 {
-		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
-	}
+	queryBuilder = queryBuilder.Where("name ILIKE " + "'%" + req.Name + "%' AND deleted_at IS NULL LIMIT $1 OFFSET $2")
 
-	queryBuilder = queryBuilder.Where(squirrel.Eq{"name": req.Name})
-	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
-
-	query, args, err := queryBuilder.ToSql()
+	query, _, err := queryBuilder.ToSql()
 	if err != nil {
 		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.productTable, "getProducts"))
 	}
 
-	rows, err := u.db.Query(ctx, query, args...)
+	fmt.Println(query)
+	rows, err := u.db.Query(ctx, query, req.Limit, offset)
 	if err != nil {
 		return nil, u.db.Error(err)
 	}
@@ -561,7 +557,6 @@ func (p *productRepo) SearchProduct(ctx context.Context, req *entity.Filter) (*e
 
 	name := "%" + req.Name + "%"
 	query += " WHERE name ILIKE $1"
-	fmt.Println(query)
 
 	rows, err := p.db.Query(ctx, query, name)
 	if err != nil {
