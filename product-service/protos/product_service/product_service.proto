@@ -43,4 +43,12 @@ service ProductService {
   rpc UpdateCategory(Category) returns (Category);
   rpc GetCategory(GetWithID) returns (Category);
   rpc GetAllCategory(ListRequest) returns (ListCategory);
+
+  rpc SaveToBasket() returns ();
+  rpc DeleteFromBasket() returns ();
+  rpc GetBasketProducts() returns ();
+
+  rpc GetDelProduct() returns ();
+  rpc GetDelUser() returns ();
+  rpc GetDelImage() returns ();
 }

@@ -18,6 +18,7 @@ func (d *productRPC) CreateProduct(ctx context.Context, in *pb.Product) (*pb.Get
 		attribute.Key("guid").String(in.Id),
 	)
 	defer span.End()
+	
 	respProduct, err := d.productUsecase.CreateProduct(ctx, &entity.Product{
 		Id:          in.Id,
 		Name:        in.Name,
