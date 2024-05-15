@@ -1,0 +1,559 @@
+2024-05-15T12:19:46.912+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-05-15T12:21:03.440+0500	ERROR	services/user.go:138	ERROR: relation "users" does not exist (SQLSTATE 42P01)
+user-service/internal/delivery/grpc/services.userRPC.GetUser
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/services/user.go:138
+user-service/genproto/user_service._UserService_GetUser_Handler.func1
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:230
+user-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:34
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_GetUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:232
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T12:21:03.440+0500	ERROR	zap/options.go:212	finished unary call with code Unknown	{"grpc.start_time": "2024-05-15T12:21:03+05:00", "grpc.request.deadline": "2024-05-15T12:21:33+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:58376", "error": "ERROR: relation \"users\" does not exist (SQLSTATE 42P01)", "grpc.code": "Unknown", "grpc.time_ms": 0.778}
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.DefaultMessageProducer
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/options.go:212
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:39
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_GetUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:232
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T12:24:50.465+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T12:24:50+05:00", "grpc.request.deadline": "2024-05-15T12:25:20+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:57842", "grpc.code": "OK", "grpc.time_ms": 1.76}
+2024-05-15T12:24:50.537+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T12:24:50+05:00", "grpc.request.deadline": "2024-05-15T12:25:20+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateRefresh", "peer.address": "127.0.0.1:57842", "grpc.code": "OK", "grpc.time_ms": 2.118}
+2024-05-15T12:36:31.264+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T12:36:31+05:00", "grpc.request.deadline": "2024-05-15T12:37:01+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:43332", "grpc.code": "OK", "grpc.time_ms": 0.686}
+2024-05-15T12:36:31.340+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T12:36:31+05:00", "grpc.request.deadline": "2024-05-15T12:37:01+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateRefresh", "peer.address": "127.0.0.1:43332", "grpc.code": "OK", "grpc.time_ms": 3.141}
+2024-05-15T12:48:36.950+0500	INFO	app/main.go:36	Conten service stops !
+2024-05-15T19:59:07.048+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-05-15T19:59:26.608+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T19:59:26+05:00", "grpc.request.deadline": "2024-05-15T19:59:56+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:46518", "grpc.code": "OK", "grpc.time_ms": 1.177}
+2024-05-15T19:59:26.660+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T19:59:26+05:00", "grpc.request.deadline": "2024-05-15T19:59:56+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateRefresh", "peer.address": "127.0.0.1:46518", "grpc.code": "OK", "grpc.time_ms": 3.648}
+2024-05-15T20:23:50.450+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T20:23:50+05:00", "grpc.request.deadline": "2024-05-15T20:24:20+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:51684", "grpc.code": "OK", "grpc.time_ms": 0.377}
+2024-05-15T20:23:50.503+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T20:23:50+05:00", "grpc.request.deadline": "2024-05-15T20:24:20+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateRefresh", "peer.address": "127.0.0.1:51684", "grpc.code": "OK", "grpc.time_ms": 3.147}
+2024-05-15T20:24:15.985+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T20:24:15+05:00", "grpc.request.deadline": "2024-05-15T20:24:45+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:51684", "grpc.code": "OK", "grpc.time_ms": 0.575}
+2024-05-15T20:44:58.054+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T20:44:58+05:00", "grpc.request.deadline": "2024-05-15T20:45:28+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UniqueEmail", "peer.address": "127.0.0.1:51684", "grpc.code": "OK", "grpc.time_ms": 0.926}
+2024-05-15T20:44:58.982+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T20:44:58+05:00", "grpc.request.deadline": "2024-05-15T20:45:28+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "CreateUser", "peer.address": "127.0.0.1:51684", "grpc.code": "OK", "grpc.time_ms": 3.504}
+2024-05-15T20:50:43.005+0500	INFO	app/main.go:36	Conten service stops !
+2024-05-15T20:50:44.823+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-05-15T20:53:18.563+0500	INFO	app/main.go:36	Conten service stops !
+2024-05-15T20:53:19.870+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-05-15T21:04:08.650+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:04:08+05:00", "grpc.request.deadline": "2024-05-15T21:04:38+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UniqueEmail", "peer.address": "127.0.0.1:40204", "grpc.code": "OK", "grpc.time_ms": 1.503}
+2024-05-15T21:04:17.170+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:04:17+05:00", "grpc.request.deadline": "2024-05-15T21:04:47+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UniqueEmail", "peer.address": "127.0.0.1:40204", "grpc.code": "OK", "grpc.time_ms": 0.288}
+2024-05-15T21:04:18.105+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:04:18+05:00", "grpc.request.deadline": "2024-05-15T21:04:47+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "CreateUser", "peer.address": "127.0.0.1:40204", "grpc.code": "OK", "grpc.time_ms": 3.723}
+2024-05-15T21:04:38.447+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:04:38+05:00", "grpc.request.deadline": "2024-05-15T21:05:08+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:40204", "grpc.code": "OK", "grpc.time_ms": 0.954}
+2024-05-15T21:04:38.450+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:04:38+05:00", "grpc.request.deadline": "2024-05-15T21:05:08+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "DeleteUser", "peer.address": "127.0.0.1:40204", "grpc.code": "OK", "grpc.time_ms": 3.023}
+2024-05-15T21:05:09.317+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:05:09+05:00", "grpc.request.deadline": "2024-05-15T21:05:39+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UniqueEmail", "peer.address": "127.0.0.1:40204", "grpc.code": "OK", "grpc.time_ms": 0.283}
+2024-05-15T21:05:19.134+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:05:19+05:00", "grpc.request.deadline": "2024-05-15T21:05:49+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UniqueEmail", "peer.address": "127.0.0.1:40204", "grpc.code": "OK", "grpc.time_ms": 0.36}
+2024-05-15T21:05:38.602+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:05:38+05:00", "grpc.request.deadline": "2024-05-15T21:06:08+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UniqueEmail", "peer.address": "127.0.0.1:40204", "grpc.code": "OK", "grpc.time_ms": 0.435}
+2024-05-15T21:05:46.149+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:05:46+05:00", "grpc.request.deadline": "2024-05-15T21:06:16+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UniqueEmail", "peer.address": "127.0.0.1:40204", "grpc.code": "OK", "grpc.time_ms": 0.504}
+2024-05-15T21:05:46.150+0500	ERROR	services/user.go:82	no sql rows
+user-service/internal/delivery/grpc/services.userRPC.UpdateUser
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/services/user.go:82
+user-service/genproto/user_service._UserService_UpdateUser_Handler.func1
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:281
+user-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:34
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_UpdateUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:283
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:05:46.150+0500	ERROR	zap/options.go:212	finished unary call with code Unknown	{"grpc.start_time": "2024-05-15T21:05:46+05:00", "grpc.request.deadline": "2024-05-15T21:06:16+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateUser", "peer.address": "127.0.0.1:40204", "error": "no sql rows", "grpc.code": "Unknown", "grpc.time_ms": 0.826}
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.DefaultMessageProducer
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/options.go:212
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:39
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_UpdateUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:283
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:09:10.200+0500	ERROR	services/user.go:137	object not found
+user-service/internal/delivery/grpc/services.userRPC.GetUser
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/services/user.go:137
+user-service/genproto/user_service._UserService_GetUser_Handler.func1
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:245
+user-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:34
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_GetUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:247
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:09:10.200+0500	ERROR	zap/options.go:212	finished unary call with code Unknown	{"grpc.start_time": "2024-05-15T21:09:10+05:00", "grpc.request.deadline": "2024-05-15T21:09:40+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:34506", "error": "object not found", "grpc.code": "Unknown", "grpc.time_ms": 0.674}
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.DefaultMessageProducer
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/options.go:212
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:39
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_GetUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:247
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:09:19.699+0500	ERROR	services/user.go:180	object not found
+user-service/internal/delivery/grpc/services.userRPC.GetUserDelete
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/services/user.go:180
+user-service/genproto/user_service._UserService_GetUserDelete_Handler.func1
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:263
+user-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:34
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_GetUserDelete_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:265
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:09:19.699+0500	ERROR	zap/options.go:212	finished unary call with code Unknown	{"grpc.start_time": "2024-05-15T21:09:19+05:00", "grpc.request.deadline": "2024-05-15T21:09:49+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUserDelete", "peer.address": "127.0.0.1:34506", "error": "object not found", "grpc.code": "Unknown", "grpc.time_ms": 0.668}
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.DefaultMessageProducer
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/options.go:212
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:39
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_GetUserDelete_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:265
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:14:02.187+0500	INFO	app/main.go:36	Conten service stops !
+2024-05-15T21:14:03.441+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-05-15T21:14:05.991+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:14:05+05:00", "grpc.request.deadline": "2024-05-15T21:14:35+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUserDelete", "peer.address": "127.0.0.1:37406", "grpc.code": "OK", "grpc.time_ms": 1.088}
+2024-05-15T21:14:23.663+0500	ERROR	services/user.go:136	object not found
+user-service/internal/delivery/grpc/services.userRPC.GetUser
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/services/user.go:136
+user-service/genproto/user_service._UserService_GetUser_Handler.func1
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:245
+user-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:34
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_GetUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:247
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:14:23.663+0500	ERROR	zap/options.go:212	finished unary call with code Unknown	{"grpc.start_time": "2024-05-15T21:14:23+05:00", "grpc.request.deadline": "2024-05-15T21:14:53+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:37406", "error": "object not found", "grpc.code": "Unknown", "grpc.time_ms": 0.716}
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.DefaultMessageProducer
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/options.go:212
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:39
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_GetUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:247
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:19:57.951+0500	INFO	app/main.go:36	Conten service stops !
+2024-05-15T21:19:59.413+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-05-15T21:20:27.652+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:20:27+05:00", "grpc.request.deadline": "2024-05-15T21:20:57+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UniqueEmail", "peer.address": "127.0.0.1:60570", "grpc.code": "OK", "grpc.time_ms": 1.269}
+2024-05-15T21:20:28.579+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:20:28+05:00", "grpc.request.deadline": "2024-05-15T21:20:57+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "CreateUser", "peer.address": "127.0.0.1:60570", "grpc.code": "OK", "grpc.time_ms": 3.439}
+2024-05-15T21:20:54.703+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:20:54+05:00", "grpc.request.deadline": "2024-05-15T21:21:24+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UniqueEmail", "peer.address": "127.0.0.1:60570", "grpc.code": "OK", "grpc.time_ms": 0.587}
+2024-05-15T21:20:55.631+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:20:55+05:00", "grpc.request.deadline": "2024-05-15T21:21:24+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "CreateUser", "peer.address": "127.0.0.1:60570", "grpc.code": "OK", "grpc.time_ms": 2.968}
+2024-05-15T21:21:18.468+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:21:18+05:00", "grpc.request.deadline": "2024-05-15T21:21:48+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetAllUsers", "peer.address": "127.0.0.1:60570", "grpc.code": "OK", "grpc.time_ms": 4.499}
+2024-05-15T21:24:10.535+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:24:10+05:00", "grpc.request.deadline": "2024-05-15T21:24:40+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UniqueEmail", "peer.address": "127.0.0.1:60570", "grpc.code": "OK", "grpc.time_ms": 0.637}
+2024-05-15T21:37:26.825+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:37:26+05:00", "grpc.request.deadline": "2024-05-15T21:37:56+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:40110", "grpc.code": "OK", "grpc.time_ms": 1.049}
+2024-05-15T21:37:26.827+0500	ERROR	services/user.go:81	ERROR: value too long for type character varying(6) (SQLSTATE 22001)
+user-service/internal/delivery/grpc/services.userRPC.UpdateUser
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/services/user.go:81
+user-service/genproto/user_service._UserService_UpdateUser_Handler.func1
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:281
+user-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:34
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_UpdateUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:283
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:37:26.827+0500	ERROR	zap/options.go:212	finished unary call with code Unknown	{"grpc.start_time": "2024-05-15T21:37:26+05:00", "grpc.request.deadline": "2024-05-15T21:37:56+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateUser", "peer.address": "127.0.0.1:40110", "error": "ERROR: value too long for type character varying(6) (SQLSTATE 22001)", "grpc.code": "Unknown", "grpc.time_ms": 1.064}
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.DefaultMessageProducer
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/options.go:212
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:39
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_UpdateUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:283
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:38:04.350+0500	INFO	app/main.go:36	Conten service stops !
+2024-05-15T21:38:08.267+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-05-15T21:38:11.798+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:38:11+05:00", "grpc.request.deadline": "2024-05-15T21:38:41+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:49846", "grpc.code": "OK", "grpc.time_ms": 1.441}
+2024-05-15T21:38:11.799+0500	ERROR	services/user.go:81	ERROR: value too long for type character varying(6) (SQLSTATE 22001)
+user-service/internal/delivery/grpc/services.userRPC.UpdateUser
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/services/user.go:81
+user-service/genproto/user_service._UserService_UpdateUser_Handler.func1
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:281
+user-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:34
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_UpdateUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:283
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:38:11.799+0500	ERROR	zap/options.go:212	finished unary call with code Unknown	{"grpc.start_time": "2024-05-15T21:38:11+05:00", "grpc.request.deadline": "2024-05-15T21:38:41+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateUser", "peer.address": "127.0.0.1:49846", "error": "ERROR: value too long for type character varying(6) (SQLSTATE 22001)", "grpc.code": "Unknown", "grpc.time_ms": 0.896}
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.DefaultMessageProducer
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/options.go:212
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:39
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_UpdateUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:283
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:39:25.359+0500	INFO	app/main.go:36	Conten service stops !
+2024-05-15T21:39:26.722+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-05-15T21:39:29.793+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:39:29+05:00", "grpc.request.deadline": "2024-05-15T21:39:59+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:42498", "grpc.code": "OK", "grpc.time_ms": 1.519}
+2024-05-15T21:39:29.794+0500	ERROR	services/user.go:81	ERROR: value too long for type character varying(6) (SQLSTATE 22001)
+user-service/internal/delivery/grpc/services.userRPC.UpdateUser
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/services/user.go:81
+user-service/genproto/user_service._UserService_UpdateUser_Handler.func1
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:281
+user-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:34
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_UpdateUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:283
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:39:29.795+0500	ERROR	zap/options.go:212	finished unary call with code Unknown	{"grpc.start_time": "2024-05-15T21:39:29+05:00", "grpc.request.deadline": "2024-05-15T21:39:59+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateUser", "peer.address": "127.0.0.1:42498", "error": "ERROR: value too long for type character varying(6) (SQLSTATE 22001)", "grpc.code": "Unknown", "grpc.time_ms": 0.797}
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.DefaultMessageProducer
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/options.go:212
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:39
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_UpdateUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:283
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:40:32.980+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:40:32+05:00", "grpc.request.deadline": "2024-05-15T21:41:02+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:42498", "grpc.code": "OK", "grpc.time_ms": 0.74}
+2024-05-15T21:40:32.981+0500	ERROR	services/user.go:81	ERROR: value too long for type character varying(6) (SQLSTATE 22001)
+user-service/internal/delivery/grpc/services.userRPC.UpdateUser
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/services/user.go:81
+user-service/genproto/user_service._UserService_UpdateUser_Handler.func1
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:281
+user-service/internal/app.NewApp.UnaryInterceptorData.func6
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:34
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+github.com/grpc-ecosystem/go-grpc-middleware/recovery.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/recovery/interceptors.go:33
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:31
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_UpdateUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:283
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:40:32.981+0500	ERROR	zap/options.go:212	finished unary call with code Unknown	{"grpc.start_time": "2024-05-15T21:40:32+05:00", "grpc.request.deadline": "2024-05-15T21:41:02+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateUser", "peer.address": "127.0.0.1:42498", "error": "ERROR: value too long for type character varying(6) (SQLSTATE 22001)", "grpc.code": "Unknown", "grpc.time_ms": 0.634}
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.DefaultMessageProducer
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/options.go:212
+github.com/grpc-ecosystem/go-grpc-middleware/logging/zap.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/logging/zap/server_interceptors.go:39
+user-service/internal/app.NewApp.ChainUnaryServer.func5.1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:48
+github.com/grpc-ecosystem/go-grpc-middleware/tags.UnaryServerInterceptor.func1
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/tags/interceptors.go:23
+user-service/internal/app.NewApp.ChainUnaryServer.func5
+	/home/abudlaziz/project/go/pkg/mod/github.com/grpc-ecosystem/go-grpc-middleware@v1.4.0/chain.go:53
+user-service/internal/app.NewApp.UnaryInterceptor.func7.1.1
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:16
+user-service/internal/app.NewApp.UnaryInterceptor.func7
+	/home/abudlaziz/project/go/src/clothes/user-service/internal/delivery/grpc/server/middleware.go:23
+user-service/genproto/user_service._UserService_UpdateUser_Handler
+	/home/abudlaziz/project/go/src/clothes/user-service/genproto/user_service/user_service.pb.go:283
+google.golang.org/grpc.(*Server).processUnaryRPC
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1369
+google.golang.org/grpc.(*Server).handleStream
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1780
+google.golang.org/grpc.(*Server).serveStreams.func2.1
+	/home/abudlaziz/project/go/pkg/mod/google.golang.org/grpc@v1.63.2/server.go:1019
+2024-05-15T21:40:58.908+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:40:58+05:00", "grpc.request.deadline": "2024-05-15T21:41:28+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:42498", "grpc.code": "OK", "grpc.time_ms": 0.554}
+2024-05-15T21:40:58.913+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:40:58+05:00", "grpc.request.deadline": "2024-05-15T21:41:28+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateUser", "peer.address": "127.0.0.1:42498", "grpc.code": "OK", "grpc.time_ms": 3.533}
+2024-05-15T21:41:49.307+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:41:49+05:00", "grpc.request.deadline": "2024-05-15T21:42:19+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetAllUsers", "peer.address": "127.0.0.1:42498", "grpc.code": "OK", "grpc.time_ms": 2.08}
+2024-05-15T21:45:03.844+0500	INFO	app/main.go:36	Conten service stops !
+2024-05-15T21:45:05.334+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-05-15T21:45:15.023+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:45:15+05:00", "grpc.request.deadline": "2024-05-15T21:45:45+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetAllUsers", "peer.address": "127.0.0.1:60998", "grpc.code": "OK", "grpc.time_ms": 1.517}
+2024-05-15T21:45:24.355+0500	INFO	app/main.go:36	Conten service stops !
+2024-05-15T21:45:25.784+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-05-15T21:45:28.189+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:45:28+05:00", "grpc.request.deadline": "2024-05-15T21:45:58+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetAllUsers", "peer.address": "127.0.0.1:53312", "grpc.code": "OK", "grpc.time_ms": 2.284}

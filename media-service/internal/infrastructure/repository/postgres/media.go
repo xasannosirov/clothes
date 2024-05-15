@@ -74,7 +74,7 @@ func (m mediaRepo) GetMediaWithProductId(ctx context.Context, filter map[string]
 		ListMedia []*entity.Media
 	)
 	queryBuilder := m.mediaSelectQueryPrefix()
-	queryBuilder = queryBuilder.Where(m.db.Sq.Equal("product_id", filter["product_id"])).Where("deleted_at IS NULL")
+	queryBuilder = queryBuilder.Where(m.db.Sq.Equal("product_id", filter["product_id"])).Where("deleted_at IS NULL").OrderBy("created_at")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {

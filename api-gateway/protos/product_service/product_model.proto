@@ -21,12 +21,6 @@ message Product {
   string updated_at = 15;
 }
 
-message ListProductRequest {
-  uint64 Page = 1;
-  uint64 Limit = 2;
-  string Name = 3;
-}
-
 message Filter {
     string name = 1;
 }
@@ -84,6 +78,12 @@ message Category {
     string name = 2;
 }
 
+message ListProductRequest {
+  uint64 Page = 1;
+  uint64 Limit = 2;
+  string Name = 3;
+}
+
 message ListRequest {
     int64 page = 1;
     int64 limit = 2;
@@ -138,4 +138,22 @@ message ListStarsResponse {
 message ListCategory {
     repeated Category categories = 1;
     uint64 total_count = 2;
+}
+message Basket {
+    string id = 1;
+    string product_id = 2;
+    string user_id = 3;
+    string created_at = 4;
+    string updated_at = 5;
+}
+message ListBasketRequest {
+    int64 page = 1;
+    int64 limit = 2;
+}
+message ListBasketResponse {
+    repeated Basket baskets = 1;
+    int64 total_count = 2;
+}
+message RequestBasket {
+    map<string, string> filter = 1;
 }

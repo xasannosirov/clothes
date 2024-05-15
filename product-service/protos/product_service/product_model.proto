@@ -139,3 +139,21 @@ message ListCategory {
     repeated Category categories = 1;
     uint64 total_count = 2;
 }
+message Basket {
+    string id = 1;
+    string product_id = 2;
+    string user_id = 3;
+    string created_at = 4;
+    string updated_at = 5;
+}
+message ListBasketRequest {
+    int64 page = 1;
+    int64 limit = 2;
+}
+message ListBasketResponse {
+    repeated Basket baskets = 1;
+    int64 total_count = 2;
+}
+message RequestBasket {
+    map<string, string> filter = 1;
+}

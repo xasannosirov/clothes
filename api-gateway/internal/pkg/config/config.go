@@ -86,28 +86,28 @@ func NewConfig() (*Config, error) {
 	config.Context.Timeout = getEnv("CONTEXT_TIMEOUT", "30s")
 
 	// server configuration
-	config.Server.Host = getEnv("SERVER_HOST", "api")
+	config.Server.Host = getEnv("SERVER_HOST", "localhost")
 	config.Server.Port = getEnv("SERVER_PORT", ":5555")
 	config.Server.ReadTimeout = getEnv("SERVER_READ_TIMEOUT", "10s")
 	config.Server.WriteTimeout = getEnv("SERVER_WRITE_TIMEOUT", "10s")
 	config.Server.IdleTimeout = getEnv("SERVER_IDLE_TIMEOUT", "120s")
 
 	// redis configuration
-	config.Redis.Host = getEnv("REDIS_HOST", "redisdb")
+	config.Redis.Host = getEnv("REDIS_HOST", "localhost")
 	config.Redis.Port = getEnv("REDIS_PORT", "6379")
 	config.Redis.Password = getEnv("REDIS_PASSWORD", "")
 	config.Redis.Name = getEnv("REDIS_DATABASE", "0")
 
 	//user service
-	config.UserService.Host = getEnv("USER_SERVICE_GRPC_HOST", "user-service")
+	config.UserService.Host = getEnv("USER_SERVICE_GRPC_HOST", "localhost")
 	config.UserService.Port = getEnv("USER_SERVICE_GRPC_PORT", ":1111")
 
 	//media service
-	config.MediaService.Host = getEnv("MEDIA_SERVICE_GRPC_HOST", "media-service")
+	config.MediaService.Host = getEnv("MEDIA_SERVICE_GRPC_HOST", "localhost")
 	config.MediaService.Port = getEnv("MEDIA_SERVICE_GRPC_PORT", ":2222")
 
 	//product service
-	config.ProductService.Host = getEnv("PRODUCT_SERVICE_GRPC_HOST", "product-service")
+	config.ProductService.Host = getEnv("PRODUCT_SERVICE_GRPC_HOST", "localhost")
 	config.ProductService.Port = getEnv("PRODUCT_SERVICE_GRPC_PORT", ":3333")
 
 	//payment servicve

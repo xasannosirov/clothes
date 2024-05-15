@@ -160,24 +160,37 @@ func (h *HandlerV1) UpdateUser(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-
-	status, err := h.Service.UserService().UniqueEmail(ctx, &userproto.IsUnique{
-		Email: body.Email,
-	})
-
-	if err != nil {
+	filter := map[string]string{
+		"id": body.Id,
+	}
+	user, err := h.Service.UserService().GetUser(ctx, &userproto.Filter{Filter: filter})
+	if err != nil{
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
 		})
-		return
-	}
-	if status.Status {
-		c.JSON(http.StatusBadRequest, models.Error{
-			Message: "Email already used",
-		})
-		return
+		log.Println(err.Error())
 	}
 
+	if user.Email != body.Email{
+		status, err := h.Service.UserService().UniqueEmail(ctx, &userproto.IsUnique{
+			Email: body.Email,
+		})
+		if err != nil {
+			c.JSON(http.StatusBadRequest, models.Error{
+				Message: err.Error(),
+			})
+			log.Println(err.Error())
+			return
+		}
+		if status.Status {
+			c.JSON(http.StatusBadRequest, models.Error{
+				Message: "email already used",
+			})
+			return
+		}
+	}
+
+	
 	if body.PhoneNumber != "" {
 		status := validation.PhoneUz(body.PhoneNumber)
 		if !status {
@@ -325,6 +338,62 @@ func (h *HandlerV1) GetUser(c *gin.Context) {
 		"id": userID,
 	}
 	response, err := h.Service.UserService().GetUser(ctx, &userproto.Filter{
+		Filter: filter,
+	})
+	if err != nil {
+		c.JSON(http.StatusNotFound, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, models.User{
+		Id:        userID,
+		FirstName: response.FirstName,
+		LastName:  response.LastName,
+		Email:     response.Email,
+		Password:  response.Password,
+		Gender:    response.Gender,
+		Age:       response.Age,
+	})
+}
+
+// @Security  		BearerAuth
+// @Summary   		Get  Delete User
+// @Description 	Api for getting a deleted user
+// @Tags 			users
+// @Accept 			json
+// @Produce 		json
+// @Param 			id path string true "User ID"
+// @Success 		200 {object} models.User
+// @Failure 		404 {object} models.Error
+// @Failure 		401 {object} models.Error
+// @Failure 		403 {object} models.Error
+// @Failure 		500 {object} models.Error
+// @Router 			/v1/del/user/{id} [GET]
+func (h *HandlerV1) GetDelUser(c *gin.Context) {
+	var (
+		jspbMarshal protojson.MarshalOptions
+	)
+	jspbMarshal.UseProtoNames = true
+
+	duration, err := time.ParseDuration(h.Config.Context.Timeout)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), duration)
+	defer cancel()
+
+	userID := c.Param("id")
+	filter := map[string]string{
+		"id": userID,
+	}
+	response, err := h.Service.UserService().GetUserDelete(ctx, &userproto.Filter{
 		Filter: filter,
 	})
 	if err != nil {
@@ -582,32 +651,46 @@ func (h *HandlerV1) UpdateWorker(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-
-	status, err := h.Service.UserService().UniqueEmail(ctx, &userproto.IsUnique{
-		Email: body.Email,
-	})
-	if err != nil {
+	filter := map[string]string{
+		"id": body.ID,
+	}
+	user, err := h.Service.UserService().GetUser(ctx, &userproto.Filter{Filter: filter})
+	if err != nil{
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
-		return
-	}
-	if status.Status {
-		c.JSON(http.StatusBadRequest, models.Error{
-			Message: "email already used",
-		})
-		return
 	}
 
-	st := validation.PhoneUz(body.PhoneNumber)
-	if !st {
+	if user.Email != body.Email{
+		status, err := h.Service.UserService().UniqueEmail(ctx, &userproto.IsUnique{
+			Email: body.Email,
+		})
+		if err != nil {
+			c.JSON(http.StatusBadRequest, models.Error{
+				Message: err.Error(),
+			})
+			log.Println(err.Error())
+			return
+		}
+		if status.Status {
+			c.JSON(http.StatusBadRequest, models.Error{
+				Message: "email already used",
+			})
+			return
+		}
+	}
+
+
+	status := validation.PhoneUz(body.PhoneNumber)
+	if !status {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "phone number is invalid",
 		})
 		log.Println("phone number is invalid")
 		return
 	}
+	
 
 	updatedUser, err := h.Service.UserService().UpdateUser(ctx, &userproto.User{
 		Id:          body.ID,

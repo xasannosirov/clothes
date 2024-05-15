@@ -18,7 +18,7 @@ func (d *productRPC) CreateProduct(ctx context.Context, in *pb.Product) (*pb.Get
 		attribute.Key("guid").String(in.Id),
 	)
 	defer span.End()
-	
+
 	respProduct, err := d.productUsecase.CreateProduct(ctx, &entity.Product{
 		Id:          in.Id,
 		Name:        in.Name,
@@ -75,6 +75,30 @@ func (d *productRPC) GetProductByID(ctx context.Context, in *pb.GetWithID) (*pb.
 		return &pb.Product{}, grpc.Error(ctx, err)
 	}
 
+	return &pb.Product{
+		Id:          product.Id,
+		Name:        product.Name,
+		Description: product.Description,
+		Category:    product.Category,
+		MadeIn:      product.MadeIn,
+		Color:       product.Color,
+		Count:       product.Count,
+		Cost:        product.Cost,
+		Discount:    product.Discount,
+		AgeMin:      product.AgeMin,
+		AgeMax:      product.AgeMax,
+		ForGender:   product.ForGender,
+		Size_:       product.Size,
+		CreatedAt:   product.CreatedAt.String(),
+		UpdatedAt:   product.UpdatedAt.String(),
+	}, nil
+}
+func (d *productRPC) GetProductDelete(ctx context.Context, in *pb.GetWithID) (*pb.Product, error) {
+	product, err := d.productUsecase.GetProductDelete(ctx, map[string]string{"id": in.Id})
+	if err != nil {
+		d.logger.Error("productUseCase.GetProductByID", zap.Error(err))
+		return &pb.Product{}, grpc.Error(ctx, err)
+	}
 	return &pb.Product{
 		Id:          product.Id,
 		Name:        product.Name,

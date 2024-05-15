@@ -97,6 +97,7 @@ func (p usersRepo) Update(ctx context.Context, users *entity.User) (*entity.User
 		Update(p.tableName).
 		SetMap(clauses).
 		Where(p.db.Sq.Equal("id", users.GUID)).
+		Where("deleted_at is null").
 		ToSql()
 	if err != nil {
 		return nil, p.db.ErrSQLBuild(err, p.tableName+" update")
@@ -163,6 +164,68 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
 		}
 	}
+	queryBuilder = queryBuilder.Where("deleted_at is null")
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.tableName, "get"))
+	}
+	var (
+		nullPhoneNumber sql.NullString
+		nullGender      sql.NullString
+		nullAge         sql.NullInt32
+		nullRefresh     sql.NullString
+	)
+	if err = p.db.QueryRow(ctx, query, args...).Scan(
+		&user.GUID,
+		&user.FirstName,
+		&user.LastName,
+		&user.Email,
+		&nullPhoneNumber,
+		&user.Password,
+		&nullGender,
+		&nullAge,
+		&user.Role,
+		&nullRefresh,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	); err != nil {
+		return nil, p.db.Error(err)
+	}
+	if nullPhoneNumber.Valid {
+		user.PhoneNumber = nullPhoneNumber.String
+	}
+	if nullGender.Valid {
+		user.Gender = nullGender.String
+	}
+	if nullAge.Valid {
+		user.Age = uint8(nullAge.Int32)
+	}
+	if nullRefresh.Valid {
+		user.Refresh = nullRefresh.String
+	}
+
+	return &user, nil
+}
+func (p usersRepo) GetDelete(ctx context.Context, params map[string]string) (*entity.User, error) {
+	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "GetUser")
+	defer span.End()
+
+	var (
+		user entity.User
+	)
+
+	queryBuilder := p.usersSelectQueryPrefix()
+
+	for key, value := range params {
+		if key == "id" {
+			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
+		} else if key == "email" {
+			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
+		} else if key == "refresh" {
+			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
+		}
+	}
+
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
 		return nil, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.tableName, "get"))
@@ -220,7 +283,7 @@ func (p usersRepo) List(ctx context.Context, limit uint64, offset uint64, filter
 	}
 
 	role := filter["role"]
-	queryBuilder = queryBuilder.Where(p.db.Sq.Equal("role", role))
+	queryBuilder = queryBuilder.Where(p.db.Sq.Equal("role", role)).OrderBy("created_at")
 	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
 
 	query, args, err := queryBuilder.ToSql()
@@ -282,7 +345,7 @@ func (p usersRepo) UniqueEmail(ctx context.Context, request *entity.IsUnique) (*
 	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "UniqueEmail")
 	defer span.End()
 
-	query := `SELECT COUNT(*) FROM users WHERE email = $1`
+	query := `SELECT COUNT(*) FROM users WHERE email = $1 and deleted_at is null`
 
 	var count int
 	err := p.db.QueryRow(ctx, query, request.Email).Scan(&count)
