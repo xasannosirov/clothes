@@ -557,3 +557,4 @@ google.golang.org/grpc.(*Server).serveStreams.func2.1
 2024-05-15T21:45:24.355+0500	INFO	app/main.go:36	Conten service stops !
 2024-05-15T21:45:25.784+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
 2024-05-15T21:45:28.189+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-05-15T21:45:28+05:00", "grpc.request.deadline": "2024-05-15T21:45:58+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetAllUsers", "peer.address": "127.0.0.1:53312", "grpc.code": "OK", "grpc.time_ms": 2.284}
+2024-05-15T22:56:35.270+0500	INFO	app/main.go:36	Conten service stops !

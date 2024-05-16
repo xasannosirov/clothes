@@ -72,7 +72,7 @@ func (h *HandlerV1) SaveToBasket(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, models.Basket{
+	c.JSON(http.StatusOK, models.Basket{
 		Id:   basket.Id,
 		UserId: userId,
 		ProductId: body.ProductId,
