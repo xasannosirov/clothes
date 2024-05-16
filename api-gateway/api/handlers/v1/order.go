@@ -53,10 +53,16 @@ func (h *HandlerV1) CreateOrder(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
+	userId, statusCode := GetIdFromToken(c.Request, &h.Config)
+	if statusCode != 0 {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "oops something went wrong",
+		})
+	}
 
 	createdOrderResponse, err := h.Service.ProductService().CreateOrder(ctx, &product_service.Order{
 		ProductId: body.ProductID,
-		UserId:    body.UserID,
+		UserId:     userId,
 		Status:    "ordered",
 	})
 	if err != nil {

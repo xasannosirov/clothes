@@ -50,7 +50,6 @@ type (
 
 	OrderReq struct {
 		ProductID string `json:"product_id"`
-		UserID    string `json:"user_id"`
 	}
 
 	ListOrder struct {
@@ -60,7 +59,6 @@ type (
 
 	LikeReq struct {
 		ProductID string `json:"product_id"`
-		UserID    string `json:"user_id"`
 	}
 
 	Like struct {
@@ -76,7 +74,6 @@ type (
 
 	SaveReq struct {
 		ProductID string `json:"product_id"`
-		UserID    string `json:"user_id"`
 	}
 
 	Save struct {
@@ -92,7 +89,6 @@ type (
 
 	StarReq struct {
 		ProductID string `json:"product_id"`
-		UserID    string `json:"user_id"`
 		Star      int16  `json:"star_count"`
 	}
 
@@ -110,7 +106,6 @@ type (
 
 	CommentReq struct {
 		ProductID string `json:"product_id"`
-		UserID    string `json:"user_id"`
 		Comment   string `json:"comment_message"`
 	}
 

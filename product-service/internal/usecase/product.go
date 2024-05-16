@@ -13,6 +13,7 @@ import (
 type Product interface {
 	CreateProduct(ctx context.Context, req *entity.Product) (*entity.Product, error)
 	GetProductByID(ctx context.Context, params map[string]string) (*entity.Product, error)
+	GetProductDelete(ctx context.Context, params map[string]string) (*entity.Product, error)
 	GetAllProducts(ctx context.Context, req *entity.ListProductRequest) (*entity.ListProduct, error)
 	UpdateProduct(ctx context.Context, req *entity.Product) error
 	DeleteProduct(ctx context.Context, id string) error
@@ -50,6 +51,11 @@ type Product interface {
 	GetCategory(ctx context.Context, req *entity.GetWithID) (*entity.Category, error)
 	DeleteCategory(ctx context.Context, id string) error
 	ListCategory(ctx context.Context, req *entity.ListRequest) (*entity.LiestCategory, error)
+
+	CreateBasket(ctx context.Context, req *entity.Basket)(*entity.Basket, error)
+	GetBasket(ctx context.Context, req map[string]string)(*entity.Basket, error)
+	GetBaskets(ctx context.Context, req *entity.ListBasketReq)(*entity.ListBasketRes, error)
+	DeleteBasket(ctx context.Context, req string)error
 }
 
 type productService struct {
@@ -83,6 +89,12 @@ func (u *productService) GetProductByID(ctx context.Context, params map[string]s
 	defer cancel()
 
 	return u.repo.GetProduct(ctx, params)
+}
+func (u *productService) GetProductDelete(ctx context.Context, params map[string]string) (*entity.Product, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.GetProductDelete(ctx, params)
 }
 
 func (u *productService) GetAllProducts(ctx context.Context, req *entity.ListProductRequest) (*entity.ListProduct, error) {

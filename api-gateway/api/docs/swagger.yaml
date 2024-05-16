@@ -1,4 +1,18 @@
 definitions:
+  models.Basket:
+    properties:
+      id:
+        type: string
+      productId:
+        type: string
+      userId:
+        type: string
+    type: object
+  models.BasketCeateReq:
+    properties:
+      productId:
+        type: string
+    type: object
   models.Category:
     properties:
       category_id:
@@ -28,8 +42,6 @@ definitions:
         type: string
       product_id:
         type: string
-      user_id:
-        type: string
     type: object
   models.Error:
     properties:
@@ -48,8 +60,6 @@ definitions:
   models.LikeReq:
     properties:
       product_id:
-        type: string
-      user_id:
         type: string
     type: object
   models.ListProduct:
@@ -129,8 +139,6 @@ definitions:
   models.OrderReq:
     properties:
       product_id:
-        type: string
-      user_id:
         type: string
     type: object
   models.Product:
@@ -214,8 +222,6 @@ definitions:
     properties:
       product_id:
         type: string
-      user_id:
-        type: string
     type: object
   models.Star:
     properties:
@@ -234,8 +240,6 @@ definitions:
         type: string
       star_count:
         type: integer
-      user_id:
-        type: string
     type: object
   models.TokenResp:
     properties:
@@ -330,6 +334,151 @@ info:
   description: 'Contacs: https://t.me/xasannosirov'
   title: Online Clothes Store
 paths:
+  /v1/basket:
+    post:
+      consumes:
+      - application/json
+      description: This API for create a new basket for product
+      parameters:
+      - description: Create Basket Model
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.BasketCeateReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Basket'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Save To Basket
+      tags:
+      - basket
+  /v1/basket/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This API for delete a basket with id
+      parameters:
+      - description: Basket ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: boolean
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Basket
+      tags:
+      - basket
+    get:
+      consumes:
+      - application/json
+      description: This API for getting a Basket with id
+      parameters:
+      - description: Basket ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Basket'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Basket
+      tags:
+      - basket
+  /v1/baskets:
+    get:
+      consumes:
+      - application/json
+      description: This API for getting Basket's list
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Basket
+      tags:
+      - basket
   /v1/categories:
     get:
       consumes:
@@ -349,8 +498,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             type: string
         "401":
@@ -455,8 +604,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             type: boolean
         "401":
@@ -489,8 +638,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             $ref: '#/definitions/models.Category'
         "401":
@@ -592,6 +741,80 @@ paths:
       summary: List Commnets
       tags:
       - list
+  /v1/del/product/{id}:
+    get:
+      consumes:
+      - application/json
+      description: This API for getting a deleted product with product_id
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get  Delete Product
+      tags:
+      - products
+  /v1/del/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Api for getting a deleted user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get  Delete User
+      tags:
+      - users
   /v1/disable-orders:
     get:
       consumes:

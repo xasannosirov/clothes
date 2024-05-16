@@ -13,6 +13,7 @@ type User interface {
 	Update(ctx context.Context, article *entity.User) (*entity.User, error)
 	Delete(ctx context.Context, guid string) error
 	Get(ctx context.Context, params map[string]string) (*entity.User, error)
+	GetDelete(ctx context.Context, params map[string]string) (*entity.User, error)
 	List(ctx context.Context, limit, offset uint64, filter map[string]string) ([]*entity.User, error)
 	UniqueEmail(ctx context.Context, request *entity.IsUnique) (*entity.Response, error)
 	UpdateRefresh(ctx context.Context, request *entity.UpdateRefresh) (*entity.Response, error)
@@ -75,6 +76,15 @@ func (u userService) Get(ctx context.Context, params map[string]string) (*entity
 	defer span.End()
 
 	return u.repo.Get(ctx, params)
+}
+func (u userService) GetDelete(ctx context.Context, params map[string]string) (*entity.User, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	ctx, span := otlp.Start(ctx, "user_grpc-usercase", "GetUser")
+	defer span.End()
+
+	return u.repo.GetDelete(ctx, params)
 }
 
 func (u userService) List(ctx context.Context, limit, offset uint64, filter map[string]string) ([]*entity.User, error) {

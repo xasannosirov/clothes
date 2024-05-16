@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"log"
 	"time"
 	userproto "user-service/genproto/user_service"
 	"user-service/internal/entity"
@@ -113,7 +112,6 @@ func (s userRPC) DeleteUser(ctx context.Context, in *userproto.UserWithGUID) (*u
 }
 
 func (s userRPC) GetUser(ctx context.Context, in *userproto.Filter) (*userproto.User, error) {
-	log.Println("keldi")
 	ctx, span := otlp.Start(ctx, "user_grpc-delivery", "GetUser")
 	for key, value := range in.Filter {
 		if key == "id" {
@@ -133,6 +131,48 @@ func (s userRPC) GetUser(ctx context.Context, in *userproto.Filter) (*userproto.
 	defer span.End()
 
 	user, err := s.userUsecase.Get(ctx, in.Filter)
+
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, err
+	}
+
+	return &userproto.User{
+		Id:          user.GUID,
+		FirstName:   user.FirstName,
+		LastName:    user.LastName,
+		Email:       user.Email,
+		PhoneNumber: user.PhoneNumber,
+		Password:    user.Password,
+		Gender:      user.Gender,
+		Age:         int64(user.Age),
+		Role:        user.Role,
+		Refresh:     user.Refresh,
+		CreatedAt:   user.CreatedAt.Format(time.RFC3339),
+		UpdatedAt:   user.UpdatedAt.Format(time.RFC3339),
+	}, nil
+}
+
+func (s userRPC) GetUserDelete(ctx context.Context, in *userproto.Filter) (*userproto.User, error) {
+	ctx, span := otlp.Start(ctx, "user_grpc-delivery", "GetUser")
+	for key, value := range in.Filter {
+		if key == "id" {
+			span.SetAttributes(
+				attribute.Key("id").String(value),
+			)
+		} else if key == "refresh" {
+			span.SetAttributes(
+				attribute.Key("refresh").String(value),
+			)
+		} else if key == "email" {
+			span.SetAttributes(
+				attribute.Key("email").String(value),
+			)
+		}
+	}
+	defer span.End()
+
+	user, err := s.userUsecase.GetDelete(ctx, in.Filter)
 
 	if err != nil {
 		s.logger.Error(err.Error())

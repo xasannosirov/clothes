@@ -10,6 +10,7 @@ service ProductService {
   rpc UpdateProduct(Product) returns (Product); 
   rpc DeleteProduct(GetWithID) returns (DeleteResponse); 
   rpc GetProductByID(GetWithID) returns (Product); 
+  rpc GetProductDelete(GetWithID) returns (Product); 
   rpc GetAllProducts(ListProductRequest) returns (ListProductResponse);
 
   rpc CreateOrder(Order) returns (GetWithID); 
@@ -44,11 +45,12 @@ service ProductService {
   rpc GetCategory(GetWithID) returns (Category);
   rpc GetAllCategory(ListRequest) returns (ListCategory);
 
-  rpc SaveToBasket() returns ();
-  rpc DeleteFromBasket() returns ();
-  rpc GetBasketProducts() returns ();
+  rpc SaveToBasket(Basket) returns (GetWithID);
+  rpc DeleteFromBasket(RequestBasket) returns (DeleteResponse);
+  rpc GetBasketProducts(ListBasketRequest) returns (ListBasketResponse);
+  rpc GetBasketProduct(RequestBasket)returns(Basket);
 
-  rpc GetDelProduct() returns ();
-  rpc GetDelUser() returns ();
-  rpc GetDelImage() returns ();
+  // rpc GetDelProduct() returns ();
+  // rpc GetDelUser() returns ();
+  // rpc GetDelImage() returns ();
 }

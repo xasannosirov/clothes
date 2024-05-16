@@ -267,6 +267,65 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 }
 
 // @Security 		BearerAuth
+// @Summary 		Get  Delete Product
+// @Description 	This API for getting a deleted product with product_id
+// @Tags 			products
+// @Produce 		json
+// @Accept 			json
+// @Param 			id path string true "Product ID"
+// @Success			200 {object} models.Product
+// @Failure 		404 {object} models.Error
+// @Failure 		401 {object} models.Error
+// @Failure 		403 {object} models.Error
+// @Faulure 		500 {object} models.Error
+// @Router 			/v1/del/product/{id} [GET]
+func (h *HandlerV1) GetDelProduct(c *gin.Context) {
+	var (
+		jspbMarshal protojson.MarshalOptions
+	)
+	jspbMarshal.UseProtoNames = true
+
+	duration, err := time.ParseDuration(h.Config.Context.Timeout)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), duration)
+	defer cancel()
+
+	productID := c.Param("id")
+	product, err := h.Service.ProductService().GetProductDelete(ctx, &product_service.GetWithID{
+		Id: productID,
+	})
+	if err != nil {
+		c.JSON(http.StatusNotFound, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, models.Product{
+		ID:          productID,
+		Name:        product.Name,
+		Category:    product.Category,
+		Description: product.Description,
+		MadeIn:      product.MadeIn,
+		Color:       product.Color,
+		Size:        product.Size_,
+		Count:       product.Count,
+		Cost:        float64(product.Cost),
+		Discount:    float64(product.Discount),
+		AgeMin:      product.AgeMin,
+		AgeMax:      product.AgeMax,
+		ForGender:   product.ForGender,
+	})
+}
+
+// @Security 		BearerAuth
 // @Summary 		List Products
 // @Description 	This API for getting list of products
 // @Tags 			products

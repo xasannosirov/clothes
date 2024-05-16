@@ -28,6 +28,10 @@ p, user, /v1/user/orders/{id}, GET
 p, user, /v1/search/{name}, GET
 p, user, /v1/recommendation, GET
 p, user, /v1/disable-orders, GET
+p, user, /v1/basket, POST
+p, user, /v1/basket/{id}, DELETE
+p, user, /v1/basket/{id}, GET
+p, user, /v1/baskets, GET
 
 p, worker, /v1/category, POST
 p, worker, /v1/category, PUT

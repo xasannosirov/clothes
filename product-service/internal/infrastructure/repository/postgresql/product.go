@@ -23,6 +23,7 @@ const (
 	starsTableName     = "stars"
 	savesTableName     = "saves"
 	categoryTableName  = "category"
+	basketTableName    = "baskets"
 )
 
 type productRepo struct {
@@ -33,6 +34,7 @@ type productRepo struct {
 	starsTable    string
 	savesTable    string
 	categoryTable string
+	basketTable   string
 	db            *postgres.PostgresDB
 }
 
@@ -45,6 +47,7 @@ func NewProductsRepo(db *postgres.PostgresDB) repository.Product {
 		starsTable:    starsTableName,
 		savesTable:    savesTableName,
 		categoryTable: categoryTableName,
+		basketTable:   basketTableName,
 		db:            db,
 	}
 }
@@ -222,6 +225,61 @@ func (u *productRepo) GetProduct(ctx context.Context, params map[string]string) 
 
 	return &product, nil
 }
+func (u *productRepo) GetProductDelete(ctx context.Context, params map[string]string) (*entity.Product, error) {
+	var (
+		product entity.Product
+	)
+
+	queryBuilder := u.productsSelectQueryPrefix()
+
+	for key, value := range params {
+		if key == "id" {
+			queryBuilder = queryBuilder.Where(squirrel.Eq{key: value})
+		}
+	}
+
+	query, args, err := queryBuilder.ToSql()
+	if err != nil {
+		return nil, u.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", u.productTable, "getProduct"))
+	}
+
+	var (
+		nullDesc   sql.NullString
+		nullColor  sql.NullString
+		nullAgeMax sql.NullInt64
+	)
+	if err = u.db.QueryRow(ctx, query, args...).Scan(
+		&product.Id,
+		&product.Name,
+		&nullDesc,
+		&product.Category,
+		&product.MadeIn,
+		&nullColor,
+		&product.Count,
+		&product.Cost,
+		&product.Discount,
+		&product.AgeMin,
+		&nullAgeMax,
+		&product.ForGender,
+		&product.Size,
+		&product.CreatedAt,
+		&product.UpdatedAt,
+	); err != nil {
+		return nil, u.db.Error(err)
+	}
+
+	if nullDesc.Valid {
+		product.Description = nullDesc.String
+	}
+	if nullColor.Valid {
+		product.Color = nullColor.String
+	}
+	if nullAgeMax.Valid {
+		product.AgeMax = nullAgeMax.Int64
+	}
+
+	return &product, nil
+}
 
 func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListProductRequest) (*entity.ListProduct, error) {
 	products := &entity.ListProduct{}
@@ -232,7 +290,7 @@ func (u *productRepo) GetProducts(ctx context.Context, req *entity.ListProductRe
 	if req.Name != "SkottAdkins" {
 		queryBuilder = queryBuilder.Where("name ILIKE " + "'%" + req.Name + "%'")
 	}
-	queryBuilder = queryBuilder.Where(" deleted_at IS NULL LIMIT $1 OFFSET $2")
+	queryBuilder = queryBuilder.Where(" deleted_at IS NULL LIMIT $1 OFFSET $2").OrderBy("created_at")
 
 	query, _, err := queryBuilder.ToSql()
 	if err != nil {
@@ -452,7 +510,7 @@ func (u *productRepo) GetAllOrders(ctx context.Context, req *entity.ListRequest)
 		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
 	}
 
-	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL").OrderBy("created_at").OrderBy("created_at")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -496,7 +554,7 @@ func (p *productRepo) GetDiscountProducts(ctx context.Context, req *entity.ListR
 
 	queryBuilder := p.productsSelectQueryPrefix()
 
-	queryBuilder = queryBuilder.Where(squirrel.NotEq{"discount": 0})
+	queryBuilder = queryBuilder.Where(squirrel.NotEq{"discount": 0}).OrderBy("created_at")
 
 	offset := (req.Page - 1) * req.Limit
 
@@ -620,7 +678,7 @@ func (u *productRepo) RecommentProducts(ctx context.Context, req *entity.Recom) 
 	queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"for_gender": req.Gender})
 	queryBuilder = queryBuilder.Where(squirrel.LtOrEq{"age_min": req.Age})
 	queryBuilder = queryBuilder.Where(squirrel.GtOrEq{"age_max": req.Age})
-	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL").OrderBy("created_at")
 	queryBuilder = queryBuilder.Offset(0).Limit(10)
 
 	query, args, err := queryBuilder.ToSql()
@@ -820,7 +878,7 @@ func (u *productRepo) GetProductComments(ctx context.Context, req *entity.GetWit
 	queryBuilder := u.commentsSelectQueryPrefix()
 
 	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).From(commentsTableName)
-	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL").OrderBy("created_at")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -870,7 +928,7 @@ func (u *productRepo) GetProductLikes(ctx context.Context, req *entity.GetWithID
 
 	queryBuilder := u.likesSelectQueryPrefix()
 
-	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).From(likesTableName)
+	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).OrderBy("created_at").From(likesTableName)
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -919,7 +977,7 @@ func (u *productRepo) GetProductOrders(ctx context.Context, req *entity.GetWithI
 
 	queryBuilder := u.ordersSelectQueryPrefix()
 
-	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).From(ordersTableName)
+	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).OrderBy("created_at").From(ordersTableName)
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -969,7 +1027,7 @@ func (u *productRepo) GetProductStars(ctx context.Context, req *entity.GetWithID
 
 	queryBuilder := u.starsSelectQueryPrefix()
 
-	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).From(starsTableName)
+	queryBuilder = queryBuilder.Where(squirrel.Eq{"product_id": string(req.ID)}).OrderBy("created_at").From(starsTableName)
 	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
 
 	query, args, err := queryBuilder.ToSql()
@@ -1022,7 +1080,7 @@ func (u *productRepo) GetSavedProductsByUserID(ctx context.Context, req string) 
 	queryBuilder := u.savesSelectQueryPrefix()
 
 	queryBuilder = queryBuilder.From(u.savesTable).Where(squirrel.Eq{"user_id": req})
-	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL").OrderBy("created_at")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -1111,7 +1169,7 @@ func (u *productRepo) GetWishlistByUserID(ctx context.Context, req string) (*ent
 
 	queryBuilder := u.likesSelectQueryPrefix()
 
-	queryBuilder = queryBuilder.From(u.likesTable).Where(squirrel.Eq{"user_id": req})
+	queryBuilder = queryBuilder.From(u.likesTable).Where(squirrel.Eq{"user_id": req}).OrderBy("created_at")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -1200,7 +1258,7 @@ func (u *productRepo) GetOrderedProductsByUserID(ctx context.Context, req string
 	queryBuilder := u.ordersSelectQueryPrefix()
 
 	queryBuilder = queryBuilder.From(u.orderTable).Where(squirrel.Eq{"user_id": req})
-	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL").OrderBy("created_at")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -1288,7 +1346,7 @@ func (u *productRepo) GetAllComments(ctx context.Context, req *entity.ListReques
 	queryBuilder := u.commentsSelectQueryPrefix()
 
 	offset := (req.Page - 1) * req.Limit
-
+	queryBuilder = queryBuilder.OrderBy("created_at")
 	if req.Limit != 0 {
 		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
 	}
@@ -1338,6 +1396,7 @@ func (u *productRepo) GetAllComments(ctx context.Context, req *entity.ListReques
 func (u *productRepo) GetAllStars(ctx context.Context, req *entity.ListRequest) (*entity.ListStars, error) {
 	stars := &entity.ListStars{}
 	queryBuilder := u.starsSelectQueryPrefix()
+	queryBuilder = queryBuilder.OrderBy("created_at")
 
 	offset := (req.Page - 1) * req.Limit
 
@@ -1423,7 +1482,7 @@ func (u *productRepo) GetDisableProducts(ctx context.Context, req *entity.ListRe
 
 	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
 	queryBuilder = queryBuilder.Where(squirrel.NotEq{"status": "took"})
-	queryBuilder = queryBuilder.Where(squirrel.LtOrEq{"created_at": time.Now().AddDate(0, 0, -7)})
+	queryBuilder = queryBuilder.Where(squirrel.LtOrEq{"created_at": time.Now().AddDate(0, 0, -7)}).OrderBy("created_at")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -1523,7 +1582,7 @@ func (u *productRepo) ListCategory(ctx context.Context, req *entity.ListRequest)
 		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
 	}
 
-	queryBuilder = queryBuilder.Where("deleted_at IS NULL")
+	queryBuilder = queryBuilder.Where("deleted_at IS NULL").OrderBy("created_at")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {

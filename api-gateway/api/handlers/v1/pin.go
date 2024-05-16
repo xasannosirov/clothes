@@ -51,10 +51,16 @@ func (h *HandlerV1) LikeProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
+	userId, statusCode := GetIdFromToken(c.Request, &h.Config)
+	if statusCode != 0 {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "oops something went wrong",
+		})
+	}
 
 	likeResponse, err := h.Service.ProductService().LikeProduct(ctx, &product_service.Like{
 		ProductId: body.ProductID,
-		UserId:    body.UserID,
+		UserId:    userId,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
@@ -106,10 +112,16 @@ func (h *HandlerV1) SaveProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
+	userId, statusCode := GetIdFromToken(c.Request, &h.Config)
+	if statusCode != 0 {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "oops something went wrong",
+		})
+	}
 
 	saveResponse, err := h.Service.ProductService().SaveProduct(ctx, &product_service.Save{
 		ProductId: body.ProductID,
-		UserId:    body.UserID,
+		UserId:    userId,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
@@ -161,10 +173,16 @@ func (h *HandlerV1) StarToProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
+	userId, statusCode := GetIdFromToken(c.Request, &h.Config)
+	if statusCode != 0 {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "oops something went wrong",
+		})
+	}
 
 	starProduct, err := h.Service.ProductService().StarProduct(ctx, &product_service.Star{
 		ProductId: body.ProductID,
-		UserId:    body.UserID,
+		UserId:    userId,
 		Star:      int64(body.Star),
 	})
 	if err != nil {
@@ -217,10 +235,15 @@ func (h *HandlerV1) CommentToProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-
+	userId, statusCode := GetIdFromToken(c.Request, &h.Config)
+	if statusCode != 0 {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "oops something went wrong",
+		})
+	}
 	commentProduct, err := h.Service.ProductService().CommentToProduct(ctx, &product_service.Comment{
 		ProductId: body.ProductID,
-		UserId:    body.UserID,
+		UserId:    userId,
 		Comment:   body.Comment,
 	})
 	if err != nil {

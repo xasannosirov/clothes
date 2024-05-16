@@ -9,8 +9,14 @@ type Product interface {
 	CreateProduct(ctx context.Context, product *entity.Product) (*entity.Product, error)
 	GetProduct(ctx context.Context, params map[string]string) (*entity.Product, error)
 	GetProducts(ctx context.Context, req *entity.ListProductRequest) (*entity.ListProduct, error)
+	GetProductDelete(ctx context.Context, params map[string]string) (*entity.Product, error)
 	UpdateProduct(ctx context.Context, product *entity.Product) error
 	DeleteProduct(ctx context.Context, ID string) error
+
+	CreateBasket(ctx context.Context, req *entity.Basket)(*entity.Basket, error)
+	GetBasket(ctx context.Context, req map[string]string)(*entity.Basket, error)
+	GetBaskets(ctx context.Context, req *entity.ListBasketReq)(*entity.ListBasketRes, error)
+	DeleteBasket(ctx context.Context, id string)error
 
 	CreateOrder(ctx context.Context, order *entity.Order) (*entity.Order, error)
 	CancelOrder(ctx context.Context, ID string) error
