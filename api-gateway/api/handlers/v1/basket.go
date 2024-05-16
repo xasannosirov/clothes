@@ -87,7 +87,7 @@ func (h *HandlerV1) SaveToBasket(c *gin.Context) {
 // @Produce 		json
 // @Accept 			json
 // @Param 			id path string true "Basket ID"
-// @Success			201 {object} bool
+// @Success			200 {object} bool
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Failure 		404 {object} models.Error
@@ -135,7 +135,7 @@ func (h *HandlerV1) DeleteFromBasket(c *gin.Context) {
 // @Produce 		json
 // @Accept 			json
 // @Param 			id path string true "Basket ID"
-// @Success			201 {object} models.Basket
+// @Success			200 {object} models.Basket
 // @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
@@ -188,7 +188,7 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 // @Accept 			json
 // @Param 			page query uint64 true "Page"
 // @Param 			limit query uint64 true "Limit"
-// @Success			201 {object} string
+// @Success			200 {object} string
 // @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error

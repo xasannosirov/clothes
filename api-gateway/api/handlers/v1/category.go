@@ -137,7 +137,7 @@ func (h *HandlerV1) UpdateCategory(c *gin.Context) {
 // @Produce 		json
 // @Accept 			json
 // @Param 			id path string true "Category ID"
-// @Success			201 {object} bool
+// @Success			200 {object} bool
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Failure 		404 {object} models.Error
@@ -183,7 +183,7 @@ func (h *HandlerV1) DeleteCategory(c *gin.Context) {
 // @Produce 		json
 // @Accept 			json
 // @Param 			id path string true "Category ID"
-// @Success			201 {object} models.Category
+// @Success			200 {object} models.Category
 // @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
@@ -233,7 +233,7 @@ func (h *HandlerV1) GetCategory(c *gin.Context) {
 // @Accept 			json
 // @Param 			page query uint64 true "Page"
 // @Param 			limit query uint64 true "Limit"
-// @Success			201 {object} string
+// @Success			200 {object} string
 // @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
