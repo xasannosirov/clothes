@@ -84,3 +84,23 @@ main.main.func1
 2024-05-15T22:41:38.146+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
 main.main.func1
 	/home/abudlaziz/project/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-17T19:07:44.876+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-17T19:12:55.241+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-17T19:12:55.241+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/abudlaziz/project/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-17T19:12:57.939+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-17T21:31:30.848+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-17T21:31:30.848+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/abudlaziz/project/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-17T21:31:33.153+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-17T21:50:39.434+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-17T21:50:39.434+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/abudlaziz/project/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-17T21:51:01.008+0500	INFO	app/main.go:30	Listen: 	{"address": "localhost:5555"}
+2024-05-17T21:55:09.995+0500	INFO	app/main.go:41	api gateway service stops
+2024-05-17T21:55:09.996+0500	ERROR	app/main.go:32	app run	{"error": "http: Server closed"}
+main.main.func1
+	/home/abudlaziz/project/go/src/clothes/api-gateway/cmd/app/main.go:32

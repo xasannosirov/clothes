@@ -1,9 +1,10 @@
 package config
 
 import (
-  "os"
-
-  "time"
+	"os"
+	"time"
+    "golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 )
 
 const (
@@ -69,6 +70,13 @@ type Config struct {
     SMTPPort      string
     SMTPHost      string
   }
+
+  Google struct {
+    ClientId string
+    ClientSecret string
+    RedirectURL string
+  }
+
   UserService    webAddress
   MediaService   webAddress
   PaymentServie  webAddress
@@ -135,16 +143,28 @@ func NewConfig() (*Config, error) {
   config.OTLPCollector.Host = getEnv("OTLP_COLLECTOR_HOST", "otel-collector")
   config.OTLPCollector.Port = getEnv("OTLP_COLLECTOR_PORT", ":4318")
 
-  // kafka configuration
-  // config.Kafka.Address = strings.Split(getEnv("KAFKA_ADDRESS", "kafka:9091"), ",")
-  // config.Kafka.Topic.UserCreateTopic = getEnv("KAFKA_USER_CREATE_TOPIC", "api.create.user")
-
+  //smtp configuration
   config.SMTP.Email = getEnv("SMTP_EMAIL", "storegoclothes@gmail.com")
   config.SMTP.EmailPassword = getEnv("SMTP_EMAIL_PASSWORD", "dnrzomyvooftjcgc ")
   config.SMTP.SMTPPort = getEnv("SMTP_PORT", "587")
   config.SMTP.SMTPHost = getEnv("SMTP_HOST", "smtp.gmail.com")
 
   return &config, nil
+}
+
+func SetupConfig()*oauth2.Config{
+
+  conf := &oauth2.Config{
+		ClientID: getEnv("CLIENT_ID", "627168078285-v33r2ijbkjvpsonc85nt1ns7rji08jti.apps.googleusercontent.com"),
+		ClientSecret: getEnv("CLIENT_SECRET",  "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"),
+		RedirectURL: getEnv("REDIRECT_URL",  "http://localhost:5555/v1/google/callback"),
+		Scopes: []string{
+			"https://www.googleapis.com/auth/userinfo.email",
+			"https://www.googleapis.com/auth/userinfo.profile",
+		},
+		Endpoint: google.Endpoint,
+	}
+	return conf
 }
 
 

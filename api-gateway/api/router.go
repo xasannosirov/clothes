@@ -152,6 +152,10 @@ func NewRoute(option RouteOption) *gin.Engine {
 	apiV1.GET("/basket/:id", HandlerV1.GetBasketProduct)
 	apiV1.GET("/baskets", HandlerV1.GetBasketProducts)
 
+	//google 
+	apiV1.GET("/google/login", HandlerV1.GoogleLogin)
+	apiV1.GET("google/callback", HandlerV1.GoogleCallback)
+
 
 
 	url := ginSwagger.URL("swagger/doc.json")

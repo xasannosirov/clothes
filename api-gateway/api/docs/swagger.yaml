@@ -890,6 +890,52 @@ paths:
       summary: Forget Password
       tags:
       - registration
+  /v1/google/callback:
+    get:
+      description: Handles the callback from Google OAuth 2.0, exchanges code for
+        token and retrieves user info
+      parameters:
+      - description: OAuth State
+        in: query
+        name: state
+        required: true
+        type: string
+      - description: OAuth Code
+        in: query
+        name: code
+        required: true
+        type: string
+      responses:
+        "200":
+          description: User info
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Handle Google callback
+      tags:
+      - auth
+  /v1/google/login:
+    get:
+      description: Redirects the user to Google's OAuth 2.0 consent page
+      responses:
+        "303":
+          description: Redirect
+          schema:
+            type: string
+      summary: Redirect to Google for login
+      tags:
+      - auth
   /v1/like-product:
     post:
       consumes:

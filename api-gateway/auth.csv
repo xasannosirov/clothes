@@ -9,6 +9,8 @@ p, unauthorized, /v1/media/{id}, GET
 p, unauthorized, /v1/product/{id}, GET
 p, unauthorized, /v1/products, GET
 p, unauthorized, /v1/search/{name}, GET
+p, unauthorized, /v1/google/login, GET
+p, unauthorized, /v1/google/callback, GET
 
 p, user, /v1/media/{id}, GET
 p, user, /v1/user, PUT
