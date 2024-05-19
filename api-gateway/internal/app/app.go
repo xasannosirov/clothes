@@ -37,7 +37,7 @@ import (
 type App struct {
 	Config       config.Config
 	Logger       *zap.Logger
-	server       *http.Server
+    server       *http.Server
 	RedisDB      *redis.RedisDB
 	ShutdownOTLP func() error
 	Clients      grpcService.ServiceClient

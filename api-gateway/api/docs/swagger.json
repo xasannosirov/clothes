@@ -874,6 +874,74 @@
                 }
             }
         },
+        "/v1/google/callback": {
+            "get": {
+                "description": "Handles the callback from Google OAuth 2.0, exchanges code for token and retrieves user info",
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Handle Google callback",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OAuth State",
+                        "name": "state",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "OAuth Code",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User info",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/google/login": {
+            "get": {
+                "description": "Redirects the user to Google's OAuth 2.0 consent page",
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Redirect to Google for login",
+                "responses": {
+                    "303": {
+                        "description": "Redirect",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/like-product": {
             "post": {
                 "security": [
