@@ -7,6 +7,6 @@ import "media_model.proto";
 
 service MediaService {
   rpc Create(Media) returns (MediaWithID);
-  rpc Get(MediaWithProductID) returns (ProductImages);
-  rpc Delete(MediaWithProductID) returns (DeleteMediaResponse);
+  rpc Get(MediaWithID) returns (ProductImages);
+  rpc Delete(MediaWithID) returns (DeleteMediaResponse);
 }

@@ -2,15 +2,17 @@ package services
 
 import (
 	"context"
+	"errors"
 	productproto "product-service/genproto/product_service"
 	"product-service/internal/entity"
 )
 
-func (d *productRPC) CreateCategory(ctx context.Context, in *productproto.Category) (*productproto.Category, error) {
-	category, err := d.productUsecase.CreateCategory(ctx, &entity.Category{
+func (p *productRPC) CreateCategory(ctx context.Context, in *productproto.Category) (*productproto.Category, error) {
+	category, err := p.productUsecase.CreateCategory(ctx, &entity.Category{
 		ID:   in.Id,
 		Name: in.Name,
 	})
+
 	if err != nil {
 		return nil, err
 	}
@@ -21,22 +23,55 @@ func (d *productRPC) CreateCategory(ctx context.Context, in *productproto.Catego
 	}, nil
 }
 
-func (d *productRPC) DeleteCategory(ctx context.Context, in *productproto.GetWithID) (*productproto.DeleteResponse, error) {
-	err := d.productUsecase.DeleteCategory(ctx, in.Id)
+func (p *productRPC) DeleteCategory(ctx context.Context, in *productproto.GetWithID) (*productproto.MoveResponse, error) {
+	err := p.productUsecase.DeleteCategory(ctx, in.Id)
+
 	if err != nil {
 		return nil, err
 	}
 
-	return &productproto.DeleteResponse{
+	return &productproto.MoveResponse{
 		Status: true,
 	}, nil
 }
 
-func (d *productRPC) GetAllCategory(ctx context.Context, in *productproto.ListRequest) (*productproto.ListCategory, error) {
-	listCategory, err := d.productUsecase.ListCategory(ctx, &entity.ListRequest{
+func (p *productRPC) UpdateCategory(ctx context.Context, in *productproto.Category) (*productproto.Category, error) {
+	response, err := p.productUsecase.UpdateCategory(ctx, &entity.Category{
+		ID:   in.Id,
+		Name: in.Name,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &productproto.Category{
+		Id:   response.ID,
+		Name: response.Name,
+	}, nil
+}
+
+func (p *productRPC) GetCategory(ctx context.Context, in *productproto.GetWithID) (*productproto.Category, error) {
+	category, err := p.productUsecase.GetCategory(ctx, &entity.GetWithID{
+		ID: in.Id,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &productproto.Category{
+		Id:   category.ID,
+		Name: category.Name,
+	}, nil
+}
+
+func (p *productRPC) ListCategories(ctx context.Context, in *productproto.ListRequest) (*productproto.ListCategory, error) {
+	listCategory, err := p.productUsecase.ListCategories(ctx, &entity.ListRequest{
 		Page:  in.Page,
 		Limit: in.Limit,
 	})
+
 	if err != nil {
 		return nil, err
 	}
@@ -54,31 +89,43 @@ func (d *productRPC) GetAllCategory(ctx context.Context, in *productproto.ListRe
 	return &response, nil
 }
 
-func (d *productRPC) UpdateCategory(ctx context.Context, in *productproto.Category) (*productproto.Category, error) {
-	updatedCategory, err := d.productUsecase.UpdateCategory(ctx, &entity.Category{
-		ID:   in.Id,
-		Name: in.Name,
+func (p *productRPC) SearchCategory(ctx context.Context, in *productproto.SearchRequest) (*productproto.ListProduct, error) {
+	categories, err := p.productUsecase.SearchCategory(ctx, &entity.SearchRequest{
+		Page:   in.Page,
+		Limit:  in.Limit,
+		Params: in.Params,
 	})
+
 	if err != nil {
 		return nil, err
 	}
 
-	return &productproto.Category{
-		Id:   updatedCategory.ID,
-		Name: updatedCategory.Name,
-	}, nil
+	var response productproto.ListProduct
+	for _, category := range categories.Products {
+		response.Products = append(response.Products, &productproto.Product{
+			Id:   category.Id,
+			Name: category.Name,
+		})
+	}
+	response.TotalCount = categories.TotalCount
+
+	return &response, nil
 }
 
-func (d *productRPC) GetCategory(ctx context.Context, in *productproto.GetWithID) (*productproto.Category, error) {
-	category, err := d.productUsecase.GetCategory(ctx, &entity.GetWithID{
-		ID: in.Id,
+func (p *productRPC) UniqueCategory(ctx context.Context, in *productproto.Params) (*productproto.MoveResponse, error) {
+	exist, err := p.productUsecase.UniqueCategory(ctx, &entity.Params{
+		Filter: map[string]string{
+			"category_name": in.Filter["category_name"],
+		},
 	})
 	if err != nil {
 		return nil, err
 	}
+	if exist.Status {
+		return nil, errors.New("category already created")
+	}
 
-	return &productproto.Category{
-		Id:   category.ID,
-		Name: category.Name,
+	return &productproto.MoveResponse{
+		Status: false,
 	}, nil
 }

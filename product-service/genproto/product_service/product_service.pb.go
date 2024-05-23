@@ -27,48 +27,38 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 func init() { proto.RegisterFile("product_service.proto", fileDescriptor_64a1a24e6b7d7ed5) }
 
 var fileDescriptor_64a1a24e6b7d7ed5 = []byte{
-	// 655 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x96, 0xcf, 0x6e, 0xd3, 0x4e,
-	0x10, 0xc7, 0x7f, 0xbd, 0xfc, 0x0e, 0x93, 0x26, 0x2d, 0x5b, 0x15, 0x8a, 0x45, 0x8d, 0x44, 0xe1,
-	0xc2, 0xa1, 0x48, 0xf0, 0x04, 0x89, 0x4d, 0x4c, 0x20, 0xfd, 0x43, 0x92, 0x82, 0x44, 0x91, 0xc0,
-	0x89, 0x47, 0x8d, 0x15, 0x27, 0x1b, 0x76, 0xb7, 0x91, 0xf2, 0x26, 0x3c, 0x12, 0x47, 0x1e, 0x01,
-	0x85, 0x1b, 0x4f, 0x81, 0xb2, 0xbb, 0x76, 0x42, 0x6c, 0x6f, 0xac, 0x04, 0xae, 0xf3, 0xe7, 0xb3,
-	0xb3, 0xdf, 0x59, 0xcf, 0x18, 0x0e, 0xc7, 0x8c, 0x06, 0xb7, 0x3d, 0xf1, 0x89, 0x23, 0x9b, 0x84,
-	0x3d, 0x3c, 0x1d, 0x33, 0x2a, 0x28, 0xd9, 0x5b, 0x31, 0x5b, 0x07, 0xb1, 0x61, 0x48, 0x03, 0x8c,
-	0x54, 0xd4, 0xf3, 0x5f, 0x87, 0x50, 0xb9, 0x54, 0xf6, 0xb6, 0x8a, 0x23, 0x2f, 0xa1, 0xec, 0x30,
-	0xf4, 0x05, 0x6a, 0x3b, 0x39, 0x3a, 0x5d, 0x3d, 0x41, 0x7b, 0x2c, 0x2b, 0xe5, 0xf1, 0x50, 0xbc,
-	0x0f, 0x45, 0xbf, 0xe1, 0x12, 0x07, 0xca, 0x57, 0xe3, 0xa0, 0x10, 0x26, 0xd7, 0x43, 0x9a, 0x50,
-	0x76, 0x31, 0xc2, 0x05, 0xc4, 0x70, 0xa2, 0xf5, 0x30, 0xe5, 0x53, 0xb9, 0x2d, 0xe4, 0x63, 0x3a,
-	0xe2, 0x48, 0xea, 0x50, 0xf1, 0x50, 0x68, 0x54, 0x6d, 0xda, 0x70, 0x8d, 0xb8, 0xfc, 0xaa, 0x5e,
-	0xc1, 0xfe, 0x82, 0xa3, 0xce, 0xd8, 0x90, 0x74, 0x2d, 0x2b, 0xaa, 0x46, 0x91, 0x36, 0x70, 0x72,
-	0x92, 0x8a, 0x6d, 0x86, 0x3c, 0x3e, 0xab, 0x85, 0x5f, 0x6e, 0x91, 0x0b, 0xeb, 0xb1, 0x39, 0x48,
-	0x5f, 0xb7, 0x0a, 0x25, 0xd5, 0xc8, 0x0b, 0x16, 0x20, 0x23, 0x77, 0x53, 0x49, 0xd2, 0x6e, 0x6c,
-	0xe2, 0x6b, 0x28, 0x39, 0xfe, 0xa8, 0x87, 0x91, 0x42, 0x6c, 0xa5, 0x7e, 0x0d, 0x76, 0x3d, 0x14,
-	0x12, 0xb4, 0x56, 0xfb, 0x9c, 0x5a, 0xc9, 0xa5, 0x64, 0x54, 0x23, 0x55, 0x0f, 0x27, 0x0f, 0x32,
-	0x85, 0x88, 0x65, 0x7a, 0x94, 0xe9, 0x95, 0xa9, 0x49, 0x55, 0xe7, 0x50, 0x6e, 0xa3, 0xcf, 0x7a,
-	0xfd, 0xb8, 0x25, 0xf7, 0x52, 0x49, 0xf5, 0x30, 0x12, 0xc8, 0x0a, 0x8a, 0x7e, 0x0e, 0x95, 0x16,
-	0xf6, 0xe8, 0x70, 0x88, 0xa3, 0xc0, 0x17, 0x21, 0x1d, 0x65, 0xe8, 0x2e, 0x03, 0x0a, 0xf2, 0x3e,
-	0xc3, 0x91, 0x87, 0xa2, 0xed, 0x4f, 0x30, 0x88, 0xdf, 0x48, 0x6d, 0x7a, 0xc5, 0x91, 0x35, 0x5c,
-	0x62, 0xe7, 0x29, 0xa8, 0xfc, 0x05, 0x4f, 0xb8, 0x86, 0x03, 0x99, 0xc6, 0xfb, 0x51, 0xc8, 0xc5,
-	0x5f, 0x86, 0x77, 0xc1, 0x8a, 0x9b, 0xfe, 0xcf, 0x2e, 0xe0, 0x40, 0xa9, 0x19, 0x0e, 0x92, 0x11,
-	0x71, 0x98, 0x91, 0x34, 0x40, 0xeb, 0x38, 0x65, 0x3e, 0xa3, 0x13, 0x5c, 0x86, 0xcc, 0x45, 0xce,
-	0x87, 0xcc, 0xbd, 0x45, 0x20, 0xc2, 0x67, 0x06, 0x88, 0xf0, 0xd9, 0x3a, 0xc8, 0x1b, 0xd8, 0x77,
-	0xe4, 0xfb, 0x11, 0x1d, 0x9a, 0x3f, 0x3b, 0x75, 0xc8, 0x3a, 0xd8, 0x3b, 0x20, 0x1e, 0x0a, 0x37,
-	0xe4, 0x7e, 0x37, 0xc2, 0x64, 0xc8, 0x6c, 0xff, 0xd9, 0xb4, 0x96, 0x47, 0xa0, 0xfe, 0x18, 0x4d,
-	0x1f, 0x74, 0x11, 0xa6, 0xaa, 0x55, 0x33, 0xf5, 0xfd, 0xcc, 0xd4, 0xec, 0xf7, 0xa1, 0x53, 0x13,
-	0x6e, 0x07, 0xf6, 0x16, 0xdc, 0xf9, 0x5b, 0x30, 0x43, 0x9f, 0x64, 0x42, 0xe3, 0xef, 0x23, 0xa1,
-	0xbe, 0x5d, 0xa6, 0xce, 0xfb, 0xba, 0x89, 0x00, 0x32, 0x6f, 0xa9, 0x50, 0xbd, 0x0d, 0x92, 0xcb,
-	0x9b, 0x1b, 0x55, 0xec, 0xfa, 0x17, 0x50, 0x52, 0x54, 0x55, 0xe4, 0x26, 0xbd, 0xff, 0xb3, 0xcc,
-	0x3a, 0x54, 0xd4, 0x5e, 0x71, 0x7c, 0x81, 0x37, 0x94, 0x4d, 0xc9, 0xfd, 0xf4, 0xf3, 0xd4, 0x2e,
-	0x2b, 0xdf, 0x45, 0xce, 0xa0, 0xa2, 0x56, 0x44, 0x62, 0xd9, 0x76, 0xbb, 0xab, 0x1f, 0x8e, 0x2d,
-	0xcb, 0x72, 0xa5, 0x5e, 0x85, 0x6a, 0x32, 0x5f, 0x4e, 0xf7, 0x32, 0xb6, 0x98, 0x85, 0x3f, 0xce,
-	0xee, 0x65, 0x9c, 0xec, 0xc0, 0xee, 0x7c, 0x00, 0x75, 0x68, 0xcd, 0xe7, 0x03, 0xcc, 0xda, 0x52,
-	0xca, 0x61, 0xdc, 0xe6, 0x6d, 0xd8, 0x57, 0x9a, 0xd5, 0x19, 0x1d, 0x6a, 0x90, 0x9d, 0xb1, 0x9d,
-	0x64, 0x45, 0x9a, 0xb7, 0x56, 0xf6, 0x8f, 0x70, 0xc7, 0x43, 0x1d, 0x9d, 0x0c, 0x98, 0xec, 0x67,
-	0xa4, 0x82, 0xe2, 0x1b, 0x9f, 0x18, 0x63, 0x16, 0xc3, 0x70, 0x95, 0xbe, 0xb6, 0xe4, 0x3c, 0x6d,
-	0x6a, 0x4f, 0xbf, 0xcd, 0xec, 0x9d, 0xef, 0x33, 0x7b, 0xe7, 0xc7, 0xcc, 0xde, 0xf9, 0xfa, 0xd3,
-	0xfe, 0xef, 0xc3, 0xd1, 0x0d, 0x8e, 0xe4, 0x8f, 0xf0, 0xb3, 0x95, 0x94, 0xee, 0xff, 0xd2, 0xfc,
-	0xe2, 0x77, 0x00, 0x00, 0x00, 0xff, 0xff, 0xf6, 0x07, 0x61, 0x0d, 0x5e, 0x0b, 0x00, 0x00,
+	// 495 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0xdd, 0x8e, 0xd2, 0x40,
+	0x18, 0x95, 0x1b, 0x63, 0x3e, 0xa0, 0x6e, 0x66, 0xb3, 0xba, 0x56, 0xed, 0x03, 0x78, 0xb1, 0x26,
+	0x7a, 0x6f, 0x94, 0x22, 0x45, 0x85, 0x15, 0x17, 0xc9, 0x26, 0xde, 0x98, 0x59, 0xf8, 0xb2, 0x4c,
+	0xf8, 0x99, 0xee, 0xcc, 0x94, 0x64, 0xdf, 0xc4, 0x27, 0x32, 0x5e, 0xfa, 0x08, 0x06, 0x5f, 0xc4,
+	0xd0, 0xaf, 0x45, 0x42, 0xdb, 0x29, 0x49, 0xf7, 0xb2, 0xdf, 0x77, 0xe6, 0xf4, 0x70, 0xce, 0xe9,
+	0x00, 0x27, 0xa1, 0x92, 0x93, 0x68, 0x6c, 0xbe, 0x6b, 0x54, 0x2b, 0x31, 0xc6, 0xb3, 0x50, 0x49,
+	0x23, 0xd9, 0xc3, 0xbd, 0xb1, 0x7b, 0x9c, 0x0e, 0x16, 0x72, 0x82, 0x73, 0x42, 0xbd, 0xfa, 0xe9,
+	0x80, 0x33, 0xa0, 0xf9, 0x90, 0x70, 0xac, 0x03, 0x8e, 0xaf, 0x90, 0x1b, 0xf4, 0xb9, 0xc1, 0x6b,
+	0xa9, 0x6e, 0xd9, 0x93, 0xb3, 0xfd, 0x57, 0xa4, 0x2b, 0xb7, 0x78, 0xc5, 0x3e, 0x81, 0xd3, 0xc6,
+	0x39, 0xee, 0xf0, 0xb8, 0x19, 0x70, 0x80, 0xe6, 0x52, 0x98, 0xe9, 0x87, 0xb6, 0xfb, 0x3c, 0xb3,
+	0xeb, 0xcb, 0x15, 0x5e, 0xa0, 0x0e, 0xe5, 0x52, 0xc7, 0xa2, 0x46, 0xe1, 0xa4, 0xba, 0xa8, 0x36,
+	0xd4, 0x03, 0x34, 0x07, 0x29, 0xb2, 0xb0, 0xf4, 0xc1, 0xe9, 0x09, 0x9d, 0xd2, 0x08, 0xd4, 0xec,
+	0x59, 0x06, 0xbc, 0x01, 0x5c, 0xe0, 0x4d, 0x84, 0xda, 0xe4, 0xfc, 0xb8, 0x9d, 0xe3, 0xb7, 0xec,
+	0x1c, 0x9c, 0x21, 0x72, 0x35, 0x9e, 0x6e, 0x27, 0x5e, 0xe6, 0x00, 0x01, 0x52, 0xc2, 0xfc, 0xd7,
+	0x25, 0x41, 0xb2, 0x2e, 0x38, 0xa3, 0xa5, 0xb8, 0x89, 0xfe, 0x9b, 0xf5, 0x38, 0x83, 0x1f, 0x70,
+	0xc5, 0x17, 0xba, 0xcc, 0xf6, 0xf7, 0xd0, 0xa4, 0x2e, 0xa4, 0xd4, 0xa7, 0x59, 0x22, 0x7a, 0x76,
+	0x2d, 0x56, 0x32, 0x1f, 0x9a, 0x94, 0x5e, 0x39, 0x4d, 0xe1, 0x86, 0x7d, 0x84, 0x26, 0xf5, 0x29,
+	0x1d, 0x54, 0xa8, 0x53, 0x0b, 0x20, 0x40, 0x73, 0x08, 0x91, 0x4d, 0x4f, 0x63, 0xc7, 0xf4, 0xb2,
+	0x0a, 0xd8, 0x13, 0xeb, 0x43, 0x93, 0x02, 0x4e, 0x07, 0xd5, 0x0a, 0xf0, 0x05, 0x8e, 0x03, 0x34,
+	0x6d, 0xa1, 0xc7, 0x32, 0x5a, 0xde, 0x8d, 0xc2, 0x73, 0x60, 0x44, 0xc9, 0xaf, 0xe6, 0x78, 0x20,
+	0xa3, 0x9b, 0xbb, 0xfd, 0xac, 0x26, 0xa8, 0x98, 0x0f, 0xf5, 0x9e, 0x98, 0x6d, 0xb3, 0x3c, 0xc9,
+	0x81, 0xce, 0xb0, 0x2c, 0xc6, 0x1e, 0x34, 0x46, 0x1a, 0xd5, 0xa5, 0xd0, 0xd3, 0xb9, 0xd0, 0x55,
+	0x5d, 0xf3, 0xa1, 0x31, 0xe4, 0x2b, 0xfc, 0x2a, 0x5b, 0x5c, 0xcf, 0xd0, 0xe4, 0x7c, 0x34, 0xb4,
+	0xb0, 0x56, 0xbd, 0x0f, 0x47, 0xd4, 0xd2, 0x8e, 0x92, 0x8b, 0x84, 0xa8, 0x42, 0x51, 0xdf, 0x42,
+	0x83, 0xbe, 0x9c, 0x32, 0x4d, 0x45, 0x0b, 0xd6, 0xd9, 0x18, 0xad, 0x0d, 0x3d, 0x69, 0xab, 0x96,
+	0xa7, 0xb9, 0xf6, 0x24, 0x3c, 0xef, 0xa0, 0x4e, 0x57, 0x01, 0xe5, 0xf7, 0x28, 0x83, 0x8d, 0xe7,
+	0x56, 0x6f, 0xde, 0xc0, 0x83, 0x00, 0x93, 0xfc, 0x6d, 0x3a, 0x0a, 0xb8, 0x59, 0x17, 0xea, 0xe4,
+	0x6d, 0x39, 0x45, 0x89, 0xad, 0x03, 0x38, 0xda, 0x14, 0x27, 0xe6, 0xe9, 0x0a, 0x6d, 0x2a, 0xdf,
+	0xb9, 0xad, 0x17, 0xbf, 0xd6, 0x5e, 0xed, 0xf7, 0xda, 0xab, 0xfd, 0x59, 0x7b, 0xb5, 0x1f, 0x7f,
+	0xbd, 0x7b, 0xdf, 0x4e, 0xaf, 0x71, 0x19, 0xff, 0xc9, 0xbe, 0xdc, 0x3b, 0x77, 0x75, 0x3f, 0x1e,
+	0xbf, 0xfe, 0x17, 0x00, 0x00, 0xff, 0xff, 0x72, 0x1f, 0x63, 0x4e, 0xba, 0x07, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -83,41 +73,31 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ProductServiceClient interface {
-	CreateProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*GetWithID, error)
-	UpdateProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*Product, error)
-	DeleteProduct(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*DeleteResponse, error)
-	GetProductByID(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Product, error)
-	GetProductDelete(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Product, error)
-	GetAllProducts(ctx context.Context, in *ListProductRequest, opts ...grpc.CallOption) (*ListProductResponse, error)
-	CreateOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*GetWithID, error)
-	CancelOrder(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*DeleteResponse, error)
-	GetOrderByID(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Order, error)
-	GetAllOrders(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListOrderResponse, error)
-	SearchProduct(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*ListProductResponse, error)
-	Recommendation(ctx context.Context, in *Recom, opts ...grpc.CallOption) (*ListProductResponse, error)
-	GetSavedProductsByUserID(ctx context.Context, in *GetWithUserID, opts ...grpc.CallOption) (*ListProductResponse, error)
-	GetWishlistByUserID(ctx context.Context, in *GetWithUserID, opts ...grpc.CallOption) (*ListProductResponse, error)
-	GetOrderedProductsByUserID(ctx context.Context, in *GetWithUserID, opts ...grpc.CallOption) (*ListProductResponse, error)
-	LikeProduct(ctx context.Context, in *Like, opts ...grpc.CallOption) (*MoveResponse, error)
-	SaveProduct(ctx context.Context, in *Save, opts ...grpc.CallOption) (*MoveResponse, error)
-	StarProduct(ctx context.Context, in *Star, opts ...grpc.CallOption) (*MoveResponse, error)
-	CommentToProduct(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*MoveResponse, error)
-	GetDisableProducts(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListOrderResponse, error)
-	GetProductOrders(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListOrderResponse, error)
-	GetProductComments(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListCommentResponse, error)
-	GetProductLikes(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListWishlistResponse, error)
-	GetProductStars(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListStarsResponse, error)
-	GetAllComments(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListCommentResponse, error)
-	GetAllStars(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListStarsResponse, error)
 	CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
-	DeleteCategory(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*DeleteResponse, error)
+	DeleteCategory(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error)
 	UpdateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
 	GetCategory(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Category, error)
-	GetAllCategory(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListCategory, error)
+	ListCategories(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListCategory, error)
+	SearchCategory(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*ListProduct, error)
+	UniqueCategory(ctx context.Context, in *Params, opts ...grpc.CallOption) (*MoveResponse, error)
+	CreateProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*GetWithID, error)
+	UpdateProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*Product, error)
+	DeleteProduct(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error)
+	GetProduct(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Product, error)
+	ListProducts(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListProduct, error)
+	SearchProduct(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*ListProduct, error)
+	GetDiscountProducts(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListProduct, error)
+	GetDisableProducts(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListOrder, error)
+	LikeProduct(ctx context.Context, in *Like, opts ...grpc.CallOption) (*MoveResponse, error)
+	UserWishlist(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*ListProduct, error)
 	SaveToBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*GetWithID, error)
-	DeleteFromBasket(ctx context.Context, in *RequestBasket, opts ...grpc.CallOption) (*DeleteResponse, error)
-	GetBasketProducts(ctx context.Context, in *ListBasketRequest, opts ...grpc.CallOption) (*ListBasketResponse, error)
-	GetBasketProduct(ctx context.Context, in *RequestBasket, opts ...grpc.CallOption) (*Basket, error)
+	DeleteFromBasket(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error)
+	UpdateBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*Basket, error)
+	ListBaskets(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListBasket, error)
+	CreateOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*GetWithID, error)
+	GetOrder(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Order, error)
+	DeleteOrder(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error)
+	UserOrderHistory(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*ListProduct, error)
 }
 
 type productServiceClient struct {
@@ -126,240 +106,6 @@ type productServiceClient struct {
 
 func NewProductServiceClient(cc *grpc.ClientConn) ProductServiceClient {
 	return &productServiceClient{cc}
-}
-
-func (c *productServiceClient) CreateProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*GetWithID, error) {
-	out := new(GetWithID)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/CreateProduct", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) UpdateProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*Product, error) {
-	out := new(Product)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/UpdateProduct", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) DeleteProduct(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*DeleteResponse, error) {
-	out := new(DeleteResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/DeleteProduct", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetProductByID(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Product, error) {
-	out := new(Product)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetProductByID", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetProductDelete(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Product, error) {
-	out := new(Product)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetProductDelete", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetAllProducts(ctx context.Context, in *ListProductRequest, opts ...grpc.CallOption) (*ListProductResponse, error) {
-	out := new(ListProductResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetAllProducts", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) CreateOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*GetWithID, error) {
-	out := new(GetWithID)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/CreateOrder", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) CancelOrder(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*DeleteResponse, error) {
-	out := new(DeleteResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/CancelOrder", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetOrderByID(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Order, error) {
-	out := new(Order)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetOrderByID", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetAllOrders(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListOrderResponse, error) {
-	out := new(ListOrderResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetAllOrders", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) SearchProduct(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*ListProductResponse, error) {
-	out := new(ListProductResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/SearchProduct", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) Recommendation(ctx context.Context, in *Recom, opts ...grpc.CallOption) (*ListProductResponse, error) {
-	out := new(ListProductResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/Recommendation", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetSavedProductsByUserID(ctx context.Context, in *GetWithUserID, opts ...grpc.CallOption) (*ListProductResponse, error) {
-	out := new(ListProductResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetSavedProductsByUserID", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetWishlistByUserID(ctx context.Context, in *GetWithUserID, opts ...grpc.CallOption) (*ListProductResponse, error) {
-	out := new(ListProductResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetWishlistByUserID", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetOrderedProductsByUserID(ctx context.Context, in *GetWithUserID, opts ...grpc.CallOption) (*ListProductResponse, error) {
-	out := new(ListProductResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetOrderedProductsByUserID", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) LikeProduct(ctx context.Context, in *Like, opts ...grpc.CallOption) (*MoveResponse, error) {
-	out := new(MoveResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/LikeProduct", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) SaveProduct(ctx context.Context, in *Save, opts ...grpc.CallOption) (*MoveResponse, error) {
-	out := new(MoveResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/SaveProduct", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) StarProduct(ctx context.Context, in *Star, opts ...grpc.CallOption) (*MoveResponse, error) {
-	out := new(MoveResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/StarProduct", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) CommentToProduct(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*MoveResponse, error) {
-	out := new(MoveResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/CommentToProduct", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetDisableProducts(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListOrderResponse, error) {
-	out := new(ListOrderResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetDisableProducts", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetProductOrders(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListOrderResponse, error) {
-	out := new(ListOrderResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetProductOrders", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetProductComments(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListCommentResponse, error) {
-	out := new(ListCommentResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetProductComments", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetProductLikes(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListWishlistResponse, error) {
-	out := new(ListWishlistResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetProductLikes", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetProductStars(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListStarsResponse, error) {
-	out := new(ListStarsResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetProductStars", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetAllComments(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListCommentResponse, error) {
-	out := new(ListCommentResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetAllComments", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) GetAllStars(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListStarsResponse, error) {
-	out := new(ListStarsResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetAllStars", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *productServiceClient) CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
@@ -371,8 +117,8 @@ func (c *productServiceClient) CreateCategory(ctx context.Context, in *Category,
 	return out, nil
 }
 
-func (c *productServiceClient) DeleteCategory(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*DeleteResponse, error) {
-	out := new(DeleteResponse)
+func (c *productServiceClient) DeleteCategory(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error) {
+	out := new(MoveResponse)
 	err := c.cc.Invoke(ctx, "/product_service.ProductService/DeleteCategory", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -398,9 +144,117 @@ func (c *productServiceClient) GetCategory(ctx context.Context, in *GetWithID, o
 	return out, nil
 }
 
-func (c *productServiceClient) GetAllCategory(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListCategory, error) {
+func (c *productServiceClient) ListCategories(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListCategory, error) {
 	out := new(ListCategory)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetAllCategory", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/ListCategories", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) SearchCategory(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*ListProduct, error) {
+	out := new(ListProduct)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/SearchCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) UniqueCategory(ctx context.Context, in *Params, opts ...grpc.CallOption) (*MoveResponse, error) {
+	out := new(MoveResponse)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/UniqueCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) CreateProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*GetWithID, error) {
+	out := new(GetWithID)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/CreateProduct", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) UpdateProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*Product, error) {
+	out := new(Product)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/UpdateProduct", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) DeleteProduct(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error) {
+	out := new(MoveResponse)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/DeleteProduct", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) GetProduct(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Product, error) {
+	out := new(Product)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetProduct", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) ListProducts(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListProduct, error) {
+	out := new(ListProduct)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/ListProducts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) SearchProduct(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*ListProduct, error) {
+	out := new(ListProduct)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/SearchProduct", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) GetDiscountProducts(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListProduct, error) {
+	out := new(ListProduct)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetDiscountProducts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) GetDisableProducts(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListOrder, error) {
+	out := new(ListOrder)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetDisableProducts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) LikeProduct(ctx context.Context, in *Like, opts ...grpc.CallOption) (*MoveResponse, error) {
+	out := new(MoveResponse)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/LikeProduct", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) UserWishlist(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*ListProduct, error) {
+	out := new(ListProduct)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/UserWishlist", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -416,8 +270,8 @@ func (c *productServiceClient) SaveToBasket(ctx context.Context, in *Basket, opt
 	return out, nil
 }
 
-func (c *productServiceClient) DeleteFromBasket(ctx context.Context, in *RequestBasket, opts ...grpc.CallOption) (*DeleteResponse, error) {
-	out := new(DeleteResponse)
+func (c *productServiceClient) DeleteFromBasket(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error) {
+	out := new(MoveResponse)
 	err := c.cc.Invoke(ctx, "/product_service.ProductService/DeleteFromBasket", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -425,18 +279,54 @@ func (c *productServiceClient) DeleteFromBasket(ctx context.Context, in *Request
 	return out, nil
 }
 
-func (c *productServiceClient) GetBasketProducts(ctx context.Context, in *ListBasketRequest, opts ...grpc.CallOption) (*ListBasketResponse, error) {
-	out := new(ListBasketResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetBasketProducts", in, out, opts...)
+func (c *productServiceClient) UpdateBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*Basket, error) {
+	out := new(Basket)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/UpdateBasket", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *productServiceClient) GetBasketProduct(ctx context.Context, in *RequestBasket, opts ...grpc.CallOption) (*Basket, error) {
-	out := new(Basket)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetBasketProduct", in, out, opts...)
+func (c *productServiceClient) ListBaskets(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListBasket, error) {
+	out := new(ListBasket)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/ListBaskets", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) CreateOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*GetWithID, error) {
+	out := new(GetWithID)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/CreateOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) GetOrder(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Order, error) {
+	out := new(Order)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) DeleteOrder(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error) {
+	out := new(MoveResponse)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/DeleteOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) UserOrderHistory(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*ListProduct, error) {
+	out := new(ListProduct)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/UserOrderHistory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -445,129 +335,41 @@ func (c *productServiceClient) GetBasketProduct(ctx context.Context, in *Request
 
 // ProductServiceServer is the server API for ProductService service.
 type ProductServiceServer interface {
-	CreateProduct(context.Context, *Product) (*GetWithID, error)
-	UpdateProduct(context.Context, *Product) (*Product, error)
-	DeleteProduct(context.Context, *GetWithID) (*DeleteResponse, error)
-	GetProductByID(context.Context, *GetWithID) (*Product, error)
-	GetProductDelete(context.Context, *GetWithID) (*Product, error)
-	GetAllProducts(context.Context, *ListProductRequest) (*ListProductResponse, error)
-	CreateOrder(context.Context, *Order) (*GetWithID, error)
-	CancelOrder(context.Context, *GetWithID) (*DeleteResponse, error)
-	GetOrderByID(context.Context, *GetWithID) (*Order, error)
-	GetAllOrders(context.Context, *ListRequest) (*ListOrderResponse, error)
-	SearchProduct(context.Context, *Filter) (*ListProductResponse, error)
-	Recommendation(context.Context, *Recom) (*ListProductResponse, error)
-	GetSavedProductsByUserID(context.Context, *GetWithUserID) (*ListProductResponse, error)
-	GetWishlistByUserID(context.Context, *GetWithUserID) (*ListProductResponse, error)
-	GetOrderedProductsByUserID(context.Context, *GetWithUserID) (*ListProductResponse, error)
-	LikeProduct(context.Context, *Like) (*MoveResponse, error)
-	SaveProduct(context.Context, *Save) (*MoveResponse, error)
-	StarProduct(context.Context, *Star) (*MoveResponse, error)
-	CommentToProduct(context.Context, *Comment) (*MoveResponse, error)
-	GetDisableProducts(context.Context, *ListRequest) (*ListOrderResponse, error)
-	GetProductOrders(context.Context, *GetWithID) (*ListOrderResponse, error)
-	GetProductComments(context.Context, *GetWithID) (*ListCommentResponse, error)
-	GetProductLikes(context.Context, *GetWithID) (*ListWishlistResponse, error)
-	GetProductStars(context.Context, *GetWithID) (*ListStarsResponse, error)
-	GetAllComments(context.Context, *ListRequest) (*ListCommentResponse, error)
-	GetAllStars(context.Context, *ListRequest) (*ListStarsResponse, error)
 	CreateCategory(context.Context, *Category) (*Category, error)
-	DeleteCategory(context.Context, *GetWithID) (*DeleteResponse, error)
+	DeleteCategory(context.Context, *GetWithID) (*MoveResponse, error)
 	UpdateCategory(context.Context, *Category) (*Category, error)
 	GetCategory(context.Context, *GetWithID) (*Category, error)
-	GetAllCategory(context.Context, *ListRequest) (*ListCategory, error)
+	ListCategories(context.Context, *ListRequest) (*ListCategory, error)
+	SearchCategory(context.Context, *SearchRequest) (*ListProduct, error)
+	UniqueCategory(context.Context, *Params) (*MoveResponse, error)
+	CreateProduct(context.Context, *Product) (*GetWithID, error)
+	UpdateProduct(context.Context, *Product) (*Product, error)
+	DeleteProduct(context.Context, *GetWithID) (*MoveResponse, error)
+	GetProduct(context.Context, *GetWithID) (*Product, error)
+	ListProducts(context.Context, *ListRequest) (*ListProduct, error)
+	SearchProduct(context.Context, *SearchRequest) (*ListProduct, error)
+	GetDiscountProducts(context.Context, *ListRequest) (*ListProduct, error)
+	GetDisableProducts(context.Context, *ListRequest) (*ListOrder, error)
+	LikeProduct(context.Context, *Like) (*MoveResponse, error)
+	UserWishlist(context.Context, *SearchRequest) (*ListProduct, error)
 	SaveToBasket(context.Context, *Basket) (*GetWithID, error)
-	DeleteFromBasket(context.Context, *RequestBasket) (*DeleteResponse, error)
-	GetBasketProducts(context.Context, *ListBasketRequest) (*ListBasketResponse, error)
-	GetBasketProduct(context.Context, *RequestBasket) (*Basket, error)
+	DeleteFromBasket(context.Context, *GetWithID) (*MoveResponse, error)
+	UpdateBasket(context.Context, *Basket) (*Basket, error)
+	ListBaskets(context.Context, *GetWithID) (*ListBasket, error)
+	CreateOrder(context.Context, *Order) (*GetWithID, error)
+	GetOrder(context.Context, *GetWithID) (*Order, error)
+	DeleteOrder(context.Context, *GetWithID) (*MoveResponse, error)
+	UserOrderHistory(context.Context, *SearchRequest) (*ListProduct, error)
 }
 
 // UnimplementedProductServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedProductServiceServer struct {
 }
 
-func (*UnimplementedProductServiceServer) CreateProduct(ctx context.Context, req *Product) (*GetWithID, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateProduct not implemented")
-}
-func (*UnimplementedProductServiceServer) UpdateProduct(ctx context.Context, req *Product) (*Product, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateProduct not implemented")
-}
-func (*UnimplementedProductServiceServer) DeleteProduct(ctx context.Context, req *GetWithID) (*DeleteResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteProduct not implemented")
-}
-func (*UnimplementedProductServiceServer) GetProductByID(ctx context.Context, req *GetWithID) (*Product, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProductByID not implemented")
-}
-func (*UnimplementedProductServiceServer) GetProductDelete(ctx context.Context, req *GetWithID) (*Product, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProductDelete not implemented")
-}
-func (*UnimplementedProductServiceServer) GetAllProducts(ctx context.Context, req *ListProductRequest) (*ListProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllProducts not implemented")
-}
-func (*UnimplementedProductServiceServer) CreateOrder(ctx context.Context, req *Order) (*GetWithID, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
-}
-func (*UnimplementedProductServiceServer) CancelOrder(ctx context.Context, req *GetWithID) (*DeleteResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CancelOrder not implemented")
-}
-func (*UnimplementedProductServiceServer) GetOrderByID(ctx context.Context, req *GetWithID) (*Order, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOrderByID not implemented")
-}
-func (*UnimplementedProductServiceServer) GetAllOrders(ctx context.Context, req *ListRequest) (*ListOrderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllOrders not implemented")
-}
-func (*UnimplementedProductServiceServer) SearchProduct(ctx context.Context, req *Filter) (*ListProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchProduct not implemented")
-}
-func (*UnimplementedProductServiceServer) Recommendation(ctx context.Context, req *Recom) (*ListProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Recommendation not implemented")
-}
-func (*UnimplementedProductServiceServer) GetSavedProductsByUserID(ctx context.Context, req *GetWithUserID) (*ListProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSavedProductsByUserID not implemented")
-}
-func (*UnimplementedProductServiceServer) GetWishlistByUserID(ctx context.Context, req *GetWithUserID) (*ListProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetWishlistByUserID not implemented")
-}
-func (*UnimplementedProductServiceServer) GetOrderedProductsByUserID(ctx context.Context, req *GetWithUserID) (*ListProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOrderedProductsByUserID not implemented")
-}
-func (*UnimplementedProductServiceServer) LikeProduct(ctx context.Context, req *Like) (*MoveResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LikeProduct not implemented")
-}
-func (*UnimplementedProductServiceServer) SaveProduct(ctx context.Context, req *Save) (*MoveResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SaveProduct not implemented")
-}
-func (*UnimplementedProductServiceServer) StarProduct(ctx context.Context, req *Star) (*MoveResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method StarProduct not implemented")
-}
-func (*UnimplementedProductServiceServer) CommentToProduct(ctx context.Context, req *Comment) (*MoveResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CommentToProduct not implemented")
-}
-func (*UnimplementedProductServiceServer) GetDisableProducts(ctx context.Context, req *ListRequest) (*ListOrderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDisableProducts not implemented")
-}
-func (*UnimplementedProductServiceServer) GetProductOrders(ctx context.Context, req *GetWithID) (*ListOrderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProductOrders not implemented")
-}
-func (*UnimplementedProductServiceServer) GetProductComments(ctx context.Context, req *GetWithID) (*ListCommentResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProductComments not implemented")
-}
-func (*UnimplementedProductServiceServer) GetProductLikes(ctx context.Context, req *GetWithID) (*ListWishlistResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProductLikes not implemented")
-}
-func (*UnimplementedProductServiceServer) GetProductStars(ctx context.Context, req *GetWithID) (*ListStarsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProductStars not implemented")
-}
-func (*UnimplementedProductServiceServer) GetAllComments(ctx context.Context, req *ListRequest) (*ListCommentResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllComments not implemented")
-}
-func (*UnimplementedProductServiceServer) GetAllStars(ctx context.Context, req *ListRequest) (*ListStarsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllStars not implemented")
-}
 func (*UnimplementedProductServiceServer) CreateCategory(ctx context.Context, req *Category) (*Category, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCategory not implemented")
 }
-func (*UnimplementedProductServiceServer) DeleteCategory(ctx context.Context, req *GetWithID) (*DeleteResponse, error) {
+func (*UnimplementedProductServiceServer) DeleteCategory(ctx context.Context, req *GetWithID) (*MoveResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategory not implemented")
 }
 func (*UnimplementedProductServiceServer) UpdateCategory(ctx context.Context, req *Category) (*Category, error) {
@@ -576,492 +378,72 @@ func (*UnimplementedProductServiceServer) UpdateCategory(ctx context.Context, re
 func (*UnimplementedProductServiceServer) GetCategory(ctx context.Context, req *GetWithID) (*Category, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCategory not implemented")
 }
-func (*UnimplementedProductServiceServer) GetAllCategory(ctx context.Context, req *ListRequest) (*ListCategory, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllCategory not implemented")
+func (*UnimplementedProductServiceServer) ListCategories(ctx context.Context, req *ListRequest) (*ListCategory, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListCategories not implemented")
+}
+func (*UnimplementedProductServiceServer) SearchCategory(ctx context.Context, req *SearchRequest) (*ListProduct, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchCategory not implemented")
+}
+func (*UnimplementedProductServiceServer) UniqueCategory(ctx context.Context, req *Params) (*MoveResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UniqueCategory not implemented")
+}
+func (*UnimplementedProductServiceServer) CreateProduct(ctx context.Context, req *Product) (*GetWithID, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateProduct not implemented")
+}
+func (*UnimplementedProductServiceServer) UpdateProduct(ctx context.Context, req *Product) (*Product, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProduct not implemented")
+}
+func (*UnimplementedProductServiceServer) DeleteProduct(ctx context.Context, req *GetWithID) (*MoveResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteProduct not implemented")
+}
+func (*UnimplementedProductServiceServer) GetProduct(ctx context.Context, req *GetWithID) (*Product, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProduct not implemented")
+}
+func (*UnimplementedProductServiceServer) ListProducts(ctx context.Context, req *ListRequest) (*ListProduct, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListProducts not implemented")
+}
+func (*UnimplementedProductServiceServer) SearchProduct(ctx context.Context, req *SearchRequest) (*ListProduct, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchProduct not implemented")
+}
+func (*UnimplementedProductServiceServer) GetDiscountProducts(ctx context.Context, req *ListRequest) (*ListProduct, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDiscountProducts not implemented")
+}
+func (*UnimplementedProductServiceServer) GetDisableProducts(ctx context.Context, req *ListRequest) (*ListOrder, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDisableProducts not implemented")
+}
+func (*UnimplementedProductServiceServer) LikeProduct(ctx context.Context, req *Like) (*MoveResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LikeProduct not implemented")
+}
+func (*UnimplementedProductServiceServer) UserWishlist(ctx context.Context, req *SearchRequest) (*ListProduct, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserWishlist not implemented")
 }
 func (*UnimplementedProductServiceServer) SaveToBasket(ctx context.Context, req *Basket) (*GetWithID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveToBasket not implemented")
 }
-func (*UnimplementedProductServiceServer) DeleteFromBasket(ctx context.Context, req *RequestBasket) (*DeleteResponse, error) {
+func (*UnimplementedProductServiceServer) DeleteFromBasket(ctx context.Context, req *GetWithID) (*MoveResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteFromBasket not implemented")
 }
-func (*UnimplementedProductServiceServer) GetBasketProducts(ctx context.Context, req *ListBasketRequest) (*ListBasketResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetBasketProducts not implemented")
+func (*UnimplementedProductServiceServer) UpdateBasket(ctx context.Context, req *Basket) (*Basket, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBasket not implemented")
 }
-func (*UnimplementedProductServiceServer) GetBasketProduct(ctx context.Context, req *RequestBasket) (*Basket, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetBasketProduct not implemented")
+func (*UnimplementedProductServiceServer) ListBaskets(ctx context.Context, req *GetWithID) (*ListBasket, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListBaskets not implemented")
+}
+func (*UnimplementedProductServiceServer) CreateOrder(ctx context.Context, req *Order) (*GetWithID, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
+}
+func (*UnimplementedProductServiceServer) GetOrder(ctx context.Context, req *GetWithID) (*Order, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrder not implemented")
+}
+func (*UnimplementedProductServiceServer) DeleteOrder(ctx context.Context, req *GetWithID) (*MoveResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrder not implemented")
+}
+func (*UnimplementedProductServiceServer) UserOrderHistory(ctx context.Context, req *SearchRequest) (*ListProduct, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserOrderHistory not implemented")
 }
 
 func RegisterProductServiceServer(s *grpc.Server, srv ProductServiceServer) {
 	s.RegisterService(&_ProductService_serviceDesc, srv)
-}
-
-func _ProductService_CreateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Product)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).CreateProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/CreateProduct",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).CreateProduct(ctx, req.(*Product))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_UpdateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Product)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).UpdateProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/UpdateProduct",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).UpdateProduct(ctx, req.(*Product))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_DeleteProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).DeleteProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/DeleteProduct",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).DeleteProduct(ctx, req.(*GetWithID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetProductByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetProductByID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetProductByID",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetProductByID(ctx, req.(*GetWithID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetProductDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetProductDelete(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetProductDelete",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetProductDelete(ctx, req.(*GetWithID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetAllProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListProductRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetAllProducts(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetAllProducts",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetAllProducts(ctx, req.(*ListProductRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Order)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).CreateOrder(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/CreateOrder",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).CreateOrder(ctx, req.(*Order))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_CancelOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).CancelOrder(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/CancelOrder",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).CancelOrder(ctx, req.(*GetWithID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetOrderByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetOrderByID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetOrderByID",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetOrderByID(ctx, req.(*GetWithID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetAllOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetAllOrders(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetAllOrders",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetAllOrders(ctx, req.(*ListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_SearchProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Filter)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).SearchProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/SearchProduct",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).SearchProduct(ctx, req.(*Filter))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_Recommendation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Recom)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).Recommendation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/Recommendation",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).Recommendation(ctx, req.(*Recom))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetSavedProductsByUserID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithUserID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetSavedProductsByUserID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetSavedProductsByUserID",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetSavedProductsByUserID(ctx, req.(*GetWithUserID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetWishlistByUserID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithUserID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetWishlistByUserID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetWishlistByUserID",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetWishlistByUserID(ctx, req.(*GetWithUserID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetOrderedProductsByUserID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithUserID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetOrderedProductsByUserID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetOrderedProductsByUserID",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetOrderedProductsByUserID(ctx, req.(*GetWithUserID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_LikeProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Like)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).LikeProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/LikeProduct",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).LikeProduct(ctx, req.(*Like))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_SaveProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Save)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).SaveProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/SaveProduct",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).SaveProduct(ctx, req.(*Save))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_StarProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Star)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).StarProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/StarProduct",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).StarProduct(ctx, req.(*Star))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_CommentToProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Comment)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).CommentToProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/CommentToProduct",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).CommentToProduct(ctx, req.(*Comment))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetDisableProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetDisableProducts(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetDisableProducts",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetDisableProducts(ctx, req.(*ListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetProductOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetProductOrders(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetProductOrders",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetProductOrders(ctx, req.(*GetWithID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetProductComments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetProductComments(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetProductComments",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetProductComments(ctx, req.(*GetWithID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetProductLikes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetProductLikes(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetProductLikes",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetProductLikes(ctx, req.(*GetWithID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetProductStars_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetProductStars(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetProductStars",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetProductStars(ctx, req.(*GetWithID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetAllComments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetAllComments(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetAllComments",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetAllComments(ctx, req.(*ListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_GetAllStars_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).GetAllStars(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetAllStars",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetAllStars(ctx, req.(*ListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _ProductService_CreateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1136,20 +518,236 @@ func _ProductService_GetCategory_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_GetAllCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ProductService_ListCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).GetAllCategory(ctx, in)
+		return srv.(ProductServiceServer).ListCategories(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetAllCategory",
+		FullMethod: "/product_service.ProductService/ListCategories",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetAllCategory(ctx, req.(*ListRequest))
+		return srv.(ProductServiceServer).ListCategories(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_SearchCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).SearchCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/SearchCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).SearchCategory(ctx, req.(*SearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_UniqueCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Params)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).UniqueCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/UniqueCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).UniqueCategory(ctx, req.(*Params))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_CreateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Product)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).CreateProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/CreateProduct",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).CreateProduct(ctx, req.(*Product))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_UpdateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Product)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).UpdateProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/UpdateProduct",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).UpdateProduct(ctx, req.(*Product))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_DeleteProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWithID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).DeleteProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/DeleteProduct",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).DeleteProduct(ctx, req.(*GetWithID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_GetProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWithID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).GetProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/GetProduct",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).GetProduct(ctx, req.(*GetWithID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_ListProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).ListProducts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/ListProducts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).ListProducts(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_SearchProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).SearchProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/SearchProduct",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).SearchProduct(ctx, req.(*SearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_GetDiscountProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).GetDiscountProducts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/GetDiscountProducts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).GetDiscountProducts(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_GetDisableProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).GetDisableProducts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/GetDisableProducts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).GetDisableProducts(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_LikeProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Like)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).LikeProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/LikeProduct",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).LikeProduct(ctx, req.(*Like))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_UserWishlist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).UserWishlist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/UserWishlist",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).UserWishlist(ctx, req.(*SearchRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1173,7 +771,7 @@ func _ProductService_SaveToBasket_Handler(srv interface{}, ctx context.Context, 
 }
 
 func _ProductService_DeleteFromBasket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestBasket)
+	in := new(GetWithID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1185,43 +783,115 @@ func _ProductService_DeleteFromBasket_Handler(srv interface{}, ctx context.Conte
 		FullMethod: "/product_service.ProductService/DeleteFromBasket",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).DeleteFromBasket(ctx, req.(*RequestBasket))
+		return srv.(ProductServiceServer).DeleteFromBasket(ctx, req.(*GetWithID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_GetBasketProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListBasketRequest)
+func _ProductService_UpdateBasket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Basket)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).GetBasketProducts(ctx, in)
+		return srv.(ProductServiceServer).UpdateBasket(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetBasketProducts",
+		FullMethod: "/product_service.ProductService/UpdateBasket",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetBasketProducts(ctx, req.(*ListBasketRequest))
+		return srv.(ProductServiceServer).UpdateBasket(ctx, req.(*Basket))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_GetBasketProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestBasket)
+func _ProductService_ListBaskets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWithID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).GetBasketProduct(ctx, in)
+		return srv.(ProductServiceServer).ListBaskets(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/product_service.ProductService/GetBasketProduct",
+		FullMethod: "/product_service.ProductService/ListBaskets",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetBasketProduct(ctx, req.(*RequestBasket))
+		return srv.(ProductServiceServer).ListBaskets(ctx, req.(*GetWithID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Order)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).CreateOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/CreateOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).CreateOrder(ctx, req.(*Order))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_GetOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWithID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).GetOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/GetOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).GetOrder(ctx, req.(*GetWithID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_DeleteOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWithID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).DeleteOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/DeleteOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).DeleteOrder(ctx, req.(*GetWithID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_UserOrderHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).UserOrderHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/UserOrderHistory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).UserOrderHistory(ctx, req.(*SearchRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1230,110 +900,6 @@ var _ProductService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "product_service.ProductService",
 	HandlerType: (*ProductServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "CreateProduct",
-			Handler:    _ProductService_CreateProduct_Handler,
-		},
-		{
-			MethodName: "UpdateProduct",
-			Handler:    _ProductService_UpdateProduct_Handler,
-		},
-		{
-			MethodName: "DeleteProduct",
-			Handler:    _ProductService_DeleteProduct_Handler,
-		},
-		{
-			MethodName: "GetProductByID",
-			Handler:    _ProductService_GetProductByID_Handler,
-		},
-		{
-			MethodName: "GetProductDelete",
-			Handler:    _ProductService_GetProductDelete_Handler,
-		},
-		{
-			MethodName: "GetAllProducts",
-			Handler:    _ProductService_GetAllProducts_Handler,
-		},
-		{
-			MethodName: "CreateOrder",
-			Handler:    _ProductService_CreateOrder_Handler,
-		},
-		{
-			MethodName: "CancelOrder",
-			Handler:    _ProductService_CancelOrder_Handler,
-		},
-		{
-			MethodName: "GetOrderByID",
-			Handler:    _ProductService_GetOrderByID_Handler,
-		},
-		{
-			MethodName: "GetAllOrders",
-			Handler:    _ProductService_GetAllOrders_Handler,
-		},
-		{
-			MethodName: "SearchProduct",
-			Handler:    _ProductService_SearchProduct_Handler,
-		},
-		{
-			MethodName: "Recommendation",
-			Handler:    _ProductService_Recommendation_Handler,
-		},
-		{
-			MethodName: "GetSavedProductsByUserID",
-			Handler:    _ProductService_GetSavedProductsByUserID_Handler,
-		},
-		{
-			MethodName: "GetWishlistByUserID",
-			Handler:    _ProductService_GetWishlistByUserID_Handler,
-		},
-		{
-			MethodName: "GetOrderedProductsByUserID",
-			Handler:    _ProductService_GetOrderedProductsByUserID_Handler,
-		},
-		{
-			MethodName: "LikeProduct",
-			Handler:    _ProductService_LikeProduct_Handler,
-		},
-		{
-			MethodName: "SaveProduct",
-			Handler:    _ProductService_SaveProduct_Handler,
-		},
-		{
-			MethodName: "StarProduct",
-			Handler:    _ProductService_StarProduct_Handler,
-		},
-		{
-			MethodName: "CommentToProduct",
-			Handler:    _ProductService_CommentToProduct_Handler,
-		},
-		{
-			MethodName: "GetDisableProducts",
-			Handler:    _ProductService_GetDisableProducts_Handler,
-		},
-		{
-			MethodName: "GetProductOrders",
-			Handler:    _ProductService_GetProductOrders_Handler,
-		},
-		{
-			MethodName: "GetProductComments",
-			Handler:    _ProductService_GetProductComments_Handler,
-		},
-		{
-			MethodName: "GetProductLikes",
-			Handler:    _ProductService_GetProductLikes_Handler,
-		},
-		{
-			MethodName: "GetProductStars",
-			Handler:    _ProductService_GetProductStars_Handler,
-		},
-		{
-			MethodName: "GetAllComments",
-			Handler:    _ProductService_GetAllComments_Handler,
-		},
-		{
-			MethodName: "GetAllStars",
-			Handler:    _ProductService_GetAllStars_Handler,
-		},
 		{
 			MethodName: "CreateCategory",
 			Handler:    _ProductService_CreateCategory_Handler,
@@ -1351,8 +917,56 @@ var _ProductService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _ProductService_GetCategory_Handler,
 		},
 		{
-			MethodName: "GetAllCategory",
-			Handler:    _ProductService_GetAllCategory_Handler,
+			MethodName: "ListCategories",
+			Handler:    _ProductService_ListCategories_Handler,
+		},
+		{
+			MethodName: "SearchCategory",
+			Handler:    _ProductService_SearchCategory_Handler,
+		},
+		{
+			MethodName: "UniqueCategory",
+			Handler:    _ProductService_UniqueCategory_Handler,
+		},
+		{
+			MethodName: "CreateProduct",
+			Handler:    _ProductService_CreateProduct_Handler,
+		},
+		{
+			MethodName: "UpdateProduct",
+			Handler:    _ProductService_UpdateProduct_Handler,
+		},
+		{
+			MethodName: "DeleteProduct",
+			Handler:    _ProductService_DeleteProduct_Handler,
+		},
+		{
+			MethodName: "GetProduct",
+			Handler:    _ProductService_GetProduct_Handler,
+		},
+		{
+			MethodName: "ListProducts",
+			Handler:    _ProductService_ListProducts_Handler,
+		},
+		{
+			MethodName: "SearchProduct",
+			Handler:    _ProductService_SearchProduct_Handler,
+		},
+		{
+			MethodName: "GetDiscountProducts",
+			Handler:    _ProductService_GetDiscountProducts_Handler,
+		},
+		{
+			MethodName: "GetDisableProducts",
+			Handler:    _ProductService_GetDisableProducts_Handler,
+		},
+		{
+			MethodName: "LikeProduct",
+			Handler:    _ProductService_LikeProduct_Handler,
+		},
+		{
+			MethodName: "UserWishlist",
+			Handler:    _ProductService_UserWishlist_Handler,
 		},
 		{
 			MethodName: "SaveToBasket",
@@ -1363,12 +977,28 @@ var _ProductService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _ProductService_DeleteFromBasket_Handler,
 		},
 		{
-			MethodName: "GetBasketProducts",
-			Handler:    _ProductService_GetBasketProducts_Handler,
+			MethodName: "UpdateBasket",
+			Handler:    _ProductService_UpdateBasket_Handler,
 		},
 		{
-			MethodName: "GetBasketProduct",
-			Handler:    _ProductService_GetBasketProduct_Handler,
+			MethodName: "ListBaskets",
+			Handler:    _ProductService_ListBaskets_Handler,
+		},
+		{
+			MethodName: "CreateOrder",
+			Handler:    _ProductService_CreateOrder_Handler,
+		},
+		{
+			MethodName: "GetOrder",
+			Handler:    _ProductService_GetOrder_Handler,
+		},
+		{
+			MethodName: "DeleteOrder",
+			Handler:    _ProductService_DeleteOrder_Handler,
+		},
+		{
+			MethodName: "UserOrderHistory",
+			Handler:    _ProductService_UserOrderHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

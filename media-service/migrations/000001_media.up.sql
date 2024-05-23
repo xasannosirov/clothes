@@ -1,8 +1,0 @@
-CREATE TABLE media (
-    id UUID PRIMARY KEY,
-    product_id uuid NOT NULL, 
-    image_url TEXT NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMPTZ
-);

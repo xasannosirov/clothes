@@ -3,6 +3,11 @@ syntax = "proto3";
 package product_service;
 option go_package = "genproto/product_service";
 
+message Category {
+    string id = 1;
+    string name = 2;
+}
+
 message Product {
   string id = 1;
   string name = 2;
@@ -16,72 +21,38 @@ message Product {
   int64 age_min = 10;
   int64 age_max = 11;
   string for_gender = 12;
-  int64 size = 13;
-  string created_at = 14;
-  string updated_at = 15;
+  int64 product_size = 13;
 }
 
-message Filter {
-    string name = 1;
-}
-
-message Recom {
-    string gender = 1;
-    int64 age = 2;
+message Basket {
+    string id = 1;
+    string product_id = 2;
+    uint64 count = 3;
+    string user_id = 4;
 }
   
 message Order {
     string id = 1;
     string product_id = 2;
     string user_id = 3;
-    string status = 4;
-    string created_at = 5;
-    string updated_at = 6;
+    uint64 count = 4;
+    string status = 5;
 }
 
 message Like {
     string id = 1;
     string product_id = 2;
     string user_id = 3;
-    string created_at = 5;
-    string updated_at = 6;
 }
 
-message Save {
-    string id = 1;
-    string product_id = 2;
-    string user_id = 3;
-    string created_at = 4;
-    string updated_at = 5;
+message Params {
+    map<string, string> filter = 1;
 }
 
-message Star {
-    string id = 1;
-    string product_id = 2;
-    string user_id = 3;
-    int64 star = 4;
-    string created_at = 5;
-    string updated_at = 6;
-}
-
-message Comment {
-    string id = 1;
-    string product_id = 2;
-    string user_id = 3;
-    string comment = 4;
-    string created_at = 5;
-    string updated_at = 6;
-}
-
-message Category {
-    string id = 1;
-    string name = 2;
-}
-
-message ListProductRequest {
+message SearchRequest {
   uint64 Page = 1;
   uint64 Limit = 2;
-  string Name = 3;
+  map<string, string> params = 3;
 }
 
 message ListRequest {
@@ -93,67 +64,31 @@ message GetWithID {
     string id = 1;
 }
 
-message GetWithUserID {
-    string user_id = 1;
-}
-
-message DeleteResponse {
-    bool status = 1;
-}
-
 message MoveResponse {
     bool status = 1;
-}
-
-message ListProductResponse {
-    repeated Product products = 1;
-    uint64 total_count = 2;
-}
-
-message ListOrderResponse {
-    repeated Order orders = 1;
-    uint64 total_count = 2;
-}
-
-message ListSavedResponse {
-    repeated Save saved_products = 1;
-    uint64 total_count = 2;
-}
-
-message ListWishlistResponse {
-    repeated Like likes = 1;
-    uint64 total_count = 2;
-}
-
-message ListCommentResponse {
-    repeated Comment comments = 1;
-    uint64 total_count = 2;
-}
-
-message ListStarsResponse {
-    repeated Star stars = 1;
-    uint64 total_count = 2;
 }
 
 message ListCategory {
     repeated Category categories = 1;
     uint64 total_count = 2;
 }
-message Basket {
-    string id = 1;
-    string product_id = 2;
-    string user_id = 3;
-    string created_at = 4;
-    string updated_at = 5;
+
+message ListProduct {
+    repeated Product products = 1;
+    uint64 total_count = 2;
 }
-message ListBasketRequest {
-    int64 page = 1;
-    int64 limit = 2;
-}
-message ListBasketResponse {
+
+message ListBasket {
     repeated Basket baskets = 1;
-    int64 total_count = 2;
+    uint64 total_count = 2;
 }
-message RequestBasket {
-    map<string, string> filter = 1;
+
+message ListOrder {
+    repeated Order orders = 1;
+    uint64 total_count = 2;
+}
+
+message ListWishlist {
+    repeated Like likes = 1;
+    uint64 total_count = 2;
 }

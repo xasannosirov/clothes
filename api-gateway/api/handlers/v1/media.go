@@ -53,7 +53,7 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
-	err = minioClient.MakeBucket(context.Background(), bucketName, minio.MakeBucketOptions{})
+	err = minioClient.MakeBucket(ctx, bucketName, minio.MakeBucketOptions{})
 	if err != nil {
 		if minio.ToErrorResponse(err).Code == "BucketAlreadyOwnedByYou" {
 
@@ -80,7 +80,7 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
         ]
     }`, bucketName)
 
-	err = minioClient.SetBucketPolicy(context.Background(), bucketName, policy)
+	err = minioClient.SetBucketPolicy(ctx, bucketName, policy)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
@@ -136,9 +136,8 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	}
 
 	objectName := newFilename
-	contentType := "image/jpeg"
-	_, err = minioClient.FPutObject(context.Background(), bucketName, objectName, uploadPath, minio.PutObjectOptions{
-		ContentType: contentType,
+	_, err = minioClient.FPutObject(ctx, bucketName, objectName, uploadPath, minio.PutObjectOptions{
+		ContentType: "image/jpeg",
 	})
 
 	if err != nil {
@@ -154,6 +153,7 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 		Id:        id,
 		ProductId: productId,
 		ImageUrl:  minioURL,
+		FileName:  file.File.Filename,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
@@ -184,9 +184,9 @@ func (h *HandlerV1) GetMedia(c *gin.Context) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(7))
 	defer cancel()
-	response, err := h.Service.MediaService().Get(
-		ctx, &pbm.MediaWithProductID{
-			ProductId: id,
+	media, err := h.Service.MediaService().Get(
+		ctx, &pbm.MediaWithID{
+			Id: id,
 		})
 	if err != nil {
 		c.JSON(http.StatusNotFound, models.Error{
@@ -196,9 +196,19 @@ func (h *HandlerV1) GetMedia(c *gin.Context) {
 		return
 	}
 
-	if len(response.Images) == 0 {
+	if len(media.Images) == 0 {
 		c.JSON(http.StatusOK, nil)
 		return
+	}
+
+	var response models.ProductImages
+	for _, image := range media.Images {
+		response.Images = append(response.Images, &models.Media{
+			Id:        image.Id,
+			ProductId: image.ProductId,
+			ImageUrl:  image.ImageUrl,
+			FileName:  image.FileName,
+		})
 	}
 
 	c.JSON(http.StatusOK, response)
@@ -222,8 +232,8 @@ func (h *HandlerV1) DeleteMedia(c *gin.Context) {
 	defer cancel()
 
 	response, err := h.Service.MediaService().Delete(
-		ctx, &pbm.MediaWithProductID{
-			ProductId: productId,
+		ctx, &pbm.MediaWithID{
+			Id: productId,
 		})
 	if err != nil {
 		c.JSON(http.StatusNotFound, models.Error{
@@ -232,6 +242,12 @@ func (h *HandlerV1) DeleteMedia(c *gin.Context) {
 		log.Println(err)
 		return
 	}
+	if !response.Status {
+		c.JSON(http.StatusNotFound, models.Error{
+			Message: models.NotFoundMessage,
+		})
+		return
+	}
 
-	c.JSON(http.StatusOK, response.String())
+	c.JSON(http.StatusOK, true)
 }

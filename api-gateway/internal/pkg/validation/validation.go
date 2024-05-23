@@ -24,13 +24,19 @@ func EmailValidation(email string) (string, error) {
 	//get email
 	email = strings.TrimSpace(email)
 	email = strings.ToLower(email)
-	emailErr := validation.Validate(email, validation.Required)
+	emailErr := validation.Validate(
+		email,
+		validation.Required,
+		// is.Email,
+	)
 	if emailErr != nil {
 		log.Println(emailErr)
 		return "", emailErr
 	}
+
 	return email, nil
 }
+
 func PasswordValidation(password string) bool {
 	if len(password) < 8 {
 		return false
@@ -60,27 +66,4 @@ func PasswordValidation(password string) bool {
 	}
 
 	return hasLowerCase && hasUpperCase && hasDigit && hasSpecial
-}
-func NameValiddation(name string) bool {
-	name = strings.TrimSpace(name)
-	name = strings.ToLower(name)
-	name = strings.ToUpper(string(name[0]))
-	if len(name) < 2 || len(name) > 50 {
-		return false
-	}
-
-	for _, r := range name {
-		if !unicode.IsLetter(r) && !unicode.IsSpace(r) {
-			return false
-		}
-	}
-
-	return true
-}
-func GenderValidation(gender string) bool {
-	gender = strings.ToLower(gender)
-	if gender != "erkak" && gender != "ayol" {
-		return false
-	}
-	return true
 }

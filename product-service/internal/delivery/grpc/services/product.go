@@ -3,22 +3,10 @@ package services
 import (
 	"context"
 	pb "product-service/genproto/product_service"
-	grpc "product-service/internal/delivery"
 	"product-service/internal/entity"
-	"product-service/internal/pkg/otlp"
-	"time"
-
-	"go.opentelemetry.io/otel/attribute"
-	"go.uber.org/zap"
 )
 
 func (d *productRPC) CreateProduct(ctx context.Context, in *pb.Product) (*pb.GetWithID, error) {
-	ctx, span := otlp.Start(ctx, "product_grpc-delivery", "CreateProduct")
-	span.SetAttributes(
-		attribute.Key("guid").String(in.Id),
-	)
-	defer span.End()
-
 	respProduct, err := d.productUsecase.CreateProduct(ctx, &entity.Product{
 		Id:          in.Id,
 		Name:        in.Name,
@@ -32,14 +20,13 @@ func (d *productRPC) CreateProduct(ctx context.Context, in *pb.Product) (*pb.Get
 		AgeMin:      in.AgeMin,
 		AgeMax:      in.AgeMax,
 		ForGender:   in.ForGender,
-		Size:        int64(in.Size()),
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
+		Size:        int64(in.ProductSize),
 	})
+
 	if err != nil {
-		d.logger.Error("productUseCase.CreateProduct", zap.Error(err))
-		return &pb.GetWithID{}, grpc.Error(ctx, err)
+		return nil, err
 	}
+
 	return &pb.GetWithID{Id: respProduct.Id}, nil
 }
 
@@ -57,91 +44,62 @@ func (d *productRPC) UpdateProduct(ctx context.Context, in *pb.Product) (*pb.Pro
 		AgeMin:      in.AgeMin,
 		AgeMax:      in.AgeMax,
 		ForGender:   in.ForGender,
-		Size:        int64(in.Size()),
-		UpdatedAt:   time.Now(),
+		Size:        int64(in.ProductSize),
 	})
+
 	if err != nil {
-		d.logger.Error("productUseCase.UpdateProduct", zap.Error(err))
-		return &pb.Product{}, grpc.Error(ctx, err)
+		return nil, err
 	}
 
 	return in, nil
 }
 
-func (d *productRPC) GetProductByID(ctx context.Context, in *pb.GetWithID) (*pb.Product, error) {
-	product, err := d.productUsecase.GetProductByID(ctx, map[string]string{"id": in.Id})
-	if err != nil {
-		d.logger.Error("productUseCase.GetProductByID", zap.Error(err))
-		return &pb.Product{}, grpc.Error(ctx, err)
-	}
-
-	return &pb.Product{
-		Id:          product.Id,
-		Name:        product.Name,
-		Description: product.Description,
-		Category:    product.Category,
-		MadeIn:      product.MadeIn,
-		Color:       product.Color,
-		Count:       product.Count,
-		Cost:        product.Cost,
-		Discount:    product.Discount,
-		AgeMin:      product.AgeMin,
-		AgeMax:      product.AgeMax,
-		ForGender:   product.ForGender,
-		Size_:       product.Size,
-		CreatedAt:   product.CreatedAt.String(),
-		UpdatedAt:   product.UpdatedAt.String(),
-	}, nil
-}
-func (d *productRPC) GetProductDelete(ctx context.Context, in *pb.GetWithID) (*pb.Product, error) {
-	product, err := d.productUsecase.GetProductDelete(ctx, map[string]string{"id": in.Id})
-	if err != nil {
-		d.logger.Error("productUseCase.GetProductByID", zap.Error(err))
-		return &pb.Product{}, grpc.Error(ctx, err)
-	}
-	return &pb.Product{
-		Id:          product.Id,
-		Name:        product.Name,
-		Description: product.Description,
-		Category:    product.Category,
-		MadeIn:      product.MadeIn,
-		Color:       product.Color,
-		Count:       product.Count,
-		Cost:        product.Cost,
-		Discount:    product.Discount,
-		AgeMin:      product.AgeMin,
-		AgeMax:      product.AgeMax,
-		ForGender:   product.ForGender,
-		Size_:       product.Size,
-		CreatedAt:   product.CreatedAt.String(),
-		UpdatedAt:   product.UpdatedAt.String(),
-	}, nil
-}
-
-func (d *productRPC) DeleteProduct(ctx context.Context, in *pb.GetWithID) (*pb.DeleteResponse, error) {
+func (d *productRPC) DeleteProduct(ctx context.Context, in *pb.GetWithID) (*pb.MoveResponse, error) {
 	err := d.productUsecase.DeleteProduct(ctx, in.Id)
+
 	if err != nil {
-		d.logger.Error("productUseCase.DeleteProduct", zap.Error(err))
-		return &pb.DeleteResponse{Status: false}, err
-	}
-
-	return &pb.DeleteResponse{Status: true}, nil
-}
-
-func (d *productRPC) GetAllProducts(ctx context.Context, in *pb.ListProductRequest) (*pb.ListProductResponse, error) {
-	filter := &entity.ListProductRequest{
-		Limit: in.Limit,
-		Page:  in.Page,
-		Name:  in.Name,
-	}
-
-	products, err := d.productUsecase.GetAllProducts(ctx, filter)
-	if err != nil {
-		d.logger.Error("productUseCase.List", zap.Error(err))
 		return nil, err
 	}
 
-	pbProducts := &pb.ListProductResponse{}
+	return &pb.MoveResponse{Status: true}, nil
+}
+
+func (d *productRPC) GetProduct(ctx context.Context, in *pb.GetWithID) (*pb.Product, error) {
+	product, err := d.productUsecase.GetProduct(ctx, map[string]string{"id": in.Id})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.Product{
+		Id:          product.Id,
+		Name:        product.Name,
+		Description: product.Description,
+		Category:    product.Category,
+		MadeIn:      product.MadeIn,
+		Color:       product.Color,
+		Count:       product.Count,
+		Cost:        product.Cost,
+		Discount:    product.Discount,
+		AgeMin:      product.AgeMin,
+		AgeMax:      product.AgeMax,
+		ForGender:   product.ForGender,
+		ProductSize: product.Size,
+	}, nil
+}
+
+func (d *productRPC) ListProducts(ctx context.Context, in *pb.ListRequest) (*pb.ListProduct, error) {
+	filter := &entity.ListRequest{
+		Limit: in.Limit,
+		Page:  in.Page,
+	}
+
+	products, err := d.productUsecase.ListProducts(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	pbProducts := &pb.ListProduct{}
 	for _, product := range products.Products {
 		pbProducts.Products = append(pbProducts.Products, &pb.Product{
 			Id:          product.Id,
@@ -156,14 +114,108 @@ func (d *productRPC) GetAllProducts(ctx context.Context, in *pb.ListProductReque
 			AgeMin:      product.AgeMin,
 			AgeMax:      product.AgeMax,
 			ForGender:   product.ForGender,
-			Size_:       product.Size,
-			CreatedAt:   product.CreatedAt.String(),
-			UpdatedAt:   product.UpdatedAt.String(),
+			ProductSize: product.Size,
 		})
 	}
 
-	return &pb.ListProductResponse{
+	return &pb.ListProduct{
 		Products:   pbProducts.Products,
 		TotalCount: products.TotalCount,
+	}, nil
+}
+
+func (d *productRPC) SearchProduct(ctx context.Context, in *pb.SearchRequest) (*pb.ListProduct, error) {
+	products, err := d.productUsecase.SearchProduct(ctx, &entity.SearchRequest{
+		Page:  in.Page,
+		Limit: in.Limit,
+		Params: map[string]string{
+			"name": in.Params["name"],
+		},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	var response pb.ListProduct
+	for _, product := range products.Products {
+		response.Products = append(response.Products, &pb.Product{
+			Id:          product.Id,
+			Name:        product.Name,
+			Description: product.Description,
+			Category:    product.Category,
+			MadeIn:      product.MadeIn,
+			Color:       product.Color,
+			Count:       product.Count,
+			Cost:        product.Cost,
+			Discount:    product.Discount,
+			AgeMin:      product.AgeMin,
+			AgeMax:      product.AgeMax,
+			ForGender:   product.ForGender,
+			ProductSize: product.Size,
+		})
+	}
+
+	response.TotalCount = products.TotalCount
+
+	return &response, nil
+}
+
+func (d *productRPC) GetDisableProducts(ctx context.Context, in *pb.ListRequest) (*pb.ListOrder, error) {
+	orders, err := d.productUsecase.GetDisableProducts(ctx, &entity.ListRequest{
+		Page:  in.Page,
+		Limit: in.Limit,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	pbOrders := &pb.ListOrder{}
+	for _, order := range orders.Orders {
+		pbOrders.Orders = append(pbOrders.Orders, &pb.Order{
+			Id:        order.Id,
+			ProductId: order.ProductID,
+			UserId:    order.UserID,
+			Status:    order.Status,
+		})
+	}
+
+	return &pb.ListOrder{
+		Orders:     pbOrders.Orders,
+		TotalCount: orders.TotalCount,
+	}, nil
+}
+
+func (p *productRPC) GetDiscountProducts(ctx context.Context, in *pb.ListRequest) (*pb.ListProduct, error) {
+	orders, err := p.productUsecase.GetDiscountProducts(ctx, &entity.ListRequest{
+		Page:  in.Page,
+		Limit: in.Limit,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	pbOrders := &pb.ListProduct{}
+	for _, product := range orders.Products {
+		pbOrders.Products = append(pbOrders.Products, &pb.Product{
+			Id:          product.Id,
+			Name:        product.Name,
+			Description: product.Description,
+			Category:    product.Category,
+			MadeIn:      product.MadeIn,
+			Color:       product.Color,
+			Count:       product.Count,
+			Cost:        product.Cost,
+			Discount:    product.Discount,
+			AgeMin:      product.AgeMin,
+			AgeMax:      product.AgeMax,
+			ForGender:   product.ForGender,
+			ProductSize: product.Size,
+		})
+	}
+
+	return &pb.ListProduct{
+		Products:   pbOrders.Products,
+		TotalCount: orders.TotalCount,
 	}, nil
 }
