@@ -12,7 +12,7 @@ message User {
   string phone_number = 6;
   string gender = 7;
   int64 age = 8;
-  string role = 9; // admin, worker, user
+  string role = 9; 
   string refresh = 10;
   string created_at = 11;
   string updated_at = 12;
@@ -52,4 +52,5 @@ message ListUserRequest {
 
 message ListUserResponse {
   repeated User users = 1;
+  uint64 total_count = 2;
 }

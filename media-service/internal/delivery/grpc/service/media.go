@@ -55,15 +55,15 @@ func (m mediaRPC) Create(ctx context.Context, req *mediaproto.Media) (*mediaprot
 }
 
 // Get method returns media
-func (m mediaRPC) Get(ctx context.Context, req *mediaproto.MediaWithProductID) (*mediaproto.ProductImages, error) {
+func (m mediaRPC) Get(ctx context.Context, req *mediaproto.MediaWithID) (*mediaproto.ProductImages, error) {
 	ctx, span := otlp.Start(ctx, "media_grpc-delivery", "GetMedia")
 	span.SetAttributes(
-		attribute.Key("guid").String(req.ProductId),
+		attribute.Key("guid").String(req.Id),
 	)
 	defer span.End()
 
 	params := make(map[string]string)
-	params["product_id"] = req.ProductId
+	params["product_id"] = req.Id
 
 	response, err := m.media.GetMediaWithProductId(ctx, params)
 	if err != nil {
@@ -91,15 +91,15 @@ func (m mediaRPC) Get(ctx context.Context, req *mediaproto.MediaWithProductID) (
 }
 
 // Delete method delete media
-func (m mediaRPC) Delete(ctx context.Context, req *mediaproto.MediaWithProductID) (*mediaproto.DeleteMediaResponse, error) {
+func (m mediaRPC) Delete(ctx context.Context, req *mediaproto.MediaWithID) (*mediaproto.DeleteMediaResponse, error) {
 	ctx, span := otlp.Start(ctx, "media_grpc-delivery", "DeleteMedia")
 	span.SetAttributes(
-		attribute.Key("guid").String(req.ProductId),
+		attribute.Key("guid").String(req.Id),
 	)
 	defer span.End()
 
 	params := make(map[string]any)
-	params["product_id"] = req.ProductId
+	params["product_id"] = req.Id
 
 	err := m.media.DeleteMedia(ctx, params)
 	if err != nil {

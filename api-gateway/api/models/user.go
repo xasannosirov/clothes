@@ -28,7 +28,6 @@ type (
 		FirstName   string `json:"first_name"`
 		LastName    string `json:"last_name"`
 		Email       string `json:"email"`
-		Password    string `json:"password"`
 		PhoneNumber string `json:"phone_number"`
 		Gender      string `json:"gender"`
 		Age         int64  `json:"age"`
@@ -39,7 +38,6 @@ type (
 		FirstName   string `json:"first_name"`
 		LastName    string `json:"last_name"`
 		Email       string `json:"email"`
-		Password    string `json:"password"`
 		PhoneNumber string `json:"phone_number"`
 		Gender      string `json:"gender"`
 		Age         int64  `json:"age"`
@@ -53,13 +51,13 @@ type (
 	}
 
 	GoogleUser struct {
-		Id string `json:"id"`
-		Email string `json:"email"`
-		VerifiedEmail string `json:"verified_email"`
-		Name string `json:"name"`
-		GivenName string  `json:"given_name"`
-		FamilyName string	`json:"family_name"`
-		PictureUrl string   `json:"picture"`
-		Locale string `json:"locale"`
+		Id            string `json:"id"`
+		Email         string `json:"email"`
+		VerifiedEmail bool `json:"verified_email"`
+		Name          string `json:"name"`
+		GivenName     string `json:"given_name"`
+		FamilyName    string `json:"family_name"`
+		PictureUrl    string `json:"picture"`
+		Locale        string `json:"locale"`
 	}
 )

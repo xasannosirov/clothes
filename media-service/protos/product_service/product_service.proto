@@ -6,35 +6,32 @@ option go_package = "genproto/product_service";
 import "product_model.proto";
 
 service ProductService {
-  rpc CreateProduct(Product) returns (GetWithID);
-  rpc UpdateProduct(Product) returns (Product);
-  rpc DeleteProduct(GetWithID) returns (DeleteResponse);
-  rpc GetProductByID(GetWithID) returns (Product);
-  rpc GetAllProducts(ListRequest) returns (ListProductResponse);
+  rpc CreateCategory(Category) returns (Category);
+  rpc DeleteCategory(GetWithID) returns (MoveResponse);
+  rpc GetCategory(GetWithID) returns (Category);
+  rpc ListCategories(ListRequest) returns (ListCategory);
+  rpc SearchCategory(SearchRequest) returns (ListProduct);
+  rpc UniqueCategory(Params) returns (MoveResponse);
 
-  rpc CreateOrder(Order) returns (GetWithID);
-  rpc CancelOrder(GetWithID) returns (DeleteResponse);
-  rpc GetOrderByID(GetWithID) returns (Order);
-  rpc GetAllOrders(ListRequest) returns (ListOrderResponse);
+  rpc CreateProduct(Product) returns (GetWithID); 
+  rpc UpdateProduct(Product) returns (Product); 
+  rpc DeleteProduct(GetWithID) returns (MoveResponse); 
+  rpc GetProduct(GetWithID) returns (Product); 
+  rpc ListProducts(ListRequest) returns (ListProduct);
+  rpc SearchProduct(SearchRequest) returns (ListProduct); 
+  rpc GetDiscountProducts(ListRequest) returns (ListProduct);
+  rpc GetDisableProducts(ListRequest) returns (ListOrder); 
 
-  rpc SearchProduct(Filter) returns (ListProductResponse);
-  rpc Recommendation(Recom) returns (ListProductResponse);
-  
-  rpc GetSavedProductsByUserID(GetWithUserID) returns (ListProductResponse);
-  rpc GetWishlistByUserID(GetWithUserID) returns (ListProductResponse);
-  rpc GetOrderedProductsByUserID(GetWithUserID) returns (ListProductResponse);
-  
-  rpc LikeProduct(Like) returns (MoveResponse);
-  rpc SaveProduct(Save) returns (MoveResponse);
-  rpc StarProduct(Star) returns (MoveResponse);
-  rpc CommentToProduct(Comment) returns (MoveResponse);
-  
-  rpc GetDisableProducts(ListRequest) returns (ListOrderResponse);
-  rpc GetProductOrders(GetWithID) returns (ListOrderResponse);
-  rpc GetProductComments(GetWithID) returns (ListCommentResponse);
-  rpc GetProductLikes(GetWithID) returns (ListWishlistResponse);
-  rpc GetProductStars(GetWithID) returns (ListStarsResponse); 
+  rpc LikeProduct(Like) returns (MoveResponse); 
+  rpc UserWishlist(SearchRequest) returns (ListProduct); 
 
-  rpc GetAllComments(ListRequest) returns (ListCommentResponse);
-  rpc GetAllStars(ListRequest) returns (ListStarsResponse);
+  rpc SaveToBasket(Basket) returns (GetWithID);
+  rpc DeleteFromBasket(GetWithID) returns (MoveResponse);
+  rpc UpdateBasket(Basket) returns (Basket);
+  rpc ListBaskets(GetWithID) returns (ListBasket);
+
+  rpc CreateOrder(Order) returns (GetWithID); 
+  rpc GetOrder(GetWithID) returns (Order);
+  rpc DeleteOrder(GetWithID) returns (MoveResponse);
+  rpc UserOrderHistory(SearchRequest) returns (ListProduct);
 }

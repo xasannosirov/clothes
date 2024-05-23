@@ -19,6 +19,7 @@ type (
 		AgeMin      int64   `json:"age_min"`
 		AgeMax      int64   `json:"age_max"`
 		ForGender   string  `json:"for_gender"`
+		ImageURL    string  `json:"image_url"`
 	}
 
 	ProductReq struct {
@@ -38,86 +39,6 @@ type (
 
 	ListProduct struct {
 		Products []Product `json:"products"`
-		Total    uint64    `json:"total_count"`
-	}
-
-	Order struct {
-		ID      string  `json:"order_id"`
-		Product Product `json:"product"`
-		User    User    `json:"user"`
-		Status  string  `json:"status"`
-	}
-
-	OrderReq struct {
-		ProductID string `json:"product_id"`
-	}
-
-	ListOrder struct {
-		Orders []Order `json:"orders"`
-		Total  uint64  `json:"total_count"`
-	}
-
-	LikeReq struct {
-		ProductID string `json:"product_id"`
-	}
-
-	Like struct {
-		ID      string  `json:"like_id"`
-		Product Product `json:"product"`
-		User    User    `json:"user"`
-	}
-
-	ListLike struct {
-		Likes []Like `json:"likes"`
-		Total uint64 `json:"totol_count"`
-	}
-
-	SaveReq struct {
-		ProductID string `json:"product_id"`
-	}
-
-	Save struct {
-		ID      string  `json:"like_id"`
-		Product Product `json:"product"`
-		User    User    `json:"user"`
-	}
-
-	ListSaves struct {
-		Saves []Save `json:"saves"`
-		Total uint64 `json:"total_count"`
-	}
-
-	StarReq struct {
-		ProductID string `json:"product_id"`
-		Star      int16  `json:"star_count"`
-	}
-
-	Star struct {
-		ID      string  `json:"like_id"`
-		Product Product `json:"product"`
-		User    User    `json:"user"`
-		Star    int16   `json:"star_count"`
-	}
-
-	ListStar struct {
-		Stars []Star `json:"stars"`
-		Totol uint64 `json:"total_count"`
-	}
-
-	CommentReq struct {
-		ProductID string `json:"product_id"`
-		Comment   string `json:"comment_message"`
-	}
-
-	Comment struct {
-		ID      string  `json:"comment_id"`
-		Product Product `json:"product"`
-		User    User    `json:"user"`
-		Comment string  `json:"comment_message"`
-	}
-
-	ListComment struct {
-		Comments []Comment `json:"comments"`
 		Total    uint64    `json:"total_count"`
 	}
 

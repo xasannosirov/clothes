@@ -32,8 +32,6 @@ type RouteOption struct {
 }
 
 // NewRoute
-// @Title Online Clothes Store
-// @Description Contacs: https://t.me/xasannosirov
 // @securityDefinitions.apikey BearerAuth
 // @in 			header
 // @name 		Authorization
@@ -68,95 +66,57 @@ func NewRoute(option RouteOption) *gin.Engine {
 
 	apiV1 := router.Group("/v1")
 
-	// test
-	apiV1.GET("/test", HandlerV1.Test)
-
-	// login
+	// Auth
 	apiV1.POST("/register", HandlerV1.Register)
 	apiV1.POST("/login", HandlerV1.Login)
 	apiV1.POST("/forgot/:email", HandlerV1.Forgot)
 	apiV1.POST("/verify", HandlerV1.Verify)
 	apiV1.PUT("/reset-password", HandlerV1.ResetPassword)
-	apiV1.GET("/token/:refresh", HandlerV1.Token)
+	apiV1.PUT("/update-password", HandlerV1.UpdatePassword)
+	apiV1.GET("/token/:refresh", HandlerV1.NewToken)
+	apiV1.GET("/google/login", HandlerV1.GoogleLogin)
+	apiV1.GET("google/callback", HandlerV1.GoogleCallback)
 
-	// media
-	apiV1.POST("/media/upload-photo", HandlerV1.UploadMedia)
-	apiV1.GET("/media/:id", HandlerV1.GetMedia)
-	apiV1.DELETE("/media/:id", HandlerV1.DeleteMedia)
-
-	// users
+	// User
 	apiV1.POST("/user", HandlerV1.CreateUser)
 	apiV1.PUT("/user", HandlerV1.UpdateUser)
 	apiV1.DELETE("/user/:id", HandlerV1.DeleteUser)
 	apiV1.GET("/user/:id", HandlerV1.GetUser)
-	apiV1.GET("/del/user/:id", HandlerV1.GetDelUser)
 	apiV1.GET("/users", HandlerV1.ListUsers)
 
-	// workers
+	// Worker
 	apiV1.POST("/worker", HandlerV1.CreateWorker)
 	apiV1.PUT("/worker", HandlerV1.UpdateWorker)
 	apiV1.DELETE("/worker/:id", HandlerV1.DeleteWorker)
 	apiV1.GET("/worker/:id", HandlerV1.GetWorker)
 	apiV1.GET("/workers", HandlerV1.ListWorker)
 
-	// category
+	// Category
 	apiV1.POST("/category", HandlerV1.CreateCategory)
 	apiV1.PUT("/category", HandlerV1.UpdateCategory)
 	apiV1.DELETE("/category/:id", HandlerV1.DeleteCategory)
 	apiV1.GET("/category/:id", HandlerV1.GetCategory)
 	apiV1.GET("/categories", HandlerV1.ListCategory)
+	apiV1.GET("/category/search", HandlerV1.SearchCategory)
 
-	// products
+	// Product
 	apiV1.POST("/product", HandlerV1.CreateProduct)
 	apiV1.PUT("/product", HandlerV1.UpdateProduct)
 	apiV1.DELETE("/product/:id", HandlerV1.DeleteProduct)
 	apiV1.GET("/product/:id", HandlerV1.GetProduct)
 	apiV1.GET("/products", HandlerV1.ListProducts)
-	apiV1.GET("/del/product/:id", HandlerV1.GetDelProduct)
+	apiV1.GET("/products/discount", HandlerV1.GetDicountProducts)
 
-	// orders
-	apiV1.POST("/order", HandlerV1.CreateOrder)
-	apiV1.GET("/order/:id", HandlerV1.GetOrder)
-	apiV1.DELETE("/order/:id", HandlerV1.CancelOrder)
-	apiV1.GET("/orders", HandlerV1.ListOrders)
+	// Media
+	apiV1.POST("/media/upload-photo", HandlerV1.UploadMedia)
+	apiV1.GET("/media/:id", HandlerV1.GetMedia)
+	apiV1.DELETE("/media/:id", HandlerV1.DeleteMedia)
 
-	// pin products
-	apiV1.POST("/like-product", HandlerV1.LikeProduct)
-	apiV1.POST("/save-product", HandlerV1.SaveProduct)
-	apiV1.POST("/star-product", HandlerV1.StarToProduct)
-	apiV1.POST("/comment-product", HandlerV1.CommentToProduct)
+	// Wishlist
+	apiV1.POST("/like/:id", HandlerV1.LikeProduct)
+	apiV1.GET("/wishlist", HandlerV1.UserWishlist)
 
-	// list
-	apiV1.GET("/comments", HandlerV1.GetAllComments)
-	apiV1.GET("/stars", HandlerV1.GetAllStars)
-
-	// list with product
-	apiV1.GET("/product/orders/:id", HandlerV1.GetProductOrders)
-	apiV1.GET("/product/comments/:id", HandlerV1.GetProductComments)
-	apiV1.GET("/product/likes/:id", HandlerV1.GetProductLikes)
-	apiV1.GET("/product/stars/:id", HandlerV1.GetProductStars)
-
-	// list with user
-	apiV1.GET("/user/save/:id", HandlerV1.GetUserSavedProducts)
-	apiV1.GET("/user/likes/:id", HandlerV1.GetUserLikesProducts)
-	apiV1.GET("/user/orders/:id", HandlerV1.GetUserOrderedProducts)
-
-	// another
-	apiV1.GET("/search/:name", HandlerV1.SearchProduct)
-	apiV1.GET("/recommendation", HandlerV1.RecommendProducts)
-	apiV1.GET("/disable-orders", HandlerV1.GetDisableProducts)
-
-	//basket
-	apiV1.POST("/basket", HandlerV1.SaveToBasket)
-	apiV1.DELETE("/basket/:id", HandlerV1.DeleteFromBasket)
-	apiV1.GET("/basket/:id", HandlerV1.GetBasketProduct)
-	apiV1.GET("/baskets", HandlerV1.GetBasketProducts)
-
-	//google 
-	apiV1.GET("/google/login", HandlerV1.GoogleLogin)
-	apiV1.GET("google/callback", HandlerV1.GoogleCallback)
-
-
+	// Basket, Stats, Payment, Order ...
 
 	url := ginSwagger.URL("swagger/doc.json")
 	apiV1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))

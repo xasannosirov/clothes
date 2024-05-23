@@ -1,4 +1,4 @@
-package v1
+package regtool
 
 import (
 	"golang.org/x/crypto/bcrypt"

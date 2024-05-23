@@ -2,7 +2,9 @@ package v1
 
 import (
 	"api-gateway/api/models"
+	"api-gateway/genproto/media_service"
 	"api-gateway/genproto/product_service"
+	"api-gateway/internal/pkg/query_parameter"
 	"context"
 	"log"
 	"net/http"
@@ -275,7 +277,7 @@ func (h *HandlerV1) ListCategory(c *gin.Context) {
 		return
 	}
 
-	listCategories, err := h.Service.ProductService().GetAllCategory(ctx, &product_service.ListRequest{
+	listCategories, err := h.Service.ProductService().ListCategories(ctx, &product_service.ListRequest{
 		Page:  int64(pageInt),
 		Limit: int64(limitInt),
 	})
@@ -299,4 +301,83 @@ func (h *HandlerV1) ListCategory(c *gin.Context) {
 		Categories: categories,
 		Total:      listCategories.TotalCount,
 	})
+}
+
+// @Security 		BearerAuth
+// @Summary 		Search Category
+// @Description 	This api search products with category
+// @Tags			category
+// @Accept 			application/json
+// @Produce 		applocation/json
+// @Param			page query uint64 true "Page"
+// @Param			limit query uint64 true "Limit"
+// @Param			name query string true "Category Name"
+// @Success 		200 {object} models.ListProduct
+// @Failure 		400 {object} models.Error
+// @Failure 		401 {object} models.Error
+// @Failure 		403 {object} models.Error
+// @Failure 		404 {object} models.Error
+// @Failure 		500 {object} models.Error
+// @Router			/v1/category/search [GET]
+func (h *HandlerV1) SearchCategory(c *gin.Context) {
+	duration, err := time.ParseDuration(h.Config.Context.Timeout)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: models.InternalMessage,
+		})
+		log.Println(err.Error())
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), duration)
+	defer cancel()
+
+	categoryName := c.Query("name")
+	parameters := query_parameter.New(c.Request.URL.Query())
+
+	products, err := h.Service.ProductService().SearchCategory(ctx, &product_service.SearchRequest{
+		Page:  parameters.GetPage(),
+		Limit: parameters.GetLimit(),
+		Params: map[string]string{
+			"name": categoryName,
+		},
+	})
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, models.Error{
+			Message: models.NotFoundMessage,
+		})
+		log.Println(err.Error())
+		return
+	}
+
+	var respsonse models.ListProduct
+	for _, serviceProduct := range products.Products {
+		media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
+			Id: serviceProduct.Id,
+		})
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		respsonse.Products = append(respsonse.Products, models.Product{
+			ID:          serviceProduct.Id,
+			Name:        serviceProduct.Name,
+			Category:    serviceProduct.Category,
+			Description: serviceProduct.Description,
+			MadeIn:      serviceProduct.MadeIn,
+			Color:       serviceProduct.Color,
+			Size:        serviceProduct.ProductSize,
+			Count:       serviceProduct.Count,
+			Cost:        float64(serviceProduct.Cost),
+			Discount:    float64(serviceProduct.Discount),
+			AgeMin:      serviceProduct.AgeMin,
+			AgeMax:      serviceProduct.AgeMax,
+			ForGender:   serviceProduct.ForGender,
+			ImageURL:    media.Images[0].ImageUrl,
+		})
+	}
+	respsonse.Total = products.TotalCount
+
+	c.JSON(http.StatusOK, respsonse)
 }

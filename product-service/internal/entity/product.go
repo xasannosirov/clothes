@@ -1,8 +1,9 @@
 package entity
 
-import (
-	"time"
-)
+type Category struct {
+	ID   string
+	Name string
+}
 
 type Product struct {
 	Id          string
@@ -18,46 +19,37 @@ type Product struct {
 	AgeMax      int64
 	ForGender   string
 	Size        int64
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
 }
 
-type ListProduct struct {
-	Products   []*Product
-	TotalCount uint64
-}
-
-type Filter struct {
-	Name string
+type Basket struct {
+	ID        string
+	ProductID string
+	UserID    string
+	Count     uint64
 }
 
 type Order struct {
 	Id        string
 	ProductID string
 	UserID    string
+	Count     uint64
 	Status    string
-	CreatedAt time.Time
-	UpdatedAt time.Time
 }
 
-type ListOrders struct {
-	Orders     []*Order
-	TotalCount uint64
+type Like struct {
+	Id        string
+	ProductID string
+	UserID    string
 }
 
-type Recom struct {
-	Gender string
-	Age    uint8
+type Params struct {
+	Filter map[string]string
 }
 
-type MoveResponse struct {
-	Status bool
-}
-
-type ListProductRequest struct {
-	Page  uint64
-	Limit uint64
-	Name  string
+type SearchRequest struct {
+	Page   uint64
+	Limit  uint64
+	Params map[string]string
 }
 
 type ListRequest struct {
@@ -65,73 +57,39 @@ type ListRequest struct {
 	Limit int64
 }
 
+type MoveResponse struct {
+	Status bool
+}
+
 type GetWithID struct {
 	ID string
 }
 
-type DeleteResponse struct {
-	Status bool
+type StatsResponse struct {
+	Stats []struct {
+		Product Product
+		Rating  uint64
+	}
 }
 
-type LikeProduct struct {
-	Id        string
-	ProductID string
-	UserID    string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+type ListBasket struct {
+	Baskets    []*Basket
+	TotalCount uint64
+}
+
+type ListProduct struct {
+	Products   []*Product
+	TotalCount uint64
+}
+
+type ListOrders struct {
+	Orders     []*Order
+	TotalCount uint64
 }
 
 type ListLikes struct {
-	Likes      []*LikeProduct
+	Likes      []*Like
 	TotalCount uint64
-}
-
-type SaveProduct struct {
-	Id        string
-	ProductID string
-	UserID    string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-}
-
-type ListSaves struct {
-	Saves      []*SaveProduct
-	TotalCount uint64
-}
-
-type CommentToProduct struct {
-	Id        string
-	ProductID string
-	UserID    string
-	Comment   string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-}
-
-type ListComments struct {
-	Comments   []*CommentToProduct
-	TotalCount uint64
-}
-
-type StarProduct struct {
-	Id        string
-	ProductID string
-	UserID    string
-	Stars     int64
-	CreatedAt time.Time
-	UpdatedAt time.Time
-}
-
-type ListStars struct {
-	Stars      []*StarProduct
-	TotalCount uint64
-}
-
-type Category struct {
-	ID        string
-	Name      string
-	CreatedAt time.Time
-	UpdatedAt time.Time
 }
 
 type LiestCategory struct {

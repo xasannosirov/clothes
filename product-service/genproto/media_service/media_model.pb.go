@@ -26,8 +26,9 @@ type Media struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	ProductId            string   `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
 	ImageUrl             string   `protobuf:"bytes,3,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
-	CreatedAt            string   `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt            string   `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	FileName             string   `protobuf:"bytes,4,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
+	CreatedAt            string   `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt            string   `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -83,6 +84,13 @@ func (m *Media) GetProductId() string {
 func (m *Media) GetImageUrl() string {
 	if m != nil {
 		return m.ImageUrl
+	}
+	return ""
+}
+
+func (m *Media) GetFileName() string {
+	if m != nil {
+		return m.FileName
 	}
 	return ""
 }
@@ -148,53 +156,6 @@ func (m *MediaWithID) GetId() string {
 	return ""
 }
 
-type MediaWithProductID struct {
-	ProductId            string   `protobuf:"bytes,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *MediaWithProductID) Reset()         { *m = MediaWithProductID{} }
-func (m *MediaWithProductID) String() string { return proto.CompactTextString(m) }
-func (*MediaWithProductID) ProtoMessage()    {}
-func (*MediaWithProductID) Descriptor() ([]byte, []int) {
-	return fileDescriptor_af9ec23b75e9f146, []int{2}
-}
-func (m *MediaWithProductID) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MediaWithProductID) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MediaWithProductID.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MediaWithProductID) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MediaWithProductID.Merge(m, src)
-}
-func (m *MediaWithProductID) XXX_Size() int {
-	return m.Size()
-}
-func (m *MediaWithProductID) XXX_DiscardUnknown() {
-	xxx_messageInfo_MediaWithProductID.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MediaWithProductID proto.InternalMessageInfo
-
-func (m *MediaWithProductID) GetProductId() string {
-	if m != nil {
-		return m.ProductId
-	}
-	return ""
-}
-
 type DeleteMediaResponse struct {
 	Status               bool     `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -206,7 +167,7 @@ func (m *DeleteMediaResponse) Reset()         { *m = DeleteMediaResponse{} }
 func (m *DeleteMediaResponse) String() string { return proto.CompactTextString(m) }
 func (*DeleteMediaResponse) ProtoMessage()    {}
 func (*DeleteMediaResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_af9ec23b75e9f146, []int{3}
+	return fileDescriptor_af9ec23b75e9f146, []int{2}
 }
 func (m *DeleteMediaResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -253,7 +214,7 @@ func (m *ProductImages) Reset()         { *m = ProductImages{} }
 func (m *ProductImages) String() string { return proto.CompactTextString(m) }
 func (*ProductImages) ProtoMessage()    {}
 func (*ProductImages) Descriptor() ([]byte, []int) {
-	return fileDescriptor_af9ec23b75e9f146, []int{4}
+	return fileDescriptor_af9ec23b75e9f146, []int{3}
 }
 func (m *ProductImages) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -292,7 +253,6 @@ func (m *ProductImages) GetImages() []*Media {
 func init() {
 	proto.RegisterType((*Media)(nil), "media_service.Media")
 	proto.RegisterType((*MediaWithID)(nil), "media_service.MediaWithID")
-	proto.RegisterType((*MediaWithProductID)(nil), "media_service.MediaWithProductID")
 	proto.RegisterType((*DeleteMediaResponse)(nil), "media_service.DeleteMediaResponse")
 	proto.RegisterType((*ProductImages)(nil), "media_service.ProductImages")
 }
@@ -300,25 +260,25 @@ func init() {
 func init() { proto.RegisterFile("media_model.proto", fileDescriptor_af9ec23b75e9f146) }
 
 var fileDescriptor_af9ec23b75e9f146 = []byte{
-	// 284 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x91, 0xc1, 0x4a, 0xc3, 0x40,
-	0x10, 0x86, 0xdd, 0xd6, 0x86, 0x66, 0x4a, 0x05, 0x57, 0x29, 0x01, 0x69, 0x90, 0x9c, 0x72, 0xd0,
-	0x08, 0xf6, 0xec, 0xa1, 0x92, 0x4b, 0x0f, 0x82, 0x04, 0x44, 0xf0, 0x12, 0x62, 0x76, 0xa8, 0x0b,
-	0x49, 0x13, 0x76, 0x27, 0xbe, 0x87, 0x37, 0x1f, 0xc9, 0xa3, 0x8f, 0x20, 0xf1, 0x45, 0x24, 0x9b,
-	0xad, 0xd0, 0x1c, 0xf3, 0xfd, 0xf3, 0x0f, 0xdf, 0x64, 0xe1, 0xb4, 0x44, 0x21, 0xb3, 0xb4, 0xac,
-	0x04, 0x16, 0x51, 0xad, 0x2a, 0xaa, 0xf8, 0xbc, 0x47, 0x1a, 0xd5, 0xbb, 0xcc, 0x31, 0xf8, 0x60,
-	0x30, 0x79, 0xe8, 0x08, 0x3f, 0x81, 0x91, 0x14, 0x1e, 0xbb, 0x64, 0xa1, 0x9b, 0x8c, 0xa4, 0xe0,
-	0x4b, 0x80, 0x5a, 0x55, 0xa2, 0xc9, 0x29, 0x95, 0xc2, 0x1b, 0x19, 0xee, 0x5a, 0xb2, 0x11, 0xfc,
-	0x02, 0x5c, 0x59, 0x66, 0x5b, 0x4c, 0x1b, 0x55, 0x78, 0x63, 0x93, 0x4e, 0x0d, 0x78, 0x52, 0x45,
-	0xd7, 0xcd, 0x15, 0x66, 0x84, 0x22, 0xcd, 0xc8, 0x3b, 0xee, 0xbb, 0x96, 0xac, 0xa9, 0x8b, 0x9b,
-	0x5a, 0xec, 0xe3, 0x49, 0x1f, 0x5b, 0xb2, 0xa6, 0x60, 0x09, 0x33, 0xa3, 0xf4, 0x2c, 0xe9, 0x6d,
-	0x13, 0x0f, 0xc5, 0x82, 0x15, 0xf0, 0xff, 0xf8, 0xd1, 0xfa, 0xc4, 0x03, 0x5d, 0x36, 0xd0, 0x0d,
-	0xae, 0xe1, 0x2c, 0xc6, 0x02, 0x09, 0x4d, 0x35, 0x41, 0x5d, 0x57, 0x3b, 0x8d, 0x7c, 0x01, 0x8e,
-	0xa6, 0x8c, 0x1a, 0x6d, 0x1a, 0xd3, 0xc4, 0x7e, 0x05, 0x77, 0x30, 0xdf, 0xaf, 0xee, 0x6e, 0xd2,
-	0xfc, 0x0a, 0x1c, 0x73, 0x5d, 0x37, 0x38, 0x0e, 0x67, 0xb7, 0xe7, 0xd1, 0xc1, 0x7f, 0x8c, 0xfa,
-	0xb5, 0x76, 0xe6, 0x3e, 0xfc, 0x6a, 0x7d, 0xf6, 0xdd, 0xfa, 0xec, 0xa7, 0xf5, 0xd9, 0xe7, 0xaf,
-	0x7f, 0xf4, 0xb2, 0xd8, 0xe2, 0xce, 0x3c, 0xc0, 0xcd, 0x41, 0xef, 0xd5, 0x31, 0x70, 0xf5, 0x17,
-	0x00, 0x00, 0xff, 0xff, 0x4f, 0x2d, 0x50, 0xe1, 0xaa, 0x01, 0x00, 0x00,
+	// 287 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x90, 0xcb, 0x4a, 0xc3, 0x40,
+	0x14, 0x86, 0x9d, 0xd6, 0x86, 0xe6, 0x94, 0x0a, 0x8e, 0x52, 0x02, 0xd2, 0x20, 0x59, 0x65, 0xa1,
+	0x11, 0x74, 0xed, 0xa2, 0xd2, 0x4d, 0x17, 0x8a, 0x04, 0x44, 0x70, 0x13, 0xc6, 0xcc, 0xb1, 0x0e,
+	0xe4, 0xc6, 0xcc, 0xc4, 0x67, 0xf1, 0x29, 0x7c, 0x0e, 0x97, 0x3e, 0x82, 0xc4, 0x17, 0x91, 0xb9,
+	0xb8, 0xa8, 0xcb, 0xf9, 0xbe, 0x7f, 0x0e, 0xff, 0x39, 0x70, 0x58, 0x23, 0x17, 0xac, 0xa8, 0x5b,
+	0x8e, 0x55, 0xd6, 0xc9, 0x56, 0xb7, 0x74, 0xee, 0x90, 0x42, 0xf9, 0x26, 0x4a, 0x4c, 0x3e, 0x08,
+	0x4c, 0x6e, 0x0d, 0xa1, 0x07, 0x30, 0x12, 0x3c, 0x22, 0xa7, 0x24, 0x0d, 0xf3, 0x91, 0xe0, 0x74,
+	0x09, 0xd0, 0xc9, 0x96, 0xf7, 0xa5, 0x2e, 0x04, 0x8f, 0x46, 0x96, 0x87, 0x9e, 0x6c, 0x38, 0x3d,
+	0x81, 0x50, 0xd4, 0x6c, 0x8b, 0x45, 0x2f, 0xab, 0x68, 0x6c, 0xed, 0xd4, 0x82, 0x07, 0x59, 0x19,
+	0xf9, 0x22, 0x2a, 0x2c, 0x1a, 0x56, 0x63, 0xb4, 0xef, 0xa4, 0x01, 0x77, 0xac, 0x46, 0x33, 0xb8,
+	0x94, 0xc8, 0x34, 0xf2, 0x82, 0xe9, 0x68, 0xe2, 0x06, 0x7b, 0xb2, 0xd2, 0x46, 0xf7, 0x1d, 0xff,
+	0xd3, 0x81, 0xd3, 0x9e, 0xac, 0x74, 0xb2, 0x84, 0x99, 0xed, 0xfb, 0x28, 0xf4, 0xeb, 0x66, 0xfd,
+	0xbf, 0x75, 0x72, 0x0e, 0x47, 0x6b, 0xac, 0x50, 0xa3, 0x0d, 0xe5, 0xa8, 0xba, 0xb6, 0x51, 0x48,
+	0x17, 0x10, 0x28, 0xcd, 0x74, 0xaf, 0x6c, 0x74, 0x9a, 0xfb, 0x57, 0x72, 0x0d, 0xf3, 0x7b, 0xbf,
+	0x92, 0xe9, 0xae, 0xe8, 0x19, 0x04, 0x76, 0x0b, 0x13, 0x1c, 0xa7, 0xb3, 0xcb, 0xe3, 0x6c, 0xe7,
+	0x5e, 0x99, 0x1b, 0xeb, 0x33, 0x37, 0xe9, 0xe7, 0x10, 0x93, 0xaf, 0x21, 0x26, 0xdf, 0x43, 0x4c,
+	0xde, 0x7f, 0xe2, 0xbd, 0xa7, 0xc5, 0x16, 0x1b, 0x7b, 0xe8, 0x8b, 0x9d, 0x7f, 0xcf, 0x81, 0x85,
+	0x57, 0xbf, 0x01, 0x00, 0x00, 0xff, 0xff, 0x6c, 0x1b, 0xad, 0x6b, 0x92, 0x01, 0x00, 0x00,
 }
 
 func (m *Media) Marshal() (dAtA []byte, err error) {
@@ -350,12 +310,19 @@ func (m *Media) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.UpdatedAt)
 		i = encodeVarintMediaModel(dAtA, i, uint64(len(m.UpdatedAt)))
 		i--
-		dAtA[i] = 0x2a
+		dAtA[i] = 0x32
 	}
 	if len(m.CreatedAt) > 0 {
 		i -= len(m.CreatedAt)
 		copy(dAtA[i:], m.CreatedAt)
 		i = encodeVarintMediaModel(dAtA, i, uint64(len(m.CreatedAt)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if len(m.FileName) > 0 {
+		i -= len(m.FileName)
+		copy(dAtA[i:], m.FileName)
+		i = encodeVarintMediaModel(dAtA, i, uint64(len(m.FileName)))
 		i--
 		dAtA[i] = 0x22
 	}
@@ -411,40 +378,6 @@ func (m *MediaWithID) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.Id)
 		copy(dAtA[i:], m.Id)
 		i = encodeVarintMediaModel(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MediaWithProductID) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MediaWithProductID) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MediaWithProductID) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.XXX_unrecognized != nil {
-		i -= len(m.XXX_unrecognized)
-		copy(dAtA[i:], m.XXX_unrecognized)
-	}
-	if len(m.ProductId) > 0 {
-		i -= len(m.ProductId)
-		copy(dAtA[i:], m.ProductId)
-		i = encodeVarintMediaModel(dAtA, i, uint64(len(m.ProductId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -558,6 +491,10 @@ func (m *Media) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMediaModel(uint64(l))
 	}
+	l = len(m.FileName)
+	if l > 0 {
+		n += 1 + l + sovMediaModel(uint64(l))
+	}
 	l = len(m.CreatedAt)
 	if l > 0 {
 		n += 1 + l + sovMediaModel(uint64(l))
@@ -579,22 +516,6 @@ func (m *MediaWithID) Size() (n int) {
 	var l int
 	_ = l
 	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovMediaModel(uint64(l))
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
-
-func (m *MediaWithProductID) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.ProductId)
 	if l > 0 {
 		n += 1 + l + sovMediaModel(uint64(l))
 	}
@@ -770,6 +691,38 @@ func (m *Media) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMediaModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMediaModel
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMediaModel
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FileName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CreatedAt", wireType)
 			}
 			var stringLen uint64
@@ -800,7 +753,7 @@ func (m *Media) Unmarshal(dAtA []byte) error {
 			}
 			m.CreatedAt = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 5:
+		case 6:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field UpdatedAt", wireType)
 			}
@@ -914,89 +867,6 @@ func (m *MediaWithID) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipMediaModel(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthMediaModel
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MediaWithProductID) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowMediaModel
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MediaWithProductID: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MediaWithProductID: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ProductId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMediaModel
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthMediaModel
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthMediaModel
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ProductId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

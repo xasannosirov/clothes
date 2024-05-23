@@ -1,18 +1,4 @@
 definitions:
-  models.Basket:
-    properties:
-      id:
-        type: string
-      productId:
-        type: string
-      userId:
-        type: string
-    type: object
-  models.BasketCeateReq:
-    properties:
-      productId:
-        type: string
-    type: object
   models.Category:
     properties:
       category_id:
@@ -25,41 +11,9 @@ definitions:
       category_name:
         type: string
     type: object
-  models.Comment:
-    properties:
-      comment_id:
-        type: string
-      comment_message:
-        type: string
-      product:
-        $ref: '#/definitions/models.Product'
-      user:
-        $ref: '#/definitions/models.User'
-    type: object
-  models.CommentReq:
-    properties:
-      comment_message:
-        type: string
-      product_id:
-        type: string
-    type: object
   models.Error:
     properties:
       message:
-        type: string
-    type: object
-  models.Like:
-    properties:
-      like_id:
-        type: string
-      product:
-        $ref: '#/definitions/models.Product'
-      user:
-        $ref: '#/definitions/models.User'
-    type: object
-  models.LikeReq:
-    properties:
-      product_id:
         type: string
     type: object
   models.ListProduct:
@@ -105,8 +59,6 @@ definitions:
         type: string
       last_name:
         type: string
-      password:
-        type: string
       phone_number:
         type: string
       refresh_token:
@@ -123,22 +75,6 @@ definitions:
       image_url:
         type: string
       productId:
-        type: string
-    type: object
-  models.Order:
-    properties:
-      order_id:
-        type: string
-      product:
-        $ref: '#/definitions/models.Product'
-      status:
-        type: string
-      user:
-        $ref: '#/definitions/models.User'
-    type: object
-  models.OrderReq:
-    properties:
-      product_id:
         type: string
     type: object
   models.Product:
@@ -160,6 +96,8 @@ definitions:
       discount:
         type: number
       for_gender:
+        type: string
+      image_url:
         type: string
       made_in:
         type: string
@@ -215,31 +153,6 @@ definitions:
         type: string
       new_password:
         type: string
-      otp:
-        type: string
-    type: object
-  models.SaveReq:
-    properties:
-      product_id:
-        type: string
-    type: object
-  models.Star:
-    properties:
-      like_id:
-        type: string
-      product:
-        $ref: '#/definitions/models.Product'
-      star_count:
-        type: integer
-      user:
-        $ref: '#/definitions/models.User'
-    type: object
-  models.StarReq:
-    properties:
-      product_id:
-        type: string
-      star_count:
-        type: integer
     type: object
   models.TokenResp:
     properties:
@@ -250,6 +163,16 @@ definitions:
       role:
         type: string
       user_id:
+        type: string
+    type: object
+  models.UpdatePassword:
+    properties:
+      confir_password:
+        type: string
+      new_passowd:
+        type: string
+      present_password:
+        description: user id form token
         type: string
     type: object
   models.User:
@@ -267,8 +190,6 @@ definitions:
       id:
         type: string
       last_name:
-        type: string
-      password:
         type: string
       phone_number:
         type: string
@@ -324,161 +245,12 @@ definitions:
         type: string
       last_name:
         type: string
-      password:
-        type: string
       phone_number:
         type: string
     type: object
 info:
   contact: {}
-  description: 'Contacs: https://t.me/xasannosirov'
-  title: Online Clothes Store
 paths:
-  /v1/basket:
-    post:
-      consumes:
-      - application/json
-      description: This API for create a new basket for product
-      parameters:
-      - description: Create Basket Model
-        in: body
-        name: order
-        required: true
-        schema:
-          $ref: '#/definitions/models.BasketCeateReq'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/models.Basket'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Save To Basket
-      tags:
-      - basket
-  /v1/basket/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: This API for delete a basket with id
-      parameters:
-      - description: Basket ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: boolean
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Delete Basket
-      tags:
-      - basket
-    get:
-      consumes:
-      - application/json
-      description: This API for getting a Basket with id
-      parameters:
-      - description: Basket ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Basket'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get Basket
-      tags:
-      - basket
-  /v1/baskets:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting Basket's list
-      parameters:
-      - description: Page
-        in: query
-        name: page
-        required: true
-        type: integer
-      - description: Limit
-        in: query
-        name: limit
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: List Basket
-      tags:
-      - basket
   /v1/categories:
     get:
       consumes:
@@ -659,47 +431,11 @@ paths:
       summary: Get Category
       tags:
       - category
-  /v1/comment-product:
-    post:
-      consumes:
-      - application/json
-      description: This API for write a comment to product by user
-      parameters:
-      - description: Comment Product Model
-        in: body
-        name: comment
-        required: true
-        schema:
-          $ref: '#/definitions/models.CommentReq'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            type: boolean
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Comment to Product
-      tags:
-      - pin
-  /v1/comments:
+  /v1/category/search:
     get:
       consumes:
       - application/json
-      description: This API for getting list of comments
+      description: This api search products with category
       parameters:
       - description: Page
         in: query
@@ -711,89 +447,22 @@ paths:
         name: limit
         required: true
         type: integer
+      - description: Category Name
+        in: query
+        name: name
+        required: true
+        type: string
       produces:
-      - application/json
+      - applocation/json
       responses:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/models.Comment'
-            type: array
+            $ref: '#/definitions/models.ListProduct'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: List Commnets
-      tags:
-      - list
-  /v1/del/product/{id}:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting a deleted product with product_id
-      parameters:
-      - description: Product ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Product'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get  Delete Product
-      tags:
-      - products
-  /v1/del/user/{id}:
-    get:
-      consumes:
-      - application/json
-      description: Api for getting a deleted user
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.User'
         "401":
           description: Unauthorized
           schema:
@@ -812,55 +481,9 @@ paths:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Get  Delete User
+      summary: Search Category
       tags:
-      - users
-  /v1/disable-orders:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting list of disable product
-      parameters:
-      - description: Page
-        in: query
-        name: page
-        required: true
-        type: integer
-      - description: Limit
-        in: query
-        name: limit
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Order'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: List Disable Products
-      tags:
-      - another
+      - category
   /v1/forgot/{email}:
     post:
       consumes:
@@ -887,13 +510,14 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
-      summary: Forget Password
+      summary: Forgot Password
       tags:
-      - registration
+      - auth
   /v1/google/callback:
     get:
-      description: Handles the callback from Google OAuth 2.0, exchanges code for
-        token and retrieves user info
+      description: |-
+        Handles the callback from Google OAuth 2.0,
+        exchanges code for token and retrieves user info
       parameters:
       - description: OAuth State
         in: query
@@ -933,21 +557,20 @@ paths:
           description: Redirect
           schema:
             type: string
-      summary: Redirect to Google for login
+      summary: Google Login
       tags:
       - auth
-  /v1/like-product:
+  /v1/like/{id}:
     post:
       consumes:
       - application/json
       description: This API for save likes a product by user
       parameters:
-      - description: Like Product Model
-        in: body
-        name: like
+      - description: Product ID
+        in: path
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/models.LikeReq'
+        type: string
       produces:
       - application/json
       responses:
@@ -971,7 +594,7 @@ paths:
       - BearerAuth: []
       summary: Like Product
       tags:
-      - pin
+      - wishlist
   /v1/login:
     post:
       consumes:
@@ -1005,7 +628,7 @@ paths:
             $ref: '#/definitions/models.Error'
       summary: Login
       tags:
-      - registration
+      - auth
   /v1/media/{id}:
     delete:
       consumes:
@@ -1092,153 +715,6 @@ paths:
       summary: Upload media
       tags:
       - media
-  /v1/order:
-    post:
-      consumes:
-      - application/json
-      description: This API for create a new order
-      parameters:
-      - description: Create Order Model
-        in: body
-        name: order
-        required: true
-        schema:
-          $ref: '#/definitions/models.OrderReq'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Create Order
-      tags:
-      - orders
-  /v1/order/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: This API for cancelling a order
-      parameters:
-      - description: Order ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Cancel Order
-      tags:
-      - orders
-    get:
-      consumes:
-      - application/json
-      description: This API for getting a order with id
-      parameters:
-      - description: Order ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Order'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get Order
-      tags:
-      - orders
-  /v1/orders:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting list of orders
-      parameters:
-      - description: Page
-        in: query
-        name: page
-        required: true
-        type: integer
-      - description: Limit
-        in: query
-        name: limit
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Order'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: List Orders
-      tags:
-      - orders
   /v1/product:
     post:
       consumes:
@@ -1379,170 +855,6 @@ paths:
       summary: Get Product
       tags:
       - products
-  /v1/product/comments/{id}:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting comments of product
-      parameters:
-      - description: Product ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Comment'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get Product Comments
-      tags:
-      - list with product
-  /v1/product/likes/{id}:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting likes of product
-      parameters:
-      - description: Product ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Order'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Like'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get Product Likes
-      tags:
-      - list with product
-  /v1/product/orders/{id}:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting orders of product
-      parameters:
-      - description: Product ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Order'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get Product Orders
-      tags:
-      - list with product
-  /v1/product/stars/{id}:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting stars of product
-      parameters:
-      - description: Product ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Star'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get Product Stars
-      tags:
-      - list with product
   /v1/products:
     get:
       consumes:
@@ -1587,20 +899,20 @@ paths:
       summary: List Products
       tags:
       - products
-  /v1/recommendation:
+  /v1/products/discount:
     get:
       consumes:
       - application/json
-      description: This API for searching products with name
+      description: This API returns discount products
       parameters:
-      - description: Gender
+      - description: Page
         in: query
-        name: gender
+        name: page
         required: true
-        type: string
-      - description: Age
+        type: integer
+      - description: Limit
         in: query
-        name: age
+        name: limit
         required: true
         type: integer
       produces:
@@ -1609,13 +921,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/models.Product'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
+            $ref: '#/definitions/models.ListProduct'
         "401":
           description: Unauthorized
           schema:
@@ -1624,15 +930,19 @@ paths:
           description: Forbidden
           schema:
             $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Recommandation Products
+      summary: Discount Products
       tags:
-      - another
+      - products
   /v1/register:
     post:
       consumes:
@@ -1648,10 +958,10 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            type: string
         "400":
           description: Bad Request
           schema:
@@ -1662,7 +972,7 @@ paths:
             $ref: '#/definitions/models.Error'
       summary: Register
       tags:
-      - registration
+      - auth
   /v1/reset-password:
     put:
       consumes:
@@ -1686,193 +996,17 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
       summary: Reset Password
       tags:
-      - registration
-  /v1/save-product:
-    post:
-      consumes:
-      - application/json
-      description: This API for saving a order by user
-      parameters:
-      - description: Save Product Model
-        in: body
-        name: save
-        required: true
-        schema:
-          $ref: '#/definitions/models.SaveReq'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            type: boolean
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Save Product
-      tags:
-      - pin
-  /v1/search/{name}:
-    get:
-      consumes:
-      - application/json
-      description: This API for searching products with name
-      parameters:
-      - description: Product Name
-        in: path
-        name: name
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Product'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Search Products
-      tags:
-      - another
-  /v1/star-product:
-    post:
-      consumes:
-      - application/json
-      description: This API for valuation a product with star by user
-      parameters:
-      - description: Star Product Model
-        in: body
-        name: star
-        required: true
-        schema:
-          $ref: '#/definitions/models.StarReq'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            type: boolean
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Star Product
-      tags:
-      - pin
-  /v1/stars:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting list of stars
-      parameters:
-      - description: Page
-        in: query
-        name: page
-        required: true
-        type: integer
-      - description: Limit
-        in: query
-        name: limit
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Star'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: List Stars
-      tags:
-      - list
-  /v1/test:
-    get:
-      consumes:
-      - application/json
-      description: API get user_id
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Test
-      tags:
-      - test
+      - auth
   /v1/token/{refresh}:
     get:
       consumes:
@@ -1899,17 +1033,53 @@ paths:
           description: Forbidden
           schema:
             $ref: '#/definitions/models.Error'
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
       summary: New Token
       tags:
-      - registration
+      - auth
+  /v1/update-password:
+    put:
+      description: This API for update password with
+      parameters:
+      - description: Update Password
+        in: body
+        name: info
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdatePassword'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Password
+      tags:
+      - auth
   /v1/user:
     post:
       consumes:
@@ -1945,8 +1115,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
       summary: Create User
       tags:
       - users
@@ -2066,129 +1234,6 @@ paths:
       summary: Get User
       tags:
       - users
-  /v1/user/likes/{id}:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting like products of user
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Product'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get User Likes Products
-      tags:
-      - list with user
-  /v1/user/orders/{id}:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting ordered products of user
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Product'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get User Ordered Products
-      tags:
-      - list with user
-  /v1/user/save/{id}:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting saved product of user
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Product'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get User Saved Products
-      tags:
-      - list with user
   /v1/users:
     get:
       consumes:
@@ -2266,7 +1311,47 @@ paths:
             $ref: '#/definitions/models.Error'
       summary: Verify OTP
       tags:
-      - registration
+      - auth
+  /v1/wishlist:
+    get:
+      consumes:
+      - application/json
+      description: This API for getting wishlist for user
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListProduct'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: User Wishlist
+      tags:
+      - wishlist
   /v1/worker:
     post:
       consumes:

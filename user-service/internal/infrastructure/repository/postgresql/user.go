@@ -51,6 +51,7 @@ func (p usersRepo) Create(ctx context.Context, user *entity.User) (*entity.User,
 
 	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "CreateUser")
 	defer span.End()
+	fmt.Println(user.Age)
 
 	data := map[string]any{
 		"id":           user.GUID,

@@ -5,19 +5,14 @@ CURRENT_DIR=$(shell pwd)
 APP=product_service
 CMD_DIR=./cmd
 
-.DEFAULT_GOAL = build
-
-# run service
 .PHONY: run
 run:
 	go run ${CMD_DIR}/app/main.go
 
-# proto
 .PHONY: proto-gen
 proto-gen:
 	./scripts/gen-proto.sh
 
-# migrate
 .PHONY: create-migration
 create-migration:
 	migrate create -ext sql -dir migrations -seq "$(name)"

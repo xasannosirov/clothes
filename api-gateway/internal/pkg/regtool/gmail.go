@@ -1,4 +1,4 @@
-package v1
+package regtool
 
 import (
 	"api-gateway/api/models"
@@ -32,12 +32,11 @@ func SendCodeGmail(userEmail string, subject string, htmlpath string, cfg config
 	to := []string{userEmail}
 
 	if k.String() == "" {
-		fmt.Println("Error buffer")
+		log.Println("Error buffer")
 	}
 	mime := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
 	msg := []byte(fmt.Sprintf("Subject: %s", subject) + mime + k.String())
 	// Authentication.
-	fmt.Println(cfg.SMTP.Email, cfg.SMTP.EmailPassword, cfg.SMTP.SMTPHost)
 	auth := smtp.PlainAuth("", cfg.SMTP.Email, cfg.SMTP.EmailPassword, cfg.SMTP.SMTPHost)
 
 	// Sending email.
