@@ -360,6 +360,12 @@ func (h *HandlerV1) SearchCategory(c *gin.Context) {
 			log.Println(err.Error())
 		}
 
+		if len(media.Images) == 0 {
+			media.Images = append(media.Images, &media_service.Media{
+				ImageUrl: "",
+			})
+		}
+
 		respsonse.Products = append(respsonse.Products, models.Product{
 			ID:          serviceProduct.Id,
 			Name:        serviceProduct.Name,
