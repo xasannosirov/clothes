@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	pbm "api-gateway/genproto/media_service"
-	payment "api-gateway/genproto/payment_service"
 	pbp "api-gateway/genproto/product_service"
 	pbu "api-gateway/genproto/user_service"
 
@@ -18,7 +17,6 @@ type ServiceClient interface {
 	UserService() pbu.UserServiceClient
 	MediaService() pbm.MediaServiceClient
 	ProductService() pbp.ProductServiceClient
-	PaymentService() payment.PaymentServiceClient
 	Close()
 }
 
@@ -27,7 +25,6 @@ type serviceClient struct {
 	userService    pbu.UserServiceClient
 	mediaService   pbm.MediaServiceClient
 	productService pbp.ProductServiceClient
-	paymentService payment.PaymentServiceClient
 }
 
 func New(cfg *config.Config) (ServiceClient, error) {
@@ -58,23 +55,15 @@ func New(cfg *config.Config) (ServiceClient, error) {
 	if err != nil {
 		return nil, err
 	}
-	connPaymentService, err := grpc.Dial(
-		fmt.Sprintf("%s%s", cfg.PaymentServie.Host, cfg.PaymentServie.Port),
-		grpc.WithInsecure(),
-		grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor()),
-		grpc.WithStreamInterceptor(otelgrpc.StreamClientInterceptor()),
-	)
-	if err != nil {
-		return nil, err
-	}
 
 	return &serviceClient{
 		userService:    pbu.NewUserServiceClient(connUserService),
 		mediaService:   pbm.NewMediaServiceClient(connMediaService),
 		productService: pbp.NewProductServiceClient(connProductService),
-		paymentService: payment.NewPaymentServiceClient(connPaymentService),
 		connections: []*grpc.ClientConn{
 			connUserService,
+			connMediaService,
+			connProductService,
 		},
 	}, nil
 }
@@ -84,9 +73,6 @@ func (s *serviceClient) UserService() pbu.UserServiceClient {
 }
 func (s *serviceClient) MediaService() pbm.MediaServiceClient {
 	return s.mediaService
-}
-func (s *serviceClient) PaymentService() payment.PaymentServiceClient {
-	return s.paymentService
 }
 func (s *serviceClient) ProductService() pbp.ProductServiceClient {
 	return s.productService

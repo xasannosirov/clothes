@@ -90,7 +90,7 @@ func (p *productRPC) ListCategories(ctx context.Context, in *productproto.ListRe
 }
 
 func (p *productRPC) SearchCategory(ctx context.Context, in *productproto.SearchRequest) (*productproto.ListProduct, error) {
-	categories, err := p.productUsecase.SearchCategory(ctx, &entity.SearchRequest{
+	products, err := p.productUsecase.SearchCategory(ctx, &entity.SearchRequest{
 		Page:   in.Page,
 		Limit:  in.Limit,
 		Params: in.Params,
@@ -101,13 +101,24 @@ func (p *productRPC) SearchCategory(ctx context.Context, in *productproto.Search
 	}
 
 	var response productproto.ListProduct
-	for _, category := range categories.Products {
+	for _, product := range products.Products {
 		response.Products = append(response.Products, &productproto.Product{
-			Id:   category.Id,
-			Name: category.Name,
+			Id:          product.Id,
+			Name:        product.Name,
+			Description: product.Description,
+			Category:    product.Category,
+			MadeIn:      product.MadeIn,
+			Color:       product.Color,
+			Count:       product.Count,
+			Cost:        product.Cost,
+			Discount:    product.Discount,
+			AgeMin:      product.AgeMin,
+			AgeMax:      product.AgeMax,
+			ForGender:   product.ForGender,
+			ProductSize: product.Size,
 		})
 	}
-	response.TotalCount = categories.TotalCount
+	response.TotalCount = products.TotalCount
 
 	return &response, nil
 }
