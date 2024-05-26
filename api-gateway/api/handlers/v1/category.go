@@ -359,6 +359,11 @@ func (h *HandlerV1) SearchCategory(c *gin.Context) {
 		if err != nil {
 			log.Println(err.Error())
 		}
+		var imagesURL []string
+		for _, imageUrl := range media.Images {
+			imagesURL = append(imagesURL, imageUrl.ImageUrl)
+		}
+
 
 		if len(media.Images) == 0 {
 			media.Images = append(media.Images, &media_service.Media{
@@ -380,7 +385,7 @@ func (h *HandlerV1) SearchCategory(c *gin.Context) {
 			AgeMin:      serviceProduct.AgeMin,
 			AgeMax:      serviceProduct.AgeMax,
 			ForGender:   serviceProduct.ForGender,
-			ImageURL:    media.Images[0].ImageUrl,
+			ImageURL:    imagesURL,
 		})
 	}
 	respsonse.Total = products.TotalCount

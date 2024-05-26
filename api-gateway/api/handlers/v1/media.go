@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"path/filepath"
 	"time"
 
@@ -21,7 +20,7 @@ import (
 
 // @Security        BearerAuth
 // @Summary 		Upload media
-// @Description 	Through this api frontent can upload photo and get the link to the media.
+// @Description 	Through this API, frontend can upload a photo and get the link to the media.
 // @Tags 			media
 // @Accept 			multipart/form-data
 // @Produce         json
@@ -51,13 +50,16 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 		Secure: false,
 	})
 	if err != nil {
-		panic(err)
+		c.JSON(http.StatusInternalServerError, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
 	}
+
 	err = minioClient.MakeBucket(ctx, bucketName, minio.MakeBucketOptions{})
 	if err != nil {
-		if minio.ToErrorResponse(err).Code == "BucketAlreadyOwnedByYou" {
-
-		} else {
+		if minio.ToErrorResponse(err).Code != "BucketAlreadyOwnedByYou" {
 			c.JSON(http.StatusInternalServerError, models.Error{
 				Message: err.Error(),
 			})
@@ -91,8 +93,7 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 
 	productId := c.Query("id")
 
-	file := &models.File{}
-	err = c.ShouldBind(&file)
+	file, err := c.FormFile("file")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
@@ -101,14 +102,14 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 		return
 	}
 
-	if file.File.Size > 10<<20 {
+	if file.Size > 10<<20 {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: "File size cannot be larger than 10 MB",
 		})
 		return
 	}
 
-	ext := filepath.Ext(file.File.Filename)
+	ext := filepath.Ext(file.Filename)
 
 	if ext != ".png" && ext != ".jpg" && ext != ".svg" && ext != ".jpeg" {
 		c.JSON(http.StatusBadRequest, models.Error{
@@ -117,26 +118,20 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 		return
 	}
 
-	uploadDir := "./media"
-	if _, err := os.Stat(uploadDir); os.IsNotExist(err) {
-		os.Mkdir(uploadDir, os.ModePerm)
-	}
-
 	id := uuid.New().String()
-
 	newFilename := id + ext
-	uploadPath := filepath.Join(uploadDir, newFilename)
 
-	if err := c.SaveUploadedFile(file.File, uploadPath); err != nil {
+	fileContent, err := file.Open()
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
-		log.Println(err)
+		log.Println(err.Error())
 		return
 	}
+	defer fileContent.Close()
 
-	objectName := newFilename
-	_, err = minioClient.FPutObject(ctx, bucketName, objectName, uploadPath, minio.PutObjectOptions{
+	_, err = minioClient.PutObject(ctx, bucketName, newFilename, fileContent, file.Size, minio.PutObjectOptions{
 		ContentType: "image/jpeg",
 	})
 
@@ -144,22 +139,23 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
-		log.Println(err)
+		log.Println(err.Error())
 		return
 	}
 
-	minioURL := fmt.Sprintf("http://%s/%s/%s", endpoint, bucketName, objectName)
+	minioURL := fmt.Sprintf("http://%s/%s/%s", endpoint, bucketName, newFilename)
+	
 	_, err = h.Service.MediaService().Create(ctx, &pbm.Media{
 		Id:        id,
 		ProductId: productId,
 		ImageUrl:  minioURL,
-		FileName:  file.File.Filename,
+		FileName:  file.Filename,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
-		log.Println(err)
+		log.Println(err.Error())
 		return
 	}
 

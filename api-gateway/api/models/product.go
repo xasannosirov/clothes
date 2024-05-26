@@ -19,7 +19,7 @@ type (
 		AgeMin      int64   `json:"age_min"`
 		AgeMax      int64   `json:"age_max"`
 		ForGender   string  `json:"for_gender"`
-		ImageURL    string  `json:"image_url"`
+		ImageURL    []string  `json:"image_url"`
 	}
 
 	ProductReq struct {
