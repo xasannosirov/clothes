@@ -254,8 +254,13 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 	media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 		Id: productID,
 	})
+	
 	if err != nil {
 		log.Println(err.Error())
+	}
+	var imagesURL []string
+	for _, imageUrl := range media.Images{
+		imagesURL = append(imagesURL, imageUrl.ImageUrl)
 	}
 
 	if len(media.Images) == 0 {
@@ -278,7 +283,7 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 		AgeMin:      product.AgeMin,
 		AgeMax:      product.AgeMax,
 		ForGender:   product.ForGender,
-		ImageURL:    media.Images[0].ImageUrl,
+		ImageURL:    imagesURL,
 	})
 }
 
@@ -374,6 +379,11 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 			log.Println(err.Error())
 		}
 
+		var imagesURL []string
+		for _, imageUrl := range media.Images {
+			imagesURL = append(imagesURL, imageUrl.ImageUrl)
+		}
+
 		if len(media.Images) == 0 {
 			media.Images = append(media.Images, &media_service.Media{
 				ImageUrl: "",
@@ -394,7 +404,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 			AgeMin:      product.AgeMin,
 			AgeMax:      product.AgeMax,
 			ForGender:   product.ForGender,
-			ImageURL:    media.Images[0].ImageUrl,
+			ImageURL:    imagesURL,
 		})
 	}
 
@@ -453,6 +463,12 @@ func (h *HandlerV1) GetDicountProducts(c *gin.Context) {
 		if err != nil {
 			log.Println(err.Error())
 		}
+
+		var imagesURL []string
+		for _, imageUrl := range media.Images {
+			imagesURL = append(imagesURL, imageUrl.ImageUrl)
+		}
+
 		if len(media.Images) == 0 {
 			media.Images = append(media.Images, &media_service.Media{
 				ImageUrl: "",
@@ -472,7 +488,7 @@ func (h *HandlerV1) GetDicountProducts(c *gin.Context) {
 			AgeMin:      serviceProduct.AgeMin,
 			AgeMax:      serviceProduct.AgeMax,
 			ForGender:   serviceProduct.ForGender,
-			ImageURL:    media.Images[0].ImageUrl,
+			ImageURL:    imagesURL,
 		})
 	}
 	response.Total = products.TotalCount

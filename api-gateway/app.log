@@ -1,0 +1,5 @@
+2024-05-26T17:12:29.920+0500	INFO	app/main.go:30	Listen: 	{"address": "api:5555"}
+2024-05-26T17:12:29.921+0500	ERROR	app/main.go:32	app run	{"error": "listen tcp: lookup api on 127.0.0.53:53: server misbehaving"}
+main.main.func1
+	/home/abudlaziz/project/go/src/clothes/api-gateway/cmd/app/main.go:32
+2024-05-26T17:12:37.499+0500	INFO	app/main.go:41	api gateway service stops
