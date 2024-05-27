@@ -116,12 +116,12 @@ func NewConfig() (*Config, error) {
 	config.Token.Secret = getEnv("TOKEN_SECRET", "token_secret")
 
 	// access ttl parse
-	accessTTl, err := time.ParseDuration(getEnv("TOKEN_ACCESS_TTL", "3h"))
+	accessTTl, err := time.ParseDuration(getEnv("TOKEN_ACCESS_TTL", "180s"))
 	if err != nil {
 		return nil, err
 	}
 	// refresh ttl parse
-	refreshTTL, err := time.ParseDuration(getEnv("TOKEN_REFRESH_TTL", "24h"))
+	refreshTTL, err := time.ParseDuration(getEnv("TOKEN_REFRESH_TTL", "240h"))
 	if err != nil {
 		return nil, err
 	}
