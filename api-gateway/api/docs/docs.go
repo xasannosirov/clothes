@@ -604,7 +604,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Through this api frontent can upload photo and get the link to the media.",
+                "description": "Through this API, frontend can upload a photo and get the link to the media.",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -1656,6 +1656,57 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/verify/register": {
+            "post": {
+                "description": "Api for verify user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Verify User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "code",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/wishlist": {
             "get": {
                 "security": [
@@ -2183,7 +2234,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "made_in": {
                     "type": "string"

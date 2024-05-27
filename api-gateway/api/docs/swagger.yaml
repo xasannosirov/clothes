@@ -98,7 +98,9 @@ definitions:
       for_gender:
         type: string
       image_url:
-        type: string
+        items:
+          type: string
+        type: array
       made_in:
         type: string
       product_id:
@@ -686,8 +688,8 @@ paths:
     post:
       consumes:
       - multipart/form-data
-      description: Through this api frontent can upload photo and get the link to
-        the media.
+      description: Through this API, frontend can upload a photo and get the link
+        to the media.
       parameters:
       - description: Product ID
         in: query
@@ -1310,6 +1312,40 @@ paths:
           schema:
             $ref: '#/definitions/models.Error'
       summary: Verify OTP
+      tags:
+      - auth
+  /v1/verify/register:
+    post:
+      consumes:
+      - application/json
+      description: Api for verify user
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: code
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Verify User
       tags:
       - auth
   /v1/wishlist:
