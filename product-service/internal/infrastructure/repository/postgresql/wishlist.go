@@ -80,6 +80,7 @@ func (u *productRepo) UserWishlist(ctx context.Context, req *entity.SearchReques
 	queryBuilder = queryBuilder.
 		From(u.likesTable).
 		Where(squirrel.Eq{"user_id": req.Params["user_id"]}).
+		Where("deleted_at IS NULL").
 		OrderBy("created_at")
 
 	query, args, err := queryBuilder.ToSql()
@@ -87,30 +88,34 @@ func (u *productRepo) UserWishlist(ctx context.Context, req *entity.SearchReques
 		return nil, err
 	}
 
-	var like entity.Like
-	err = u.db.QueryRow(ctx, query, args[0]).Scan(&like.Id, &like.ProductID, &like.UserID)
-	if err != nil {
-		return nil, err
-	}
-
-	queryBuilder = u.productsSelectQueryPrefix()
-	queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"id": like.ProductID})
-
-	query, args, err = queryBuilder.ToSql()
-	if err != nil {
-		return nil, err
-	}
-
-	rows, err := u.db.Query(ctx, query, args[0])
+	var likes []*entity.Like
+	rows, err := u.db.Query(ctx, query, args...)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	products := entity.ListProduct{}
 	for rows.Next() {
+		var like entity.Like
+		if err := rows.Scan(&like.Id, &like.ProductID, &like.UserID); err != nil {
+			return nil, err
+		}
+
+		likes = append(likes, &like)
+	}
+
+	products := entity.ListProduct{}
+	for _, like := range likes {
+		queryBuilder = u.productsSelectQueryPrefix()
+		queryBuilder = queryBuilder.From(u.productTable).Where(squirrel.Eq{"id": like.ProductID})
+
+		query, args, err = queryBuilder.ToSql()
+		if err != nil {
+			return nil, err
+		}
+
 		var product entity.Product
-		if err = rows.Scan(
+		err = u.db.QueryRow(ctx, query, args...).Scan(
 			&product.Id,
 			&product.Name,
 			&product.Description,
@@ -124,7 +129,8 @@ func (u *productRepo) UserWishlist(ctx context.Context, req *entity.SearchReques
 			&product.AgeMax,
 			&product.ForGender,
 			&product.Size,
-		); err != nil {
+		)
+		if err != nil {
 			return nil, err
 		}
 
