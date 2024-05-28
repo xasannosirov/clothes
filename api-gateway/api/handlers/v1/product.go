@@ -8,8 +8,10 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"regexp"
 	"strconv"
 	"time"
+	"unicode"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -55,6 +57,46 @@ func (h *HandlerV1) CreateProduct(c *gin.Context) {
 		return
 	}
 
+	for i := 0; i < len(body.Color); i++ {
+		isAlpha := func (s string) bool {
+			for _, char := range s {
+				if !unicode.IsLetter(char) {
+					return false
+				}
+			}
+			return true
+		}(body.Color[i])
+
+		if len(body.Color[i]) < 3 || !isAlpha{
+			c.JSON(http.StatusBadRequest, models.Error{
+				Message: "color must be more than 3 only letters long",
+			})
+			log.Println("color must be more than 3 only letters long")
+			return
+		}
+	}
+
+	for i := 0; i < len(body.Size); i++ {
+		romanRegex := `^(?i)(M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))$`
+		matched, err := func(s string) (matched bool, err error) {
+			re, err := regexp.Compile(romanRegex)
+			if err != nil {
+				return false, err
+			}
+			return re.MatchString(s), nil
+		}(body.Size[i])
+		if err != nil {
+			return
+		}
+		if !matched {
+			c.JSON(http.StatusBadRequest, models.Error{
+				Message: "product size should be in Roman numerals only",
+			})
+			log.Println("product size should be in Roman numerals only")
+			return
+		}
+	}
+	
 	createdProductResponse, err := h.Service.ProductService().CreateProduct(ctx, &product_service.Product{
 		Name:        body.Name,
 		Description: body.Description,
