@@ -2,33 +2,50 @@ package postgresql
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"product-service/internal/entity"
 
 	"github.com/Masterminds/squirrel"
+	"github.com/lib/pq"
 )
 
 func (p *productRepo) IsUnique(ctx context.Context, tableName, UserId, ProductId string) (bool, error) {
+    if tableName == "wishlist"{
+		queryBuilder := p.db.Sq.Builder.Select("COUNT(1)").
+			From(tableName).
+			Where(squirrel.Eq{"user_id": UserId, "product_id": ProductId})
 
-	queryBuilder := p.db.Sq.Builder.Select("COUNT(1)").
-		From(tableName).
-		Where(squirrel.Eq{"user_id": UserId, "product_id": ProductId})
+		query, args, err := queryBuilder.ToSql()
 
-	query, args, err := queryBuilder.ToSql()
+		if err != nil {
+			return true, err
+		}
 
-	if err != nil {
-		return false, err
+		var count int
+
+		if err = p.db.QueryRow(ctx, query, args...).Scan(&count); err != nil {
+			return true, err
+		}
+		if count != 0 {
+			return true, nil
+		}
+		return false, nil
+	}else {
+		var existingProductIDs []string
+		err := p.db.QueryRow(ctx, `SELECT product_id FROM `+p.basketTable+` WHERE user_id = $1`, UserId).Scan(pq.Array(&existingProductIDs))
+		if err != nil && err != sql.ErrNoRows {
+			return true, err
+		}
+		var exists bool
+		for _, existingProductID := range existingProductIDs {
+			if existingProductID == ProductId {
+				exists = true
+				break
+			}
+		}
+		return exists, nil
 	}
-
-	var count int
-
-	if err = p.db.QueryRow(ctx, query, args...).Scan(&count); err != nil {
-		return false, err
-	}
-	if count != 0 {
-		return true, nil
-	}
-	return false, nil
 }
 
 func (p *productRepo) LikeProduct(ctx context.Context, req *entity.Like) (bool, error) {
@@ -77,11 +94,14 @@ func (p *productRepo) DeleteLikeProduct(ctx context.Context, userId, productId s
 
 func (u *productRepo) UserWishlist(ctx context.Context, req *entity.SearchRequest) (*entity.ListProduct, error) {
 	queryBuilder := u.likesSelectQueryPrefix()
+
+	offset := (req.Page - 1) * req.Limit
 	queryBuilder = queryBuilder.
 		From(u.likesTable).
 		Where(squirrel.Eq{"user_id": req.Params["user_id"]}).
 		Where("deleted_at IS NULL").
-		OrderBy("created_at")
+		OrderBy("created_at").
+		Limit(req.Limit).Offset(offset)
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -138,8 +158,8 @@ func (u *productRepo) UserWishlist(ctx context.Context, req *entity.SearchReques
 	}
 
 	var count uint64
-	total := `SELECT COUNT(user_id) FROM wishlist WHERE deleted_at IS NULL`
-	if err := u.db.QueryRow(ctx, total).Scan(&count); err != nil {
+	total := `SELECT COUNT(user_id) FROM wishlist WHERE deleted_at IS NULL and user_id = $1`
+	if err := u.db.QueryRow(ctx, total, req.Params["user_id"]).Scan(&count); err != nil {
 		return nil, err
 	}
 	products.TotalCount = count

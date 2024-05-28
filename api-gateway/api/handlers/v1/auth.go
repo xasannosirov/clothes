@@ -140,103 +140,102 @@ func (h *HandlerV1) Register(c *gin.Context) {
 func (h *HandlerV1) VerifyRegister(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(7))
 	defer cancel()
-  
+
 	code := c.Query("code")
 	email := c.Query("email")
-  
+
 	userData, err := h.redisStorage.Get(ctx, code)
 	if err != nil {
-	  c.JSON(http.StatusBadRequest, models.Error{
-		Message : err.Error(),
-	  })
-	  log.Println(err)
-	  return
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err)
+		return
 	}
 	var user models.UserRegister
-  
+
 	err = json.Unmarshal(userData, &user)
 	if err != nil {
-	  c.JSON(http.StatusBadRequest, models.Error{
-		Message: err.Error(),
-	  })
-	  log.Println(err)
-	  return
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err)
+		return
 	}
-  
+
 	if user.Email != email {
-	  c.JSON(http.StatusBadRequest, models.Error{
-		Message: "The email did not match ",
-	  })
-	  log.Println(err)
-	  return
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "The email did not match ",
+		})
+		log.Println(err)
+		return
 	}
-  
+
 	id := uuid.NewString()
-  
+
 	h.RefreshToken = token.JWTHandler{
-	  Sub:        id,
-	  Role:       "user",
-	  SigningKey: h.Config.Token.SignInKey,
-	  Log:        h.Logger,
-	  Email:      user.Email,
+		Sub:        id,
+		Role:       "user",
+		SigningKey: h.Config.Token.SignInKey,
+		Log:        h.Logger,
+		Email:      user.Email,
 	}
-  
+
 	access, refresh, err := h.RefreshToken.GenerateAuthJWT()
 	if err != nil {
-	  c.JSON(http.StatusConflict, models.Error{
-		Message: err.Error(),
-	  })
-	  log.Println(err)
-	  return
+		c.JSON(http.StatusConflict, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err)
+		return
 	}
-  
+
 	hashPassword, err := regtool.HashPassword(user.Password)
 	if err != nil {
-	  c.JSON(http.StatusBadGateway, models.Error{
-		Message: err.Error(),
-	  })
-	  log.Println(err)
-	  return
+		c.JSON(http.StatusBadGateway, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err)
+		return
 	}
-  
+
 	claims, err := token.ExtractClaim(access, []byte(h.Config.Token.SignInKey))
 	if err != nil {
-	  c.JSON(http.StatusBadGateway, models.Error{
-		Message: err.Error(),
-	  })
+		c.JSON(http.StatusBadGateway, models.Error{
+			Message: err.Error(),
+		})
 	}
-  
+
 	_, err = h.Service.UserService().CreateUser(ctx, &userserviceproto.User{
-	  Id:          id,
-	  FirstName:   user.FirstName,
-	  LastName:    user.LastName,
-	  Email:       user.Email,
-	  Password:    hashPassword,
-	  Gender:      user.Gender,
-	  Refresh:     refresh,
-	  Role:        cast.ToString(claims["role"]),
+		Id:        id,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Email:     user.Email,
+		Password:  hashPassword,
+		Gender:    user.Gender,
+		Refresh:   refresh,
+		Role:      cast.ToString(claims["role"]),
 	})
-  
+
 	respUser := &models.User{
-	  Id:          id,
-	  FirstName:   user.FirstName,
-	  LastName:    user.LastName,
-	  Email:       user.Email,
-	  Gender:      user.Gender,
-	  Access:      access,
-	  Refresh:     refresh,
+		Id:        id,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Email:     user.Email,
+		Gender:    user.Gender,
+		Access:    access,
+		Refresh:   refresh,
 	}
 	if err != nil {
-	  c.JSON(http.StatusBadRequest, models.Error{
-		Message : err.Error(),
-	  })
-	  log.Println(err)
-	  return
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err)
+		return
 	}
 	c.JSON(http.StatusCreated, respUser)
- 
+
 }
-  
 
 // @Summary 		Login
 // @Description 	Api for user user
@@ -251,7 +250,6 @@ func (h *HandlerV1) VerifyRegister(c *gin.Context) {
 // @Router 			/v1/login [POST]
 func (h *HandlerV1) Login(c *gin.Context) {
 	var body models.Login
-
 	duration, err := time.ParseDuration(h.Config.Context.Timeout)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Error{

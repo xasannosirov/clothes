@@ -83,6 +83,5 @@ func (u *productRepo) basketsSelectQueryPrefix() squirrel.SelectBuilder {
 	return u.db.Sq.Builder.Select(
 		"product_id",
 		"user_id",
-		"count",
 	).From(u.basketTable)
 }

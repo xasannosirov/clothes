@@ -28,10 +28,11 @@ type Product interface {
 
 	LikeProduct(ctx context.Context, req *entity.Like) (bool, error)
 	UserWishlist(ctx context.Context, req *entity.SearchRequest) (*entity.ListProduct, error)
+	IsUnique(ctx context.Context,tableName, userID, productID string) (bool, error)
 
 	SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.Basket, error)
 	DeleteFromBasket(ctx context.Context, userID string, productID string) error
-	GetBasket(ctx context.Context, req *entity.GetWithID) (*entity.Basket, error)
+	GetBasket(ctx context.Context, req *entity.GetBAsketReq) (*entity.Basket, error)
 
 	CreateOrder(ctx context.Context, req *entity.Order) (*entity.Order, error)
 	GetOrder(ctx context.Context, params map[string]string) (*entity.Order, error)
@@ -177,7 +178,7 @@ func (u productService) DeleteFromBasket(ctx context.Context, userID string, pro
 	return u.repo.DeleteFromBasket(ctx, userID, productID)
 }
 
-func (u productService) GetBasket(ctx context.Context, req *entity.GetWithID) (*entity.Basket, error) {
+func (u productService) GetBasket(ctx context.Context, req *entity.GetBAsketReq) (*entity.Basket, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
@@ -242,4 +243,11 @@ func (u *productService) UserOrderHistory(ctx context.Context, req *entity.Searc
 	defer cancel()
 
 	return u.repo.UserWishlist(ctx, req)
+}
+
+func (u *productService) IsUnique(ctx context.Context, tableName, userID, productID string) (bool, error){
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.repo.IsUnique(ctx, tableName, userID, productID)
 }

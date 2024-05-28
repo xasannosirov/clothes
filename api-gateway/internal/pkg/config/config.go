@@ -121,7 +121,7 @@ func NewConfig() (*Config, error) {
 		return nil, err
 	}
 	// refresh ttl parse
-	refreshTTL, err := time.ParseDuration(getEnv("TOKEN_REFRESH_TTL", "240h"))
+	refreshTTL, err := time.ParseDuration(getEnv("TOKEN_REFRESH_TTL", "24h"))
 	if err != nil {
 		return nil, err
 	}

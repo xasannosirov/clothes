@@ -67,7 +67,6 @@ CREATE TABLE wishlist (
 CREATE TABLE basket (
     user_id    UUID  PRIMARY KEY, 
     product_id UUID[],
-    count      BIGINT DEFAULT 1,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 

@@ -30,7 +30,7 @@ type Product interface {
 
 	SaveToBasket(ctx context.Context, basket *entity.BasketCreateReq) (*entity.Basket, error)
 	DeleteFromBasket(ctx context.Context, userID string, productID string) error
-	GetBasket(ctx context.Context, getReq *entity.GetWithID) (*entity.Basket, error)
+	GetBasket(ctx context.Context, getReq *entity.GetBAsketReq) (*entity.Basket, error)
 
 	CreateOrder(ctx context.Context, order *entity.Order) (*entity.Order, error)
 	GetOrder(ctx context.Context, params map[string]string) (*entity.Order, error)

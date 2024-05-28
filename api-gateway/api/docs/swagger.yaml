@@ -1,12 +1,12 @@
 definitions:
   models.Basket:
     properties:
-      count:
-        type: integer
       productId:
         items:
-          type: string
+          $ref: '#/definitions/models.Product'
         type: array
+      totalCount:
+        type: integer
       userId:
         type: string
     type: object
@@ -104,6 +104,8 @@ definitions:
         type: integer
       age_min:
         type: integer
+      basket:
+        type: boolean
       category_id:
         type: string
       color:
@@ -122,6 +124,8 @@ definitions:
         items:
           type: string
         type: array
+      liked:
+        type: boolean
       made_in:
         type: string
       product_id:
@@ -270,6 +274,50 @@ info:
   contact: {}
 paths:
   /v1/basket:
+    get:
+      consumes:
+      - application/json
+      description: This API for getting a Basket with id
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: Basket ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Basket'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Basket
+      tags:
+      - basket
     post:
       consumes:
       - application/json
@@ -303,75 +351,6 @@ paths:
       security:
       - BearerAuth: []
       summary: Save To Basket
-      tags:
-      - basket
-  /v1/basket/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: This API for delete a basket with id
-      parameters:
-      - description: Product ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: boolean
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Delete Basket
-      tags:
-      - basket
-    get:
-      consumes:
-      - application/json
-      description: This API for getting a Basket with id
-      parameters:
-      - description: Basket ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Basket'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get Basket
       tags:
       - basket
   /v1/categories:
@@ -409,8 +388,6 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
       summary: List Category
       tags:
       - category
@@ -549,8 +526,6 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
       summary: Get Category
       tags:
       - category

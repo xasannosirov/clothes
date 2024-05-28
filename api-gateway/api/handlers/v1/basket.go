@@ -2,11 +2,13 @@ package v1
 
 import (
 	"api-gateway/api/models"
+	"api-gateway/genproto/media_service"
 	"api-gateway/genproto/product_service"
 	"api-gateway/internal/pkg/regtool"
 	"context"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -75,58 +77,6 @@ func (h *HandlerV1) SaveToBasket(c *gin.Context) {
 	})
 }
 
-// @Security 		BearerAuth
-// @Summary 		Delete Basket
-// @Description 	This API for delete a basket with id
-// @Tags 			basket
-// @Produce 		json
-// @Accept 			json
-// @Param 			id path string true "Product ID"
-// @Success			200 {object} bool
-// @Failure 		401 {object} models.Error
-// @Failure 		403 {object} models.Error
-// @Failure 		404 {object} models.Error
-// @Faulure 		500 {object} models.Error
-// @Router 			/v1/basket/{id} [DELETE]
-func (h *HandlerV1) DeleteFromBasket(c *gin.Context) {
-	var (
-		jspbMarshal protojson.MarshalOptions
-	)
-	jspbMarshal.UseProtoNames = true
-
-	duration, err := time.ParseDuration(h.Config.Context.Timeout)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
-			Message: err.Error(),
-		})
-		log.Println(err.Error())
-		return
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), duration)
-	defer cancel()
-
-	userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
-	if statusCode != 0 {
-		c.JSON(http.StatusBadRequest, models.Error{
-			Message: "oops something went wrong",
-		})
-	}
-	id := c.Param("id")
-
-	status, err := h.Service.ProductService().DeleteFromBasket(ctx, &product_service.DeleteBasket{
-		UserId: userId,
-		ProductId: id,
-	})
-	if err != nil {
-		c.JSON(http.StatusNotFound, models.Error{
-			Message: err.Error(),
-		})
-		log.Println(err.Error())
-		return
-	}
-
-	c.JSON(http.StatusOK, status.Status)
-}
 
 // @Security 		BearerAuth
 // @Summary 		Get Basket
@@ -134,13 +84,15 @@ func (h *HandlerV1) DeleteFromBasket(c *gin.Context) {
 // @Tags 			basket
 // @Produce 		json
 // @Accept 			json
-// @Param 			id path string true "Basket ID"
+// @Param 			page query uint64 true "Page"
+// @Param 			limit query uint64 true "Limit"
+// @Param 			id query string true "Basket ID"
 // @Success			200 {object} models.Basket
 // @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
-// @Router 			/v1/basket/{id} [GET]
+// @Router 			/v1/basket [GET]
 func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 	var (
 		jspbMarshal protojson.MarshalOptions
@@ -158,9 +110,30 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 
-	id := c.Param("id")
-	basket, err := h.Service.ProductService().GetBasket(ctx, &product_service.GetWithID{
-		Id: id,
+	id := c.Query("id")
+	page := c.Query("page")
+	limit := c.Query("limit")
+	pageInt, err := strconv.Atoi(page)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+	limitInt, err := strconv.Atoi(limit)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
+	}
+
+	basket, err := h.Service.ProductService().GetBasket(ctx, &product_service.BasketGetReq{
+		UserId: id,
+		Page: int64(pageInt),
+		Limit: int64(limitInt),
 	})
 	if err != nil {
 		c.JSON(http.StatusNotFound, models.Error{
@@ -169,10 +142,47 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
+	products := []models.Product{}
+	for _, product := range basket.Product {
+
+		media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
+			Id: product.Id,
+		})
+		if err != nil{
+			c.JSON(http.StatusInternalServerError, models.Error{
+				Message: err.Error(),
+			})
+			log.Println(err.Error())
+			return
+		}
+		var imagesURL []string
+		for _, imageUrl := range media.Images {
+			imagesURL = append(imagesURL, imageUrl.ImageUrl)
+		}
+
+
+
+		products = append(products, models.Product{
+			ID:          product.Id,
+			Name:        product.Name,
+			Category:    product.Category,
+			Description: product.Description,
+			MadeIn:      product.MadeIn,
+			Color:       product.Color,
+			Size:        product.ProductSize,
+			Count:       product.Count,
+			Cost:        float64(product.Cost),
+			Discount:    float64(product.Discount),
+			AgeMin:      product.AgeMin,
+			AgeMax:      product.AgeMax,
+			ForGender:   product.ForGender,
+			ImageURL:    imagesURL,
+		})
+	}
 
 	c.JSON(http.StatusOK, models.Basket{
 		UserId:    basket.UserId,
-		ProductId: basket.ProductId,
-		Count:     int64(basket.Count),
+		ProductId: products,
+		TotalCount: basket.TotalCount,
 	})
 }
