@@ -593,7 +593,7 @@
                         "BearerAuth": []
                     }
                 ],
-                "description": "Through this api frontent can upload photo and get the link to the media.",
+                "description": "Through this API, frontend can upload a photo and get the link to the media.",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -2154,7 +2154,10 @@
                     "type": "string"
                 },
                 "color": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "cost": {
                     "type": "number"
@@ -2172,7 +2175,10 @@
                     "type": "string"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "made_in": {
                     "type": "string"
@@ -2184,7 +2190,10 @@
                     "type": "string"
                 },
                 "size": {
-                    "type": "integer"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -2220,7 +2229,10 @@
                     "type": "string"
                 },
                 "color": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "cost": {
                     "type": "number"
@@ -2244,7 +2256,10 @@
                     "type": "string"
                 },
                 "size": {
-                    "type": "integer"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },

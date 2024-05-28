@@ -604,7 +604,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Through this api frontent can upload photo and get the link to the media.",
+                "description": "Through this API, frontend can upload a photo and get the link to the media.",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -2165,7 +2165,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "color": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "cost": {
                     "type": "number"
@@ -2183,7 +2186,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "made_in": {
                     "type": "string"
@@ -2195,7 +2201,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "size": {
-                    "type": "integer"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -2231,7 +2240,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "color": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "cost": {
                     "type": "number"
@@ -2255,7 +2267,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "size": {
-                    "type": "integer"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },

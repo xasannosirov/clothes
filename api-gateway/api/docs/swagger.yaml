@@ -86,7 +86,9 @@ definitions:
       category_id:
         type: string
       color:
-        type: string
+        items:
+          type: string
+        type: array
       cost:
         type: number
       count:
@@ -98,7 +100,9 @@ definitions:
       for_gender:
         type: string
       image_url:
-        type: string
+        items:
+          type: string
+        type: array
       made_in:
         type: string
       product_id:
@@ -106,7 +110,9 @@ definitions:
       product_name:
         type: string
       size:
-        type: integer
+        items:
+          type: string
+        type: array
     type: object
   models.ProductCreateResponse:
     properties:
@@ -129,7 +135,9 @@ definitions:
       category_id:
         type: string
       color:
-        type: string
+        items:
+          type: string
+        type: array
       cost:
         type: number
       count:
@@ -145,7 +153,9 @@ definitions:
       product_name:
         type: string
       size:
-        type: integer
+        items:
+          type: string
+        type: array
     type: object
   models.ResetPassword:
     properties:
@@ -686,8 +696,8 @@ paths:
     post:
       consumes:
       - multipart/form-data
-      description: Through this api frontent can upload photo and get the link to
-        the media.
+      description: Through this API, frontend can upload a photo and get the link
+        to the media.
       parameters:
       - description: Product ID
         in: query
