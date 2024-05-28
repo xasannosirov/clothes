@@ -15,6 +15,171 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/basket": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "This API for create a new basket for product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "basket"
+                ],
+                "summary": "Save To Basket",
+                "parameters": [
+                    {
+                        "description": "Create Basket Model",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.BasketCeateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/basket/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "This API for getting a Basket with id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "basket"
+                ],
+                "summary": "Get Basket",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Basket ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Basket"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "This API for delete a basket with id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "basket"
+                ],
+                "summary": "Delete Basket",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/categories": {
             "get": {
                 "security": [
@@ -1387,7 +1552,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.UserCreateResponse"
+                            "$ref": "#/definitions/models.CreateResponse"
                         }
                     },
                     "400": {
@@ -1863,7 +2028,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.UserCreateResponse"
+                            "$ref": "#/definitions/models.CreateResponse"
                         }
                     },
                     "400": {
@@ -2083,6 +2248,31 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.Basket": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "productId": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.BasketCeateReq": {
+            "type": "object",
+            "properties": {
+                "productId": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Category": {
             "type": "object",
             "properties": {
@@ -2098,6 +2288,14 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "category_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CreateResponse": {
+            "type": "object",
+            "properties": {
+                "user_id": {
                     "type": "string"
                 }
             }
@@ -2384,14 +2582,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "refresh_token": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.UserCreateResponse": {
-            "type": "object",
-            "properties": {
-                "user_id": {
                     "type": "string"
                 }
             }

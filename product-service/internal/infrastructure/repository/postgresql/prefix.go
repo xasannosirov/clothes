@@ -11,7 +11,7 @@ const (
 	productServiceName = "productService"
 	categoryTableName  = "category"
 	productsTableName  = "products"
-	basketTableName    = "baskets"
+	basketTableName    = "basket"
 	likesTableName     = "wishlist"
 	ordersTableName    = "orders"
 )
@@ -81,8 +81,8 @@ func (u *productRepo) likesSelectQueryPrefix() squirrel.SelectBuilder {
 
 func (u *productRepo) basketsSelectQueryPrefix() squirrel.SelectBuilder {
 	return u.db.Sq.Builder.Select(
-		"id",
 		"product_id",
 		"user_id",
+		"count",
 	).From(u.basketTable)
 }

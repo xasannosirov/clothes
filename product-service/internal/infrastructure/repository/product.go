@@ -28,10 +28,9 @@ type Product interface {
 	IsUnique(ctx context.Context, tableName, userID, productID string) (bool, error)
 	UserWishlist(ctx context.Context, searchFields *entity.SearchRequest) (*entity.ListProduct, error)
 
-	SaveToBasket(ctx context.Context, basket *entity.Basket) (*entity.Basket, error)
-	DeleteFromBasket(ctx context.Context, basketID string) error
-	UpdateBasket(ctx context.Context, basket *entity.Basket) (*entity.Basket, error)
-	ListBaskets(ctx context.Context, getReq *entity.GetWithID) (*entity.ListBasket, error)
+	SaveToBasket(ctx context.Context, basket *entity.BasketCreateReq) (*entity.Basket, error)
+	DeleteFromBasket(ctx context.Context, userID string, productID string) error
+	GetBasket(ctx context.Context, getReq *entity.GetWithID) (*entity.Basket, error)
 
 	CreateOrder(ctx context.Context, order *entity.Order) (*entity.Order, error)
 	GetOrder(ctx context.Context, params map[string]string) (*entity.Order, error)

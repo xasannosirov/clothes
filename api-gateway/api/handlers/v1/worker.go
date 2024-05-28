@@ -23,7 +23,7 @@ import (
 // @Accept 			json
 // @Produce 		json
 // @Param 			worker body models.WorkerPost true "Create Worker Model"
-// @Success 		201 {object} models.UserCreateResponse
+// @Success 		201 {object} models.CreateResponse
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
@@ -118,7 +118,7 @@ func (h *HandlerV1) CreateWorker(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, models.UserCreateResponse{
+	c.JSON(http.StatusCreated, models.CreateResponse{
 		UserID: userServiceCreateResponse.Guid,
 	})
 }

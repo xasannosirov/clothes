@@ -29,10 +29,9 @@ type Product interface {
 	LikeProduct(ctx context.Context, req *entity.Like) (bool, error)
 	UserWishlist(ctx context.Context, req *entity.SearchRequest) (*entity.ListProduct, error)
 
-	SaveToBasket(ctx context.Context, req *entity.Basket) (*entity.Basket, error)
-	DeleteFromBasket(ctx context.Context, req string) error
-	UpdateBasket(ctx context.Context, req *entity.Basket) (*entity.Basket, error)
-	ListBaskets(ctx context.Context, req *entity.GetWithID) (*entity.ListBasket, error)
+	SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.Basket, error)
+	DeleteFromBasket(ctx context.Context, userID string, productID string) error
+	GetBasket(ctx context.Context, req *entity.GetWithID) (*entity.Basket, error)
 
 	CreateOrder(ctx context.Context, req *entity.Order) (*entity.Order, error)
 	GetOrder(ctx context.Context, params map[string]string) (*entity.Order, error)
@@ -162,34 +161,27 @@ func (u *productService) GetDiscountProducts(ctx context.Context, req *entity.Li
 	return u.repo.GetDiscountProducts(ctx, req)
 }
 
-func (u productService) SaveToBasket(ctx context.Context, req *entity.Basket) (*entity.Basket, error) {
+func (u productService) SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.Basket, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
-
-	u.beforeRequest(&req.ID, nil, nil)
 
 	return u.repo.SaveToBasket(ctx, req)
 }
 
-func (u productService) UpdateBasket(ctx context.Context, req *entity.Basket) (*entity.Basket, error) {
+
+
+func (u productService) DeleteFromBasket(ctx context.Context, userID string, productID string) error {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
-	return u.repo.UpdateBasket(ctx, req)
+	return u.repo.DeleteFromBasket(ctx, userID, productID)
 }
 
-func (u productService) DeleteFromBasket(ctx context.Context, id string) error {
+func (u productService) GetBasket(ctx context.Context, req *entity.GetWithID) (*entity.Basket, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
-	return u.repo.DeleteFromBasket(ctx, id)
-}
-
-func (u productService) ListBaskets(ctx context.Context, req *entity.GetWithID) (*entity.ListBasket, error) {
-	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
-	defer cancel()
-
-	return u.repo.ListBaskets(ctx, req)
+	return u.repo.GetBasket(ctx, req)
 }
 
 func (u *productService) LikeProduct(ctx context.Context, req *entity.Like) (bool, error) {

@@ -31,19 +31,25 @@ func (d *productRPC) DeleteFromBasket(ctx context.Context, in *pb.DeleteBasket) 
 
 
 
-func (d *productRPC) GetBasket(ctx context.Context, in *pb.GetWithID) (*pb.Basket, error) {
-	baskets, err := d.productUsecase.GetBasket(ctx, &entity.GetWithID{
+func (d *productRPC) ListBaskets(ctx context.Context, in *pb.GetWithID) (*pb.ListBasket, error) {
+	baskets, err := d.productUsecase.ListBaskets(ctx, &entity.GetWithID{
 		ID: in.Id,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	
+	pbBaskets := &pb.ListBasket{}
+	for _, basket := range baskets.Baskets {
+		pbBaskets.Baskets = append(pbBaskets.Baskets, &pb.Basket{
+			UserId:    basket.UserID,
+			ProductId: basket.ProductIDs,
+			Count:     basket.Count,
+		})
+	}
 
-	return &pb.Basket{
-		UserId: baskets.UserID,
-		ProductId: baskets.ProductIDs,
-		Count: baskets.Count,
+	return &pb.ListBasket{
+		Baskets:    pbBaskets.Baskets,
+		TotalCount: baskets.TotalCount,
 	}, nil
 }

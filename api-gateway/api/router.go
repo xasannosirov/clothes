@@ -117,6 +117,9 @@ func NewRoute(option RouteOption) *gin.Engine {
 	apiV1.GET("/wishlist", HandlerV1.UserWishlist)
 
 	// Basket, Stats, Payment, Order ...
+	apiV1.POST("/basket", HandlerV1.SaveToBasket)
+	apiV1.GET("/basket/:id", HandlerV1.GetBasketProduct)
+	apiV1.DELETE("/basket/:id", HandlerV1.DeleteFromBasket)
 
 	url := ginSwagger.URL("swagger/doc.json")
 	apiV1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))

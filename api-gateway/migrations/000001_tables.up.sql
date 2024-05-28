@@ -64,6 +64,13 @@ CREATE TABLE wishlist (
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
+CREATE TABLE basket (
+    user_id    UUID  PRIMARY KEY, 
+    product_id UUID[],
+    count      BIGINT DEFAULT 1,
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
 INSERT INTO users (id, first_name, last_name, email, phone_number, password, gender, age, refresh, role) 
 VALUES 
 ('19d16003-586a-4190-92ee-ab0c45504023', 'Xasan', 'Nosirov', 'xasannosirov094@gmail.com', '+998944970514', '$2a$10$VOukMtTpUxICddVOCTJJou594V0cZ4zbRVN9smlrcMrH6i4AjqrbK', 'male', 18, NULL, 'admin');

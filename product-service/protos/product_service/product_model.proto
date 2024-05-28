@@ -25,10 +25,13 @@ message Product {
 }
 
 message Basket {
-    string id = 1;
-    string product_id = 2;
-    uint64 count = 3;
-    string user_id = 4;
+    repeated string product_id = 1;
+    uint64 count = 2;
+    string user_id = 3;
+}
+message BasketCreateReq {
+    string product_id = 1;
+    string user_id = 3;
 }
   
 message Order {
@@ -81,6 +84,10 @@ message ListProduct {
 message ListBasket {
     repeated Basket baskets = 1;
     uint64 total_count = 2;
+}
+message DeleteBasket {
+    string product_id = 1;
+    string user_id = 2;
 }
 
 message ListOrder {

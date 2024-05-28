@@ -22,10 +22,14 @@ type Product struct {
 }
 
 type Basket struct {
-	ID        string
+	ProductIDs []string
+	UserID     string
+	Count      uint64
+}
+
+type BasketCreateReq struct {
 	ProductID string
-	UserID    string
-	Count     uint64
+	UserID     string
 }
 
 type Order struct {
