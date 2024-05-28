@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY,
     first_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE users (
     deleted_at TIMESTAMPTZ
 );
 
-CREATE TABLE category (
+CREATE TABLE IF NOT EXISTS category (
     id UUID PRIMARY KEY,
     name TEXT NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -22,7 +22,7 @@ CREATE TABLE category (
     deleted_at TIMESTAMPTZ
 );
 
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     id UUID PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     category_id UUID NOT NULL,
@@ -31,8 +31,8 @@ CREATE TABLE products (
     count INT NOT NULL,
     cost FLOAT NOT NULL,
     discount FLOAT NOT NULL DEFAULT 0,
-    color VARCHAR(20),
-    size INT NOT NULL,
+    color VARCHAR(20) [],
+    size VARCHAR(5) [] NOT NULL,
     age_min INT NOT NULL DEFAULT 1,
     age_max INT,
     for_gender VARCHAR(6) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE products (
     FOREIGN KEY (category_id) REFERENCES category (id)
 );
 
-CREATE TABLE media (
+CREATE TABLE IF NOT EXISTS media (
     id UUID PRIMARY KEY,
     product_id UUID NOT NULL, 
     image_url TEXT NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE media (
     FOREIGN KEY (product_id) REFERENCES products (id)
 );
 
-CREATE TABLE wishlist (
+CREATE TABLE IF NOT EXISTS wishlist (
     id UUID PRIMARY KEY,
     product_id UUID NOT NULL,
     user_id UUID NOT NULL,

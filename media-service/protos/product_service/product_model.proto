@@ -14,14 +14,14 @@ message Product {
   string description = 3;
   string category = 4;
   string made_in = 6;
-  string color = 7;
+  repeated string color = 7;
   int64 count = 5;
   float cost = 8;
   float discount = 9;
   int64 age_min = 10;
   int64 age_max = 11;
   string for_gender = 12;
-  int64 size = 13;
+  repeated string product_size = 13;
 }
 
 message Basket {

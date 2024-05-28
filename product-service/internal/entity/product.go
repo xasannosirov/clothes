@@ -11,14 +11,14 @@ type Product struct {
 	Description string
 	Category    string
 	MadeIn      string
-	Color       string
+	Color       []string
 	Count       int64
 	Cost        float32
 	Discount    float32
 	AgeMin      int64
 	AgeMax      int64
 	ForGender   string
-	Size        int64
+	Size        []string
 }
 
 type Basket struct {
