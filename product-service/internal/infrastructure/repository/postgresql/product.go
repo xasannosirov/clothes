@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"product-service/internal/entity"
 	"product-service/internal/pkg/otlp"
+	"strings"
 	"time"
 
 	"github.com/Masterminds/squirrel"
@@ -130,7 +131,6 @@ func (u *productRepo) GetProduct(ctx context.Context, params map[string]string) 
 
 	var (
 		nullDesc   sql.NullString
-		nullColor  sql.NullString
 		nullAgeMax sql.NullInt64
 	)
 	if err = u.db.QueryRow(ctx, query, args...).Scan(
@@ -139,7 +139,7 @@ func (u *productRepo) GetProduct(ctx context.Context, params map[string]string) 
 		&nullDesc,
 		&product.Category,
 		&product.MadeIn,
-		&nullColor,
+		&product.Color,
 		&product.Count,
 		&product.Cost,
 		&product.Discount,
@@ -153,9 +153,6 @@ func (u *productRepo) GetProduct(ctx context.Context, params map[string]string) 
 
 	if nullDesc.Valid {
 		product.Description = nullDesc.String
-	}
-	if nullColor.Valid {
-		product.Color = nullColor.String
 	}
 	if nullAgeMax.Valid {
 		product.AgeMax = nullAgeMax.Int64
@@ -187,7 +184,6 @@ func (u *productRepo) ListProducts(ctx context.Context, req *entity.ListRequest)
 
 	var (
 		nullDesc   sql.NullString
-		nullColor  sql.NullString
 		nullAgeMax sql.NullInt64
 	)
 	for rows.Next() {
@@ -198,7 +194,7 @@ func (u *productRepo) ListProducts(ctx context.Context, req *entity.ListRequest)
 			&nullDesc,
 			&product.Category,
 			&product.MadeIn,
-			&nullColor,
+			&product.Color,
 			&product.Count,
 			&product.Cost,
 			&product.Discount,
@@ -213,9 +209,7 @@ func (u *productRepo) ListProducts(ctx context.Context, req *entity.ListRequest)
 		if nullDesc.Valid {
 			product.Description = nullDesc.String
 		}
-		if nullColor.Valid {
-			product.Color = nullColor.String
-		}
+		
 		if nullAgeMax.Valid {
 			product.AgeMax = nullAgeMax.Int64
 		}
@@ -241,7 +235,7 @@ func (u *productRepo) SearchProduct(ctx context.Context, req *entity.SearchReque
 		nullAgeMin    sql.NullInt64
 		nullAgeMax    sql.NullInt64
 		nullForGender sql.NullString
-		nullSize      sql.NullInt64
+		nullSize      sql.NullString
 	)
 
 	searchName := "'%" + req.Params["name"] + "%'"
@@ -261,7 +255,7 @@ func (u *productRepo) SearchProduct(ctx context.Context, req *entity.SearchReque
 			&nullDesc,
 			&product.Category,
 			&product.MadeIn,
-			&nullColor,
+			&product.Color,
 			&product.Count,
 			&product.Cost,
 			&product.Discount,
@@ -277,9 +271,7 @@ func (u *productRepo) SearchProduct(ctx context.Context, req *entity.SearchReque
 		if nullDesc.Valid {
 			product.Description = nullDesc.String
 		}
-		if nullColor.Valid {
-			product.Color = nullColor.String
-		}
+		
 		if nullAgeMin.Valid {
 			product.AgeMin = nullAgeMin.Int64
 		}
@@ -289,8 +281,11 @@ func (u *productRepo) SearchProduct(ctx context.Context, req *entity.SearchReque
 		if nullForGender.Valid {
 			product.ForGender = nullForGender.String
 		}
+		if nullColor.Valid{
+			strings.Split(nullColor.String, ",")
+		}
 		if nullSize.Valid {
-			product.Size = nullSize.Int64
+			product.Size = strings.Split(nullSize.String, ",")
 		}
 
 		products.Products = append(products.Products, &product)

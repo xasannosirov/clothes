@@ -20,7 +20,7 @@ func (d *productRPC) CreateProduct(ctx context.Context, in *pb.Product) (*pb.Get
 		AgeMin:      in.AgeMin,
 		AgeMax:      in.AgeMax,
 		ForGender:   in.ForGender,
-		Size:        int64(in.ProductSize),
+		Size:        (in.ProductSize),
 	})
 
 	if err != nil {
@@ -44,7 +44,7 @@ func (d *productRPC) UpdateProduct(ctx context.Context, in *pb.Product) (*pb.Pro
 		AgeMin:      in.AgeMin,
 		AgeMax:      in.AgeMax,
 		ForGender:   in.ForGender,
-		Size:        int64(in.ProductSize),
+		Size:        in.ProductSize,
 	})
 
 	if err != nil {
