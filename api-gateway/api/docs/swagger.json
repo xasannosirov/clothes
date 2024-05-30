@@ -6,11 +6,6 @@
     "paths": {
         "/v1/categories": {
             "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "This API for getting categories",
                 "consumes": [
                     "application/json"
@@ -180,11 +175,6 @@
         },
         "/v1/category/search": {
             "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "This api search products with category",
                 "consumes": [
                     "application/json"
@@ -261,11 +251,6 @@
         },
         "/v1/category/{id}": {
             "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "This API for getting a category with id",
                 "consumes": [
                     "application/json"
@@ -593,7 +578,7 @@
                         "BearerAuth": []
                     }
                 ],
-                "description": "Through this api frontent can upload photo and get the link to the media.",
+                "description": "Through this API, frontend can upload a photo and get the link to the media.",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -2172,7 +2157,10 @@
                     "type": "string"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "made_in": {
                     "type": "string"

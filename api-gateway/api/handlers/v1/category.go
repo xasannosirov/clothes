@@ -178,7 +178,6 @@ func (h *HandlerV1) DeleteCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, status.Status)
 }
 
-// @Security 		BearerAuth
 // @Summary 		Get Category
 // @Description 	This API for getting a category with id
 // @Tags 			category
@@ -227,7 +226,6 @@ func (h *HandlerV1) GetCategory(c *gin.Context) {
 	})
 }
 
-// @Security 		BearerAuth
 // @Summary 		List Category
 // @Description 	This API for getting categories
 // @Tags 			category
@@ -303,7 +301,6 @@ func (h *HandlerV1) ListCategory(c *gin.Context) {
 	})
 }
 
-// @Security 		BearerAuth
 // @Summary 		Search Category
 // @Description 	This api search products with category
 // @Tags			category
