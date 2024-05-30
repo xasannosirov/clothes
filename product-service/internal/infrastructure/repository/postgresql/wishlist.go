@@ -138,8 +138,8 @@ func (u *productRepo) UserWishlist(ctx context.Context, req *entity.SearchReques
 	}
 
 	var count uint64
-	total := `SELECT COUNT(user_id) FROM wishlist WHERE deleted_at IS NULL`
-	if err := u.db.QueryRow(ctx, total).Scan(&count); err != nil {
+	total := `SELECT COUNT(user_id) FROM wishlist WHERE deleted_at IS NULL AND user_id = $1`
+	if err := u.db.QueryRow(ctx, total, req.Params["user_id"]).Scan(&count); err != nil {
 		return nil, err
 	}
 	products.TotalCount = count

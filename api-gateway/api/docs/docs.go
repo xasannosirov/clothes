@@ -17,11 +17,6 @@ const docTemplate = `{
     "paths": {
         "/v1/categories": {
             "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "This API for getting categories",
                 "consumes": [
                     "application/json"
@@ -191,11 +186,6 @@ const docTemplate = `{
         },
         "/v1/category/search": {
             "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "This api search products with category",
                 "consumes": [
                     "application/json"
@@ -272,11 +262,6 @@ const docTemplate = `{
         },
         "/v1/category/{id}": {
             "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "This API for getting a category with id",
                 "consumes": [
                     "application/json"

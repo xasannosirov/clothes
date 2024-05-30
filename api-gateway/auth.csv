@@ -5,14 +5,17 @@ p, unauthorized, /v1/forgot/{email}, POST
 p, unauthorized, /v1/verify, POST
 p, unauthorized, /v1/reset-password, PUT
 p, unauthorized, /v1/token/{refresh}, GET
-p, unauthorized, /v1/media/{id}, GET
-p, unauthorized, /v1/product/{id}, GET
-p, unauthorized, /v1/products, GET
-p, unauthorized, /v1/search/{name}, GET
 p, unauthorized, /v1/google/login, GET
 p, unauthorized, /v1/google/callback, GET
 p, unauthorized, /v1/user, POST
+p, unauthorized, /v1/media/{id}, GET
+p, unauthorized, /v1/product/{id}, GET
+p, unauthorized, /v1/products, GET
+p, unauthorized, /v1/categories, GET
+p, unauthorized, /v1/category/search, GET
+p, unauthorized, /v1/category/{id}, GET
 p, user, /v1/update-password, PUT
+p, user, /v1/reset-password, PUT
 p, user, /v1/user, PUT
 p, user, /v1/user/{id}, DELETE
 p, user, /v1/user/{id}, GET
@@ -26,6 +29,7 @@ p, user, /v1/media/{id}, GET
 p, user, /v1/like/{id}, POST
 p, user, /v1/wishlist, GET
 p, worker, /v1/update-password, PUT
+p, worker, /v1/reset-password, PUT
 p, worker, /v1/user/{id}, GET
 p, worker, /v1/users, GET
 p, worker, /v1/category, POST
@@ -42,7 +46,6 @@ p, worker, /v1/product, PUT
 p, worker, /v1/product/{id}, GET
 p, worker, /v1/product/{id}, DELETE
 p, worker, /v1/products, GET
-p, worker, /v1/products/discount, GET
 p, admin, /v1/*, POST
 p, admin, /v1/*, PUT
 p, admin, /v1/*, DELETE
