@@ -105,3 +105,4 @@ volumes:
   db:
   minio_data:
     driver: local
+
