@@ -54,3 +54,13 @@ func (p *productRPC) UserWishlist(ctx context.Context, in *pb.SearchRequest) (*p
 
 	return &response, nil
 }
+
+func (p *productRPC) IsUnique(ctx context.Context, in *pb.IsUniqueReq)(*pb.MoveResponse, error){
+	status, err := p.productUsecase.IsUnique(ctx, in.TableName, in.UserId, in.ProductId)
+	if err != nil{
+		return nil, err
+	}
+	return &pb.MoveResponse{
+		Status: status,
+	}, nil
+}

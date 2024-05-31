@@ -1,4 +1,20 @@
 definitions:
+  models.Basket:
+    properties:
+      productId:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
+      totalCount:
+        type: integer
+      userId:
+        type: string
+    type: object
+  models.BasketCeateReq:
+    properties:
+      productId:
+        type: string
+    type: object
   models.Category:
     properties:
       category_id:
@@ -9,6 +25,11 @@ definitions:
   models.CategoryReq:
     properties:
       category_name:
+        type: string
+    type: object
+  models.CreateResponse:
+    properties:
+      user_id:
         type: string
     type: object
   models.Error:
@@ -83,6 +104,8 @@ definitions:
         type: integer
       age_min:
         type: integer
+      basket:
+        type: boolean
       category_id:
         type: string
       color:
@@ -103,6 +126,8 @@ definitions:
         items:
           type: string
         type: array
+      liked:
+        type: boolean
       made_in:
         type: string
       product_id:
@@ -206,11 +231,6 @@ definitions:
       refresh_token:
         type: string
     type: object
-  models.UserCreateResponse:
-    properties:
-      user_id:
-        type: string
-    type: object
   models.UserRegister:
     properties:
       email:
@@ -261,6 +281,86 @@ definitions:
 info:
   contact: {}
 paths:
+  /v1/basket:
+    get:
+      consumes:
+      - application/json
+      description: This API for getting a Basket with id
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: Basket ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Basket'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Basket
+      tags:
+      - basket
+    post:
+      consumes:
+      - application/json
+      description: This API for create a new basket for product
+      parameters:
+      - description: Create Basket Model
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.BasketCeateReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.CreateResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Save To Basket
+      tags:
+      - basket
   /v1/categories:
     get:
       consumes:
@@ -1102,7 +1202,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.UserCreateResponse'
+            $ref: '#/definitions/models.CreateResponse'
         "400":
           description: Bad Request
           schema:
@@ -1374,7 +1474,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.UserCreateResponse'
+            $ref: '#/definitions/models.CreateResponse'
         "400":
           description: Bad Request
           schema:

@@ -27,38 +27,38 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 func init() { proto.RegisterFile("product_service.proto", fileDescriptor_64a1a24e6b7d7ed5) }
 
 var fileDescriptor_64a1a24e6b7d7ed5 = []byte{
-	// 490 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0xcd, 0x6e, 0xd3, 0x40,
-	0x18, 0x24, 0x17, 0x84, 0xbe, 0xc4, 0xa6, 0xda, 0xaa, 0x50, 0x0c, 0xf8, 0x01, 0x38, 0x14, 0x09,
-	0xee, 0x08, 0xe2, 0x10, 0x07, 0x48, 0x4a, 0x68, 0x88, 0x2a, 0x71, 0x41, 0xdb, 0xe4, 0x53, 0xb3,
-	0xca, 0xcf, 0xa6, 0xbb, 0x9b, 0x48, 0x7d, 0x13, 0x1e, 0x89, 0x23, 0x8f, 0x80, 0xc2, 0x7b, 0x20,
-	0x14, 0x7f, 0x76, 0x88, 0x62, 0x7b, 0x6d, 0xc9, 0x3d, 0x7a, 0xbe, 0xd9, 0xf1, 0xa7, 0x99, 0xf1,
-	0x1a, 0x4e, 0x96, 0x4a, 0x8e, 0x57, 0x23, 0xf3, 0x5d, 0xa3, 0x5a, 0x8b, 0x11, 0x9e, 0x2d, 0x95,
-	0x34, 0x92, 0x3d, 0x3c, 0x80, 0xbd, 0xe3, 0x04, 0x98, 0xcb, 0x31, 0xce, 0x88, 0xf5, 0xea, 0xaf,
-	0x03, 0x6e, 0x9f, 0xf0, 0x01, 0xf1, 0x58, 0x1b, 0xdc, 0x40, 0x21, 0x37, 0x18, 0x70, 0x83, 0xd7,
-	0x52, 0xdd, 0xb2, 0x27, 0x67, 0x87, 0xaf, 0x48, 0x46, 0x5e, 0xfe, 0x88, 0x7d, 0x02, 0xb7, 0x85,
-	0x33, 0xdc, 0xd3, 0xf1, 0x52, 0xe4, 0x10, 0xcd, 0xa5, 0x30, 0x93, 0x0f, 0x2d, 0xef, 0x79, 0x6a,
-	0xd6, 0x93, 0x6b, 0xbc, 0x40, 0xbd, 0x94, 0x0b, 0x8d, 0xac, 0x05, 0xf5, 0x10, 0x4d, 0x29, 0x25,
-	0xcb, 0x4a, 0x3d, 0x70, 0xbb, 0x42, 0x27, 0x32, 0x02, 0x35, 0x7b, 0x96, 0x22, 0x6f, 0x09, 0x17,
-	0x78, 0xb3, 0x42, 0x6d, 0x32, 0x96, 0xda, 0x3b, 0x7e, 0xcb, 0xce, 0xc1, 0x1d, 0x20, 0x57, 0xa3,
-	0xc9, 0x0e, 0xf1, 0x53, 0x07, 0x88, 0x90, 0x08, 0x66, 0xbf, 0x2e, 0x0e, 0x80, 0x75, 0xc0, 0x1d,
-	0x2e, 0xc4, 0xcd, 0xea, 0xbf, 0x63, 0x8f, 0x53, 0xfc, 0x3e, 0x57, 0x7c, 0xae, 0x8b, 0xec, 0x7a,
-	0x0f, 0x0e, 0x65, 0x98, 0x48, 0x9f, 0xa6, 0x85, 0xe8, 0xd9, 0xb3, 0x58, 0xc9, 0x02, 0x70, 0x86,
-	0xcb, 0x71, 0x29, 0x99, 0xdc, 0x09, 0xfb, 0x08, 0x0e, 0xf5, 0x20, 0x01, 0x2a, 0xd4, 0xa0, 0x09,
-	0x10, 0xa2, 0x29, 0x23, 0x64, 0xdb, 0xa7, 0xb1, 0x67, 0x7a, 0x51, 0x05, 0xec, 0x89, 0xf5, 0xc0,
-	0xa1, 0x80, 0x13, 0xa0, 0x5a, 0x01, 0xbe, 0xc0, 0x71, 0x88, 0xa6, 0x25, 0xf4, 0x48, 0xae, 0x16,
-	0x77, 0xb3, 0xe1, 0x39, 0x30, 0x92, 0xe4, 0x57, 0x33, 0x2c, 0xa9, 0xe8, 0x65, 0x4e, 0x3f, 0xab,
-	0x31, 0x2a, 0x16, 0x40, 0xbd, 0x2b, 0xa6, 0xbb, 0x2c, 0x4f, 0x32, 0xa8, 0x53, 0x2c, 0x8a, 0xb1,
-	0x0b, 0x8d, 0xa1, 0x46, 0x75, 0x29, 0xf4, 0x64, 0x26, 0x74, 0x55, 0xd7, 0x02, 0x68, 0x0c, 0xf8,
-	0x1a, 0xbf, 0xca, 0x26, 0xd7, 0x53, 0x34, 0x19, 0x1f, 0x0d, 0x0d, 0xac, 0x55, 0xef, 0xc1, 0x11,
-	0xb5, 0xb4, 0xad, 0xe4, 0x3c, 0x16, 0xaa, 0x50, 0xd4, 0xb7, 0xd0, 0xa0, 0x2f, 0xa7, 0x68, 0xa7,
-	0xbc, 0x01, 0x6b, 0x6f, 0x8d, 0xd6, 0x86, 0x9e, 0xb4, 0x75, 0x97, 0xa7, 0x99, 0xf6, 0xc4, 0x3a,
-	0xef, 0xa0, 0x4e, 0x57, 0x01, 0xe5, 0xf7, 0x28, 0xc5, 0x8d, 0x70, 0xab, 0x37, 0x6f, 0xe0, 0x41,
-	0x88, 0x71, 0xfe, 0xb6, 0x3d, 0x72, 0xb4, 0x59, 0x07, 0xea, 0xe4, 0x6d, 0xb1, 0x44, 0x81, 0xad,
-	0x7d, 0x38, 0xda, 0x16, 0x27, 0xd2, 0xe9, 0x08, 0x6d, 0x2a, 0xdf, 0xb9, 0xcd, 0x17, 0x3f, 0x37,
-	0x7e, 0xed, 0xd7, 0xc6, 0xaf, 0xfd, 0xde, 0xf8, 0xb5, 0x1f, 0x7f, 0xfc, 0x7b, 0xdf, 0x4e, 0xaf,
-	0x71, 0x11, 0xfd, 0x1c, 0x5f, 0x1e, 0x9c, 0xbb, 0xba, 0x1f, 0xc1, 0xaf, 0xff, 0x05, 0x00, 0x00,
-	0xff, 0xff, 0xa2, 0xe2, 0x31, 0xf9, 0x72, 0x07, 0x00, 0x00,
+	// 494 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x95, 0xdf, 0x6e, 0x52, 0x41,
+	0x10, 0xc6, 0xe5, 0xc6, 0xd4, 0xa1, 0x1c, 0xcd, 0x36, 0xb5, 0xf5, 0xc4, 0x9e, 0x78, 0xed, 0x45,
+	0x4d, 0xf4, 0xde, 0x44, 0x40, 0x97, 0x2a, 0x54, 0x04, 0x49, 0x13, 0x6f, 0xcc, 0x16, 0x26, 0x65,
+	0x03, 0x65, 0x61, 0x77, 0x21, 0xe9, 0xbd, 0x0f, 0xe1, 0x23, 0x79, 0xe9, 0x23, 0x18, 0x7c, 0x11,
+	0xc3, 0x19, 0x16, 0x09, 0x7b, 0xfe, 0x90, 0x9c, 0x5e, 0x32, 0xf3, 0xed, 0x6f, 0x67, 0xe7, 0x9b,
+	0xe1, 0xc0, 0xf1, 0x54, 0xab, 0xc1, 0xbc, 0x6f, 0xbf, 0x1b, 0xd4, 0x0b, 0xd9, 0xc7, 0xf3, 0xa9,
+	0x56, 0x56, 0xb1, 0xc7, 0x3b, 0xe1, 0xf0, 0xc8, 0x05, 0x6e, 0xd5, 0x00, 0xc7, 0xa4, 0x7a, 0xfd,
+	0x23, 0x80, 0xa0, 0x4d, 0xf1, 0x2e, 0xe9, 0xd8, 0x07, 0x08, 0x6a, 0x1a, 0x85, 0xc5, 0x9a, 0xb0,
+	0x78, 0xa3, 0xf4, 0x1d, 0x7b, 0x76, 0xbe, 0x7b, 0x85, 0x4b, 0x85, 0xe9, 0x29, 0xf6, 0x09, 0x82,
+	0x3a, 0x8e, 0x71, 0x8b, 0x13, 0x7a, 0x62, 0x8e, 0xf6, 0x4a, 0xda, 0xe1, 0x45, 0x3d, 0x3c, 0xf3,
+	0x72, 0x2d, 0xb5, 0xc0, 0x0e, 0x9a, 0xa9, 0x9a, 0x98, 0xb8, 0xa8, 0xde, 0x74, 0x50, 0xbc, 0xa8,
+	0x3a, 0x94, 0x39, 0xda, 0xbd, 0x2a, 0xca, 0xa0, 0xb4, 0x20, 0x68, 0x4a, 0xe3, 0x30, 0x12, 0x0d,
+	0x7b, 0xee, 0x89, 0x57, 0x82, 0x0e, 0xce, 0xe6, 0x68, 0x6c, 0xc2, 0xe3, 0xb6, 0x8e, 0xdf, 0xb1,
+	0x4b, 0x08, 0xba, 0x28, 0x74, 0x7f, 0xb8, 0x89, 0x44, 0xde, 0x01, 0x12, 0x38, 0x60, 0xf2, 0x75,
+	0x6b, 0x23, 0x59, 0x03, 0x82, 0xde, 0x44, 0xce, 0xe6, 0xff, 0x9b, 0x75, 0xe2, 0xe9, 0xdb, 0x42,
+	0x8b, 0x5b, 0x93, 0xd7, 0xf6, 0xf7, 0x50, 0xa1, 0x59, 0x70, 0xe8, 0x53, 0x1f, 0x44, 0xbf, 0xc3,
+	0x8c, 0x56, 0xb2, 0x1a, 0x54, 0xc8, 0xbd, 0x7c, 0x4c, 0x6a, 0x86, 0x7d, 0x84, 0x0a, 0xcd, 0x93,
+	0x0b, 0x14, 0x18, 0xa7, 0x2a, 0x00, 0x47, 0xbb, 0x0f, 0x28, 0xab, 0x9e, 0xc3, 0xad, 0xa6, 0xe7,
+	0x8d, 0x40, 0xb6, 0x63, 0x2d, 0xa8, 0x90, 0xc1, 0x2e, 0x50, 0x6c, 0x00, 0xbe, 0xc0, 0x11, 0x47,
+	0x5b, 0x97, 0xa6, 0xaf, 0xe6, 0x93, 0xfb, 0xa9, 0xf0, 0x12, 0x18, 0x21, 0xc5, 0xf5, 0x18, 0xf7,
+	0x24, 0x86, 0x89, 0xd9, 0xcf, 0x7a, 0x80, 0x9a, 0xd5, 0xa0, 0xdc, 0x94, 0xa3, 0x8d, 0x97, 0xc7,
+	0x09, 0xd2, 0x11, 0xe6, 0xd9, 0xd8, 0x84, 0xc3, 0x9e, 0x41, 0x7d, 0x25, 0xcd, 0x70, 0x2c, 0x4d,
+	0xd1, 0xae, 0x71, 0x38, 0xb8, 0x30, 0xb4, 0x38, 0x09, 0x0f, 0x73, 0xa9, 0x0e, 0xce, 0xf6, 0x28,
+	0xab, 0x2b, 0x16, 0xf8, 0x55, 0x55, 0x85, 0x19, 0xa1, 0x65, 0x2f, 0x3c, 0x39, 0x25, 0x68, 0xb5,
+	0x56, 0xc0, 0xec, 0xe5, 0x79, 0xc4, 0xd1, 0xae, 0x51, 0x67, 0x29, 0x28, 0x8e, 0xab, 0xae, 0x87,
+	0x27, 0x29, 0x69, 0xf6, 0x0e, 0xca, 0x74, 0x1b, 0x75, 0xff, 0xa9, 0xa7, 0x8b, 0xe3, 0x99, 0x75,
+	0xbc, 0x85, 0x03, 0x8e, 0x6b, 0xf7, 0xb2, 0x36, 0x26, 0x85, 0xcd, 0x1a, 0x50, 0xa6, 0xfd, 0xcd,
+	0x47, 0xe4, 0xf4, 0xb7, 0x0d, 0x4f, 0x56, 0xb6, 0xc7, 0x9c, 0x86, 0x34, 0xb6, 0xf0, 0x3f, 0x66,
+	0xf5, 0xe5, 0xaf, 0x65, 0x54, 0xfa, 0xbd, 0x8c, 0x4a, 0x7f, 0x96, 0x51, 0xe9, 0xe7, 0xdf, 0xe8,
+	0xc1, 0xb7, 0xd3, 0x1b, 0x9c, 0xc4, 0x9f, 0xc8, 0x57, 0x3b, 0xe7, 0xae, 0x1f, 0xc6, 0xe1, 0x37,
+	0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0xda, 0x94, 0xc5, 0xd8, 0x78, 0x07, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -75,6 +75,7 @@ const _ = grpc.SupportPackageIsVersion4
 type ProductServiceClient interface {
 	CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
 	DeleteCategory(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error)
+	UpdateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
 	GetCategory(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Category, error)
 	ListCategories(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListCategory, error)
 	SearchCategory(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*ListProduct, error)
@@ -89,10 +90,9 @@ type ProductServiceClient interface {
 	GetDisableProducts(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListOrder, error)
 	LikeProduct(ctx context.Context, in *Like, opts ...grpc.CallOption) (*MoveResponse, error)
 	UserWishlist(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*ListProduct, error)
-	SaveToBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*GetWithID, error)
-	DeleteFromBasket(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error)
-	UpdateBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*Basket, error)
-	ListBaskets(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListBasket, error)
+	IsUnique(ctx context.Context, in *IsUniqueReq, opts ...grpc.CallOption) (*MoveResponse, error)
+	SaveToBasket(ctx context.Context, in *BasketCreateReq, opts ...grpc.CallOption) (*GetWithID, error)
+	GetBasket(ctx context.Context, in *BasketGetReq, opts ...grpc.CallOption) (*Basket, error)
 	CreateOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*GetWithID, error)
 	GetOrder(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*Order, error)
 	DeleteOrder(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error)
@@ -119,6 +119,15 @@ func (c *productServiceClient) CreateCategory(ctx context.Context, in *Category,
 func (c *productServiceClient) DeleteCategory(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error) {
 	out := new(MoveResponse)
 	err := c.cc.Invoke(ctx, "/product_service.ProductService/DeleteCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) UpdateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
+	out := new(Category)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/UpdateCategory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -251,7 +260,16 @@ func (c *productServiceClient) UserWishlist(ctx context.Context, in *SearchReque
 	return out, nil
 }
 
-func (c *productServiceClient) SaveToBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*GetWithID, error) {
+func (c *productServiceClient) IsUnique(ctx context.Context, in *IsUniqueReq, opts ...grpc.CallOption) (*MoveResponse, error) {
+	out := new(MoveResponse)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/IsUnique", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) SaveToBasket(ctx context.Context, in *BasketCreateReq, opts ...grpc.CallOption) (*GetWithID, error) {
 	out := new(GetWithID)
 	err := c.cc.Invoke(ctx, "/product_service.ProductService/SaveToBasket", in, out, opts...)
 	if err != nil {
@@ -260,27 +278,9 @@ func (c *productServiceClient) SaveToBasket(ctx context.Context, in *Basket, opt
 	return out, nil
 }
 
-func (c *productServiceClient) DeleteFromBasket(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*MoveResponse, error) {
-	out := new(MoveResponse)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/DeleteFromBasket", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) UpdateBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*Basket, error) {
+func (c *productServiceClient) GetBasket(ctx context.Context, in *BasketGetReq, opts ...grpc.CallOption) (*Basket, error) {
 	out := new(Basket)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/UpdateBasket", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *productServiceClient) ListBaskets(ctx context.Context, in *GetWithID, opts ...grpc.CallOption) (*ListBasket, error) {
-	out := new(ListBasket)
-	err := c.cc.Invoke(ctx, "/product_service.ProductService/ListBaskets", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product_service.ProductService/GetBasket", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -327,6 +327,7 @@ func (c *productServiceClient) UserOrderHistory(ctx context.Context, in *SearchR
 type ProductServiceServer interface {
 	CreateCategory(context.Context, *Category) (*Category, error)
 	DeleteCategory(context.Context, *GetWithID) (*MoveResponse, error)
+	UpdateCategory(context.Context, *Category) (*Category, error)
 	GetCategory(context.Context, *GetWithID) (*Category, error)
 	ListCategories(context.Context, *ListRequest) (*ListCategory, error)
 	SearchCategory(context.Context, *SearchRequest) (*ListProduct, error)
@@ -341,10 +342,9 @@ type ProductServiceServer interface {
 	GetDisableProducts(context.Context, *ListRequest) (*ListOrder, error)
 	LikeProduct(context.Context, *Like) (*MoveResponse, error)
 	UserWishlist(context.Context, *SearchRequest) (*ListProduct, error)
-	SaveToBasket(context.Context, *Basket) (*GetWithID, error)
-	DeleteFromBasket(context.Context, *GetWithID) (*MoveResponse, error)
-	UpdateBasket(context.Context, *Basket) (*Basket, error)
-	ListBaskets(context.Context, *GetWithID) (*ListBasket, error)
+	IsUnique(context.Context, *IsUniqueReq) (*MoveResponse, error)
+	SaveToBasket(context.Context, *BasketCreateReq) (*GetWithID, error)
+	GetBasket(context.Context, *BasketGetReq) (*Basket, error)
 	CreateOrder(context.Context, *Order) (*GetWithID, error)
 	GetOrder(context.Context, *GetWithID) (*Order, error)
 	DeleteOrder(context.Context, *GetWithID) (*MoveResponse, error)
@@ -360,6 +360,9 @@ func (*UnimplementedProductServiceServer) CreateCategory(ctx context.Context, re
 }
 func (*UnimplementedProductServiceServer) DeleteCategory(ctx context.Context, req *GetWithID) (*MoveResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategory not implemented")
+}
+func (*UnimplementedProductServiceServer) UpdateCategory(ctx context.Context, req *Category) (*Category, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCategory not implemented")
 }
 func (*UnimplementedProductServiceServer) GetCategory(ctx context.Context, req *GetWithID) (*Category, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCategory not implemented")
@@ -403,17 +406,14 @@ func (*UnimplementedProductServiceServer) LikeProduct(ctx context.Context, req *
 func (*UnimplementedProductServiceServer) UserWishlist(ctx context.Context, req *SearchRequest) (*ListProduct, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserWishlist not implemented")
 }
-func (*UnimplementedProductServiceServer) SaveToBasket(ctx context.Context, req *Basket) (*GetWithID, error) {
+func (*UnimplementedProductServiceServer) IsUnique(ctx context.Context, req *IsUniqueReq) (*MoveResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsUnique not implemented")
+}
+func (*UnimplementedProductServiceServer) SaveToBasket(ctx context.Context, req *BasketCreateReq) (*GetWithID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveToBasket not implemented")
 }
-func (*UnimplementedProductServiceServer) DeleteFromBasket(ctx context.Context, req *GetWithID) (*MoveResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteFromBasket not implemented")
-}
-func (*UnimplementedProductServiceServer) UpdateBasket(ctx context.Context, req *Basket) (*Basket, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateBasket not implemented")
-}
-func (*UnimplementedProductServiceServer) ListBaskets(ctx context.Context, req *GetWithID) (*ListBasket, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListBaskets not implemented")
+func (*UnimplementedProductServiceServer) GetBasket(ctx context.Context, req *BasketGetReq) (*Basket, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBasket not implemented")
 }
 func (*UnimplementedProductServiceServer) CreateOrder(ctx context.Context, req *Order) (*GetWithID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
@@ -464,6 +464,24 @@ func _ProductService_DeleteCategory_Handler(srv interface{}, ctx context.Context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiceServer).DeleteCategory(ctx, req.(*GetWithID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_UpdateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Category)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).UpdateCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/UpdateCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).UpdateCategory(ctx, req.(*Category))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -720,8 +738,26 @@ func _ProductService_UserWishlist_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProductService_IsUnique_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IsUniqueReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).IsUnique(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/product_service.ProductService/IsUnique",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).IsUnique(ctx, req.(*IsUniqueReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProductService_SaveToBasket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Basket)
+	in := new(BasketCreateReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -733,61 +769,25 @@ func _ProductService_SaveToBasket_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: "/product_service.ProductService/SaveToBasket",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).SaveToBasket(ctx, req.(*Basket))
+		return srv.(ProductServiceServer).SaveToBasket(ctx, req.(*BasketCreateReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_DeleteFromBasket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
+func _ProductService_GetBasket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BasketGetReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).DeleteFromBasket(ctx, in)
+		return srv.(ProductServiceServer).GetBasket(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/product_service.ProductService/DeleteFromBasket",
+		FullMethod: "/product_service.ProductService/GetBasket",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).DeleteFromBasket(ctx, req.(*GetWithID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_UpdateBasket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Basket)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).UpdateBasket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/UpdateBasket",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).UpdateBasket(ctx, req.(*Basket))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProductService_ListBaskets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWithID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServiceServer).ListBaskets(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/product_service.ProductService/ListBaskets",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).ListBaskets(ctx, req.(*GetWithID))
+		return srv.(ProductServiceServer).GetBasket(ctx, req.(*BasketGetReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -877,6 +877,10 @@ var _ProductService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _ProductService_DeleteCategory_Handler,
 		},
 		{
+			MethodName: "UpdateCategory",
+			Handler:    _ProductService_UpdateCategory_Handler,
+		},
+		{
 			MethodName: "GetCategory",
 			Handler:    _ProductService_GetCategory_Handler,
 		},
@@ -933,20 +937,16 @@ var _ProductService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _ProductService_UserWishlist_Handler,
 		},
 		{
+			MethodName: "IsUnique",
+			Handler:    _ProductService_IsUnique_Handler,
+		},
+		{
 			MethodName: "SaveToBasket",
 			Handler:    _ProductService_SaveToBasket_Handler,
 		},
 		{
-			MethodName: "DeleteFromBasket",
-			Handler:    _ProductService_DeleteFromBasket_Handler,
-		},
-		{
-			MethodName: "UpdateBasket",
-			Handler:    _ProductService_UpdateBasket_Handler,
-		},
-		{
-			MethodName: "ListBaskets",
-			Handler:    _ProductService_ListBaskets_Handler,
+			MethodName: "GetBasket",
+			Handler:    _ProductService_GetBasket_Handler,
 		},
 		{
 			MethodName: "CreateOrder",

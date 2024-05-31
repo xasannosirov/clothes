@@ -6,71 +6,56 @@ import (
 	"product-service/internal/entity"
 )
 
-func (d *productRPC) SaveToBasket(ctx context.Context, in *pb.Basket) (*pb.GetWithID, error) {
-	respProduct, err := d.productUsecase.SaveToBasket(ctx, &entity.Basket{
-		ID:        in.Id,
+func (d *productRPC) SaveToBasket(ctx context.Context, in *pb.BasketCreateReq) (*pb.GetWithID, error) {
+	respProduct, err := d.productUsecase.SaveToBasket(ctx, &entity.BasketCreateReq{
 		UserID:    in.UserId,
 		ProductID: in.ProductId,
-		Count:     in.Count,
 	})
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &pb.GetWithID{Id: respProduct.ID}, nil
+	return &pb.GetWithID{Id: respProduct.UserID}, nil
 }
 
-func (d *productRPC) DeleteFromBasket(ctx context.Context, in *pb.GetWithID) (*pb.MoveResponse, error) {
-	err := d.productUsecase.DeleteFromBasket(ctx, in.Id)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &pb.MoveResponse{Status: true}, nil
-}
-
-func (p *productRPC) UpdateBasket(ctx context.Context, in *pb.Basket) (*pb.Basket, error) {
-	basket, err := p.productUsecase.UpdateBasket(ctx, &entity.Basket{
-		ID:        in.Id,
-		ProductID: in.ProductId,
-		UserID:    in.UserId,
-		Count:     in.Count,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &pb.Basket{
-		Id:        basket.ID,
-		ProductId: basket.ProductID,
-		UserId:    basket.UserID,
-		Count:     basket.Count,
-	}, nil
-}
-
-func (d *productRPC) ListBaskets(ctx context.Context, in *pb.GetWithID) (*pb.ListBasket, error) {
-	baskets, err := d.productUsecase.ListBaskets(ctx, &entity.GetWithID{
-		ID: in.Id,
+func (d *productRPC) GetBasket(ctx context.Context, in *pb.BasketGetReq) (*pb.Basket, error) {
+	baskets, err := d.productUsecase.GetBasket(ctx, &entity.GetBAsketReq{
+		UserId: in.UserId,
+		Page:   in.Page,
+		Limit:  in.Limit,
 	})
 	if err != nil {
 		return nil, err
 	}
-
-	pbBaskets := &pb.ListBasket{}
-	for _, basket := range baskets.Baskets {
-		pbBaskets.Baskets = append(pbBaskets.Baskets, &pb.Basket{
-			Id:        basket.ID,
-			UserId:    basket.UserID,
-			ProductId: basket.ProductID,
-			Count:     basket.Count,
-		})
-	}
-
-	return &pb.ListBasket{
-		Baskets:    pbBaskets.Baskets,
+	resBasket := pb.Basket{
+		UserId:     baskets.UserID,
 		TotalCount: baskets.TotalCount,
-	}, nil
+	}
+
+	for _, productId := range baskets.ProductIDs {
+		product, err := d.productUsecase.GetProduct(ctx, map[string]string{"id": productId})
+		if err != nil {
+			return nil, err
+		}
+
+		resBasket.Product = append(resBasket.Product, &pb.Product{
+			Id:          product.Id,
+			Name:        product.Name,
+			Description: product.Description,
+			Category:    product.Category,
+			MadeIn:      product.MadeIn,
+			Color:       product.Color,
+			Count:       product.Count,
+			Cost:        product.Cost,
+			Discount:    product.Discount,
+			AgeMin:      product.AgeMin,
+			AgeMax:      product.AgeMax,
+			ForGender:   product.ForGender,
+			ProductSize: product.Size,
+		})
+
+	}
+
+	return &resBasket, nil
 }

@@ -41,10 +41,10 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 
-	endpoint := "13.201.56.179:9000"
-	accessKeyID := "abdulaziz"
-	secretAccessKey := "abdulaziz"
-	bucketName := "clothesstore"
+	endpoint := h.Config.Minio.Endpoint
+	accessKeyID := h.Config.Minio.AccessKeyID
+	secretAccessKey := h.Config.Minio.SecretAcessKey
+	bucketName := h.Config.Minio.BucketName
 	minioClient, err := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
 		Secure: false,
@@ -102,9 +102,9 @@ func (h *HandlerV1) UploadMedia(c *gin.Context) {
 		return
 	}
 
-	if file.Size > 10<<20 {
+	if file.Size > 35<<20 {
 		c.JSON(http.StatusBadRequest, models.Error{
-			Message: "File size cannot be larger than 10 MB",
+			Message: "File size cannot be larger than 35 MB",
 		})
 		return
 	}
