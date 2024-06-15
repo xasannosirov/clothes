@@ -53,11 +53,11 @@ type Config struct {
 		SignInKey  string
 	}
 	Minio struct {
-		Endpoint              string
-		AccessKey             string
-		SecretKey             string
-		Location              string
-		MovieUploadBucketName string
+		Endpoint       string
+		AccessKeyID    string
+		SecretAcessKey string
+		Location       string
+		BucketName     string
 	}
 	SMTP struct {
 		Email         string
@@ -138,6 +138,12 @@ func NewConfig() (*Config, error) {
 	config.SMTP.EmailPassword = getEnv("SMTP_EMAIL_PASSWORD", "dnrzomyvooftjcgc ")
 	config.SMTP.SMTPPort = getEnv("SMTP_PORT", "587")
 	config.SMTP.SMTPHost = getEnv("SMTP_HOST", "smtp.gmail.com")
+
+	//minIO configuration
+	config.Minio.AccessKeyID = getEnv("ACCES_KEY_ID", "abdulaziz")
+	config.Minio.SecretAcessKey = getEnv("SECRET_ACCES_KEY", "abdulaziz")
+	config.Minio.Endpoint = getEnv("ENDPOINT", "13.201.56.179:9000")
+	config.Minio.BucketName = getEnv("BUCKET_NAME", "clothesstore")
 
 	return &config, nil
 }

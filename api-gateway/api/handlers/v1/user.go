@@ -22,7 +22,7 @@ import (
 // @Accept 			json
 // @Produce 		json
 // @Param 			user body models.UserRegister true "Create User Model"
-// @Success 		201 {object} models.UserCreateResponse
+// @Success 		201 {object} models.CreateResponse
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
@@ -106,7 +106,7 @@ func (h *HandlerV1) CreateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, models.UserCreateResponse{
+	c.JSON(http.StatusCreated, models.CreateResponse{
 		UserID: userServiceCreateResponse.Guid,
 	})
 }

@@ -1,7 +1,7 @@
 package models
 
 type (
-	UserCreateResponse struct {
+	CreateResponse struct {
 		UserID string `json:"user_id"`
 	}
 

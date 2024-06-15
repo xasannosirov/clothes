@@ -25,11 +25,10 @@ service ProductService {
 
   rpc LikeProduct(Like) returns (MoveResponse); 
   rpc UserWishlist(SearchRequest) returns (ListProduct); 
+  rpc IsUnique(IsUniqueReq)returns (MoveResponse);
 
-  rpc SaveToBasket(Basket) returns (GetWithID);
-  rpc DeleteFromBasket(GetWithID) returns (MoveResponse);
-  rpc UpdateBasket(Basket) returns (Basket);
-  rpc ListBaskets(GetWithID) returns (ListBasket);
+  rpc SaveToBasket(BasketCreateReq) returns (GetWithID);
+  rpc GetBasket(BasketGetReq) returns (Basket);
 
   rpc CreateOrder(Order) returns (GetWithID); 
   rpc GetOrder(GetWithID) returns (Order);

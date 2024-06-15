@@ -5,13 +5,12 @@ import (
 	"api-gateway/genproto/media_service"
 	"api-gateway/genproto/product_service"
 	"api-gateway/internal/pkg/query_parameter"
+	"api-gateway/internal/pkg/regtool"
 	"context"
 	"log"
 	"net/http"
-	"regexp"
 	"strconv"
 	"time"
-	"unicode"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -56,47 +55,15 @@ func (h *HandlerV1) CreateProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-
-	for i := 0; i < len(body.Color); i++ {
-		isAlpha := func (s string) bool {
-			for _, char := range s {
-				if !unicode.IsLetter(char) {
-					return false
-				}
-			}
-			return true
-		}(body.Color[i])
-
-		if len(body.Color[i]) < 3 || !isAlpha{
-			c.JSON(http.StatusBadRequest, models.Error{
-				Message: "color must be more than 3 only letters long",
-			})
-			log.Println("color must be more than 3 only letters long")
-			return
-		}
+	err  = body.Validate()
+	if err != nil{
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: err.Error(),
+		})
+		log.Println(err.Error())
+		return
 	}
 
-	for i := 0; i < len(body.Size); i++ {
-		romanRegex := `^(?i)(M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))$`
-		matched, err := func(s string) (matched bool, err error) {
-			re, err := regexp.Compile(romanRegex)
-			if err != nil {
-				return false, err
-			}
-			return re.MatchString(s), nil
-		}(body.Size[i])
-		if err != nil {
-			return
-		}
-		if !matched {
-			c.JSON(http.StatusBadRequest, models.Error{
-				Message: "product size should be in Roman numerals only",
-			})
-			log.Println("product size should be in Roman numerals only")
-			return
-		}
-	}
-	
 	createdProductResponse, err := h.Service.ProductService().CreateProduct(ctx, &product_service.Product{
 		Name:        body.Name,
 		Description: body.Description,
@@ -296,18 +263,72 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 	media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 		Id: productID,
 	})
-	
+
 	if err != nil {
 		log.Println(err.Error())
 	}
 	var imagesURL []string
-	for _, imageUrl := range media.Images{
+	for _, imageUrl := range media.Images {
 		imagesURL = append(imagesURL, imageUrl.ImageUrl)
 	}
 
 	if len(media.Images) == 0 {
 		media.Images = append(media.Images, &media_service.Media{
 			ImageUrl: "",
+		})
+	}
+
+	token := c.Request.Header.Get("Authorization")
+	if token != "" {
+		userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
+		if statusCode != 0 {
+			c.JSON(http.StatusBadRequest, models.Error{
+				Message: "oops something went wrong",
+			})
+		}
+
+		statusLike, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
+			TableName: "wishlist",
+			UserId:    userId,
+			ProductId: productID,
+		})
+		if err != nil {
+			c.JSON(http.StatusBadRequest, models.Error{
+				Message: err.Error(),
+			})
+			log.Println(err.Error())
+			return
+		}
+		statusBasket, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
+			TableName: "basket",
+			UserId:    userId,
+			ProductId: productID,
+		})
+		if err != nil {
+			c.JSON(http.StatusBadRequest, models.Error{
+				Message: err.Error(),
+			})
+			log.Println(err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, models.Product{
+			ID:          productID,
+			Name:        product.Name,
+			Category:    product.Category,
+			Description: product.Description,
+			MadeIn:      product.MadeIn,
+			Color:       product.Color,
+			Size:        product.ProductSize,
+			Count:       product.Count,
+			Cost:        float64(product.Cost),
+			Discount:    float64(product.Discount),
+			AgeMin:      product.AgeMin,
+			AgeMax:      product.AgeMax,
+			ForGender:   product.ForGender,
+			Liked:       statusLike.Status,
+			Basket:      statusBasket.Status,
+			ImageURL:    imagesURL,
 		})
 	}
 
@@ -412,42 +433,106 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 		}
 	}
 
+	token := c.Request.Header.Get("Authorization")
 	var products []models.Product
-	for _, product := range listProducts.Products {
-		media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
-			Id: product.Id,
-		})
-		if err != nil {
-			log.Println(err.Error())
-		}
+	if token != "" {
+		for _, product := range listProducts.Products {
+			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
+				Id: product.Id,
+			})
+			if err != nil {
+				log.Println(err.Error())
+			}
 
-		var imagesURL []string
-		for _, imageUrl := range media.Images {
-			imagesURL = append(imagesURL, imageUrl.ImageUrl)
-		}
+			var imagesURL []string
+			for _, imageUrl := range media.Images {
+				imagesURL = append(imagesURL, imageUrl.ImageUrl)
+			}
 
-		if len(media.Images) == 0 {
-			media.Images = append(media.Images, &media_service.Media{
-				ImageUrl: "",
+			userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
+			if statusCode != 0 {
+				c.JSON(http.StatusBadRequest, models.Error{
+					Message: "oops something went wrong",
+				})
+			}
+
+			likeStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
+				TableName: "wishlist",
+				UserId:    userId,
+				ProductId: product.Id,
+			})
+			if err != nil {
+				c.JSON(http.StatusBadRequest, models.Error{
+					Message: err.Error(),
+				})
+				log.Println(err.Error())
+				return
+			}
+			basketStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
+				TableName: "basket",
+				UserId:    userId,
+				ProductId: product.Id,
+			})
+			if err != nil {
+				c.JSON(http.StatusBadRequest, models.Error{
+					Message: err.Error(),
+				})
+				log.Println(err.Error())
+				return
+			}
+
+			products = append(products, models.Product{
+				ID:          product.Id,
+				Name:        product.Name,
+				Category:    product.Category,
+				Description: product.Description,
+				MadeIn:      product.MadeIn,
+				Color:       product.Color,
+				Size:        product.ProductSize,
+				Count:       product.Count,
+				Cost:        float64(product.Cost),
+				Discount:    float64(product.Discount),
+				AgeMin:      product.AgeMin,
+				AgeMax:      product.AgeMax,
+				ForGender:   product.ForGender,
+				Liked:       likeStatus.Status,
+				Basket:      basketStatus.Status,
+				ImageURL:    imagesURL,
 			})
 		}
+	}else {
+		for _, product := range listProducts.Products {
+			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
+				Id: product.Id,
+			})
+			if err != nil {
+				log.Println(err.Error())
+			}
 
-		products = append(products, models.Product{
-			ID:          product.Id,
-			Name:        product.Name,
-			Category:    product.Category,
-			Description: product.Description,
-			MadeIn:      product.MadeIn,
-			Color:       product.Color,
-			Size:        product.ProductSize,
-			Count:       product.Count,
-			Cost:        float64(product.Cost),
-			Discount:    float64(product.Discount),
-			AgeMin:      product.AgeMin,
-			AgeMax:      product.AgeMax,
-			ForGender:   product.ForGender,
-			ImageURL:    imagesURL,
-		})
+			var imagesURL []string
+			for _, imageUrl := range media.Images {
+				imagesURL = append(imagesURL, imageUrl.ImageUrl)
+			}
+
+			products = append(products, models.Product{
+				ID:          product.Id,
+				Name:        product.Name,
+				Category:    product.Category,
+				Description: product.Description,
+				MadeIn:      product.MadeIn,
+				Color:       product.Color,
+				Size:        product.ProductSize,
+				Count:       product.Count,
+				Cost:        float64(product.Cost),
+				Discount:    float64(product.Discount),
+				AgeMin:      product.AgeMin,
+				AgeMax:      product.AgeMax,
+				ForGender:   product.ForGender,
+				Liked:       false,
+				Basket:      false,
+				ImageURL:    imagesURL,
+			})
+		}
 	}
 
 	response := models.ListProduct{}
@@ -497,41 +582,106 @@ func (h *HandlerV1) GetDicountProducts(c *gin.Context) {
 		return
 	}
 
+	token := c.Request.Header.Get("Authorization")
 	var response models.ListProduct
-	for _, serviceProduct := range products.Products {
-		media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
-			Id: serviceProduct.Id,
-		})
-		if err != nil {
-			log.Println(err.Error())
-		}
+	if token != "" {
+		for _, product := range products.Products {
+			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
+				Id: product.Id,
+			})
+			if err != nil {
+				log.Println(err.Error())
+			}
 
-		var imagesURL []string
-		for _, imageUrl := range media.Images {
-			imagesURL = append(imagesURL, imageUrl.ImageUrl)
-		}
+			var imagesURL []string
+			for _, imageUrl := range media.Images {
+				imagesURL = append(imagesURL, imageUrl.ImageUrl)
+			}
 
-		if len(media.Images) == 0 {
-			media.Images = append(media.Images, &media_service.Media{
-				ImageUrl: "",
+			userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
+			if statusCode != 0 {
+				c.JSON(http.StatusBadRequest, models.Error{
+					Message: "oops something went wrong",
+				})
+			}
+
+			likeStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
+				TableName: "wishlist",
+				UserId:    userId,
+				ProductId: product.Id,
+			})
+			if err != nil {
+				c.JSON(http.StatusBadRequest, models.Error{
+					Message: err.Error(),
+				})
+				log.Println(err.Error())
+				return
+			}
+			basketStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
+				TableName: "basket",
+				UserId:    userId,
+				ProductId: product.Id,
+			})
+			if err != nil {
+				c.JSON(http.StatusBadRequest, models.Error{
+					Message: err.Error(),
+				})
+				log.Println(err.Error())
+				return
+			}
+
+			response.Products = append(response.Products, models.Product{
+				ID:          product.Id,
+				Name:        product.Name,
+				Category:    product.Category,
+				Description: product.Description,
+				MadeIn:      product.MadeIn,
+				Color:       product.Color,
+				Size:        product.ProductSize,
+				Count:       product.Count,
+				Cost:        float64(product.Cost),
+				Discount:    float64(product.Discount),
+				AgeMin:      product.AgeMin,
+				AgeMax:      product.AgeMax,
+				ForGender:   product.ForGender,
+				Liked:       likeStatus.Status,
+				Basket:      basketStatus.Status,
+				ImageURL:    imagesURL,
 			})
 		}
-		response.Products = append(response.Products, models.Product{
-			ID:          serviceProduct.Id,
-			Name:        serviceProduct.Name,
-			Category:    serviceProduct.Category,
-			Description: serviceProduct.Description,
-			MadeIn:      serviceProduct.MadeIn,
-			Color:       serviceProduct.Color,
-			Size:        serviceProduct.ProductSize,
-			Count:       serviceProduct.Count,
-			Cost:        float64(serviceProduct.Cost),
-			Discount:    float64(serviceProduct.Discount),
-			AgeMin:      serviceProduct.AgeMin,
-			AgeMax:      serviceProduct.AgeMax,
-			ForGender:   serviceProduct.ForGender,
-			ImageURL:    imagesURL,
-		})
+	}else {
+		for _, product := range products.Products {
+			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
+				Id: product.Id,
+			})
+			if err != nil {
+				log.Println(err.Error())
+			}
+
+			var imagesURL []string
+			for _, imageUrl := range media.Images {
+				imagesURL = append(imagesURL, imageUrl.ImageUrl)
+			}
+
+			response.Products = append(response.Products, models.Product{
+				ID:          product.Id,
+				Name:        product.Name,
+				Category:    product.Category,
+				Description: product.Description,
+				MadeIn:      product.MadeIn,
+				Color:       product.Color,
+				Size:        product.ProductSize,
+				Count:       product.Count,
+				Cost:        float64(product.Cost),
+				Discount:    float64(product.Discount),
+				AgeMin:      product.AgeMin,
+				AgeMax:      product.AgeMax,
+				ForGender:   product.ForGender,
+				Liked:       false,
+				Basket:      false,
+				ImageURL:    imagesURL,
+			})
+		}
 	}
 	response.Total = products.TotalCount
 
