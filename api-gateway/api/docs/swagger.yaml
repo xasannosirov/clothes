@@ -27,6 +27,31 @@ definitions:
       category_name:
         type: string
     type: object
+  models.Comment:
+    properties:
+      id:
+        type: string
+      message:
+        type: string
+      ownerID:
+        type: string
+      productID:
+        type: string
+    type: object
+  models.CommentCreate:
+    properties:
+      message:
+        type: string
+      productID:
+        type: string
+    type: object
+  models.CommentUpdate:
+    properties:
+      id:
+        type: string
+      message:
+        type: string
+    type: object
   models.CreateResponse:
     properties:
       user_id:
@@ -36,6 +61,15 @@ definitions:
     properties:
       message:
         type: string
+    type: object
+  models.ListComment:
+    properties:
+      comment:
+        items:
+          $ref: '#/definitions/models.Comment'
+        type: array
+      totalCount:
+        type: integer
     type: object
   models.ListProduct:
     properties:
@@ -297,10 +331,9 @@ paths:
         name: limit
         required: true
         type: integer
-      - description: Basket ID
+      - description: User ID
         in: query
         name: id
-        required: true
         type: string
       produces:
       - application/json
@@ -588,6 +621,198 @@ paths:
       summary: Search Category
       tags:
       - category
+  /v1/comment:
+    post:
+      consumes:
+      - application/json
+      description: This api for create commment to post
+      parameters:
+      - description: Comment Create Model
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/models.CommentCreate'
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Comment
+      tags:
+      - comment
+    put:
+      consumes:
+      - application/json
+      description: Api for update a Comment
+      parameters:
+      - description: Update Comment Model
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/models.CommentUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Comment
+      tags:
+      - comment
+  /v1/comment/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Api for delete a comment
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: boolean
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Comment
+      tags:
+      - comment
+    get:
+      consumes:
+      - application/json
+      description: Api for getting a comment
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Comment
+      tags:
+      - comment
+  /v1/comments:
+    get:
+      consumes:
+      - application/json
+      description: Api for getting list comment
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListComment'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Comment
+      tags:
+      - comment
   /v1/forgot/{email}:
     post:
       consumes:
@@ -652,7 +877,7 @@ paths:
             type: string
       summary: Handle Google callback
       tags:
-      - auth
+      - oauth
   /v1/google/login:
     get:
       description: Redirects the user to Google's OAuth 2.0 consent page
@@ -663,7 +888,7 @@ paths:
             type: string
       summary: Google Login
       tags:
-      - auth
+      - oauth
   /v1/like/{id}:
     post:
       consumes:
@@ -819,6 +1044,55 @@ paths:
       summary: Upload media
       tags:
       - media
+  /v1/post/comments:
+    get:
+      consumes:
+      - application/json
+      description: Api for getting post's comment
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: User Id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListComment'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Comment
+      tags:
+      - comment
   /v1/product:
     post:
       consumes:
@@ -1414,6 +1688,40 @@ paths:
           schema:
             $ref: '#/definitions/models.Error'
       summary: Verify OTP
+      tags:
+      - auth
+  /v1/verify/register:
+    post:
+      consumes:
+      - application/json
+      description: Api for verify user
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: code
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Verify User
       tags:
       - auth
   /v1/wishlist:

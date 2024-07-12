@@ -26,7 +26,7 @@ type Basket struct {
 	UserID     string
 	TotalCount int64
 }
-type GetBAsketReq struct {
+type GetBasketReq struct {
 	UserId string
 	Page   int64
 	Limit  int64
@@ -63,6 +63,7 @@ type SearchRequest struct {
 type ListRequest struct {
 	Page  int64
 	Limit int64
+	Filter map[string]string
 }
 
 type MoveResponse struct {

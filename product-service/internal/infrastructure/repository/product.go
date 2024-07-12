@@ -30,10 +30,17 @@ type Product interface {
 
 	SaveToBasket(ctx context.Context, basket *entity.BasketCreateReq) (*entity.Basket, error)
 	DeleteFromBasket(ctx context.Context, userID string, productID string) error
-	GetBasket(ctx context.Context, getReq *entity.GetBAsketReq) (*entity.Basket, error)
+	GetBasket(ctx context.Context, getReq *entity.GetBasketReq) (*entity.Basket, error)
 
 	CreateOrder(ctx context.Context, order *entity.Order) (*entity.Order, error)
 	GetOrder(ctx context.Context, params map[string]string) (*entity.Order, error)
 	DeleteOrder(ctx context.Context, params map[string]string) error
 	UserOrderHistory(ctx context.Context, searchFields *entity.SearchRequest) (*entity.ListProduct, error)
+	
+	CreateComment(ctx context.Context, comment *entity.Comment) (*entity.Comment, error)
+	UpdateComment(ctx context.Context, category *entity.CommentUpdateRequest) (*entity.Comment, error)
+	DeleteComment(ctx context.Context, req *entity.DeleteRequest) error
+	GetComment(ctx context.Context,  req *entity.GetRequest) (*entity.Comment, error)
+	ListComment(ctx context.Context, req *entity.ListRequest) (*entity.CommentListResponse, error)
+		
 }

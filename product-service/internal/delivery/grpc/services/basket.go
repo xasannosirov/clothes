@@ -4,6 +4,8 @@ import (
 	"context"
 	pb "product-service/genproto/product_service"
 	"product-service/internal/entity"
+
+	"github.com/k0kubun/pp"
 )
 
 func (d *productRPC) SaveToBasket(ctx context.Context, in *pb.BasketCreateReq) (*pb.GetWithID, error) {
@@ -20,7 +22,7 @@ func (d *productRPC) SaveToBasket(ctx context.Context, in *pb.BasketCreateReq) (
 }
 
 func (d *productRPC) GetBasket(ctx context.Context, in *pb.BasketGetReq) (*pb.Basket, error) {
-	baskets, err := d.productUsecase.GetBasket(ctx, &entity.GetBAsketReq{
+	baskets, err := d.productUsecase.GetBasket(ctx, &entity.GetBasketReq{
 		UserId: in.UserId,
 		Page:   in.Page,
 		Limit:  in.Limit,
@@ -33,9 +35,11 @@ func (d *productRPC) GetBasket(ctx context.Context, in *pb.BasketGetReq) (*pb.Ba
 		TotalCount: baskets.TotalCount,
 	}
 
+	pp.Println(baskets.ProductIDs)
 	for _, productId := range baskets.ProductIDs {
 		product, err := d.productUsecase.GetProduct(ctx, map[string]string{"id": productId})
 		if err != nil {
+			pp.Println("Error while getting product !!!")
 			return nil, err
 		}
 

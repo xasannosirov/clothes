@@ -55,11 +55,13 @@ func (h *HandlerV1) CreateProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-	err  = body.Validate()
-	if err != nil{
+
+	err = body.Validate()
+	if err != nil {
 		c.JSON(http.StatusBadRequest, models.Error{
 			Message: err.Error(),
 		})
+
 		log.Println(err.Error())
 		return
 	}
@@ -259,7 +261,6 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-
 	media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 		Id: productID,
 	})
@@ -293,23 +294,31 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 			ProductId: productID,
 		})
 		if err != nil {
-			c.JSON(http.StatusBadRequest, models.Error{
-				Message: err.Error(),
-			})
-			log.Println(err.Error())
-			return
+			if err.Error() == "no rows in result set" {
+				statusLike.Status = false
+			} else {
+				c.JSON(http.StatusBadRequest, models.Error{
+					Message: err.Error(),
+				})
+				log.Println(err.Error())
+				return
+			}
 		}
 		statusBasket, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
-			TableName: "basket",
+			TableName: "baskets",
 			UserId:    userId,
 			ProductId: productID,
 		})
 		if err != nil {
-			c.JSON(http.StatusBadRequest, models.Error{
-				Message: err.Error(),
-			})
-			log.Println(err.Error())
-			return
+			if err.Error() == "no rows in result set" {
+				statusLike.Status = false
+			} else {
+				c.JSON(http.StatusBadRequest, models.Error{
+					Message: err.Error(),
+				})
+				log.Println(err.Error())
+				return
+			}
 		}
 
 		c.JSON(http.StatusOK, models.Product{
@@ -330,6 +339,7 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 			Basket:      statusBasket.Status,
 			ImageURL:    imagesURL,
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, models.Product{
@@ -456,30 +466,38 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 				})
 			}
 
-			likeStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
-				TableName: "wishlist",
-				UserId:    userId,
-				ProductId: product.Id,
-			})
-			if err != nil {
+			statusLike, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
+			TableName: "wishlist",
+			UserId:    userId,
+			ProductId: product.Id,
+		})
+		if err != nil {
+			if err.Error() == "no rows in result set" {
+				statusLike.Status = false
+			} else {
 				c.JSON(http.StatusBadRequest, models.Error{
 					Message: err.Error(),
 				})
 				log.Println(err.Error())
 				return
 			}
-			basketStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
-				TableName: "basket",
-				UserId:    userId,
-				ProductId: product.Id,
-			})
-			if err != nil {
+		}
+		statusBasket, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
+			TableName: "baskets",
+			UserId:    userId,
+			ProductId: product.Id,
+		})
+		if err != nil {
+			if err.Error() == "no rows in result set" {
+				statusLike.Status = false
+			} else {
 				c.JSON(http.StatusBadRequest, models.Error{
 					Message: err.Error(),
 				})
 				log.Println(err.Error())
 				return
 			}
+		}
 
 			products = append(products, models.Product{
 				ID:          product.Id,
@@ -495,12 +513,12 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 				AgeMin:      product.AgeMin,
 				AgeMax:      product.AgeMax,
 				ForGender:   product.ForGender,
-				Liked:       likeStatus.Status,
-				Basket:      basketStatus.Status,
+				Liked:       statusBasket.Status,
+				Basket:      statusBasket.Status,
 				ImageURL:    imagesURL,
 			})
 		}
-	}else {
+	} else {
 		for _, product := range listProducts.Products {
 			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 				Id: product.Id,
@@ -649,7 +667,7 @@ func (h *HandlerV1) GetDicountProducts(c *gin.Context) {
 				ImageURL:    imagesURL,
 			})
 		}
-	}else {
+	} else {
 		for _, product := range products.Products {
 			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 				Id: product.Id,

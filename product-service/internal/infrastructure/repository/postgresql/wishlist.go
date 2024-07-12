@@ -2,34 +2,73 @@ package postgresql
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"product-service/internal/entity"
 
 	"github.com/Masterminds/squirrel"
+	"github.com/lib/pq"
 )
 
 func (p *productRepo) IsUnique(ctx context.Context, tableName, UserId, ProductId string) (bool, error) {
+	if tableName == "wishlist" {
+		queryBuilder := p.db.Sq.Builder.Select("COUNT(1)").
+			From(tableName).
+			Where(squirrel.Eq{"user_id": UserId, "product_id": ProductId})
 
-	queryBuilder := p.db.Sq.Builder.Select("COUNT(1)").
-		From(tableName).
-		Where(squirrel.Eq{"user_id": UserId, "product_id": ProductId})
+		query, args, err := queryBuilder.ToSql()
 
-	query, args, err := queryBuilder.ToSql()
+		if err != nil {
+			return true, err
+		}
 
-	if err != nil {
-		return false, err
+		var count int
+
+		if err = p.db.QueryRow(ctx, query, args...).Scan(&count); err != nil {
+			return true, err
+		}
+		if count != 0 {
+			return true, nil
+		}
+		return false, nil
+	} else if tableName == "baskets"{
+		var existingProductIDs []string
+		err := p.db.QueryRow(ctx, `SELECT product_id FROM `+p.basketTable+` WHERE user_id = $1`, UserId).Scan(pq.Array(&existingProductIDs))
+		if err != nil && err != sql.ErrNoRows {
+			return true, err
+		}
+		var exists bool
+		for _, existingProductID := range existingProductIDs {
+			if existingProductID == ProductId {
+				exists = true
+				break
+			}
+		}
+
+		return exists, nil
+	}else {
+		queryBuilder := p.db.Sq.Builder.Select("COUNT(1)").
+			From(tableName).
+			Where(squirrel.Eq{"user_id": UserId, "product_id": ProductId})
+
+		query, args, err := queryBuilder.ToSql()
+
+		if err != nil {
+			return true, err
+		}
+
+		var count int
+
+		if err = p.db.QueryRow(ctx, query, args...).Scan(&count); err != nil {
+			return true, err
+		}
+		if count != 0 {
+			return true, nil
+		}
+		return false, nil
 	}
-
-	var count int
-
-	if err = p.db.QueryRow(ctx, query, args...).Scan(&count); err != nil {
-		return false, err
-	}
-	if count != 0 {
-		return true, nil
-	}
-	return false, nil
 }
+
 
 func (p *productRepo) LikeProduct(ctx context.Context, req *entity.Like) (bool, error) {
 	data := map[string]any{

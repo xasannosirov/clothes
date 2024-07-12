@@ -34,4 +34,10 @@ service ProductService {
   rpc GetOrder(GetWithID) returns (Order);
   rpc DeleteOrder(GetWithID) returns (MoveResponse);
   rpc UserOrderHistory(SearchRequest) returns (ListProduct);
+
+  rpc CreateComment(Comment)returns(Comment);
+  rpc UpdateComment(CommentUpdateRequst)returns(Comment);
+  rpc DeleteComment(CommentDeleteRequest)returns(MoveResponse);
+  rpc GetComment(CommentGetRequst)returns(Comment);
+  rpc ListComment(CommentListRequest)returns(CommentListResponse);
 }

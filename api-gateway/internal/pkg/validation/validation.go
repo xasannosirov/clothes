@@ -7,6 +7,7 @@ import (
 	"unicode"
 
 	validation "github.com/go-ozzo/ozzo-validation/v3"
+	"github.com/google/uuid"
 )
 
 func PhoneUz(phone string) bool {
@@ -66,4 +67,8 @@ func PasswordValidation(password string) bool {
 	}
 
 	return hasLowerCase && hasUpperCase && hasDigit && hasSpecial
+}
+func ValidateUUID(u string) bool {
+    _, err := uuid.Parse(u)
+    return err == nil
 }

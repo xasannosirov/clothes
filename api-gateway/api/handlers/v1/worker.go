@@ -119,7 +119,7 @@ func (h *HandlerV1) CreateWorker(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, models.CreateResponse{
-		UserID: userServiceCreateResponse.Guid,
+		ID: userServiceCreateResponse.Guid,
 	})
 }
 
