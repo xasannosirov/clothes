@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"product-service/internal/entity"
-	"product-service/internal/pkg/otlp"
 	"strings"
 	"time"
 
@@ -14,9 +13,6 @@ import (
 )
 
 func (u *productRepo) CreateProduct(ctx context.Context, req *entity.Product) (*entity.Product, error) {
-	ctx, span := otlp.Start(ctx, "product_grpc-reposiroty", "CreateProduct")
-	defer span.End()
-
 	data := map[string]any{
 		"id":          req.Id,
 		"name":        req.Name,

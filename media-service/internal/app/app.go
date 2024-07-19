@@ -10,7 +10,6 @@ import (
 	repo "media-service/internal/infrastructure/repository/postgres"
 	"media-service/internal/pkg/config"
 	"media-service/internal/pkg/logger"
-	"media-service/internal/pkg/otlp"
 
 	"media-service/internal/pkg/postgres"
 
@@ -41,12 +40,6 @@ func NewApp(cfg *config.Config) (*App, error) {
 		return nil, err
 	}
 
-	// otlp collector initialization
-	shutdownOTLP, err := otlp.InitOTLPProvider(cfg)
-	if err != nil {
-		return nil, err
-	}
-
 	// init db
 	db, err := postgres.New(cfg)
 	if err != nil {
@@ -71,11 +64,10 @@ func NewApp(cfg *config.Config) (*App, error) {
 	)
 
 	return &App{
-		Config:       cfg,
-		Logger:       logger,
-		DB:           db,
-		ShutdownOTLP: shutdownOTLP,
-		GrpcServer:   grpcServer,
+		Config:     cfg,
+		Logger:     logger,
+		DB:         db,
+		GrpcServer: grpcServer,
 	}, nil
 }
 

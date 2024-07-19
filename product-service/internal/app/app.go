@@ -11,7 +11,6 @@ import (
 	repo "product-service/internal/infrastructure/repository/postgresql"
 	"product-service/internal/pkg/config"
 	"product-service/internal/pkg/logger"
-	"product-service/internal/pkg/otlp"
 	"product-service/internal/pkg/postgres"
 	"product-service/internal/usecase"
 
@@ -34,11 +33,6 @@ func NewApp(cfg *config.Config) (*App, error) {
 		return nil, err
 	}
 
-	shutdownOTLP, err := otlp.InitOTLPProvider(cfg)
-	if err != nil {
-		return nil, err
-	}
-
 	db, err := postgres.New(cfg)
 	if err != nil {
 		return nil, err
@@ -55,7 +49,6 @@ func NewApp(cfg *config.Config) (*App, error) {
 		Logger:         logger,
 		DB:             db,
 		GrpcServer:     grpcServer,
-		ShutdownOTLP:   shutdownOTLP,
 		ServiceClients: clients,
 	}, nil
 }

@@ -21,13 +21,15 @@ type Config struct {
 	APP         string
 	Environment string
 	LogLevel    string
-	Server      struct {
+
+	Server struct {
 		Host         string
 		Port         string
 		ReadTimeout  string
 		WriteTimeout string
 		IdleTimeout  string
 	}
+
 	DB struct {
 		Host     string
 		Port     string
@@ -36,9 +38,11 @@ type Config struct {
 		Password string
 		SSLMode  string
 	}
+
 	Context struct {
 		Timeout string
 	}
+
 	Redis struct {
 		Host     string
 		Port     string
@@ -46,19 +50,22 @@ type Config struct {
 		Name     string
 		Time     time.Time
 	}
+
 	Token struct {
 		Secret     string
 		AccessTTL  time.Duration
 		RefreshTTL time.Duration
 		SignInKey  string
 	}
+
 	Minio struct {
-		Endpoint       string
-		AccessKeyID    string
-		SecretAcessKey string
-		Location       string
-		BucketName     string
+		Endpoint        string
+		AccessKeyID     string
+		SecretAccessKey string
+		Location        string
+		BucketName      string
 	}
+
 	SMTP struct {
 		Email         string
 		EmailPassword string
@@ -75,7 +82,6 @@ type Config struct {
 	UserService    webAddress
 	MediaService   webAddress
 	ProductService webAddress
-	OTLPCollector  webAddress
 }
 
 func NewConfig() (*Config, error) {
@@ -95,7 +101,7 @@ func NewConfig() (*Config, error) {
 	config.Server.IdleTimeout = getEnv("SERVER_IDLE_TIMEOUT", "120s")
 
 	// redis configuration
-	config.Redis.Host = getEnv("REDIS_HOST", "localhost")// redisdb
+	config.Redis.Host = getEnv("REDIS_HOST", "localhost") // redisdb
 	config.Redis.Port = getEnv("REDIS_PORT", "6379")
 	config.Redis.Password = getEnv("REDIS_PASSWORD", "")
 	config.Redis.Name = getEnv("REDIS_DATABASE", "0")
@@ -127,11 +133,7 @@ func NewConfig() (*Config, error) {
 	}
 	config.Token.AccessTTL = accessTTl
 	config.Token.RefreshTTL = refreshTTL
-	config.Token.SignInKey = getEnv("TOKEN_SIGNIN_KEY", "debug")
-
-	// otlp collector configuration
-	config.OTLPCollector.Host = getEnv("OTLP_COLLECTOR_HOST", "localhost")
-	config.OTLPCollector.Port = getEnv("OTLP_COLLECTOR_PORT", ":4318")
+	config.Token.SignInKey = getEnv("TOKEN_SIGNING_KEY", "debug")
 
 	//smtp configuration
 	config.SMTP.Email = getEnv("SMTP_EMAIL", "storegoclothes@gmail.com")
@@ -140,8 +142,8 @@ func NewConfig() (*Config, error) {
 	config.SMTP.SMTPHost = getEnv("SMTP_HOST", "smtp.gmail.com")
 
 	//minIO configuration
-	config.Minio.AccessKeyID = getEnv("ACCES_KEY_ID", "abdulaziz")
-	config.Minio.SecretAcessKey = getEnv("SECRET_ACCES_KEY", "abdulaziz")
+	config.Minio.AccessKeyID = getEnv("ACCESS_KEY_ID", "abdulaziz")
+	config.Minio.SecretAccessKey = getEnv("SECRET_ACCESS_KEY", "abdulaziz")
 	config.Minio.Endpoint = getEnv("ENDPOINT", "localhost:9000") // 13.201.56.179:9000
 	config.Minio.BucketName = getEnv("BUCKET_NAME", "clothesstore")
 

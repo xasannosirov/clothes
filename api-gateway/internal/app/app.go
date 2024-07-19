@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"time"
 
-	// "github.com/casbin/casbin/v2"
 	"api-gateway/api"
 
 	"github.com/casbin/casbin/v2/util"
@@ -17,27 +16,17 @@ import (
 
 	grpcService "api-gateway/internal/infrastructure/grpc_client"
 
-	// "exam_5/api_gateway/internal/infrastructure/kafka"
-	// "exam_5/api_gateway/internal/infrastructure/repository/postgresql"
 	redisrepo "api-gateway/internal/infrastructure/repository/redis"
 	"api-gateway/internal/pkg/config"
 	"api-gateway/internal/pkg/logger"
 
-	// "exam_5/api_gateway/internal/pkg/policy"
-
-	"api-gateway/internal/pkg/otlp"
-	// "exam_5/api_gateway/internal/pkg/policy"
-	// "exam_5/api_gateway/internal/pkg/postgres"
 	"api-gateway/internal/pkg/storage/redis"
-	// "exam_5/api_gateway/internal/usecase/app_version"
-	// "exam_5/api_gateway/internal/usecase/event"
-	// "evrone_api_gateway/internal/usecase/refresh_token"
 )
 
 type App struct {
 	Config       config.Config
 	Logger       *zap.Logger
-    server       *http.Server
+	server       *http.Server
 	RedisDB      *redis.RedisDB
 	ShutdownOTLP func() error
 	Clients      grpcService.ServiceClient
@@ -61,18 +50,11 @@ func NewApp(cfg config.Config) (*App, error) {
 		return nil, err
 	}
 
-	// otlp collector init
-	shutdownOTLP, err := otlp.InitOTLPProvider(&cfg)
-	if err != nil {
-		return nil, err
-	}
-
 	return &App{
-		Config:       cfg,
-		Logger:       logger,
-		ShutdownOTLP: shutdownOTLP,
-		RedisDB:      redisdb,
-		Enforcer:     enforcer,
+		Config:   cfg,
+		Logger:   logger,
+		RedisDB:  redisdb,
+		Enforcer: enforcer,
 	}, nil
 }
 

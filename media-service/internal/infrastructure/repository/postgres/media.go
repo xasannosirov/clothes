@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"media-service/internal/entity"
-	"media-service/internal/pkg/otlp"
 	"media-service/internal/pkg/postgres"
 
 	"github.com/Masterminds/squirrel"
@@ -40,9 +39,6 @@ func (m *mediaRepo) mediaSelectQueryPrefix() squirrel.SelectBuilder {
 
 // CreateMedia creates media consist of image_url, product_id and id
 func (m mediaRepo) CreateMedia(ctx context.Context, media *entity.Media) (*entity.Media, error) {
-	ctx, span := otlp.Start(ctx, "media_grpc-reposiroty", "CreateMedia")
-	defer span.End()
-
 	data := map[string]any{
 		"id":         media.Id,
 		"product_id": media.ProductID,
@@ -67,9 +63,6 @@ func (m mediaRepo) CreateMedia(ctx context.Context, media *entity.Media) (*entit
 
 // GetMediaWithProductId returns list media by product id
 func (m mediaRepo) GetMediaWithProductId(ctx context.Context, filter map[string]string) ([]*entity.Media, error) {
-	ctx, span := otlp.Start(ctx, "media_grpc-reposiroty", "GetMedia")
-	defer span.End()
-
 	var (
 		ListMedia []*entity.Media
 	)
@@ -108,9 +101,6 @@ func (m mediaRepo) GetMediaWithProductId(ctx context.Context, filter map[string]
 
 // DeleteMedia delete all media by product id
 func (m mediaRepo) DeleteMedia(ctx context.Context, params map[string]any) error {
-	ctx, span := otlp.Start(ctx, "media_grpc-reposiroty", "DeleteMedia")
-	defer span.End()
-
 	query, args, err := m.db.Sq.Builder.
 		Update(m.tableName).
 		SetMap(params).

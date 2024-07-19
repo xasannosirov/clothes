@@ -48,20 +48,9 @@ func New(config *config.Config) (ServiceClients, error) {
 		return nil, err
 	}
 
-	paymentServiceConnection, err := grpc.Dial(
-		fmt.Sprintf("%s%s", config.PaymentService.Host, config.PaymentService.Port),
-		grpc.WithInsecure(),
-		grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor()),
-		grpc.WithStreamInterceptor(otelgrpc.StreamClientInterceptor()),
-	)
-	if err != nil {
-		return nil, err
-	}
-
 	return &serviceClients{
 		userService:    userproto.NewUserServiceClient(userServiceConnnection),
 		productService: productproto.NewProductServiceClient(productServiceConnection),
-		paymentService: paymentproto.NewPaymentServiceClient(paymentServiceConnection),
 		services:       []*grpc.ClientConn{},
 	}, nil
 }

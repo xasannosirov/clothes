@@ -1,0 +1,8 @@
+2024-07-19T16:00:28.374+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-07-19T16:00:47.526+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-07-19T16:00:47+05:00", "grpc.request.deadline": "2024-07-19T16:01:17+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "GetUser", "peer.address": "127.0.0.1:36898", "grpc.code": "OK", "grpc.time_ms": 1.108}
+2024-07-19T16:00:47.580+0500	INFO	zap/options.go:212	finished unary call with code OK	{"grpc.start_time": "2024-07-19T16:00:47+05:00", "grpc.request.deadline": "2024-07-19T16:01:17+05:00", "system": "grpc", "span.kind": "server", "grpc.service": "user_service.UserService", "grpc.method": "UpdateRefresh", "peer.address": "127.0.0.1:36898", "grpc.code": "OK", "grpc.time_ms": 1.929}
+2024-07-19T16:01:25.974+0500	INFO	app/main.go:36	Conten service stops !
+2024-07-19T16:01:56.128+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-07-19T16:08:35.392+0500	INFO	app/main.go:36	Conten service stops !
+2024-07-19T16:31:19.127+0500	INFO	app/app.go:96	gRPC Server Listening	{"url": ":1111"}
+2024-07-19T16:31:19.778+0500	INFO	app/main.go:36	Conten service stops !

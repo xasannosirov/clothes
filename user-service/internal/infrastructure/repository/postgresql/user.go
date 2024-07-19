@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"time"
 	"user-service/internal/entity"
-	"user-service/internal/pkg/otlp"
 	"user-service/internal/pkg/postgres"
 
 	"github.com/Masterminds/squirrel"
@@ -48,11 +47,6 @@ func (p *usersRepo) usersSelectQueryPrefix() squirrel.SelectBuilder {
 }
 
 func (p usersRepo) Create(ctx context.Context, user *entity.User) (*entity.User, error) {
-
-	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "CreateUser")
-	defer span.End()
-	fmt.Println(user.Age)
-
 	data := map[string]any{
 		"id":           user.GUID,
 		"first_name":   user.FirstName,
@@ -81,10 +75,6 @@ func (p usersRepo) Create(ctx context.Context, user *entity.User) (*entity.User,
 }
 
 func (p usersRepo) Update(ctx context.Context, users *entity.User) (*entity.User, error) {
-
-	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "UpdateUser")
-	defer span.End()
-
 	clauses := map[string]any{
 		"first_name":   users.FirstName,
 		"last_name":    users.LastName,
@@ -117,9 +107,6 @@ func (p usersRepo) Update(ctx context.Context, users *entity.User) (*entity.User
 }
 
 func (p usersRepo) Delete(ctx context.Context, guid string) error {
-	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "DeleteUser")
-	defer span.End()
-
 	clauses := map[string]interface{}{
 		"deleted_at": time.Now().Format(time.RFC3339),
 	}
@@ -147,9 +134,6 @@ func (p usersRepo) Delete(ctx context.Context, guid string) error {
 }
 
 func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.User, error) {
-	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "GetUser")
-	defer span.End()
-
 	var (
 		user entity.User
 	)
@@ -208,9 +192,6 @@ func (p usersRepo) Get(ctx context.Context, params map[string]string) (*entity.U
 	return &user, nil
 }
 func (p usersRepo) GetDelete(ctx context.Context, params map[string]string) (*entity.User, error) {
-	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "GetUser")
-	defer span.End()
-
 	var (
 		user entity.User
 	)
@@ -270,10 +251,6 @@ func (p usersRepo) GetDelete(ctx context.Context, params map[string]string) (*en
 }
 
 func (p usersRepo) List(ctx context.Context, limit uint64, offset uint64, filter map[string]string) ([]*entity.User, error) {
-
-	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "ListUsers")
-	defer span.End()
-
 	var (
 		users []*entity.User
 	)
@@ -343,9 +320,6 @@ func (p usersRepo) List(ctx context.Context, limit uint64, offset uint64, filter
 }
 
 func (p usersRepo) UniqueEmail(ctx context.Context, request *entity.IsUnique) (*entity.Response, error) {
-	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "UniqueEmail")
-	defer span.End()
-
 	query := `SELECT COUNT(*) FROM users WHERE email = $1 and deleted_at is null`
 
 	var count int
@@ -361,9 +335,6 @@ func (p usersRepo) UniqueEmail(ctx context.Context, request *entity.IsUnique) (*
 }
 
 func (p usersRepo) UpdateRefresh(ctx context.Context, request *entity.UpdateRefresh) (*entity.Response, error) {
-	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "UpdateRefresh")
-	defer span.End()
-
 	clauses := map[string]any{
 		"refresh": request.RefreshToken,
 	}
@@ -390,9 +361,6 @@ func (p usersRepo) UpdateRefresh(ctx context.Context, request *entity.UpdateRefr
 }
 
 func (p usersRepo) UpdatePassword(ctx context.Context, request *entity.UpdatePassword) (*entity.Response, error) {
-	ctx, span := otlp.Start(ctx, usersSpanRepoPrefix+"_grpc-reposiroty", "UpdatePassword")
-	defer span.End()
-
 	clauses := map[string]any{
 		"password": request.NewPassword,
 	}

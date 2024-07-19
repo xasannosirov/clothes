@@ -5,11 +5,8 @@ import (
 	mediaproto "media-service/genproto/media_service"
 	"media-service/internal/entity"
 	grpc_service_clients "media-service/internal/infrastructure/grpc_service_client"
-	"media-service/internal/pkg/otlp"
 	"media-service/internal/usecase"
 	"time"
-
-	"go.opentelemetry.io/otel/attribute"
 
 	"go.uber.org/zap"
 )
@@ -30,12 +27,6 @@ func NewRPC(logger *zap.Logger, media usecase.Media, clients grpc_service_client
 
 // Create method creates media
 func (m mediaRPC) Create(ctx context.Context, req *mediaproto.Media) (*mediaproto.MediaWithID, error) {
-	ctx, span := otlp.Start(ctx, "media_grpc-delivery", "CreateMedia")
-	span.SetAttributes(
-		attribute.Key("guid").String(req.ProductId),
-	)
-	defer span.End()
-
 	media := &entity.Media{
 		Id:        req.Id,
 		ProductID: req.ProductId,
@@ -56,12 +47,6 @@ func (m mediaRPC) Create(ctx context.Context, req *mediaproto.Media) (*mediaprot
 
 // Get method returns media
 func (m mediaRPC) Get(ctx context.Context, req *mediaproto.MediaWithID) (*mediaproto.ProductImages, error) {
-	ctx, span := otlp.Start(ctx, "media_grpc-delivery", "GetMedia")
-	span.SetAttributes(
-		attribute.Key("guid").String(req.Id),
-	)
-	defer span.End()
-
 	params := make(map[string]string)
 	params["product_id"] = req.Id
 
@@ -92,12 +77,6 @@ func (m mediaRPC) Get(ctx context.Context, req *mediaproto.MediaWithID) (*mediap
 
 // Delete method delete media
 func (m mediaRPC) Delete(ctx context.Context, req *mediaproto.MediaWithID) (*mediaproto.DeleteMediaResponse, error) {
-	ctx, span := otlp.Start(ctx, "media_grpc-delivery", "DeleteMedia")
-	span.SetAttributes(
-		attribute.Key("guid").String(req.Id),
-	)
-	defer span.End()
-
 	params := make(map[string]any)
 	params["product_id"] = req.Id
 
