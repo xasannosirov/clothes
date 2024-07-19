@@ -64,6 +64,26 @@ CREATE TABLE IF NOT EXISTS wishlist (
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
+-- Create comments table
+CREATE TABLE comments (
+    id UUID PRIMARY KEY, 
+    owner_id UUID NOT NULL,
+    product_id UUID NOT NULL, 
+    message TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMPTZ,
+    FOREIGN KEY (owner_id) REFERENCES users (id),
+    FOREIGN KEY (product_id) REFERENCES products (id)
+);
+
+ 
+CREATE TABLE baskets (
+    user_id UUID PRIMARY KEY, 
+    product_id UUID[],
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
 INSERT INTO users (id, first_name, last_name, email, phone_number, password, gender, age, refresh, role) 
 VALUES 
 ('19d16003-586a-4190-92ee-ab0c45504023', 'Xasan', 'Nosirov', 'xasannosirov094@gmail.com', '+998944970514', '$2a$10$VOukMtTpUxICddVOCTJJou594V0cZ4zbRVN9smlrcMrH6i4AjqrbK', 'male', 18, NULL, 'admin');

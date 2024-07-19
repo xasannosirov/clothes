@@ -14,6 +14,7 @@ const (
 	basketTableName    = "baskets"
 	likesTableName     = "wishlist"
 	ordersTableName    = "orders"
+	commentTableName   = "comments"
 )
 
 type productRepo struct {
@@ -22,6 +23,7 @@ type productRepo struct {
 	basketTable   string
 	likesTable    string
 	orderTable    string
+	commentTable string
 	db            *postgres.PostgresDB
 }
 
@@ -32,6 +34,7 @@ func NewProductsRepo(db *postgres.PostgresDB) repository.Product {
 		likesTable:    likesTableName,
 		categoryTable: categoryTableName,
 		basketTable:   basketTableName,
+		commentTable: commentTableName,
 		db:            db,
 	}
 }
@@ -81,8 +84,18 @@ func (u *productRepo) likesSelectQueryPrefix() squirrel.SelectBuilder {
 
 func (u *productRepo) basketsSelectQueryPrefix() squirrel.SelectBuilder {
 	return u.db.Sq.Builder.Select(
-		"id",
 		"product_id",
 		"user_id",
 	).From(u.basketTable)
+}
+func (p *productRepo) comentSelectQueryPrefix() squirrel.SelectBuilder {
+	return p.db.Sq.Builder.
+		Select(
+			"id",
+			"product_id",
+			"owner_id",
+			"message",
+			"created_at",
+			"updated_at",
+		).From(p.commentTable)
 }

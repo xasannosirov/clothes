@@ -130,7 +130,7 @@ func (u *productRepo) GetProduct(ctx context.Context, params map[string]string) 
 	}
 
 	var (
-		nullDesc   sql.NullString
+		nullDesc sql.NullString
 		// nullColor  sql.NullString
 		nullAgeMax sql.NullInt64
 	)
@@ -187,7 +187,7 @@ func (u *productRepo) ListProducts(ctx context.Context, req *entity.ListRequest)
 	defer rows.Close()
 
 	var (
-		nullDesc   sql.NullString
+		nullDesc sql.NullString
 		// nullColor  sql.NullString
 		nullAgeMax sql.NullInt64
 	)

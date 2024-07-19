@@ -2,7 +2,7 @@ package models
 
 type (
 	CreateResponse struct {
-		UserID string `json:"user_id"`
+		ID string `json:"user_id"`
 	}
 
 	UserRegister struct {

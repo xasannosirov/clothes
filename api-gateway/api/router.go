@@ -68,6 +68,7 @@ func NewRoute(option RouteOption) *gin.Engine {
 
 	// Auth
 	apiV1.POST("/register", HandlerV1.Register)
+	apiV1.POST("/verify/register", HandlerV1.VerifyRegister)
 	apiV1.POST("/login", HandlerV1.Login)
 	apiV1.POST("/forgot/:email", HandlerV1.Forgot)
 	apiV1.POST("/verify", HandlerV1.Verify)
@@ -119,6 +120,15 @@ func NewRoute(option RouteOption) *gin.Engine {
 	// Basket, Stats, Payment, Order ...
 	apiV1.POST("/basket", HandlerV1.SaveToBasket)
 	apiV1.GET("/basket", HandlerV1.GetBasketProduct)
+
+	// Comment
+	apiV1.POST("/comment", HandlerV1.CreateComment)
+	apiV1.PUT("/comment", HandlerV1.UpdateComment)
+	apiV1.DELETE("/comment/:id", HandlerV1.DeleteComment)
+	apiV1.GET("/comment/:id", HandlerV1.GetComment)
+	apiV1.GET("/comments", HandlerV1.ListComment)
+	apiV1.GET("/post/comments", HandlerV1.GetAllCommentByPostId)
+
 
 	url := ginSwagger.URL("swagger/doc.json")
 	apiV1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))

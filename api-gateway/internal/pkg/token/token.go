@@ -40,7 +40,7 @@ func (JWTHandler *JWTHandler) GenerateAuthJWT() (access, refresh string, err err
 
 	claims = accessToken.Claims.(jwt.MapClaims)
 	claims["sub"] = JWTHandler.Sub
-	claims["exp"] = time.Now().Add(time.Minute * 3).Unix()
+	claims["exp"] = time.Now().Add(time.Minute * 60).Unix()
 	claims["iat"] = time.Now().Unix()
 	claims["role"] = JWTHandler.Role
 

@@ -3,8 +3,7 @@ package models
 import (
 	"regexp"
 
-	"github.com/go-ozzo/ozzo-validation"
-	// "github.com/go-ozzo/ozzo-validation/is"
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
 
 type (
@@ -66,9 +65,10 @@ type (
 	}
 )
 
-
 func (p ProductReq) Validate() error {
-	pattern := "^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$"
+	//  pattern :=  "^(S|M|L|XL|XXL|XXXL)$"
+	//"^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$"
+
 
 	return validation.ValidateStruct(&p,
 		validation.Field(&p.Name, validation.Required),
@@ -76,15 +76,15 @@ func (p ProductReq) Validate() error {
 		validation.Field(&p.Description, validation.Required),
 
 		validation.Field(&p.Count, validation.Required, validation.Min(0)),
-		validation.Field(&p.Cost, validation.Required, validation.Min(0)),
-		validation.Field(&p.Discount, validation.Required, validation.Min(0), validation.Max(100)),
+		validation.Field(&p.Cost, validation.Required, validation.Min(0.0)),
+		validation.Field(&p.Discount, validation.Required, validation.Min(0.0), validation.Max(100.0)),
 		validation.Field(&p.AgeMin, validation.Required, validation.Min(0)),
 		validation.Field(&p.AgeMax, validation.Required, validation.Min(p.AgeMin)),
 
-		validation.Field(&p.ForGender, validation.Required, validation.In("Male", "Female", "Other")),
+		validation.Field(&p.ForGender, validation.Required, validation.In("Male", "Female")),
 
 		validation.Field(&p.MadeIn, validation.Length(0, 100)),
-		validation.Field(&p.Color, validation.Each(validation.Length(0, 20))),
-		validation.Field(&p.Size, validation.Each(validation.Length(0, 20)), validation.Match(regexp.MustCompile(pattern))),
+		validation.Field(&p.Color, validation.Each(validation.Length(0, 20)), validation.Each(validation.Match(regexp.MustCompile("^[a-zA-Z]+$")))),
+		validation.Field(&p.Size, validation.Each(validation.Length(0, 10)), validation.Each(validation.Match(regexp.MustCompile("^(S|M|L|XL|XXL|XXXL)$")))),
 	)
 }
