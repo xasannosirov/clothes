@@ -22,12 +22,12 @@ services:
       - store
     volumes:
       - ./api-gateway/migrations:/migrations
-    command: [ "-path", "/migrations", "-database",  "postgres://postgres:root@postgres:5432/clothes_store?sslmode=disable", "up" ]
+    command: [ "-path", "/migrations", "-database",  "postgres://postgres:root@clothes-postgres:5432/clothes_store?sslmode=disable", "up" ]
     depends_on:
       - postgres-db
 
   postgres-db:
-    container_name: postgres
+    container_name: clothes-postgres
     image: postgres
     environment:
       POSTGRES_USER: postgres
@@ -37,7 +37,7 @@ services:
     volumes:
       - db:/databasedatadb/postgres
     ports:
-      - "5332:5332"
+      - "5331:5331"
     networks:
       - store
     restart: unless-stopped
@@ -48,7 +48,7 @@ services:
       retries: 5
 
   user-service:
-    container_name: user-service
+    container_name: clothes-user-service
     build: ./user-service
     ports:
       - "1111:1111"
@@ -58,7 +58,7 @@ services:
       - store
     
   product-service:
-    container_name: product-service
+    container_name: clothes-product-service
     build: ./product-service
     depends_on:
       - user-service
@@ -69,7 +69,7 @@ services:
       - store
   
   media-service:
-    container_name: media-service
+    container_name: clothes-media-service
     build: ./media-service
     depends_on:
       - user-service
@@ -80,19 +80,19 @@ services:
     networks:
       - store
   
-  redisdb:
-    container_name: redisdb
+  redis-db:
+    container_name: clothes-redis-db
     image: redis 
     ports:
-      - "6378:6378"
+      - "6377:6377"
     networks:
       - store
 
   api:
-    container_name: api
+    container_name: clothes-api
     build: ./api-gateway
     depends_on:
-      - redisdb
+      - redis-db
       - user-service
       - product-service
       - media-service

@@ -45,7 +45,7 @@ func New() *Config {
 	config.Context.Timeout = getEnv("CONTEXT_TIMEOUT", "30s")
 
 	// db configuration
-	config.DB.Host = getEnv("POSTGRES_HOST", "postgres") // postgres
+	config.DB.Host = getEnv("POSTGRES_HOST", "clothes-postgres") // postgres
 	config.DB.Port = getEnv("POSTGRES_PORT", "5432")
 	config.DB.User = getEnv("POSTGRES_USER", "postgres")
 	config.DB.Password = getEnv("POSTGRES_PASSWORD", "root") // root
@@ -53,11 +53,11 @@ func New() *Config {
 	config.DB.Name = getEnv("POSTGRES_DATABASE", "clothes_store")
 
 	// product service
-	config.ProductService.Host = getEnv("PRODUCT_SERVICE_RPC_HOST", "product-service") // product-service
+	config.ProductService.Host = getEnv("PRODUCT_SERVICE_RPC_HOST", "clothes-product-service") // product-service
 	config.ProductService.Port = getEnv("PRODUCT_SERVICE_RPC_PORT", ":2222")
 
 	// media service
-	config.MediaService.Host = getEnv("MEDIA_SERVICE_RPC_HOST", "media-service") // media-service
+	config.MediaService.Host = getEnv("MEDIA_SERVICE_RPC_HOST", "clothes-media-service") // media-service
 	config.MediaService.Port = getEnv("MEDIA_SERVICE_RPC_PORT", ":3333")
 
 	return &config
