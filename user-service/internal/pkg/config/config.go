@@ -32,16 +32,6 @@ type Config struct {
 		Host string
 		Port string
 	}
-
-	PaymentService struct {
-		Host string
-		Port string
-	}
-
-	OTLPCollector struct {
-		Host string
-		Port string
-	}
 }
 
 func New() *Config {
@@ -55,28 +45,20 @@ func New() *Config {
 	config.Context.Timeout = getEnv("CONTEXT_TIMEOUT", "30s")
 
 	// db configuration
-	config.DB.Host = getEnv("POSTGRES_HOST", "localhost") // postgres
+	config.DB.Host = getEnv("POSTGRES_HOST", "postgres") // postgres
 	config.DB.Port = getEnv("POSTGRES_PORT", "5432")
 	config.DB.User = getEnv("POSTGRES_USER", "postgres")
-	config.DB.Password = getEnv("POSTGRES_PASSWORD", "4444") // root
+	config.DB.Password = getEnv("POSTGRES_PASSWORD", "root") // root
 	config.DB.SslMode = getEnv("POSTGRES_SSLMODE", "disable")
 	config.DB.Name = getEnv("POSTGRES_DATABASE", "clothes_store")
 
 	// product service
-	config.ProductService.Host = getEnv("PRODUCT_SERVICE_RPC_HOST", "localhost") // product-service
+	config.ProductService.Host = getEnv("PRODUCT_SERVICE_RPC_HOST", "product-service") // product-service
 	config.ProductService.Port = getEnv("PRODUCT_SERVICE_RPC_PORT", ":2222")
 
 	// media service
-	config.MediaService.Host = getEnv("MEDIA_SERVICE_RPC_HOST", "localhost") // media-service
+	config.MediaService.Host = getEnv("MEDIA_SERVICE_RPC_HOST", "media-service") // media-service
 	config.MediaService.Port = getEnv("MEDIA_SERVICE_RPC_PORT", ":3333")
-
-	// payment service
-	config.PaymentService.Host = getEnv("PAYMENT_SERVICE_RPC_HOST", "localhost")
-	config.PaymentService.Port = getEnv("PAYMENT_SERVICE_RPC_PORT", ":4444")
-
-	// otlp collector configuration
-	config.OTLPCollector.Host = getEnv("OTLP_COLLECTOR_HOST", "localhost")
-	config.OTLPCollector.Port = getEnv("OTLP_COLLECTOR_PORT", ":4317")
 
 	return &config
 }

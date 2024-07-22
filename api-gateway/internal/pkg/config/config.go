@@ -94,28 +94,28 @@ func NewConfig() (*Config, error) {
 	config.Context.Timeout = getEnv("CONTEXT_TIMEOUT", "30s")
 
 	// server configuration
-	config.Server.Host = getEnv("SERVER_HOST", "localhost") // api
+	config.Server.Host = getEnv("SERVER_HOST", "api") // api
 	config.Server.Port = getEnv("SERVER_PORT", ":5555")
 	config.Server.ReadTimeout = getEnv("SERVER_READ_TIMEOUT", "10s")
 	config.Server.WriteTimeout = getEnv("SERVER_WRITE_TIMEOUT", "10s")
 	config.Server.IdleTimeout = getEnv("SERVER_IDLE_TIMEOUT", "120s")
 
 	// redis configuration
-	config.Redis.Host = getEnv("REDIS_HOST", "localhost") // redisdb
+	config.Redis.Host = getEnv("REDIS_HOST", "redisdb") // redisdb
 	config.Redis.Port = getEnv("REDIS_PORT", "6379")
 	config.Redis.Password = getEnv("REDIS_PASSWORD", "")
 	config.Redis.Name = getEnv("REDIS_DATABASE", "0")
 
 	//user service
-	config.UserService.Host = getEnv("USER_SERVICE_GRPC_HOST", "localhost") // user-service
+	config.UserService.Host = getEnv("USER_SERVICE_GRPC_HOST", "user-service") // user-service
 	config.UserService.Port = getEnv("USER_SERVICE_GRPC_PORT", ":1111")
 
 	//media service
-	config.MediaService.Host = getEnv("MEDIA_SERVICE_GRPC_HOST", "localhost") //media-service
+	config.MediaService.Host = getEnv("MEDIA_SERVICE_GRPC_HOST", "media-service") //media-service
 	config.MediaService.Port = getEnv("MEDIA_SERVICE_GRPC_PORT", ":2222")
 
 	//product service
-	config.ProductService.Host = getEnv("PRODUCT_SERVICE_GRPC_HOST", "localhost") // product-service
+	config.ProductService.Host = getEnv("PRODUCT_SERVICE_GRPC_HOST", "product-service") // product-service
 	config.ProductService.Port = getEnv("PRODUCT_SERVICE_GRPC_PORT", ":3333")
 
 	// token configuration
@@ -144,7 +144,7 @@ func NewConfig() (*Config, error) {
 	//minIO configuration
 	config.Minio.AccessKeyID = getEnv("ACCESS_KEY_ID", "abdulaziz")
 	config.Minio.SecretAccessKey = getEnv("SECRET_ACCESS_KEY", "abdulaziz")
-	config.Minio.Endpoint = getEnv("ENDPOINT", "localhost:9000") // 13.201.56.179:9000
+	config.Minio.Endpoint = getEnv("ENDPOINT", "164.90.169.237:9000") // 13.201.56.179:9000
 	config.Minio.BucketName = getEnv("BUCKET_NAME", "clothesstore")
 
 	return &config, nil
