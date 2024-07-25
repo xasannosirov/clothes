@@ -1,7 +1,10 @@
 package models
 
 import (
+	"errors"
+	"fmt"
 	"regexp"
+	"strings"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
@@ -65,10 +68,34 @@ type (
 	}
 )
 
-func (p ProductReq) Validate() error {
-	//  pattern :=  "^(S|M|L|XL|XXL|XXXL)$"
-	//"^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$"
+func isRoman(num string) bool {
+	romanRegex := `^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$`
+	re := regexp.MustCompile(romanRegex)
 
+	return re.MatchString(num)
+}
+
+func isColor(color string) bool {
+	colorRegex := `(?i)^(?:red|green|blue|yellow|purple|orange|pink|black|white|gray|grey|brown|cyan|magenta|lime|indigo|violet|gold|silver|beige|maroon|navy|teal|olive|coral|salmon|khaki|orchid|lavender|turquoise|peach|tan|mint|plum|apricot|amber|ivory|saffron|crimson|rose|cherry|chocolate|jade|emerald|sapphire|ruby)$`
+	re := regexp.MustCompile(colorRegex)
+
+	return re.MatchString(color)
+}
+
+func (p ProductReq) Validate() error {
+	for _, size := range p.Size {
+		size = strings.ToUpper(size)
+		if !isRoman(size) {
+			return errors.New(fmt.Sprintf("invalid size for raman number: %s", size))
+		}
+	}
+
+	for _, color := range p.Color {
+		color = strings.ToLower(color)
+		if !isColor(color) {
+			return errors.New(fmt.Sprintf("invalid color: %s", color))
+		}
+	}
 
 	return validation.ValidateStruct(&p,
 		validation.Field(&p.Name, validation.Required),
@@ -84,7 +111,5 @@ func (p ProductReq) Validate() error {
 		validation.Field(&p.ForGender, validation.Required, validation.In("Male", "Female")),
 
 		validation.Field(&p.MadeIn, validation.Length(0, 100)),
-		validation.Field(&p.Color, validation.Each(validation.Length(0, 20)), validation.Each(validation.Match(regexp.MustCompile("^[a-zA-Z]+$")))),
-		validation.Field(&p.Size, validation.Each(validation.Length(0, 10)), validation.Each(validation.Match(regexp.MustCompile("^(S|M|L|XL|XXL|XXXL)$")))),
 	)
 }
