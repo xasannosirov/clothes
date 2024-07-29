@@ -81,6 +81,7 @@ func (u *productRepo) SaveToBasket(ctx context.Context, req *entity.BasketCreate
 		UserID: req.UserID,
 	}, nil
 }
+
 func (u *productRepo) GetBasket(ctx context.Context, req *entity.GetBasketReq) (*entity.Basket, error) {
 	product := &entity.Basket{}
 
@@ -112,7 +113,6 @@ func (u *productRepo) GetBasket(ctx context.Context, req *entity.GetBasketReq) (
 	product.TotalCount = int64(len(existingProductIDs))
 	return product, nil
 }
-
 
 func (u *productRepo) DeleteFromBasket(ctx context.Context, userID string, productID string) error {
 	var existingProductIDs []string

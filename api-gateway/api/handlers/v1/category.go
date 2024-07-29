@@ -356,13 +356,13 @@ func (h *HandlerV1) SearchCategory(c *gin.Context) {
 			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 				Id: product.Id,
 			})
+			var imagesURL []string
 			if err != nil {
 				log.Println(err.Error())
-			}
-
-			var imagesURL []string
-			for _, imageUrl := range media.Images {
-				imagesURL = append(imagesURL, imageUrl.ImageUrl)
+			} else {
+				for _, imageUrl := range media.Images {
+					imagesURL = append(imagesURL, imageUrl.ImageUrl)
+				}
 			}
 
 			userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
@@ -421,13 +421,13 @@ func (h *HandlerV1) SearchCategory(c *gin.Context) {
 			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 				Id: product.Id,
 			})
+			var imagesURL []string
 			if err != nil {
 				log.Println(err.Error())
-			}
-
-			var imagesURL []string
-			for _, imageUrl := range media.Images {
-				imagesURL = append(imagesURL, imageUrl.ImageUrl)
+			} else {
+				for _, imageUrl := range media.Images {
+					imagesURL = append(imagesURL, imageUrl.ImageUrl)
+				}
 			}
 
 			response.Products = append(response.Products, models.Product{

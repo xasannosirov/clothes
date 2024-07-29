@@ -24,14 +24,15 @@ func (p *productRepo) IsUnique(ctx context.Context, tableName, UserId, ProductId
 
 		var count int
 
-		if err = p.db.QueryRow(ctx, query, args...).Scan(&count); err != nil {
+		err = p.db.QueryRow(ctx, query, args...).Scan(&count)
+		if err != nil {
 			return true, err
 		}
 		if count != 0 {
 			return true, nil
 		}
 		return false, nil
-	} else if tableName == "baskets"{
+	} else if tableName == "baskets" {
 		var existingProductIDs []string
 		err := p.db.QueryRow(ctx, `SELECT product_id FROM `+p.basketTable+` WHERE user_id = $1`, UserId).Scan(pq.Array(&existingProductIDs))
 		if err != nil && err != sql.ErrNoRows {
@@ -46,7 +47,7 @@ func (p *productRepo) IsUnique(ctx context.Context, tableName, UserId, ProductId
 		}
 
 		return exists, nil
-	}else {
+	} else {
 		queryBuilder := p.db.Sq.Builder.Select("COUNT(1)").
 			From(tableName).
 			Where(squirrel.Eq{"user_id": UserId, "product_id": ProductId})
@@ -68,7 +69,6 @@ func (p *productRepo) IsUnique(ctx context.Context, tableName, UserId, ProductId
 		return false, nil
 	}
 }
-
 
 func (p *productRepo) LikeProduct(ctx context.Context, req *entity.Like) (bool, error) {
 	data := map[string]any{

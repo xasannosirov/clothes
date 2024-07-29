@@ -264,19 +264,19 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 	media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 		Id: productID,
 	})
-
+	var imagesURL []string
 	if err != nil {
 		log.Println(err.Error())
-	}
-	var imagesURL []string
-	for _, imageUrl := range media.Images {
-		imagesURL = append(imagesURL, imageUrl.ImageUrl)
-	}
+	} else {
+		for _, imageUrl := range media.Images {
+			imagesURL = append(imagesURL, imageUrl.ImageUrl)
+		}
 
-	if len(media.Images) == 0 {
-		media.Images = append(media.Images, &media_service.Media{
-			ImageUrl: "",
-		})
+		if len(media.Images) == 0 {
+			media.Images = append(media.Images, &media_service.Media{
+				ImageUrl: "",
+			})
+		}
 	}
 
 	token := c.Request.Header.Get("Authorization")
@@ -311,7 +311,9 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 		})
 		if err != nil {
 			if err.Error() == "no rows in result set" {
-				statusLike.Status = false
+				statusBasket = &product_service.MoveResponse{
+					Status: false,
+				}
 			} else {
 				c.JSON(http.StatusBadRequest, models.Error{
 					Message: err.Error(),
@@ -450,13 +452,13 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 				Id: product.Id,
 			})
+			var imagesURL []string
 			if err != nil {
 				log.Println(err.Error())
-			}
-
-			var imagesURL []string
-			for _, imageUrl := range media.Images {
-				imagesURL = append(imagesURL, imageUrl.ImageUrl)
+			} else {
+				for _, imageUrl := range media.Images {
+					imagesURL = append(imagesURL, imageUrl.ImageUrl)
+				}
 			}
 
 			userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
@@ -467,37 +469,39 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 			}
 
 			statusLike, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
-			TableName: "wishlist",
-			UserId:    userId,
-			ProductId: product.Id,
-		})
-		if err != nil {
-			if err.Error() == "no rows in result set" {
-				statusLike.Status = false
-			} else {
-				c.JSON(http.StatusBadRequest, models.Error{
-					Message: err.Error(),
-				})
-				log.Println(err.Error())
-				return
+				TableName: "wishlist",
+				UserId:    userId,
+				ProductId: product.Id,
+			})
+			if err != nil {
+				if err.Error() == "no rows in result set" {
+					statusLike.Status = false
+				} else {
+					c.JSON(http.StatusBadRequest, models.Error{
+						Message: err.Error(),
+					})
+					log.Println(err.Error())
+					return
+				}
 			}
-		}
-		statusBasket, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
-			TableName: "baskets",
-			UserId:    userId,
-			ProductId: product.Id,
-		})
-		if err != nil {
-			if err.Error() == "no rows in result set" {
-				statusLike.Status = false
-			} else {
-				c.JSON(http.StatusBadRequest, models.Error{
-					Message: err.Error(),
-				})
-				log.Println(err.Error())
-				return
+			statusBasket, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
+				TableName: "baskets",
+				UserId:    userId,
+				ProductId: product.Id,
+			})
+			if err != nil {
+				if err.Error() == "no rows in result set" {
+					statusBasket = &product_service.MoveResponse{
+						Status: false,
+					}
+				} else {
+					c.JSON(http.StatusBadRequest, models.Error{
+						Message: err.Error(),
+					})
+					log.Println(err.Error())
+					return
+				}
 			}
-		}
 
 			products = append(products, models.Product{
 				ID:          product.Id,
@@ -523,13 +527,13 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 				Id: product.Id,
 			})
+			var imagesURL []string
 			if err != nil {
 				log.Println(err.Error())
-			}
-
-			var imagesURL []string
-			for _, imageUrl := range media.Images {
-				imagesURL = append(imagesURL, imageUrl.ImageUrl)
+			} else {
+				for _, imageUrl := range media.Images {
+					imagesURL = append(imagesURL, imageUrl.ImageUrl)
+				}
 			}
 
 			products = append(products, models.Product{
@@ -607,13 +611,13 @@ func (h *HandlerV1) GetDicountProducts(c *gin.Context) {
 			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 				Id: product.Id,
 			})
+			var imagesURL []string
 			if err != nil {
 				log.Println(err.Error())
-			}
-
-			var imagesURL []string
-			for _, imageUrl := range media.Images {
-				imagesURL = append(imagesURL, imageUrl.ImageUrl)
+			} else {
+				for _, imageUrl := range media.Images {
+					imagesURL = append(imagesURL, imageUrl.ImageUrl)
+				}
 			}
 
 			userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
@@ -629,11 +633,17 @@ func (h *HandlerV1) GetDicountProducts(c *gin.Context) {
 				ProductId: product.Id,
 			})
 			if err != nil {
-				c.JSON(http.StatusBadRequest, models.Error{
-					Message: err.Error(),
-				})
-				log.Println(err.Error())
-				return
+				if err.Error() == "no rows in result set" {
+					likeStatus = &product_service.MoveResponse{
+						Status: false,
+					}
+				} else {
+					c.JSON(http.StatusBadRequest, models.Error{
+						Message: err.Error(),
+					})
+					log.Println(err.Error())
+					return
+				}
 			}
 			basketStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
 				TableName: "basket",
@@ -641,11 +651,17 @@ func (h *HandlerV1) GetDicountProducts(c *gin.Context) {
 				ProductId: product.Id,
 			})
 			if err != nil {
-				c.JSON(http.StatusBadRequest, models.Error{
-					Message: err.Error(),
-				})
-				log.Println(err.Error())
-				return
+				if err.Error() == "no rows in result set" {
+					basketStatus = &product_service.MoveResponse{
+						Status: false,
+					}
+				} else {
+					c.JSON(http.StatusBadRequest, models.Error{
+						Message: err.Error(),
+					})
+					log.Println(err.Error())
+					return
+				}
 			}
 
 			response.Products = append(response.Products, models.Product{
@@ -672,13 +688,13 @@ func (h *HandlerV1) GetDicountProducts(c *gin.Context) {
 			media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 				Id: product.Id,
 			})
+			var imagesURL []string
 			if err != nil {
 				log.Println(err.Error())
-			}
-
-			var imagesURL []string
-			for _, imageUrl := range media.Images {
-				imagesURL = append(imagesURL, imageUrl.ImageUrl)
+			} else {
+				for _, imageUrl := range media.Images {
+					imagesURL = append(imagesURL, imageUrl.ImageUrl)
+				}
 			}
 
 			response.Products = append(response.Products, models.Product{
