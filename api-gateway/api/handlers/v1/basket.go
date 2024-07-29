@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -78,7 +79,6 @@ func (h *HandlerV1) SaveToBasket(c *gin.Context) {
 	})
 }
 
-
 // @Security 		BearerAuth
 // @Summary 		Get Basket
 // @Description 	This API for getting a Basket with id
@@ -130,8 +130,8 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-    var status int
-	if ! validation.ValidateUUID(userID) {
+	var status int
+	if !validation.ValidateUUID(userID) {
 		userID, status = regtool.GetIdFromToken(c.Request, &h.Config)
 		if status != 0 {
 			c.JSON(http.StatusUnauthorized, models.Error{
@@ -139,12 +139,13 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 			})
 			log.Println(models.TokenInvalidMessage)
 			return
-		}	}
+		}
+	}
 
 	basket, err := h.Service.ProductService().GetBasket(ctx, &product_service.BasketGetReq{
 		UserId: userID,
-		Page: int64(pageInt),
-		Limit: int64(limitInt),
+		Page:   int64(pageInt),
+		Limit:  int64(limitInt),
 	})
 	if err != nil {
 		c.JSON(http.StatusNotFound, models.Error{
@@ -159,7 +160,7 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 		media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 			Id: product.Id,
 		})
-		if err != nil{
+		if err != nil {
 			c.JSON(http.StatusInternalServerError, models.Error{
 				Message: err.Error(),
 			})
@@ -172,11 +173,11 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 		}
 		likeStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
 			TableName: "wishlist",
-			UserId: userID,
+			UserId:    userID,
 			ProductId: product.Id,
 		})
 		if err != nil {
-			if err.Error() == "no rows in result set" {
+			if strings.Contains(err.Error(), "no rows") {
 				likeStatus.Status = false
 			} else {
 				c.JSON(http.StatusBadRequest, models.Error{
@@ -188,12 +189,14 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 		}
 		basketStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
 			TableName: "baskets",
-			UserId: userID,
+			UserId:    userID,
 			ProductId: product.Id,
 		})
 		if err != nil {
-			if err.Error() == "no rows in result set" {
-				basketStatus.Status = false
+			if strings.Contains(err.Error(), "no rows") {
+				basketStatus = &product_service.MoveResponse{
+					Status: false,
+				}
 			} else {
 				c.JSON(http.StatusBadRequest, models.Error{
 					Message: err.Error(),
@@ -202,8 +205,6 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 				return
 			}
 		}
-
-
 
 		products = append(products, models.Product{
 			ID:          product.Id,
@@ -219,15 +220,15 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 			AgeMin:      product.AgeMin,
 			AgeMax:      product.AgeMax,
 			ForGender:   product.ForGender,
-			Basket: basketStatus.Status,
-			Liked: likeStatus.Status,
+			Basket:      basketStatus.Status,
+			Liked:       likeStatus.Status,
 			ImageURL:    imagesURL,
 		})
 	}
 
 	c.JSON(http.StatusOK, models.Basket{
-		UserId:    basket.UserId,
-		ProductId: products,
+		UserId:     basket.UserId,
+		ProductId:  products,
 		TotalCount: basket.TotalCount,
 	})
 }

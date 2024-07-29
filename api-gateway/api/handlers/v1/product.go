@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -294,7 +295,7 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 			ProductId: productID,
 		})
 		if err != nil {
-			if err.Error() == "no rows in result set" {
+			if strings.Contains(err.Error(), "no rows") {
 				statusLike.Status = false
 			} else {
 				c.JSON(http.StatusBadRequest, models.Error{
@@ -310,7 +311,7 @@ func (h *HandlerV1) GetProduct(c *gin.Context) {
 			ProductId: productID,
 		})
 		if err != nil {
-			if err.Error() == "no rows in result set" {
+			if strings.Contains(err.Error(), "no rows") {
 				statusBasket = &product_service.MoveResponse{
 					Status: false,
 				}
@@ -474,7 +475,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 				ProductId: product.Id,
 			})
 			if err != nil {
-				if err.Error() == "no rows in result set" {
+				if strings.Contains(err.Error(), "no rows") {
 					statusLike.Status = false
 				} else {
 					c.JSON(http.StatusBadRequest, models.Error{
@@ -490,7 +491,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 				ProductId: product.Id,
 			})
 			if err != nil {
-				if err.Error() == "no rows in result set" {
+				if strings.Contains(err.Error(), "no rows") {
 					statusBasket = &product_service.MoveResponse{
 						Status: false,
 					}
@@ -633,7 +634,7 @@ func (h *HandlerV1) GetDicountProducts(c *gin.Context) {
 				ProductId: product.Id,
 			})
 			if err != nil {
-				if err.Error() == "no rows in result set" {
+				if strings.Contains(err.Error(), "no rows") {
 					likeStatus = &product_service.MoveResponse{
 						Status: false,
 					}
@@ -651,7 +652,7 @@ func (h *HandlerV1) GetDicountProducts(c *gin.Context) {
 				ProductId: product.Id,
 			})
 			if err != nil {
-				if err.Error() == "no rows in result set" {
+				if strings.Contains(err.Error(), "no rows") {
 					basketStatus = &product_service.MoveResponse{
 						Status: false,
 					}

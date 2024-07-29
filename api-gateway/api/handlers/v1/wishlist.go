@@ -9,6 +9,7 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -149,11 +150,18 @@ func (h *HandlerV1) UserWishlist(c *gin.Context) {
 				ProductId: product.Id,
 			})
 			if err != nil {
-				c.JSON(http.StatusBadRequest, models.Error{
-					Message: err.Error(),
-				})
-				log.Println(err.Error())
-				return
+				if strings.Contains(err.Error(), "no rows") {
+					likeStatus = &product_service.MoveResponse{
+						Status: false,
+					}
+				} else {
+
+					c.JSON(http.StatusBadRequest, models.Error{
+						Message: err.Error(),
+					})
+					log.Println(err.Error())
+					return
+				}
 			}
 			basketStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
 				TableName: "basket",
@@ -161,11 +169,18 @@ func (h *HandlerV1) UserWishlist(c *gin.Context) {
 				ProductId: product.Id,
 			})
 			if err != nil {
-				c.JSON(http.StatusBadRequest, models.Error{
-					Message: err.Error(),
-				})
-				log.Println(err.Error())
-				return
+				if strings.Contains(err.Error(), "no rows") {
+					basketStatus = &product_service.MoveResponse{
+						Status: false,
+					}
+				} else {
+
+					c.JSON(http.StatusBadRequest, models.Error{
+						Message: err.Error(),
+					})
+					log.Println(err.Error())
+					return
+				}
 			}
 
 			response.Products = append(response.Products, models.Product{
