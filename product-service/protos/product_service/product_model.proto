@@ -91,6 +91,10 @@ message ListProduct {
     uint64 total_count = 2;
 }
 
+message ListBaskedProducts {
+  repeated Product products = 1;
+}
+
 message ListBasket {
     repeated Basket baskets = 1;
     uint64 total_count = 2;

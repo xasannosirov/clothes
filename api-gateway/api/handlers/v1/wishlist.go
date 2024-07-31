@@ -16,6 +16,7 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
+// LikeProduct
 // @Security 		BearerAuth
 // @Summary 		Like Product
 // @Description 	This API for save likes a product by user
@@ -27,7 +28,7 @@ import (
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
-// @Faulure 		500 {object} models.Error
+// @Failure 		500 {object} models.Error
 // @Router 			/v1/like/{id} [POST]
 func (h *HandlerV1) LikeProduct(c *gin.Context) {
 	var (
@@ -51,7 +52,7 @@ func (h *HandlerV1) LikeProduct(c *gin.Context) {
 	userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
 	if statusCode != 0 {
 		c.JSON(http.StatusBadRequest, models.Error{
-			Message: "oops something went wrong",
+			Message: "you needs register or login",
 		})
 	}
 
@@ -70,6 +71,7 @@ func (h *HandlerV1) LikeProduct(c *gin.Context) {
 	c.JSON(http.StatusCreated, likeResponse.Status)
 }
 
+// UserWishlist
 // @Security 		BearerAuth
 // @Summary 		User Wishlist
 // @Description 	This API for getting wishlist for user
@@ -82,7 +84,7 @@ func (h *HandlerV1) LikeProduct(c *gin.Context) {
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Failure 		404 {object} models.Error
-// @Faulure 		500 {object} models.Error
+// @Failure 		500 {object} models.Error
 // @Router 			/v1/wishlist [GET]
 func (h *HandlerV1) UserWishlist(c *gin.Context) {
 	userID, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
@@ -137,10 +139,10 @@ func (h *HandlerV1) UserWishlist(c *gin.Context) {
 				}
 			}
 
-			userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
-			if statusCode != 0 {
+			userId, StatusCode := regtool.GetIdFromToken(c.Request, &h.Config)
+			if StatusCode != 0 {
 				c.JSON(http.StatusBadRequest, models.Error{
-					Message: "oops something went wrong",
+					Message: "you needs register or login",
 				})
 			}
 
@@ -164,7 +166,7 @@ func (h *HandlerV1) UserWishlist(c *gin.Context) {
 				}
 			}
 			basketStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
-				TableName: "basket",
+				TableName: "baskets",
 				UserId:    userId,
 				ProductId: product.Id,
 			})

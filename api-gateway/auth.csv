@@ -31,8 +31,7 @@ p, user, /v1/user/{id}, GET
 p, user, /v1/media/{id}, GET
 p, user, /v1/like/{id}, POST
 p, user, /v1/wishlist, GET
-p, user, /v1/basket/{id}, DELETE
-p, user, /v1/basket, GET
+p, user, /v1/user-baskets, GET
 p, user,  /v1/basket, POST
 p, user, /v1/comment, POST
 p, user, /v1/comment, PUT

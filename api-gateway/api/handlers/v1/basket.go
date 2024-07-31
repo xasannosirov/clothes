@@ -9,7 +9,6 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
@@ -24,7 +23,7 @@ import (
 // @Produce 		json
 // @Accept 			json
 // @Param 			order body models.BasketCeateReq true "Create Basket Model"
-// @Success			201 {object} models.CreateResponse
+// @Success			201 {object} bool
 // @Failure 		400 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
@@ -56,12 +55,14 @@ func (h *HandlerV1) SaveToBasket(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
+
 	userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
 	if statusCode != 0 {
 		c.JSON(http.StatusBadRequest, models.Error{
-			Message: "oops something went wrong",
+			Message: "you needs register or login",
 		})
 	}
+
 	basket, err := h.Service.ProductService().SaveToBasket(ctx, &product_service.BasketCreateReq{
 		ProductId: body.ProductId,
 		UserId:    userId,
@@ -74,9 +75,7 @@ func (h *HandlerV1) SaveToBasket(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, models.CreateResponse{
-		ID: basket.Id,
-	})
+	c.JSON(http.StatusOK, basket.Status)
 }
 
 // @Security 		BearerAuth
@@ -85,16 +84,14 @@ func (h *HandlerV1) SaveToBasket(c *gin.Context) {
 // @Tags 			basket
 // @Produce 		json
 // @Accept 			json
-// @Param 			page query uint64 true "Page"
-// @Param 			limit query uint64 true "Limit"
 // @Param 			id query string false "User ID"
-// @Success			200 {object} models.Basket
+// @Success			200 {object} []models.Product
 // @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Faulure 		500 {object} models.Error
-// @Router 			/v1/basket [GET]
-func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
+// @Router 			/v1/user-baskets [GET]
+func (h *HandlerV1) GetUserBaskets(c *gin.Context) {
 	var (
 		jspbMarshal protojson.MarshalOptions
 	)
@@ -112,24 +109,7 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 	defer cancel()
 
 	userID := c.Query("id")
-	page := c.Query("page")
-	limit := c.Query("limit")
-	pageInt, err := strconv.Atoi(page)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
-			Message: err.Error(),
-		})
-		log.Println(err.Error())
-		return
-	}
-	limitInt, err := strconv.Atoi(limit)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
-			Message: err.Error(),
-		})
-		log.Println(err.Error())
-		return
-	}
+
 	var status int
 	if !validation.ValidateUUID(userID) {
 		userID, status = regtool.GetIdFromToken(c.Request, &h.Config)
@@ -142,10 +122,8 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 		}
 	}
 
-	basket, err := h.Service.ProductService().GetBasket(ctx, &product_service.BasketGetReq{
-		UserId: userID,
-		Page:   int64(pageInt),
-		Limit:  int64(limitInt),
+	products, err := h.Service.ProductService().GetUserBaskets(ctx, &product_service.GetWithID{
+		Id: userID,
 	})
 	if err != nil {
 		c.JSON(http.StatusNotFound, models.Error{
@@ -154,9 +132,9 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-	products := []models.Product{}
-	for _, product := range basket.Product {
 
+	var response []models.Product
+	for _, product := range products.Products {
 		media, err := h.Service.MediaService().Get(ctx, &media_service.MediaWithID{
 			Id: product.Id,
 		})
@@ -206,7 +184,7 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 			}
 		}
 
-		products = append(products, models.Product{
+		response = append(response, models.Product{
 			ID:          product.Id,
 			Name:        product.Name,
 			Category:    product.Category,
@@ -226,9 +204,5 @@ func (h *HandlerV1) GetBasketProduct(c *gin.Context) {
 		})
 	}
 
-	c.JSON(http.StatusOK, models.Basket{
-		UserId:     basket.UserId,
-		ProductId:  products,
-		TotalCount: basket.TotalCount,
-	})
+	c.JSON(http.StatusOK, response)
 }

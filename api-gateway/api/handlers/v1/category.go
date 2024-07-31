@@ -369,7 +369,7 @@ func (h *HandlerV1) SearchCategory(c *gin.Context) {
 			userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
 			if statusCode != 0 {
 				c.JSON(http.StatusBadRequest, models.Error{
-					Message: "oops something went wrong",
+					Message: "you needs register or login",
 				})
 			}
 
@@ -392,7 +392,7 @@ func (h *HandlerV1) SearchCategory(c *gin.Context) {
 				}
 			}
 			basketStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
-				TableName: "basket",
+				TableName: "baskets",
 				UserId:    userId,
 				ProductId: product.Id,
 			})

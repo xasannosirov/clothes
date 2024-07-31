@@ -13,6 +13,10 @@ message IsUniqueReq {
     string table_name = 3;
 }
 
+message ListBaskedProducts {
+  repeated Product products = 1;
+}
+
 message Product {
   string id = 1;
   string name = 2;

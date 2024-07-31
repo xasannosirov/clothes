@@ -4,12 +4,10 @@ import (
 	"context"
 	pb "product-service/genproto/product_service"
 	"product-service/internal/entity"
-
-	"github.com/k0kubun/pp"
 )
 
-func (d *productRPC) SaveToBasket(ctx context.Context, in *pb.BasketCreateReq) (*pb.GetWithID, error) {
-	respProduct, err := d.productUsecase.SaveToBasket(ctx, &entity.BasketCreateReq{
+func (d *productRPC) SaveToBasket(ctx context.Context, in *pb.BasketCreateReq) (*pb.MoveResponse, error) {
+	response, err := d.productUsecase.SaveToBasket(ctx, &entity.BasketCreateReq{
 		UserID:    in.UserId,
 		ProductID: in.ProductId,
 	})
@@ -18,32 +16,23 @@ func (d *productRPC) SaveToBasket(ctx context.Context, in *pb.BasketCreateReq) (
 		return nil, err
 	}
 
-	return &pb.GetWithID{Id: respProduct.UserID}, nil
+	return &pb.MoveResponse{
+		Status: response.Status,
+	}, nil
 }
 
-func (d *productRPC) GetBasket(ctx context.Context, in *pb.BasketGetReq) (*pb.Basket, error) {
-	baskets, err := d.productUsecase.GetBasket(ctx, &entity.GetBasketReq{
-		UserId: in.UserId,
-		Page:   in.Page,
-		Limit:  in.Limit,
+func (d *productRPC) GetUserBaskets(ctx context.Context, in *pb.GetWithID) (*pb.ListBaskedProducts, error) {
+	products, err := d.productUsecase.GetUserBaskets(ctx, &entity.GetWithID{
+		ID: in.Id,
 	})
 	if err != nil {
 		return nil, err
 	}
-	resBasket := pb.Basket{
-		UserId:     baskets.UserID,
-		TotalCount: baskets.TotalCount,
-	}
 
-	pp.Println(baskets.ProductIDs)
-	for _, productId := range baskets.ProductIDs {
-		product, err := d.productUsecase.GetProduct(ctx, map[string]string{"id": productId})
-		if err != nil {
-			pp.Println("Error while getting product !!!")
-			return nil, err
-		}
+	var basketProducts pb.ListBaskedProducts
+	for _, product := range products.Products {
 
-		resBasket.Product = append(resBasket.Product, &pb.Product{
+		basketProducts.Products = append(basketProducts.Products, &pb.Product{
 			Id:          product.Id,
 			Name:        product.Name,
 			Description: product.Description,
@@ -61,5 +50,5 @@ func (d *productRPC) GetBasket(ctx context.Context, in *pb.BasketGetReq) (*pb.Ba
 
 	}
 
-	return &resBasket, nil
+	return &basketProducts, nil
 }

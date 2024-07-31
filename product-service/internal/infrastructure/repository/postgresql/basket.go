@@ -2,149 +2,86 @@ package postgresql
 
 import (
 	"context"
+	"log"
 	"product-service/internal/entity"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/k0kubun/pp"
-	"github.com/lib/pq"
 )
 
-func (u *productRepo) SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.Basket, error) {
-	var existingProductIDs []string
-	err := u.db.QueryRow(ctx, `SELECT product_id FROM `+u.basketTable+` WHERE user_id = $1`, req.UserID).Scan(pq.Array(&existingProductIDs))
-	if err != nil {
-		if err.Error() == "no rows in result set" {
-			productIDs := []string{req.ProductID}
-			data := map[string]interface{}{
-				"user_id":    req.UserID,
-				"product_id": pq.Array(productIDs),
-			}
+func (u *productRepo) SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.MoveResponse, error) {
+	query := `SELECT COUNT(*) FROM baskets WHERE user_id = $1 AND product_id = $2`
+	var count int
+	if err := u.db.QueryRow(ctx, query).Scan(&count); err != nil {
+		return nil, err
+	}
 
-			query, args, err := u.db.Sq.Builder.Insert(u.basketTable).SetMap(data).ToSql()
-			if err != nil {
-				return nil, err
-			}
-
-			_, err = u.db.Exec(ctx, query, args...)
-			if err != nil {
-				return nil, err
-			}
-		} else {
+	var status bool
+	if count == 0 {
+		insertQuery := ` INSERT INTO baskets(user_id, product_id) VALUES ($1, $2)`
+		result, err := u.db.Exec(ctx, insertQuery, req.UserID, req.ProductID)
+		if err != nil {
 			return nil, err
 		}
+
+		if result.RowsAffected() == 0 {
+			status = false
+		} else {
+			status = true
+		}
 	} else {
-		// Mahsulot mavjudligini tekshirish
-		exists := false
-		for _, existingProductID := range existingProductIDs {
-			if existingProductID == req.ProductID {
-				exists = true
-				break
-			}
+		deleteQuery := `DELETE FROM baskets WHERE user_id = $1 AND product_id = $2`
+		result, err := u.db.Exec(ctx, deleteQuery, req.UserID, req.ProductID)
+		if err != nil {
+			return nil, err
 		}
 
-		if exists {
-			// Mahsulotni olib tashlash
-			updatedProductIDs := make([]string, 0, len(existingProductIDs))
-			for _, pid := range existingProductIDs {
-				if pid != req.ProductID {
-					updatedProductIDs = append(updatedProductIDs, pid)
-				}
-			}
-
-			data := map[string]interface{}{
-				"product_id": pq.Array(updatedProductIDs),
-			}
-
-			query, args, err := u.db.Sq.Builder.
-				Update(u.basketTable).
-				SetMap(data).
-				Where("user_id = ?", req.UserID).
-				ToSql()
-			if err != nil {
-				return nil, err
-			}
-
-			_, err = u.db.Exec(ctx, query, args...)
-			if err != nil {
-				return nil, err
-			}
+		if result.RowsAffected() == 0 {
+			status = true
 		} else {
-			// Mahsulotni qo'shish
-			_, err = u.db.Exec(ctx, `UPDATE `+u.basketTable+` SET product_id = array_append(product_id, $2::uuid) WHERE user_id = $1`, req.UserID, req.ProductID)
-			if err != nil {
-				return nil, err
-			}
+			status = false
 		}
 	}
 
-	return &entity.Basket{
-		UserID: req.UserID,
+	return &entity.MoveResponse{
+		Status: status,
 	}, nil
 }
 
-func (u *productRepo) GetBasket(ctx context.Context, req *entity.GetBasketReq) (*entity.Basket, error) {
-	product := &entity.Basket{}
-
-	offset := (req.Page - 1) * req.Limit
-	queryBuilder := u.basketsSelectQueryPrefix()
-	queryBuilder = queryBuilder.Where(squirrel.Eq{"user_id": req.UserId})
-	queryBuilder = queryBuilder.Limit(uint64(req.Limit))
-	queryBuilder = queryBuilder.Offset(uint64(offset))
+func (u *productRepo) GetUserBaskets(ctx context.Context, req *entity.GetWithID) (*entity.ListProduct, error) {
+	queryBuilder := u.db.Sq.Builder.Select("product_id").From(u.basketTable)
+	queryBuilder = queryBuilder.Where(squirrel.Eq{"user_id": req.ID})
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
 		return nil, err
 	}
 
-	pp.Println(query)
-	err = u.db.QueryRow(ctx, query, args...).Scan(
-		&product.ProductIDs,
-		&product.UserID,
-	)
-	if err != nil {
-		pp.Println(err.Error())
-		return nil, err
-	}
-	var existingProductIDs []string
-	err = u.db.QueryRow(ctx, `SELECT product_id FROM `+u.basketTable+` WHERE user_id = $1`, req.UserId).Scan(pq.Array(&existingProductIDs))
+	rows, err := u.db.Query(ctx, query, args...)
 	if err != nil {
 		return nil, err
 	}
-	product.TotalCount = int64(len(existingProductIDs))
-	return product, nil
-}
+	defer rows.Close()
 
-func (u *productRepo) DeleteFromBasket(ctx context.Context, userID string, productID string) error {
-	var existingProductIDs []string
-	err := u.db.QueryRow(ctx, `SELECT product_id FROM `+u.basketTable+` WHERE user_id = $1`, userID).Scan(pq.Array(&existingProductIDs))
-	if err != nil {
-		return err
-	}
+	var response entity.ListProduct
 
-	updatedProductIDs := make([]string, 0, len(existingProductIDs))
-	for _, pid := range existingProductIDs {
-		if pid != productID {
-			updatedProductIDs = append(updatedProductIDs, pid)
+	for rows.Next() {
+		var (
+			productID string
+		)
+		err := rows.Scan(&productID)
+		if err != nil {
+			return nil, err
+		}
+
+		product, err := u.GetProduct(ctx, map[string]string{
+			"id": productID,
+		})
+		if err != nil {
+			log.Println(err.Error(), "no append product to array in user baskets storage in product service")
+		} else {
+			response.Products = append(response.Products, product)
 		}
 	}
 
-	data := map[string]any{
-		"product_id": pq.Array(updatedProductIDs),
-	}
-
-	query, args, err := u.db.Sq.Builder.
-		Update(u.basketTable).
-		SetMap(data).
-		Where("user_id = ?", userID).
-		ToSql()
-	if err != nil {
-		return err
-	}
-
-	_, err = u.db.Exec(ctx, query, args...)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return &response, nil
 }

@@ -28,11 +28,10 @@ type Product interface {
 
 	LikeProduct(ctx context.Context, req *entity.Like) (bool, error)
 	UserWishlist(ctx context.Context, req *entity.SearchRequest) (*entity.ListProduct, error)
-	IsUnique(ctx context.Context,tableName, userID, productID string) (bool, error)
+	IsUnique(ctx context.Context, tableName, userID, productID string) (bool, error)
 
-	SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.Basket, error)
-	DeleteFromBasket(ctx context.Context, userID string, productID string) error
-	GetBasket(ctx context.Context, req *entity.GetBasketReq) (*entity.Basket, error)
+	SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.MoveResponse, error)
+	GetUserBaskets(ctx context.Context, req *entity.GetWithID) (*entity.ListProduct, error)
 
 	// order
 	CreateOrder(ctx context.Context, req *entity.Order) (*entity.Order, error)
@@ -40,13 +39,12 @@ type Product interface {
 	DeleteOrder(ctx context.Context, params map[string]string) error
 	UserOrderHistory(ctx context.Context, req *entity.SearchRequest) (*entity.ListProduct, error)
 
-	// comment 
+	// comment
 	CreateComment(ctx context.Context, comment *entity.Comment) (*entity.Comment, error)
 	UpdateComment(ctx context.Context, category *entity.CommentUpdateRequest) (*entity.Comment, error)
 	DeleteComment(ctx context.Context, req *entity.DeleteRequest) error
 	GetComment(ctx context.Context, req *entity.GetRequest) (*entity.Comment, error)
 	ListComment(ctx context.Context, req *entity.ListRequest) (*entity.CommentListResponse, error)
-
 }
 
 type productService struct {
@@ -171,27 +169,18 @@ func (u *productService) GetDiscountProducts(ctx context.Context, req *entity.Li
 	return u.repo.GetDiscountProducts(ctx, req)
 }
 
-func (u productService) SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.Basket, error) {
+func (u productService) SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.MoveResponse, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
 	return u.repo.SaveToBasket(ctx, req)
 }
 
-
-
-func (u productService) DeleteFromBasket(ctx context.Context, userID string, productID string) error {
+func (u productService) GetUserBaskets(ctx context.Context, req *entity.GetWithID) (*entity.ListProduct, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
-	return u.repo.DeleteFromBasket(ctx, userID, productID)
-}
-
-func (u productService) GetBasket(ctx context.Context, req *entity.GetBasketReq) (*entity.Basket, error) {
-	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
-	defer cancel()
-
-	return u.repo.GetBasket(ctx, req)
+	return u.repo.GetUserBaskets(ctx, req)
 }
 
 func (u *productService) LikeProduct(ctx context.Context, req *entity.Like) (bool, error) {
@@ -254,7 +243,7 @@ func (u *productService) UserOrderHistory(ctx context.Context, req *entity.Searc
 	return u.repo.UserWishlist(ctx, req)
 }
 
-func (u *productService) IsUnique(ctx context.Context, tableName, userID, productID string) (bool, error){
+func (u *productService) IsUnique(ctx context.Context, tableName, userID, productID string) (bool, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
@@ -262,32 +251,31 @@ func (u *productService) IsUnique(ctx context.Context, tableName, userID, produc
 }
 
 func (p *productService) CreateComment(ctx context.Context, comment *entity.Comment) (*entity.Comment, error) {
-	
+
 	p.beforeRequest(&comment.Id, &comment.CreatedAt, &comment.UpdatedAt)
 
 	return p.repo.CreateComment(ctx, comment)
 }
 
 func (p *productService) UpdateComment(ctx context.Context, comment *entity.CommentUpdateRequest) (*entity.Comment, error) {
-	
+
 	p.beforeRequest(nil, nil, &comment.UpdatedAt)
 
 	return p.repo.UpdateComment(ctx, comment)
 }
 
 func (p *productService) DeleteComment(ctx context.Context, req *entity.DeleteRequest) error {
-	
+
 	req.Deleted_at = time.Now()
 	return p.repo.DeleteComment(ctx, req)
 }
 
 func (p *productService) GetComment(ctx context.Context, req *entity.GetRequest) (*entity.Comment, error) {
-	
+
 	return p.repo.GetComment(ctx, req)
 }
 
 func (p *productService) ListComment(ctx context.Context, req *entity.ListRequest) (*entity.CommentListResponse, error) {
-	
+
 	return p.repo.ListComment(ctx, req)
 }
-

@@ -3,6 +3,7 @@ package v1
 import (
 	"api-gateway/api/models"
 	pb "api-gateway/genproto/product_service"
+	"api-gateway/genproto/user_service"
 	"api-gateway/internal/pkg/regtool"
 	"context"
 	"log"
@@ -55,7 +56,7 @@ func (h *HandlerV1) CreateComment(c *gin.Context) {
 	userId, statusCode := regtool.GetIdFromToken(c.Request, &h.Config)
 	if statusCode != 0 {
 		c.JSON(http.StatusBadRequest, models.Error{
-			Message: "oops something went wrong",
+			Message: "you needs register or login",
 		})
 	}
 	Comment, err := h.Service.ProductService().CreateComment(ctx, &pb.Comment{
@@ -64,7 +65,7 @@ func (h *HandlerV1) CreateComment(c *gin.Context) {
 		Message:   body.Message,
 	})
 	if err != nil {
-		c.JSON(401, models.Error{
+		c.JSON(http.StatusInternalServerError, models.Error{
 			Message: err.Error(),
 		})
 		log.Println(err.Error())
@@ -385,12 +386,26 @@ func (h *HandlerV1) GetAllCommentByPostId(c *gin.Context) {
 
 	var comments []*models.Comment
 	for _, comment := range listComment.Comments {
-		comments = append(comments, &models.Comment{
-			ID:        comment.Id,
-			OwnerID:   comment.OwnerId,
-			ProductID: comment.ProductId,
-			Message:   comment.Message,
+		user, err := h.Service.UserService().GetUser(ctx, &user_service.Filter{
+			Filter: map[string]string{
+				"id": comment.OwnerId,
+			},
 		})
+		if err != nil {
+			comments = append(comments, &models.Comment{
+				ID:        comment.Id,
+				OwnerID:   "anonymous",
+				ProductID: comment.ProductId,
+				Message:   comment.Message,
+			})
+		} else {
+			comments = append(comments, &models.Comment{
+				ID:        comment.Id,
+				OwnerID:   user.FirstName + " " + user.LastName,
+				ProductID: comment.ProductId,
+				Message:   comment.Message,
+			})
+		}
 	}
 
 	c.JSON(http.StatusOK, models.ListComment{
