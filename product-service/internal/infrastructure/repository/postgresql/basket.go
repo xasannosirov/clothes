@@ -2,7 +2,6 @@ package postgresql
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"product-service/internal/entity"
 
@@ -10,16 +9,16 @@ import (
 )
 
 func (u *productRepo) SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.MoveResponse, error) {
-	query := fmt.Sprintf(`SELECT COUNT(*) FROM baskets WHERE user_id = '%s' AND product_id = '%s'`, req.UserID, req.ProductID)
+	query := `SELECT COUNT(*) FROM baskets WHERE user_id = $1 AND product_id = $2`
 	var count int
-	if err := u.db.QueryRow(ctx, query).Scan(&count); err != nil {
+	if err := u.db.QueryRow(ctx, query, req.UserID, req.ProductID).Scan(&count); err != nil {
 		return nil, err
 	}
 
 	var status bool
 	if count == 0 {
-		insertQuery := fmt.Sprintf(` INSERT INTO baskets(user_id, product_id) VALUES ('%s', '%s')`, req.UserID, req.ProductID)
-		result, err := u.db.Exec(ctx, insertQuery)
+		insertQuery := `INSERT INTO baskets (user_id, product_id) VALUES ($1, $2)`
+		result, err := u.db.Exec(ctx, insertQuery, req.UserID, req.ProductID)
 		if err != nil {
 			return nil, err
 		}
@@ -30,8 +29,8 @@ func (u *productRepo) SaveToBasket(ctx context.Context, req *entity.BasketCreate
 			status = true
 		}
 	} else {
-		deleteQuery := fmt.Sprintf(`DELETE FROM baskets WHERE user_id = '%s' AND product_id = '%s'`, req.UserID, req.ProductID)
-		result, err := u.db.Exec(ctx, deleteQuery)
+		deleteQuery := `DELETE FROM baskets WHERE user_id = $1 AND product_id = $2`
+		result, err := u.db.Exec(ctx, deleteQuery, req.UserID, req.ProductID)
 		if err != nil {
 			return nil, err
 		}
