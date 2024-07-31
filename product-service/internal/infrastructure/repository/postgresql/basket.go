@@ -11,7 +11,7 @@ import (
 func (u *productRepo) SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.MoveResponse, error) {
 	query := `SELECT COUNT(*) FROM baskets WHERE user_id = $1 AND product_id = $2`
 	var count int
-	if err := u.db.QueryRow(ctx, query).Scan(&count); err != nil {
+	if err := u.db.QueryRow(ctx, query, req.UserID, req.ProductID).Scan(&count); err != nil {
 		return nil, err
 	}
 
