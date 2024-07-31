@@ -126,9 +126,7 @@ func (h *HandlerV1) GetUserBaskets(c *gin.Context) {
 		Id: userID,
 	})
 	if err != nil {
-		c.JSON(http.StatusNotFound, models.Error{
-			Message: err.Error(),
-		})
+		c.JSON(http.StatusOK, []models.Product{})
 		log.Println(err.Error())
 		return
 	}
