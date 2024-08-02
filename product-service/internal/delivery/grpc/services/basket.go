@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 	pb "product-service/genproto/product_service"
 	"product-service/internal/entity"
 )
@@ -29,6 +30,7 @@ func (d *productRPC) GetUserBaskets(ctx context.Context, in *pb.GetWithID) (*pb.
 		return nil, err
 	}
 
+	fmt.Println("server basket 1", products)
 	var basketProducts pb.ListBaskedProducts
 	for _, product := range products.Products {
 
@@ -50,5 +52,6 @@ func (d *productRPC) GetUserBaskets(ctx context.Context, in *pb.GetWithID) (*pb.
 
 	}
 
+	fmt.Println("server basket 2", basketProducts)
 	return &basketProducts, nil
 }

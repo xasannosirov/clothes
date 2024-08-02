@@ -7,6 +7,7 @@ import (
 	"api-gateway/internal/pkg/query_parameter"
 	"api-gateway/internal/pkg/regtool"
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -490,6 +491,7 @@ func (h *HandlerV1) ListProducts(c *gin.Context) {
 				UserId:    userId,
 				ProductId: product.Id,
 			})
+			fmt.Println(err)
 			if err != nil {
 				if strings.Contains(err.Error(), "no rows") {
 					statusBasket = &product_service.MoveResponse{

@@ -79,9 +79,10 @@ CREATE TABLE comments (
 
  
 CREATE TABLE baskets (
-    user_id UUID PRIMARY KEY, 
-    product_id UUID[],
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    user_id UUID NOT NULL,
+    product_id UUID NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 INSERT INTO users (id, first_name, last_name, email, phone_number, password, gender, age, refresh, role) 

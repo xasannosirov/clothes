@@ -7,6 +7,7 @@ import (
 	"api-gateway/internal/pkg/regtool"
 	"api-gateway/internal/pkg/validation"
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -126,6 +127,7 @@ func (h *HandlerV1) GetUserBaskets(c *gin.Context) {
 		Id: userID,
 	})
 	if err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusOK, []models.Product{})
 		log.Println(err.Error())
 		return
@@ -154,23 +156,7 @@ func (h *HandlerV1) GetUserBaskets(c *gin.Context) {
 		})
 		if err != nil {
 			if strings.Contains(err.Error(), "no rows") {
-				likeStatus.Status = false
-			} else {
-				c.JSON(http.StatusBadRequest, models.Error{
-					Message: err.Error(),
-				})
-				log.Println(err.Error())
-				return
-			}
-		}
-		basketStatus, err := h.Service.ProductService().IsUnique(ctx, &product_service.IsUniqueReq{
-			TableName: "baskets",
-			UserId:    userID,
-			ProductId: product.Id,
-		})
-		if err != nil {
-			if strings.Contains(err.Error(), "no rows") {
-				basketStatus = &product_service.MoveResponse{
+				likeStatus = &product_service.MoveResponse{
 					Status: false,
 				}
 			} else {
@@ -196,7 +182,7 @@ func (h *HandlerV1) GetUserBaskets(c *gin.Context) {
 			AgeMin:      product.AgeMin,
 			AgeMax:      product.AgeMax,
 			ForGender:   product.ForGender,
-			Basket:      basketStatus.Status,
+			Basket:      true,
 			Liked:       likeStatus.Status,
 			ImageURL:    imagesURL,
 		})

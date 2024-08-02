@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"strings"
 	"product-service/internal/entity"
 	"product-service/internal/pkg/config"
+	"strings"
 
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
@@ -92,8 +92,4 @@ func (p *PostgresDB) Error(err error) error {
 		return entity.ErrorNotFound
 	}
 	return err
-}
-
-func (p *PostgresDB) ErrSQLBuild(err error, message string) error {
-	return fmt.Errorf("error during sql build, %s: %w", message, err)
 }

@@ -1,15 +1,4 @@
 definitions:
-  models.Basket:
-    properties:
-      productId:
-        items:
-          $ref: '#/definitions/models.Product'
-        type: array
-      totalCount:
-        type: integer
-      userId:
-        type: string
-    type: object
   models.BasketCeateReq:
     properties:
       productId:
@@ -316,49 +305,6 @@ info:
   contact: {}
 paths:
   /v1/basket:
-    get:
-      consumes:
-      - application/json
-      description: This API for getting a Basket with id
-      parameters:
-      - description: Page
-        in: query
-        name: page
-        required: true
-        type: integer
-      - description: Limit
-        in: query
-        name: limit
-        required: true
-        type: integer
-      - description: User ID
-        in: query
-        name: id
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Basket'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get Basket
-      tags:
-      - basket
     post:
       consumes:
       - application/json
@@ -376,7 +322,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.CreateResponse'
+            type: boolean
         "400":
           description: Bad Request
           schema:
@@ -769,50 +715,6 @@ paths:
       summary: Get Comment
       tags:
       - comment
-  /v1/comments:
-    get:
-      consumes:
-      - application/json
-      description: Api for getting list comment
-      parameters:
-      - description: Page
-        in: query
-        name: page
-        required: true
-        type: integer
-      - description: Limit
-        in: query
-        name: limit
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.ListComment'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: List Comment
-      tags:
-      - comment
   /v1/forgot/{email}:
     post:
       consumes:
@@ -917,6 +819,10 @@ paths:
             $ref: '#/definitions/models.Error'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
       security:
@@ -1044,55 +950,6 @@ paths:
       summary: Upload media
       tags:
       - media
-  /v1/post/comments:
-    get:
-      consumes:
-      - application/json
-      description: Api for getting post's comment
-      parameters:
-      - description: Page
-        in: query
-        name: page
-        required: true
-        type: integer
-      - description: Limit
-        in: query
-        name: limit
-        required: true
-        type: integer
-      - description: User Id
-        in: query
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.ListComment'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Error'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: List Comment
-      tags:
-      - comment
   /v1/product:
     post:
       consumes:
@@ -1164,6 +1021,55 @@ paths:
       summary: Update Product
       tags:
       - products
+  /v1/product-comments:
+    get:
+      consumes:
+      - application/json
+      description: Api for getting post's comment
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: Product Id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListComment'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Comment
+      tags:
+      - comment
   /v1/product/{id}:
     delete:
       consumes:
@@ -1535,6 +1441,42 @@ paths:
       summary: Update User
       tags:
       - users
+  /v1/user-baskets:
+    get:
+      consumes:
+      - application/json
+      description: This API for getting a Basket with id
+      parameters:
+      - description: User ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Basket
+      tags:
+      - basket
   /v1/user/{id}:
     delete:
       consumes:
@@ -1757,6 +1699,10 @@ paths:
             $ref: '#/definitions/models.Error'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
       security:

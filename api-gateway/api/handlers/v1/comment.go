@@ -238,100 +238,20 @@ func (h *HandlerV1) GetComment(c *gin.Context) {
 
 // @Security  		BearerAuth
 // @Summary   		List Comment
-// @Description 	Api for getting list comment
-// @Tags 			comment
-// @Accept 			json
-// @Produce 		json
-// @Param 			page query uint64 true "Page"
-// @Param 			limit query uint64 true "Limit"
-// @Success 		200 {object} models.ListComment
-// @Failure 		404 {object} models.Error
-// @Failure 		401 {object} models.Error
-// @Failure 		403 {object} models.Error
-// @Failure 		500 {object} models.Error
-// @Router 			/v1/comments [GET]
-func (h *HandlerV1) ListComment(c *gin.Context) {
-	var (
-		jspbMarshal protojson.MarshalOptions
-	)
-	jspbMarshal.UseProtoNames = true
-
-	duration, err := time.ParseDuration(h.Config.Context.Timeout)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, models.Error{
-			Message: err.Error(),
-		})
-		log.Println(err.Error())
-		return
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), duration)
-	defer cancel()
-
-	page := c.Query("page")
-	limit := c.Query("limit")
-	pageInt, err := strconv.Atoi(page)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
-			Message: err.Error(),
-		})
-		log.Println(err.Error())
-		return
-	}
-	limitInt, err := strconv.Atoi(limit)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, models.Error{
-			Message: err.Error(),
-		})
-		log.Println(err.Error())
-		return
-	}
-
-	filter := map[string]string{}
-	listComment, err := h.Service.ProductService().ListComment(ctx, &pb.CommentListRequest{
-		Page:   int64(pageInt),
-		Limit:  int64(limitInt),
-		Filter: filter,
-	})
-	if err != nil {
-		c.JSON(http.StatusNotFound, models.Error{
-			Message: err.Error(),
-		})
-		log.Println(err.Error())
-		return
-	}
-
-	var comments []*models.Comment
-	for _, comment := range listComment.Comments {
-		comments = append(comments, &models.Comment{
-			ID:        comment.Id,
-			ProductID: comment.ProductId,
-			OwnerID:   comment.OwnerId,
-			Message:   comment.Message,
-		})
-	}
-
-	c.JSON(http.StatusOK, models.ListComment{
-		Comment:    comments,
-		TotalCount: int(listComment.TotalCount),
-	})
-}
-
-// @Security  		BearerAuth
-// @Summary   		List Comment
 // @Description 	Api for getting post's comment
 // @Tags 			comment
 // @Accept 			json
 // @Produce 		json
 // @Param 			page query int true "Page"
 // @Param 			limit query int true "Limit"
-// @Param 			id query string true "User Id"
+// @Param 			id query string true "Product Id"
 // @Success 		200 {object} models.ListComment
 // @Failure 		404 {object} models.Error
 // @Failure 		401 {object} models.Error
 // @Failure 		403 {object} models.Error
 // @Failure 		500 {object} models.Error
-// @Router 			/v1/post/comments [GET]
-func (h *HandlerV1) GetAllCommentByPostId(c *gin.Context) {
+// @Router 			/v1/product-comments [GET]
+func (h *HandlerV1) GetAllCommentByProduct(c *gin.Context) {
 	var (
 		jspbMarshal protojson.MarshalOptions
 	)
@@ -348,7 +268,7 @@ func (h *HandlerV1) GetAllCommentByPostId(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 
-	UserId := c.Query("id")
+	productID := c.Query("id")
 	page := c.Query("page")
 	limit := c.Query("limit")
 	pageInt, err := strconv.Atoi(page)
@@ -369,7 +289,7 @@ func (h *HandlerV1) GetAllCommentByPostId(c *gin.Context) {
 	}
 
 	filter := map[string]string{
-		"product_id": UserId,
+		"product_id": productID,
 	}
 	listComment, err := h.Service.ProductService().ListComment(ctx, &pb.CommentListRequest{
 		Page:   int64(pageInt),
@@ -395,19 +315,19 @@ func (h *HandlerV1) GetAllCommentByPostId(c *gin.Context) {
 			comments = append(comments, &models.Comment{
 				ID:        comment.Id,
 				OwnerID:   "anonymous",
-				ProductID: comment.ProductId,
 				Message:   comment.Message,
+				ProductID: comment.ProductId,
 			})
 		} else {
 			comments = append(comments, &models.Comment{
 				ID:        comment.Id,
 				OwnerID:   user.FirstName + " " + user.LastName,
-				ProductID: comment.ProductId,
 				Message:   comment.Message,
+				ProductID: comment.ProductId,
 			})
 		}
-	}
 
+	}
 	c.JSON(http.StatusOK, models.ListComment{
 		Comment:    comments,
 		TotalCount: int(listComment.TotalCount),

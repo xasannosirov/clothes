@@ -1,3 +1,7 @@
+DROP TABLE IF EXISTS baskets;
+
+DROP TABLE IF EXISTS comments;
+
 DROP TABLE IF EXISTS wishlist;
 
 DROP TABLE IF EXISTS media;

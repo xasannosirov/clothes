@@ -169,14 +169,14 @@ func (u *productService) GetDiscountProducts(ctx context.Context, req *entity.Li
 	return u.repo.GetDiscountProducts(ctx, req)
 }
 
-func (u productService) SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.MoveResponse, error) {
+func (u *productService) SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.MoveResponse, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
 	return u.repo.SaveToBasket(ctx, req)
 }
 
-func (u productService) GetUserBaskets(ctx context.Context, req *entity.GetWithID) (*entity.ListProduct, error) {
+func (u *productService) GetUserBaskets(ctx context.Context, req *entity.GetWithID) (*entity.ListProduct, error) {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 

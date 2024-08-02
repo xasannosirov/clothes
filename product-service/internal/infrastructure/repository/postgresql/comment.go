@@ -17,7 +17,7 @@ func (p *productRepo) CreateComment(ctx context.Context, comment *entity.Comment
 	}
 	query, args, err := p.db.Sq.Builder.Insert(p.commentTable).SetMap(data).ToSql()
 	if err != nil {
-		return nil, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.commentTable, "create"))
+		return nil, err
 	}
 
 	_, err = p.db.Exec(ctx, query, args...)
@@ -41,7 +41,7 @@ func (p *productRepo) UpdateComment(ctx context.Context, comment *entity.Comment
 		ToSql()
 
 	if err != nil {
-		return nil, p.db.ErrSQLBuild(err, p.commentTable+" update")
+		return nil, err
 	}
 
 	commandTag, err := p.db.Exec(ctx, sqlStr, args...)
@@ -54,7 +54,7 @@ func (p *productRepo) UpdateComment(ctx context.Context, comment *entity.Comment
 	}
 
 	filter := map[string]string{
-		"id" : comment.Id,
+		"id": comment.Id,
 	}
 	return p.GetComment(ctx, &entity.GetRequest{
 		Filter: filter,
@@ -73,7 +73,7 @@ func (p *productRepo) DeleteComment(ctx context.Context, req *entity.DeleteReque
 		Where("deleted_at IS NULL").
 		ToSql()
 	if err != nil {
-		return p.db.ErrSQLBuild(err, p.commentTable+" delete")
+		return err
 	}
 
 	commandTag, err := p.db.Exec(ctx, sqlStr, args...)
@@ -108,7 +108,7 @@ func (p *productRepo) GetComment(ctx context.Context, req *entity.GetRequest) (*
 	}
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
-		return nil, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.commentTable, "get"))
+		return nil, err
 	}
 
 	if err = p.db.QueryRow(ctx, query, args...).Scan(
@@ -132,15 +132,10 @@ func (p *productRepo) ListComment(ctx context.Context, req *entity.ListRequest) 
 	offset := (req.Page - 1) * req.Limit
 	queryBuilder := p.comentSelectQueryPrefix()
 
-	if req.Limit != 0 {
-		queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
-	}
+	queryBuilder = queryBuilder.Limit(uint64(req.Limit)).Offset(uint64(offset))
 
 	for key, value := range req.Filter {
-		if key == "owner_id" {
-			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
-		}
-		if key == "post_id" {
+		if key == "product_id" {
 			queryBuilder = queryBuilder.Where(p.db.Sq.Equal(key, value))
 		}
 	}
@@ -149,12 +144,12 @@ func (p *productRepo) ListComment(ctx context.Context, req *entity.ListRequest) 
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
-		return nil, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.commentTable, "list"))
+		return nil, err
 	}
 
 	rows, err := p.db.Query(ctx, query, args...)
 	if err != nil {
-		return nil, p.db.Error(err)
+		return nil, err
 	}
 	defer rows.Close()
 
@@ -169,7 +164,7 @@ func (p *productRepo) ListComment(ctx context.Context, req *entity.ListRequest) 
 			&comment.CreatedAt,
 			&comment.UpdatedAt,
 		); err != nil {
-			return nil, p.db.Error(err)
+			return nil, err
 		}
 
 		comments.Comment = append(comments.Comment, &comment)
@@ -179,15 +174,16 @@ func (p *productRepo) ListComment(ctx context.Context, req *entity.ListRequest) 
 
 	queryBuilder = p.db.Sq.Builder.Select("COUNT(*)").
 		From(p.commentTable).
-		Where("deleted_at is null")
+		Where("deleted_at IS NULL").
+		Where(p.db.Sq.Equal("product_id", req.Filter["product_id"]))
 
-	query, _, err = queryBuilder.ToSql()
+	query, args, err = queryBuilder.ToSql()
 	if err != nil {
-		return nil, p.db.ErrSQLBuild(err, fmt.Sprintf("%s %s", p.commentTable, "list"))
+		return nil, err
 	}
 
-	if err := p.db.QueryRow(ctx, query).Scan(&count); err != nil {
-		comments.TotalCount = 0
+	if err := p.db.QueryRow(ctx, query, args...).Scan(&count); err != nil {
+		return nil, err
 	}
 	comments.TotalCount = int(count)
 

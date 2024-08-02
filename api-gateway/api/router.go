@@ -126,8 +126,7 @@ func NewRoute(option RouteOption) *gin.Engine {
 	apiV1.PUT("/comment", HandlerV1.UpdateComment)
 	apiV1.DELETE("/comment/:id", HandlerV1.DeleteComment)
 	apiV1.GET("/comment/:id", HandlerV1.GetComment)
-	apiV1.GET("/comments", HandlerV1.ListComment)
-	apiV1.GET("/post/comments", HandlerV1.GetAllCommentByPostId)
+	apiV1.GET("/product-comments", HandlerV1.GetAllCommentByProduct)
 
 	url := ginSwagger.URL("swagger/doc.json")
 	apiV1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))

@@ -1,9 +1,9 @@
 package models
 
 type Basket struct {
-	UserId    string
-	ProductId []Product
-	TotalCount     int64
+	UserId     string
+	ProductId  []Product
+	TotalCount int64
 }
 type BasketCeateReq struct {
 	ProductId string

@@ -175,6 +175,7 @@ func (u *productRepo) ListProducts(ctx context.Context, req *entity.ListRequest)
 	if err != nil {
 		return nil, err
 	}
+	println(query)
 
 	rows, err := u.db.Query(ctx, query)
 	if err != nil {

@@ -2,12 +2,10 @@ package postgresql
 
 import (
 	"context"
-	"database/sql"
 	"errors"
 	"product-service/internal/entity"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/lib/pq"
 )
 
 func (p *productRepo) IsUnique(ctx context.Context, tableName, UserId, ProductId string) (bool, error) {
@@ -33,20 +31,26 @@ func (p *productRepo) IsUnique(ctx context.Context, tableName, UserId, ProductId
 		}
 		return false, nil
 	} else if tableName == "baskets" {
-		var existingProductIDs []string
-		err := p.db.QueryRow(ctx, `SELECT product_id FROM `+p.basketTable+` WHERE user_id = $1`, UserId).Scan(pq.Array(&existingProductIDs))
-		if err != nil && err != sql.ErrNoRows {
+		queryBuilder := p.db.Sq.Builder.Select("COUNT(1)").
+			From(tableName).
+			Where(squirrel.Eq{"user_id": UserId, "product_id": ProductId})
+
+		query, args, err := queryBuilder.ToSql()
+
+		if err != nil {
 			return true, err
 		}
-		var exists bool
-		for _, existingProductID := range existingProductIDs {
-			if existingProductID == ProductId {
-				exists = true
-				break
-			}
-		}
 
-		return exists, nil
+		var count int
+
+		err = p.db.QueryRow(ctx, query, args...).Scan(&count)
+		if err != nil {
+			return true, err
+		}
+		if count != 0 {
+			return true, nil
+		}
+		return false, nil
 	} else {
 		queryBuilder := p.db.Sq.Builder.Select("COUNT(1)").
 			From(tableName).

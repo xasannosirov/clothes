@@ -2,23 +2,21 @@ package postgresql
 
 import (
 	"context"
-	"log"
+	"fmt"
 	"product-service/internal/entity"
-
-	"github.com/Masterminds/squirrel"
 )
 
 func (u *productRepo) SaveToBasket(ctx context.Context, req *entity.BasketCreateReq) (*entity.MoveResponse, error) {
-	query := `SELECT COUNT(*) FROM baskets WHERE user_id = $1 AND product_id = $2`
+	query := fmt.Sprintf(`SELECT COUNT(*) FROM baskets WHERE user_id = '%s' AND product_id = '%s'`, req.UserID, req.ProductID)
 	var count int
-	if err := u.db.QueryRow(ctx, query, req.UserID, req.ProductID).Scan(&count); err != nil {
+	if err := u.db.QueryRow(ctx, query).Scan(&count); err != nil {
 		return nil, err
 	}
 
 	var status bool
 	if count == 0 {
-		insertQuery := `INSERT INTO baskets (user_id, product_id) VALUES ($1, $2)`
-		result, err := u.db.Exec(ctx, insertQuery, req.UserID, req.ProductID)
+		insertQuery := fmt.Sprintf(`INSERT INTO baskets (user_id, product_id) VALUES ('%s', '%s')`, req.UserID, req.ProductID)
+		result, err := u.db.Exec(ctx, insertQuery)
 		if err != nil {
 			return nil, err
 		}
@@ -29,8 +27,8 @@ func (u *productRepo) SaveToBasket(ctx context.Context, req *entity.BasketCreate
 			status = true
 		}
 	} else {
-		deleteQuery := `DELETE FROM baskets WHERE user_id = $1 AND product_id = $2`
-		result, err := u.db.Exec(ctx, deleteQuery, req.UserID, req.ProductID)
+		deleteQuery := fmt.Sprintf(`DELETE FROM baskets WHERE user_id = '%s' AND product_id = '%s'`, req.UserID, req.ProductID)
+		result, err := u.db.Exec(ctx, deleteQuery)
 		if err != nil {
 			return nil, err
 		}
@@ -48,40 +46,64 @@ func (u *productRepo) SaveToBasket(ctx context.Context, req *entity.BasketCreate
 }
 
 func (u *productRepo) GetUserBaskets(ctx context.Context, req *entity.GetWithID) (*entity.ListProduct, error) {
-	queryBuilder := u.db.Sq.Builder.Select("product_id").From(u.basketTable)
-	queryBuilder = queryBuilder.Where(squirrel.Eq{"user_id": req.ID})
+	query := `
+	SELECT 
+	    p.id,
+	    p.name,
+	    c.name,
+	    p.description,
+	    p.made_in,
+	    p.count,
+	    p.cost,
+	    p.discount,
+	    p.color,
+	    p.size,
+	    p.age_min,
+	    p.age_max,
+	    p.for_gender
+	FROM baskets AS b
+	INNER JOIN products AS p ON b.product_id = p.id
+	INNER JOIN users u on u.id = b.user_id
+	INNER JOIN category c on c.id = p.category_id
+	WHERE b.user_id = $1
+	`
 
-	query, args, err := queryBuilder.ToSql()
-	if err != nil {
-		return nil, err
-	}
+	var response entity.ListProduct
 
-	rows, err := u.db.Query(ctx, query, args...)
+	rows, err := u.db.Query(ctx, query, req.ID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var response entity.ListProduct
-
 	for rows.Next() {
-		var (
-			productID string
+		var product entity.Product
+		err := rows.Scan(
+			&product.Id,
+			&product.Name,
+			&product.Category,
+			&product.Description,
+			&product.MadeIn,
+			&product.Count,
+			&product.Cost,
+			&product.Discount,
+			&product.Color,
+			&product.Size,
+			&product.AgeMin,
+			&product.AgeMax,
+			&product.ForGender,
 		)
-		err := rows.Scan(&productID)
 		if err != nil {
 			return nil, err
 		}
 
-		product, err := u.GetProduct(ctx, map[string]string{
-			"id": productID,
-		})
-		if err != nil {
-			log.Println(err.Error(), "no append product to array in user baskets storage in product service")
-		} else {
-			response.Products = append(response.Products, product)
-		}
+		response.Products = append(response.Products, &product)
 	}
 
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	fmt.Println("sql basket", response)
 	return &response, nil
 }

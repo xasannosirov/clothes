@@ -1,5 +1,6 @@
 p, unauthorized, /v1/swagger/*,  GET
 p, unauthorized, /v1/register, POST
+
 p, unauthorized, /v1/login, POST
 p, unauthorized, /v1/forgot/{email}, POST
 p, unauthorized, /v1/verify, POST
@@ -19,11 +20,11 @@ p, unauthorized, /v1/category/search, GET
 p, unauthorized, /v1/product/{id}, GET
 p, unauthorized, /v1/products, GET
 p, unauthorized, /v1/products/discount, GET
-p, unauthorized, /v1/post/comments, GET
 p, unauthorized, /v1/comments, GET
+p, unauthorized, /v1/product-comments, GET
 
-
-
+p, user, /v1/user-baskets, GET
+p, user, /v1/product-comments, GET
 p, user, /v1/update-password, PUT
 p, user, /v1/user, PUT
 p, user, /v1/user/{id}, DELETE
@@ -37,7 +38,7 @@ p, user, /v1/comment, POST
 p, user, /v1/comment, PUT
 p, user, /v1/comment{id}, GET
 p, user, /v1/comment{id}, DELETE
-
+p, user, /v1/product-comments, GET
 
 p, worker, /v1/update-password, PUT
 p, worker, /v1/user/{id}, GET
@@ -64,4 +65,4 @@ p, admin, /v1/*, DELETE
 p, admin, /v1/*, GET
 
 g, user, unauthorized
-g, admin, user
+g, worker, user
