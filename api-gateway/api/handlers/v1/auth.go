@@ -234,7 +234,6 @@ func (h *HandlerV1) VerifyRegister(c *gin.Context) {
 
 }
 
-
 // @Summary 		Login
 // @Description 	Api for user user
 // @Tags 			auth
@@ -669,9 +668,28 @@ func (h *HandlerV1) NewToken(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 
+	if RToken == "" {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "refresh token is required",
+		})
+		log.Println("refresh token is required")
+		return
+	}
+
+	claims, err := token.ExtractClaim(RToken, []byte(h.Config.Token.SignInKey))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.Error{
+			Message: "refresh token is expired",
+		})
+		log.Println(err.Error())
+		return
+	}
+
+	userRefreshTokenSub := cast.ToString(claims["sub"])
+
 	user, err := h.Service.UserService().GetUser(ctx, &userserviceproto.Filter{
 		Filter: map[string]string{
-			"refresh": RToken,
+			"id": userRefreshTokenSub,
 		},
 	})
 
@@ -683,17 +701,9 @@ func (h *HandlerV1) NewToken(c *gin.Context) {
 		return
 	}
 
-	resclaim, err := token.ExtractClaim(RToken, []byte(h.Config.Token.SignInKey))
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, models.Error{
-			Message: models.NoAccessMessage,
-		})
-		log.Println(err.Error())
-		return
-	}
-	Now_time := time.Now().Unix()
-	exp := (resclaim["exp"])
-	if exp.(float64)-float64(Now_time) > 0 {
+	nowTime := time.Now().Unix()
+	exp := claims["exp"]
+	if exp.(float64)-float64(nowTime) > 0 {
 		h.RefreshToken = token.JWTHandler{
 			Sub:        user.Id,
 			Role:       user.Role,
