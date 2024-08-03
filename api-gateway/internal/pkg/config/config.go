@@ -144,7 +144,7 @@ func NewConfig() (*Config, error) {
 	//minIO configuration
 	config.Minio.AccessKeyID = getEnv("ACCESS_KEY_ID", "abdulaziz")
 	config.Minio.SecretAccessKey = getEnv("SECRET_ACCESS_KEY", "abdulaziz")
-	config.Minio.Endpoint = getEnv("ENDPOINT", "164.90.169.237:9000") // 13.201.56.179:9000
+	config.Minio.Endpoint = getEnv("ENDPOINT", "138.68.146.55:9000") // 13.201.56.179:9000
 	config.Minio.BucketName = getEnv("BUCKET_NAME", "clothesstore")
 
 	return &config, nil
